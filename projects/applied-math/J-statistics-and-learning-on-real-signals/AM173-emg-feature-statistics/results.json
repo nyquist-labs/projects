@@ -1,0 +1,162 @@
+{
+ "meta": {
+  "id": "AM-173",
+  "title": "EMG features: what they measure and how much they overlap",
+  "level": "M",
+  "tools": "Amplitude statistics of surface EMG (MAV/RMS ratio, kurtosis) against Gaussian and Laplacian models, estimator variance versus window length, correlation structure of the Hudgins feature set, Fisher separability, per-feature-family classification with LDA",
+  "summary": "Examine the classic time-domain EMG features on real 8-channel armband recordings: test the Gaussian model of the EMG amplitude, measure how feature noise falls with window length, show which features carry the same information, and rank them by how well they separate six gestures.",
+  "problem": "Dozens of EMG features exist. Which are genuinely different measurements, how noisy are they, and how long a window do they need?",
+  "theory": "Model: EMG = zero-mean noise whose standard deviation follows muscle activation. For a Gaussian amplitude distribution MAV/RMS = $\\sqrt{2/\u03c0}$ \u2248 0.798 and kurtosis 3; for a Laplacian 1/\u221a2 \u2248 0.707 and kurtosis 6 (surface EMG at low force is\ncloser to Laplacian). With N independent Gaussian samples the MAV estimate has coefficient of variation $\\sqrt{\u03c0/2-1}/\\sqrt N$ = 0.756/\u221aN \u2014 correlated samples reduce the effective N. Waveform length (\u03a3|\u0394x|) is MAV of the differenced signal, so log WL\nand log MAV should be highly correlated; zero crossings and slope-sign changes measure frequency content instead.",
+  "method": "UCI 'EMG data for gestures' (Myo armband, 8 channels, 36 subjects). Amplitude statistics on gesture segments of subjects 1\u201310. Estimator noise: features recomputed for 50, 100, 200 and 400-sample windows; within-gesture scatter of log MAV\n(per subject, channel and gesture). Separability: Fisher ratio per feature and within-subject LDA accuracy (train on recording 1, test on recording 2) for each feature family and for all 32.",
+  "data": "UCI Machine Learning Repository, 'EMG data for gestures' (Lobov et al. 2018), fetched on first run.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "MAV/RMS of active surface EMG: Gaussian model \u221a(2/\u03c0)",
+   "predicted": 0.7978845608028654,
+   "measured": 0.7746095824351525,
+   "unit": "",
+   "error": -2.9170859433966974,
+   "error_str": "-2.92 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Scatter of log MAV within a gesture vs window length: slope \u2212\u00bd if only estimation noise mattered",
+   "predicted": -0.5,
+   "measured": -0.3729681648035103,
+   "unit": "",
+   "error": 0.1270318351964897,
+   "error_str": "+0.127",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Longer windows help: accuracy at 400 ms > accuracy at 50 ms (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Correlation between log MAV and log WL on the same channel (predicted: > 0.9)",
+   "predicted": 0.95,
+   "measured": 0.9270011542066905,
+   "unit": "",
+   "error": -0.022998845793309464,
+   "error_str": "-0.023",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "ZC and SSC are much less correlated with amplitude than WL is (|r| < 0.6; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "My expectation: adding ZC to MAV helps more than adding the redundant WL (1 = yes)",
+   "predicted": 1.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": -1.0,
+   "error_str": "-1",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "\u2026 Laplacian model would give",
+   "value": 0.7071067811865475,
+   "unit": "",
+   "note": "measured median 0.775; median kurtosis 3.59 (Gaussian 3, Laplacian 6)"
+  },
+  {
+   "quantity": "Lag-1 autocorrelation of the raw EMG samples (median)",
+   "value": 0.8885548077449754,
+   "unit": "",
+   "note": "samples are not independent \u21d2 fewer effective samples per window"
+  },
+  {
+   "quantity": "Scatter of log MAV with 200-sample windows: measured vs white-Gaussian prediction 0.756/\u221aN",
+   "value": "0.298 vs 0.053",
+   "unit": "",
+   "note": "ratio 5.6 \u2014 real contractions are not stationary"
+  },
+  {
+   "quantity": "Within-subject accuracy (all 32 features) at window 50 / 100 / 200 / 400 ms",
+   "value": "90.4 % / 93.5 % / 94.7 % / 94.6 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Within-subject accuracy, MAV",
+   "value": 94.28902203452151,
+   "unit": "%",
+   "note": "36 subjects, chance 16.7 %"
+  },
+  {
+   "quantity": "Within-subject accuracy, WL",
+   "value": 94.02836284031874,
+   "unit": "%",
+   "note": "36 subjects, chance 16.7 %"
+  },
+  {
+   "quantity": "Within-subject accuracy, ZC",
+   "value": 41.14885642412076,
+   "unit": "%",
+   "note": "36 subjects, chance 16.7 %"
+  },
+  {
+   "quantity": "Within-subject accuracy, SSC",
+   "value": 25.36208153334088,
+   "unit": "%",
+   "note": "36 subjects, chance 16.7 %"
+  },
+  {
+   "quantity": "Within-subject accuracy, MAV+ZC",
+   "value": 94.09208204495125,
+   "unit": "%",
+   "note": "36 subjects, chance 16.7 %"
+  },
+  {
+   "quantity": "Within-subject accuracy, all 32",
+   "value": 94.74774618043446,
+   "unit": "%",
+   "note": "36 subjects, chance 16.7 %"
+  },
+  {
+   "quantity": "Within-subject accuracy, MAV+WL",
+   "value": 94.92411661051493,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Mean Fisher ratio (between/within variance) per family: MAV / WL / ZC / SSC",
+   "value": "8.1 / 7.9 / 0.6 / 0.2",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/emg_features.png"
+ ],
+ "runtime_s": 5.21,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM173-emg-feature-statistics"
+}

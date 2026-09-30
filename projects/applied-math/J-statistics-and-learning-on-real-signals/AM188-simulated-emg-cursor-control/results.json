@@ -1,0 +1,98 @@
+{
+ "meta": {
+  "id": "AM-188",
+  "title": "EMG cursor control: from classifier accuracy to task performance",
+  "level": "H",
+  "tools": "Per-user LDA on real EMG streamed window by window, Wolpaw information-transfer rate vs mutual information of the confusion matrix, random-walk (Wald) prediction of time-to-target, majority-vote smoothing vs the binomial independence prediction, lag-correlation of classifier errors, closed-loop cursor simulation",
+  "summary": "Turn recorded forearm EMG into a four-direction cursor, and predict how long reaching a target takes from nothing but the classifier's confusion statistics. Test the independence assumption behind error-smoothing and information-rate formulas against the real decision stream, where errors come in bursts.",
+  "problem": "A gesture classifier is '95 % accurate'. How fast can someone actually move a cursor with it, and do smoothing tricks deliver the gains that textbook formulas promise?",
+  "theory": "Decisions every 100 ms; gestures flexion/extension \u2192 left/right, radial/ulnar deviation \u2192 up/down. If a step goes toward the target with probability p and away with probability q, the expected time to cover D steps is $D/(p-q)$ decisions\n(Wald's identity). Information: Wolpaw's ITR $\\log_2N+P\\log_2P+(1-P)\\log_2\\frac{1-P}{N-1}$ bits per decision assumes errors spread evenly; the mutual information of the actual confusion matrix is the exact figure for a memoryless channel. A majority vote over m\ndecisions with independent errors would succeed with probability $\\sum_{k>m/2}\\binom mk p^k(1-p)^{m-k}$ (lower bound for more classes). Classifier errors on consecutive, overlapping EMG windows are correlated, so the real gain should be smaller.",
+  "method": "36 subjects; LDA trained on recording 1, the decision stream of recording 2 replayed in time order. Cursor: targets 12 steps away along one axis; each decision moves the cursor one step (rest and fist do nothing); 400 simulated reaches per subject by\nsampling contiguous stretches of the real decision stream. Majority vote over 5 consecutive decisions.",
+  "data": "UCI 'EMG data for gestures' (Lobov et al. 2018).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Four direction gestures: Wolpaw ITR vs mutual information of the pooled confusion matrix (bits per decision)",
+   "predicted": 1.6334212690157695,
+   "measured": 1.538969791691982,
+   "unit": "bit",
+   "error": -5.7824321940352785,
+   "error_str": "-5.78 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Time to reach a target 12 steps away, error-prone pairs (p \u2212 q < 0.95): Wald prediction D/(p \u2212 q) vs replayed streams (median ratio)",
+   "predicted": 1.0,
+   "measured": 0.9962903225806451,
+   "unit": "",
+   "error": -0.37096774193549065,
+   "error_str": "-0.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Majority vote of 5: accuracy gain predicted assuming independent errors vs measured on the real stream (ratio)",
+   "predicted": 1.0,
+   "measured": 0.2679864009012592,
+   "unit": "",
+   "error": -73.20135990987409,
+   "error_str": "-73.20 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Classifier errors on consecutive windows are positively correlated (median lag-1 correlation > 0.2; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Direction accuracy / bits per decision / bits per minute at 10 decisions/s",
+   "value": "93.3 % / 1.63 / 980",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Reach time on those pairs: predicted / simulated (median)",
+   "value": "1.33 s / 1.36 s",
+   "unit": "",
+   "note": "17 of 80 (subject, direction) pairs; the others are almost error-free (minimum possible 1.2 s)"
+  },
+  {
+   "quantity": "Worst (subject, direction) pair: predicted / simulated reach time",
+   "value": "19.8 s / 19.0 s",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Accuracy: single decision / 5-vote measured / 5-vote if errors were independent",
+   "value": "94.7 % / 96.0 % / 99.5 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Median lag-1 autocorrelation of the error indicator",
+   "value": 0.39906975949045576,
+   "unit": "",
+   "note": "errors arrive in bursts, during gesture onsets and weak contractions"
+  }
+ ],
+ "figures": [
+  "figures/cursor.png"
+ ],
+ "runtime_s": 0.29,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM188-simulated-emg-cursor-control"
+}

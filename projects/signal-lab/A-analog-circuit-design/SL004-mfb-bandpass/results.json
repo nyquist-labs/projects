@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "SL-004",
+  "title": "Multiple-feedback band-pass filter",
+  "level": "M",
+  "tools": "eelab mini-SPICE, E24 component rounding",
+  "summary": "Design an MFB band-pass for f\u2080 = 1 kHz, Q = 5, gain 2 from equations; round to E24 parts and measure centre frequency, bandwidth and gain.",
+  "problem": "Given a target centre frequency and bandwidth, compute the three resistors of an MFB band-pass, then check what real (E24) values and a real op-amp deliver.",
+  "theory": "With $C_1=C_2=C$ (TI design equations):\n$$R_1=\\frac{Q}{2\\pi f_0 C A_0},\\quad R_2=\\frac{Q}{2\\pi f_0C(2Q^2-A_0)},\\quad R_3=\\frac{Q}{\\pi f_0 C}$$\nand the analysis formulas $f_0=\\frac1{2\\pi C}\\sqrt{\\frac{R_1+R_2}{R_1R_2R_3}}$, $Q=\\pi f_0 R_3 C$,\n$|A_0| = R_3/(2R_1)$, bandwidth $=f_0/Q$. For C = 10 nF: R\u2081 = 39.8 k\u03a9, R\u2082 = 8.84 k\u03a9, R\u2083 = 159 k\u03a9.",
+  "method": "Components rounded to the nearest E24 value, the prediction re-evaluated with those values,\nthen an AC sweep (1 MHz GBW op-amp) measures the peak, the two \u22123 dB points and Q = f\u2080/BW.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Centre frequency f\u2080",
+   "predicted": 1014.9177833405196,
+   "measured": 1009.7242854972249,
+   "unit": "Hz",
+   "error": -0.511716114205896,
+   "error_str": "-0.51 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Quality factor Q",
+   "predicted": 5.101533203424342,
+   "measured": 5.127243982102986,
+   "unit": "",
+   "error": 0.5039814042842143,
+   "error_str": "+0.50 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Peak gain |A\u2080|",
+   "predicted": 2.051282051282051,
+   "measured": 2.0509761645947613,
+   "unit": "",
+   "error": -0.014911976005378415,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u22123 dB bandwidth",
+   "predicted": 198.94367886486916,
+   "measured": 196.93314556938196,
+   "unit": "Hz",
+   "error": -1.0106042609440387,
+   "error_str": "-1.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Centre frequency vs original spec",
+   "predicted": 1000.0,
+   "measured": 1009.7242854972249,
+   "unit": "Hz",
+   "error": 0.9724285497224856,
+   "error_str": "+0.97 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Ideal R1, R2, R3",
+   "value": "39.79 k, 1.66 k, 159.2 k",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "E24 R1, R2, R3",
+   "value": "39 k, 1.6 k, 160 k",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/response.png"
+ ],
+ "runtime_s": 0.17,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL004-mfb-bandpass"
+}

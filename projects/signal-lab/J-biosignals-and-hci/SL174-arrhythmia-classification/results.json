@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-174",
+  "title": "Premature ventricular contraction detection (inter-patient)",
+  "level": "H",
+  "tools": "Beat features (RR intervals, QRS width, template correlation) + own logistic regression; MIT-BIH DS1/DS2 inter-patient split",
+  "summary": "Classify beats as normal vs premature ventricular contraction (PVC) using timing and morphology features, trained on one set of patients and tested on different patients, reporting sensitivity, precision and the gap to an (unrealistic) intra-patient split.",
+  "problem": "An automatic arrhythmia detector must work on patients it has never seen. How much worse is it than the optimistic results obtained by mixing patients between training and test sets?",
+  "theory": "PVCs arrive early (short pre-RR, long post-RR) and have wide, bizarre QRS complexes. De Chazal et al. (2004) established the inter-patient DS1/DS2 split\nbecause random beat-level splits leak patient-specific morphology into training: published intra-patient accuracies of ~99 % drop to roughly\n80\u201390 % PVC sensitivity inter-patient. Expect the same gap here.",
+  "method": "DS1 records 101, 106, 108, 109, 112, 114, 115, 116, 118, 119 (train) and DS2 records 100, 103, 105, 111, 113, 117, 121, 123, 200, 202 (test), first 15 min each,\nlead MLII, annotated beat positions. Features: pre-RR, post-RR, local-average-normalised RR, QRS width (energy-based), correlation with the record's median\nbeat, R amplitude. Logistic regression (gradient descent) with class weighting. Intra-patient comparison: random 50/50 beat split of the same records.",
+  "data": "Real: MIT-BIH Arrhythmia Database (PhysioNet).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Inter-patient PVC sensitivity (literature \u2248 80\u201390 %)",
+   "predicted": 85.0,
+   "measured": 96.9309462915601,
+   "unit": "%",
+   "error": 11.930946291560105,
+   "error_str": "+11.9 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Inter-patient PVC positive predictivity (literature \u2248 70\u201390 %)",
+   "predicted": 80.0,
+   "measured": 95.22613065326632,
+   "unit": "%",
+   "error": 15.226130653266324,
+   "error_str": "+15.2 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Intra-patient (random beat split) sensitivity / +P",
+   "value": "97.0 % / 85.9 %",
+   "unit": "",
+   "note": "optimistic: same patients in train and test"
+  },
+  {
+   "quantity": "Beats",
+   "value": "train 10412 (515 PVC), test 9884 (391 PVC)",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pvc.png"
+ ],
+ "runtime_s": 2.03,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL174-arrhythmia-classification"
+}

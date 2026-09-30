@@ -1,0 +1,52 @@
+{
+ "meta": {
+  "id": "SL-177",
+  "title": "Hand-gesture classification from 8-channel forearm EMG",
+  "level": "H",
+  "tools": "Time-domain EMG features (MAV, WL, ZC, SSC \u2014 Hudgins set) + multi-class LDA from scratch; UCI 'EMG data for gestures' (Myo armband)",
+  "summary": "Classify six hand gestures from real 8-channel Myo-armband EMG of 36 subjects, with within-subject and leave-one-subject-out evaluation, and report accuracy, the confusion matrix and the cost of generalising to new users.",
+  "problem": "Myoelectric prostheses decode intent from forearm muscles. How accurately can simple features do it, and does a model trained on other people work on you?",
+  "theory": "Hudgins et al. (1993) time-domain features \u2014 mean absolute value, waveform length, zero crossings, slope-sign changes \u2014 per channel in 200 ms windows with LDA\ntypically reach 90\u201395 % for 5\u20137 gestures within a subject. Across subjects, electrode placement and anatomy differ, and accuracy commonly drops by\n20\u201340 percentage points without adaptation.",
+  "method": "Gestures 1\u20136 (rest, fist, wrist flexion, wrist extension, radial and ulnar deviation). 200 ms windows, 100 ms hop, features \u00d7 8 channels = 32. Within-subject:\nfile 1 \u2192 train, file 2 \u2192 test for each subject. Cross-subject: leave-one-subject-out over 36 subjects. Multi-class LDA with pooled covariance (shrinkage 1e-3).",
+  "data": "Real: 'EMG data for gestures' (Lobov et al. 2018, UCI ML Repository), CC BY 4.0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Within-subject accuracy (Hudgins features + LDA, literature 90\u201395 %)",
+   "predicted": 92.0,
+   "measured": 94.86617802018768,
+   "unit": "%",
+   "error": 2.866178020187675,
+   "error_str": "+2.87 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Drop when testing on an unseen subject (literature 20\u201340 pp)",
+   "predicted": 30.0,
+   "measured": 14.291233969113506,
+   "unit": "pp",
+   "error": -15.708766030886494,
+   "error_str": "-15.71 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Leave-one-subject-out accuracy",
+   "value": 80.57494405107417,
+   "unit": "%",
+   "note": "36 subjects; chance 16.7 %"
+  }
+ ],
+ "figures": [
+  "figures/emg_gestures.png"
+ ],
+ "runtime_s": 10.41,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL177-emg-gesture-classification"
+}

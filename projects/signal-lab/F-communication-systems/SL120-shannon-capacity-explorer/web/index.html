@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shannon Capacity</title>
+<style>:root{--bg:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--a:#2a78d6}@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--a:#3987e5}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}main{max-width:720px;margin:auto;padding:16px}label{display:block;margin:10px 0}input{width:100%}
+.big{font-size:2em;color:var(--a);font-weight:600;font-variant-numeric:tabular-nums}</style></head><body><main><h1>Shannon capacity</h1>
+<label>Bandwidth: <b id="bv"></b><input id="b" type="range" min="3" max="9" step="0.01" value="6"></label>
+<label>SNR: <b id="sv"></b><input id="s" type="range" min="-10" max="40" step="0.1" value="20"></label>
+<p>Capacity</p><p class="big" id="c"></p><p id="e" style="color:var(--ink2)"></p></main><script>
+function f(x){const u=['bit/s','kbit/s','Mbit/s','Gbit/s'];let i=0;while(x>=1000&&i<3){x/=1000;i++;}return x.toFixed(3)+' '+u[i];}
+function upd(){const B=10**+b.value,S=+s.value,snr=10**(S/10),C=B*Math.log2(1+snr);bv.textContent=f(B).replace('bit/s','Hz');sv.textContent=S.toFixed(1)+' dB';c.textContent=f(C);
+const eta=C/B,ebn0=10*Math.log10(snr/eta);e.textContent=`Spectral efficiency ${eta.toFixed(2)} bit/s/Hz · minimum Eb/N0 at this efficiency ${ebn0.toFixed(2)} dB (limit −1.59 dB as η→0)`;}
+const b=document.getElementById('b'),s=document.getElementById('s');[b,s].forEach(x=>x.oninput=upd);upd();</script></body></html>

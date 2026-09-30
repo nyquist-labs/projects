@@ -1,0 +1,124 @@
+{
+ "meta": {
+  "id": "SL-040",
+  "title": "Carry-lookahead adder: speed vs area",
+  "level": "M",
+  "tools": "Gate-level Verilog (unit delays), Icarus Verilog, Yosys area/depth",
+  "summary": "Replace the rippling carry with generate/propagate lookahead logic; measure the delay and gate-count of 4- to 32-bit adders against the ripple-carry baseline.",
+  "problem": "How much faster is lookahead, and what does it cost in gates?",
+  "theory": "$g_i=a_ib_i$, $p_i=a_i\\oplus b_i$, and $c_{i+1}=g_i+p_ic_i$ unrolled in 4-bit blocks:\n$c_4 = g_3+p_3g_2+p_3p_2g_1+p_3p_2p_1g_0+p_3p_2p_1p_0c_0$ \u2014 two gate levels per block. Group signals\n$G, P$ feed a second-level lookahead unit, so delay grows ~$\\log_4 n$ instead of $n$:\ncounting gate levels on the actual netlist: 4-bit block = p,g (1) + carry AND-OR (2) + sum XOR (1) = **4**;\n16-bit = p,g (1) + block G (2) + LCU carries (2) + block carries (2) + XOR (1) = **8**; the cascaded 8-bit and\n32-bit adders add one inter-block hop: **6** and **11**. Area grows faster than the RCA's ~5n gates.",
+  "method": "Hierarchical CLA in gate-level Verilog: 4-bit CLA blocks (with block G, P outputs) and a 4-group lookahead\nunit, composed into 4/16-bit adders; 8- and 32-bit built as 2\u00d7 cascades of those. Worst-case and random\ndelay measured as in SL-039; Yosys depth and cell counts (structure-preserving\ntechnology mapping, no ABC re-optimisation) compared with the RCA of the same width.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "4-bit CLA worst-case delay",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "4-bit CLA functional errors (300 random adds)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit CLA worst-case delay",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit CLA functional errors (300 random adds)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit CLA worst-case delay",
+   "predicted": 8.0,
+   "measured": 8.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit CLA functional errors (300 random adds)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "32-bit CLA worst-case delay",
+   "predicted": 11.0,
+   "measured": 11.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "32-bit CLA functional errors (300 random adds)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "32-bit area ratio CLA/RCA (synthesised cells)",
+   "value": 2.4203821656050954,
+   "unit": "\u00d7",
+   "note": ""
+  },
+  {
+   "quantity": "32-bit depth ratio CLA/RCA (synthesised)",
+   "value": 0.23809523809523808,
+   "unit": "\u00d7",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/speed_vs_area.png"
+ ],
+ "runtime_s": 6.69,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL040-carry-lookahead-adder"
+}

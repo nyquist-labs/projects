@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-168",
+  "title": "Ball and beam: a nonlinear, open-loop-unstable plant",
+  "level": "H",
+  "tools": "Nonlinear rolling-ball model (SciPy ODE), cascaded PD control (inner beam angle, outer ball position), linearised predictions",
+  "summary": "Balance a ball on a tilting beam with a cascaded controller designed on the linearised double-integrator model, and compare the nonlinear response (including servo-rate limits) with the linear predictions.",
+  "problem": "A rolling ball accelerates with the beam angle \u2014 a double integrator. How does cascaded control handle it, and when does the nonlinearity bite?",
+  "theory": "Solid ball rolling without slipping: $\\ddot r=\\frac{5}{7}(r\\dot\\theta^2-g\\sin\\theta)$ \u2248 \u2212(5g/7)\u03b8 for small angles. The outer PD loop commands \u03b8_ref =\n\u2212(k_p e + k_d \u0117)/(5g/7) giving closed-loop poles s\u00b2 + k_d s + k_p = 0; with k_p = 4, k_d = 3.2 (\u03b6 = 0.8, \u03c9_n = 2 rad/s) the 2 % settling time \u2248 4/(\u03b6\u03c9_n) = 2.5 s\nand overshoot 1.5 %, if the inner (servo) loop is much faster.",
+  "method": "Beam angle driven by a servo modelled as a first-order lag (\u03c4 = 50 ms) with angle limit \u00b115\u00b0 and rate limit 60\u00b0/s. Steps of 0.1 m and 0.8 m in ball position (0.8 m demands ~26\u00b0 of tilt, beyond the 15\u00b0 limit).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Small step (0.1 m), no limits: overshoot (\u03b6 = 0.8)",
+   "predicted": 1.5164619864546562,
+   "measured": 1.1704733790001836,
+   "unit": "%",
+   "error": -0.3459886074544727,
+   "error_str": "-0.346 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Small step: 2 % settling time 4/(\u03b6\u03c9_n)",
+   "predicted": 2.5,
+   "measured": 1.83,
+   "unit": "s",
+   "error": -26.799999999999997,
+   "error_str": "-26.80 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "0.8 m step: settling time, ideal servo / limited servo",
+   "value": "1.80 s / 1.96 s",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "0.8 m step with limits: overshoot",
+   "value": 1.2647689622835716,
+   "unit": "%",
+   "note": "PD has no integrator, so saturation slows but does not wind up"
+  }
+ ],
+ "figures": [
+  "figures/ball_beam.png"
+ ],
+ "runtime_s": 0.42,
+ "folder": "projects/signal-lab/I-control-systems/SL168-ball-and-beam"
+}

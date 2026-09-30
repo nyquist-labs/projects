@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-100",
+  "title": "Filter design as constrained optimisation",
+  "level": "H",
+  "tools": "Weighted least-squares FIR design written as normal equations (own), equality-constrained LS via KKT system, comparison with scipy.signal.firls, trade-off curve by weight sweep",
+  "summary": "Formulate linear-phase FIR design as an explicit optimisation \u2014 minimise weighted squared error over pass- and stop-bands subject to exact constraints (unit DC gain, a forced null) \u2014 solve it in closed form via the KKT equations, and verify against SciPy and against the constraint values.",
+  "problem": "'Design a low-pass filter' is vague. What exactly is being minimised, and how do hard requirements enter?",
+  "theory": "Type-I amplitude A(\u03c9) = \u03a3 a_k cos k\u03c9 is linear in a. Weighted LS: minimise $\\int W(\u03c9)(A(\u03c9)-D(\u03c9))^2d\u03c9 \u2248 \\|W^{1/2}(Ca-d)\\|^2$ \u21d2 normal equations $C^TWCa = C^TWd$. Equality constraints Ea = f (e.g. A(0) = 1, A(\u03c9_n) = 0) via\nLagrange multipliers: $\\begin{bmatrix}C^TWC & E^T\\\\E&0\\end{bmatrix}\\begin{bmatrix}a\\\\\u03bb\\end{bmatrix}=\\begin{bmatrix}C^TWd\\\\f\\end{bmatrix}$. Raising the stopband weight trades passband error for stopband energy along a convex curve.",
+  "method": "N = 51 taps (L = 25), passband 0\u20130.2, stopband 0.26\u20130.5 (cycles/sample), dense grid of 2000 points. Unconstrained WLS vs scipy.signal.firls; constrained version with A(0) = 1 exactly and a null at 0.3; weight sweep 1\u20261000.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Own weighted LS vs scipy.signal.firls (max |\u0394h|; firls integrates exactly, own uses a dense grid)",
+   "predicted": 0.0,
+   "measured": 0.0006335847799908145,
+   "unit": "",
+   "error": 0.0006335847799908145,
+   "error_str": "+6.3358e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Constrained design: DC gain exactly 1",
+   "predicted": 1.0,
+   "measured": 1.0000000000000007,
+   "unit": "",
+   "error": 6.661338147750939e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Constrained design: exact null at 0.3 cycles/sample",
+   "predicted": 0.0,
+   "measured": 5.3219858238422797e-17,
+   "unit": "",
+   "error": 5.3219858238422797e-17,
+   "error_str": "+5.3220e-17",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Weight sweep traces a monotone trade-off (passband error \u2191 as stopband energy \u2193; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Constraint cost: pass/stop MSE unconstrained vs constrained",
+   "value": "1.57e-06/1.51e-07 vs 1.68e-06/1.54e-07",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ls_fir.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/applied-math/F-optimisation/AM100-filter-design-as-optimisation"
+}

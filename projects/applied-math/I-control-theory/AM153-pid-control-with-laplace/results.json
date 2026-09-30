@@ -1,0 +1,157 @@
+{
+ "meta": {
+  "id": "AM-153",
+  "title": "PID control analysed with Laplace transforms",
+  "level": "M",
+  "tools": "Closed-loop transfer functions by polynomial algebra, final-value theorem, analytic pole placement for a PID on a second-order plant, time-domain simulation (scipy.signal.lsim), set-point weighting (I-PD), disturbance rejection",
+  "summary": "Predict what each PID term does from the closed-loop transfer function \u2014 steady-state error from the final-value theorem, ramp error from the velocity constant, pole locations from coefficient matching \u2014 and check every prediction against simulated step, ramp and disturbance responses.",
+  "problem": "Tuning a PID by trial and error works; but what do P, I and D each do to the closed-loop poles and errors, exactly?",
+  "theory": "Plant $G=\\frac{5}{(s+1)(s+5)}$. **P**: $e_{ss}=\\frac{1}{1+K_pG(0)}$; characteristic $s^2+6s+5+5K_p$ gives \u03b6 and the overshoot $e^{-\u03c0\u03b6/\\sqrt{1-\u03b6^2}}$. **PI**: step error 0; ramp error $1/K_v$ with $K_v=K_iG(0)$.\n**PID**: characteristic $s^3+(6+5K_d)s^2+(5+5K_p)s+5K_i$ \u2014 three gains place three poles anywhere: matching $(s^2+2\u03b6\u03c9_ns+\u03c9_n^2)(s+a)$ gives the gains in closed form. The PID's zeros appear in the reference response and add overshoot; feeding the\nreference only through the integrator (I-PD) removes them so the response is the all-pole one. A step disturbance at the plant input leaves $G(0)/(1+K_pG(0))$ with P only and zero with integral action.",
+  "method": "Simulations with scipy.signal.lsim on the closed-loop transfer functions (5 ms step). Gains: P: K_p = 9; PI: K_p = 9, K_i = 20; PID placed at \u03b6 = 0.7, \u03c9_n = 6 rad/s, third pole a = 12. Closed-loop poles recovered from the polynomial and the\ndominant pair also fitted from the simulated I-PD response.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "P control: steady-state error 1/(1 + K_p\u00b7G(0))",
+   "predicted": 0.1,
+   "measured": 0.09999999999999953,
+   "unit": "",
+   "error": -4.718447854656915e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "P control: overshoot from \u03b6 of s\u00b2 + 6s + 5 + 5K_p",
+   "predicted": 22.948834637386646,
+   "measured": 22.948603484445375,
+   "unit": "%",
+   "error": -0.00023115294127151742,
+   "error_str": "-0.000231 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PI control: steady-state step error",
+   "predicted": 0.0,
+   "measured": -4.162670208529562e-12,
+   "unit": "",
+   "error": -4.162670208529562e-12,
+   "error_str": "-4.1627e-12",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PI control: ramp-following error 1/K_v = 1/(K_i\u00b7G(0))",
+   "predicted": 0.05,
+   "measured": 0.049999999999876366,
+   "unit": "",
+   "error": -2.47274423159638e-10,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PID pole placement: max distance between achieved and requested poles",
+   "predicted": 0.0,
+   "measured": 7.160723346098895e-15,
+   "unit": "rad/s",
+   "error": 7.160723346098895e-15,
+   "error_str": "+7.1607e-15 rad/s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PID on the error: overshoot vs the dominant-pair formula (the controller zeros are ignored by the formula)",
+   "predicted": 4.598791026026775,
+   "measured": 13.870643198067167,
+   "unit": "%",
+   "error": 9.271852172040393,
+   "error_str": "+9.27 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "I-PD (reference only through the integrator): overshoot vs the formula",
+   "predicted": 4.598791026026775,
+   "measured": 3.788145989355174,
+   "unit": "%",
+   "error": -0.8106450366716009,
+   "error_str": "-0.811 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Decay rate fitted from the simulated response = \u03b6\u03c9_n",
+   "predicted": 4.199999999999999,
+   "measured": 4.199999999999811,
+   "unit": "1/s",
+   "error": -4.483186308962537e-12,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Oscillation frequency fitted from the response = \u03c9_n\u221a(1\u2212\u03b6\u00b2)",
+   "predicted": 4.28485705712571,
+   "measured": 4.2848570571243485,
+   "unit": "rad/s",
+   "error": -3.1776498007932165e-11,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Step disturbance, P only: residual output G(0)/(1 + K_pG(0))",
+   "predicted": 0.1,
+   "measured": 0.10000000000000006,
+   "unit": "",
+   "error": 5.551115123125783e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Step disturbance, PID: residual output",
+   "predicted": 0.0,
+   "measured": 5.442144334461517e-16,
+   "unit": "",
+   "error": 5.442144334461517e-16,
+   "error_str": "+5.4421e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "PID gains from coefficient matching (K_p, K_i, K_d)",
+   "value": "26.36, 86.4, 2.88",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Peak output deviation for a unit disturbance, P / PID",
+   "value": "0.123 / 0.028",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pid.png"
+ ],
+ "runtime_s": 0.22,
+ "folder": "projects/applied-math/I-control-theory/AM153-pid-control-with-laplace"
+}

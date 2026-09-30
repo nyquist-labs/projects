@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "AM-192",
+  "title": "Vector-calculus visualiser (interactive, verified)",
+  "level": "M",
+  "tools": "Browser tool (HTML + JavaScript, canvas): user-typed 2-D field, arrows coloured by divergence or curl, a draggable circle showing flux and circulation next to the area integrals of divergence and curl; the JavaScript engine is run under Node and checked against analytic derivatives and the theorems of Gauss and Stokes",
+  "summary": "An interactive page where a student types any planar field and sees its divergence and curl as colour, with a movable circle that shows the divergence theorem and Stokes' theorem balancing live. The calculation engine is tested numerically against closed-form results before the page is published.",
+  "problem": "Divergence and curl are defined by limits and printed as formulas. How can they be *seen* \u2014 and how do we know the tool that shows them is right?",
+  "theory": "For $F=(P,Q)$: $\\nabla\\cdot F=P_x+Q_y$, $(\\nabla\\times F)_z=Q_x-P_y$. Divergence theorem (2-D): $\\oint_C F\\cdot n\\,ds=\\iint_D\\nabla\\cdot F\\,dA$; Stokes/Green: $\\oint_C F\\cdot t\\,ds=\\iint_D(\\nabla\\times F)_z\\,dA$. Test fields: (x, y) has div 2, curl 0; (\u2212y, x) div 0, curl 2;\n$(x^2y,\\ \\sin x\\cos y)$ has div $2xy-\\sin x\\sin y$ and curl $\\cos x\\cos y-x^2$. The gradient of any potential is curl-free. Central differences are second-order accurate.",
+  "method": "calc.js: expression compiler (restricted character set), central-difference derivatives (h = 10\u207b\u2074), circle line integrals (720 points), polar area integrals. Node tests: 400 random points for div/curl of the non-trivial field, gradient of a potential, and the two theorems on\n50 random circles for four fields.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Divergence of (x\u00b2y, sin x cos y) vs 2xy \u2212 sin x sin y (worst abs. error, 400 points)",
+   "predicted": 0.0,
+   "measured": 1.6637220490167692e-09,
+   "unit": "",
+   "error": 1.6637220490167692e-09,
+   "error_str": "+1.6637e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Curl of the same field vs cos x cos y \u2212 x\u00b2 (worst abs. error)",
+   "predicted": 0.0,
+   "measured": 1.663208792912485e-09,
+   "unit": "",
+   "error": 1.663208792912485e-09,
+   "error_str": "+1.6632e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Gradient of a potential vs analytic (worst abs. error)",
+   "predicted": 0.0,
+   "measured": 2.8639473015346084e-09,
+   "unit": "",
+   "error": 2.8639473015346084e-09,
+   "error_str": "+2.8639e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Curl of a gradient field is zero (worst abs. value)",
+   "predicted": 0.0,
+   "measured": 9.325873406851315e-10,
+   "unit": "",
+   "error": 9.325873406851315e-10,
+   "error_str": "+9.3259e-10",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Divergence theorem: \u222eF\u00b7n ds vs \u222cdiv F dA on 200 random circles, 4 fields (worst relative difference)",
+   "predicted": 0.0,
+   "measured": 5.994163370548478e-06,
+   "unit": "",
+   "error": 5.994163370548478e-06,
+   "error_str": "+5.9942e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Stokes' theorem: \u222eF\u00b7t ds vs \u222ccurl F dA (worst relative difference)",
+   "predicted": 0.0,
+   "measured": 8.829237742624674e-05,
+   "unit": "",
+   "error": 8.829237742624674e-05,
+   "error_str": "+8.8292e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Source, vortex and saddle fields: flux and circulation equal 2\u03c0r\u00b2, 2\u03c0r\u00b2 and 0 exactly as predicted (fields passing)",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/vector_fields.png"
+ ],
+ "runtime_s": 13.5,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM192-vector-calculus-visualiser"
+}

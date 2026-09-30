@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Voltage divider calculator</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>Voltage divider calculator</h1><p class="lead">Loaded output, Thevenin resistance, tolerance band and best standard resistor pair.</p>
+<div class="card"><div class="row"><svg id="sch" viewBox="0 0 260 200" width="260" height="200" aria-label="schematic"></svg>
+<div style="flex:1;min-width:240px"><label>V<sub>in</sub> (V)<input id="vin" type="number" value="5" step="any"></label>
+<label>R1 (Ω)<input id="r1" type="number" value="1800" step="any"></label><label>R2 (Ω)<input id="r2" type="number" value="3300" step="any"></label>
+<label>Load R<sub>L</sub> (Ω, blank = none)<input id="rl" type="number" step="any"></label><label>Tolerance (%)<input id="tol" type="number" value="1" step="any"></label></div></div>
+<p>V<sub>out</sub> = <span class="big" id="vo"></span> &nbsp; R<sub>th</sub> = <b id="rth"></b> &nbsp; <span class="muted" id="wc"></span></p></div>
+<div class="card"><b>Find standard values</b><div class="row"><label style="flex:1">Target V<sub>out</sub> (V)<input id="tv" type="number" value="3.3" step="any"></label>
+<label style="flex:1">Series<select id="ser"><option>12</option><option selected>24</option><option>96</option></select></label></div>
+<p id="best"></p><button id="use">Use these values</button></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);const fmt=v=>v>=1e6?(v/1e6)+' MΩ':v>=1e3?(v/1e3)+' kΩ':v+' Ω';
+function sch(){const s=$('sch');s.innerHTML=`<g stroke="currentColor" fill="none" stroke-width="2"><path d="M40 20v20M40 160v20M40 20h80M120 20v25M120 95v20M120 165v15M20 180h200"/>
+<rect x="110" y="45" width="20" height="50" rx="3"/><rect x="110" y="115" width="20" height="50" rx="3"/><path d="M120 105h70"/><circle cx="40" cy="100" r="18"/></g>
+<text x="32" y="106" fill="currentColor" font-size="14">V</text><text x="138" y="75" fill="currentColor" font-size="13">R1 ${fmt(+$('r1').value)}</text>
+<text x="138" y="145" fill="currentColor" font-size="13">R2 ${fmt(+$('r2').value)}</text><text x="194" y="100" fill="var(--acc)" font-size="13">Vout</text>`;}
+function upd(){const vin=+$('vin').value,r1=+$('r1').value,r2=+$('r2').value,rl=$('rl').value?+$('rl').value:Infinity,t=+$('tol').value/100;
+$('vo').textContent=vout(vin,r1,r2,rl).toFixed(4)+' V';$('rth').textContent=fmt(+rth(r1,r2).toPrecision(4));const w=worstCase(vin,r1,r2,t);
+$('wc').textContent=`±${$('tol').value} % parts: ${w[0].toFixed(3)} – ${w[1].toFixed(3)} V (unloaded)`;sch();
+const b=bestPair(+$('tv').value/vin,+$('ser').value);$('best').innerHTML=b?`R1 = <b>${fmt(b.r1)}</b>, R2 = <b>${fmt(b.r2)}</b> → ${(vin*b.r2/(b.r1+b.r2)).toFixed(4)} V (ratio error ${(b.err*100).toFixed(3)} %)`:'no pair in range';window._b=b;}
+document.querySelectorAll('input,select').forEach(e=>e.oninput=upd);$('use').onclick=()=>{if(window._b){$('r1').value=window._b.r1;$('r2').value=window._b.r2;upd();}};upd();</script></body></html>

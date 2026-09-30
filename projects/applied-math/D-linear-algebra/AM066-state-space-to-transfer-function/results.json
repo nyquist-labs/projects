@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-066",
+  "title": "State space \u2194 transfer function, both directions",
+  "level": "M",
+  "tools": "Controllable-canonical realisation (own), Faddeev\u2013LeVerrier algorithm for C(sI\u2212A)\u207b\u00b9B (own), similarity transforms, comparison with scipy.signal.tf2ss/ss2tf",
+  "summary": "Convert transfer functions to state-space form and back with self-written algorithms, show that the realisation is unique only up to a similarity transform while the transfer function is invariant, and verify on random systems.",
+  "problem": "A transfer function and a state-space model describe the same system \u2014 how do you move between them, and what is lost?",
+  "theory": "For $H(s)=\\frac{b_1s^{n-1}+\u2026+b_n}{s^n+a_1s^{n-1}+\u2026+a_n}$ the controllable canonical form has the companion matrix with \u2212a in the first row. Back: $C(sI-A)^{-1}B = \\frac{C\\,\\mathrm{adj}(sI-A)B}{\\det(sI-A)}$, and Faddeev\u2013LeVerrier\ngives adj and det with n matrix products: $M_k = AM_{k-1}+c_{k-1}I$, $c_k=-\\frac1k\\mathrm{tr}(AM_k)$. Any T gives $(TAT^{-1},TB,CT^{-1})$ with the same H: state coordinates are not unique, the input-output map is.",
+  "method": "300 random strictly proper systems of order 1\u20138 (stable denominators). TF \u2192 own realisation \u2192 own Faddeev\u2013LeVerrier \u2192 TF round trip; comparison with SciPy both ways; random similarity transforms;\nfrequency responses compared.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Round trip TF \u2192 canonical state space \u2192 Faddeev\u2013LeVerrier \u2192 TF (worst relative)",
+   "predicted": 0.0,
+   "measured": 2.2905490717117894e-09,
+   "unit": "",
+   "error": 2.2905490717117894e-09,
+   "error_str": "+2.2905e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Own Faddeev\u2013LeVerrier numerator vs scipy.signal.ss2tf",
+   "predicted": 0.0,
+   "measured": 4.425834120560792e-09,
+   "unit": "",
+   "error": 4.425834120560792e-09,
+   "error_str": "+4.4258e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Similarity transform leaves H(j\u03c9) unchanged (worst relative; companion forms of order 8 are ill-conditioned)",
+   "predicted": 0.0,
+   "measured": 3.6817428273933937e-06,
+   "unit": "",
+   "error": 3.6817428273933937e-06,
+   "error_str": "+3.6817e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "eig(A) of the realisation = roots of the denominator",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/tf_ss.png"
+ ],
+ "runtime_s": 0.38,
+ "folder": "projects/applied-math/D-linear-algebra/AM066-state-space-to-transfer-function"
+}

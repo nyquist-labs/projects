@@ -1,0 +1,82 @@
+{
+ "meta": {
+  "id": "SL-086",
+  "title": "NOAA APT weather-satellite image decoder",
+  "level": "M",
+  "tools": "SciPy (resampling, Hilbert AM demodulation), own sync-correlation line alignment, NumPy",
+  "summary": "Turn a real NOAA-18 recording from SatNOGS into an Earth image: AM-demodulate the 2.4 kHz subcarrier, lock onto the 1040 Hz sync bursts, align 2-lines-per-second scan lines and check the calibration wedges.",
+  "problem": "The satellite transmits a picture as an audio tone. Recover it, and verify the decoder's timing and grey-scale calibration from the signal itself.",
+  "theory": "APT: 4160 words/s, 2080 words per line (0.5 s), i.e. 2 lines/s. Each line = sync A (7 cycles of 1040 Hz), space, 909 px\nof channel A, telemetry, sync B, space, 909 px channel B, telemetry. Pixel brightness is the AM envelope of the 2400 Hz\nsubcarrier. Telemetry wedges 1\u20138 are grey steps at 1/8\u20268/8 of full scale, so wedge brightness vs index should be a\nstraight line.",
+  "method": "Resample 48 kHz \u2192 20.8 kHz (5 samples/word), band-pass 1.2\u20133.6 kHz, Hilbert envelope, average to 4160 words/s. Correlate\nwith the sync-A template; each line starts at the correlation peak searched \u00b120 words from the previous + 2080.\nLine rate and sample-clock error from the fitted peak positions. Wedges read from the channel-B telemetry strip\n(8-line blocks, 16-block frame).",
+  "data": "Real: SatNOGS Network observation 11229309 (NOAA-18, 2025-03-14), CC-BY-SA 4.0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "Words per line (sync spacing)",
+   "predicted": 2080.0,
+   "measured": 2079.872923793741,
+   "unit": "words",
+   "error": -0.0061094329932241355,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Line rate",
+   "predicted": 2.0,
+   "measured": 2.000122196125355,
+   "unit": "Hz",
+   "error": 0.006109806267740048,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Calibration wedges 1\u20138: linearity (correlation with a straight ramp)",
+   "predicted": 1.0,
+   "measured": 0.99946581746128,
+   "unit": "",
+   "error": -0.0005341825387199517,
+   "error_str": "-5.3418e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Recording sample-clock error",
+   "value": -61.09432993228747,
+   "unit": "ppm",
+   "note": "from the fitted line spacing"
+  },
+  {
+   "quantity": "Image lines decoded",
+   "value": 927.0,
+   "unit": "",
+   "note": "7.7 minutes of scan"
+  },
+  {
+   "quantity": "Median sync correlation / correlation std",
+   "value": 11.253612010047801,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Wedge 8 / wedge 1 brightness",
+   "value": 6.817918021496845,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/apt_image.png",
+  "figures/sync_and_wedges.png"
+ ],
+ "runtime_s": 2.41,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL086-noaa-apt-image-decode"
+}

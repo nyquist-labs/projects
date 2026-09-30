@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "AM-213",
+  "title": "Error exponents: how fast block error falls with code length",
+  "level": "H",
+  "tools": "Gallager's random-coding exponent E_r(R) and the sphere-packing exponent for the BSC, exhaustive maximum-likelihood decoding of random linear codes of length 8\u201324, ensemble-average block-error rates, exponent estimated from the slope of log P\u2091 versus n",
+  "summary": "Below capacity the error probability of good codes falls exponentially with block length, P\u2091 \u2248 2^(\u2212n\u00b7E(R)). Compute the exponents from theory, then generate random linear codes, decode them by brute force and measure how fast their average block error actually falls.",
+  "problem": "Shannon's theorem says error can be made arbitrarily small below capacity. How much longer must a code be to gain another decade?",
+  "theory": "BSC(p), rate R < C = 1 \u2212 H\u2082(p). Random-coding exponent $E_r(R)=\\max_{0\\le\u03c1\\le1}[E_0(\u03c1)-\u03c1R]$ with $E_0(\u03c1)=\u03c1-(1+\u03c1)\\log_2\\left(p^{1/(1+\u03c1)}+(1-p)^{1/(1+\u03c1)}\\right)$; the ensemble-average ML error satisfies $\\bar P_e\\le2^{-nE_r(R)}$. Sphere packing: no code does better than $2^{-nE_{sp}(R)}$\nasymptotically, $E_{sp}(R)=D(\u03b4\\|p)$ with $H_2(\u03b4)=1-R$ (in bits), equal to E_r above the critical rate. Finite lengths add polynomial prefactors, so a measured slope approaches the exponent from below only slowly.",
+  "method": "BSC with p = 0.03 (C = 0.806). Rate \u00bd random linear codes (systematic, random parity part), n = 8, 12, 16, 20, 24; for each n, 40 random codes \u00d7 3000 transmissions of random messages, ML decoding by exhaustive nearest-codeword search (2^{n/2} codewords, bit-packed).\nExponent from the slope of log\u2082 P\u2091 between n = 12 and 24.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "E_r at rate 0 equals E\u2080(1) (the cutoff rate R\u2080)",
+   "predicted": 0.57650310391552,
+   "measured": 0.57650310391552,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "E_r vanishes at capacity",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Average block error falls with n at fixed rate (violations of monotonic decrease)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gallager's random-coding bound 2^(\u2212n\u00b7E_r) holds for the measured ensemble average at every n (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Exponent measured from the slope (n = 12\u202624) vs E_r(\u00bd): same order of magnitude (ratio)",
+   "predicted": 1.0,
+   "measured": 0.9421943243972846,
+   "unit": "",
+   "error": -5.780567560271543,
+   "error_str": "-5.78 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "BSC(0.03): capacity / E_r(\u00bd) / E_sp(\u00bd)",
+   "value": "0.806 bit / 0.0957 / 0.0957",
+   "unit": "",
+   "note": "exponents in bits per channel use"
+  },
+  {
+   "quantity": "Block error rate at n = 8 / 12 / 16 / 20 / 24",
+   "value": "5.32e-02 / 3.75e-02 / 3.22e-02 / 2.26e-02 / 1.84e-02",
+   "unit": "",
+   "note": "measured slope 0.0902 bit per extra symbol"
+  },
+  {
+   "quantity": "Length needed for P\u2091 = 10\u207b\u2076 at rate \u00bd by the random-coding bound",
+   "value": 208.21126356581007,
+   "unit": "symbols",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/error_exponents.png"
+ ],
+ "runtime_s": 5.24,
+ "folder": "projects/applied-math/L-information-theory/AM213-error-exponents"
+}

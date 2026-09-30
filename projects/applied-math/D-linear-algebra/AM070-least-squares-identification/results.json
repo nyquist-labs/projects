@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-070",
+  "title": "Least-squares system identification (ARX)",
+  "level": "M",
+  "tools": "ARX regression matrix, normal equations via QR, parameter covariance \u03c3\u00b2(\u03a6\u1d40\u03a6)\u207b\u00b9, Monte-Carlo validation, bias under coloured noise",
+  "summary": "Identify a discrete-time model of an RC-filter circuit from noisy input/output data by linear least squares, predict the parameter uncertainty from the covariance formula, verify it with 500 Monte-Carlo repetitions, and show the bias that appears when the noise is not white in the equation-error sense.",
+  "problem": "Given measured input and output, how do you fit a model \u2014 and how much should you trust the fitted numbers?",
+  "theory": "ARX(2,2): $y[n]=-a_1y[n-1]-a_2y[n-2]+b_1u[n-1]+b_2u[n-2]+e[n]$ is linear in \u03b8, so $\\hat \u03b8=(\u03a6^T\u03a6)^{-1}\u03a6^Ty$ and, for white equation error e with variance \u03c3\u00b2, $\\mathrm{cov}(\\hat\u03b8)=\u03c3^2(\u03a6^T\u03a6)^{-1}$.\nIf instead white noise is added to the *measured output* (output-error), the regressors contain noise and LS becomes biased \u2014 the classic errors-in-variables effect.",
+  "method": "True system: a 2nd-order RC-RC low-pass discretised with ZOH at 10 kHz. Input: \u00b11 PRBS, N = 2000. Case 1: equation-error noise \u03c3 = 0.02 \u2192 500 runs, empirical std vs predicted. Case 2: output noise of\nthe same power \u2192 bias measured. Validation: simulated output of the fitted model vs fresh data.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Mean estimate \u2212 truth (worst parameter, equation-error noise) \u2014 unbiased",
+   "predicted": 0.0,
+   "measured": 0.07364558785506183,
+   "unit": "\u03c3",
+   "error": 0.07364558785506183,
+   "error_str": "+0.07365 \u03c3",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Empirical std / predicted \u03c3\u00b2(\u03a6\u1d40\u03a6)\u207b\u00b9 std (worst over parameters)",
+   "predicted": 1.0,
+   "measured": 1.0065234141118218,
+   "unit": "",
+   "error": 0.6523414111821779,
+   "error_str": "+0.65 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Output-error noise: worst bias in units of the estimate's std (LS is biased)",
+   "predicted": 3.0,
+   "measured": 8.910364269759254,
+   "unit": "\u03c3",
+   "error": 5.910364269759254,
+   "error_str": "+5.91 \u03c3",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Validation on fresh data: fit percentage 100(1 \u2212 \u2016y\u2212\u0177\u2016/\u2016y\u2212\u0233\u2016)",
+   "predicted": 100.0,
+   "measured": 99.97989210448334,
+   "unit": "%",
+   "error": -0.02010789551665937,
+   "error_str": "-0.0201 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/arx.png"
+ ],
+ "runtime_s": 0.22,
+ "folder": "projects/applied-math/D-linear-algebra/AM070-least-squares-identification"
+}

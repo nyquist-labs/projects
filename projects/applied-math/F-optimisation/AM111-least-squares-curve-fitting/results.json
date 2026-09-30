@@ -1,0 +1,94 @@
+{
+ "meta": {
+  "id": "AM-111",
+  "title": "Fitting a real battery discharge curve: models, residuals and uncertainty",
+  "level": "M",
+  "tools": "Linear and nonlinear least squares on real NASA Li-ion discharge data, polynomial vs physically motivated models, residual analysis (autocorrelation, runs), parameter covariance and cross-validation",
+  "summary": "Fit the voltage-vs-capacity curve of a real 18650 cell with polynomials of increasing degree and with a compact empirical (Shepherd-type) model, judge the fits by residual structure and held-out error rather than R\u00b2, and quantify parameter uncertainty.",
+  "problem": "Any flexible enough curve fits the data. How do you know a fit is good \u2014 and when have you overfitted?",
+  "theory": "Least squares assumes independent errors; if residuals are autocorrelated, the model is missing structure and the covariance \u03c3\u00b2(J\u1d40J)\u207b\u00b9 underestimates uncertainty. A physically motivated model (Shepherd-type:\n$V = E_0 - K\\frac{Q}{Q-q} + Ae^{-Bq}$ plus a linear term) should fit with few parameters and extrapolate sensibly; a high-degree polynomial fits the training range but oscillates outside it (Runge). Held-out (interpolation) error and extrapolation error expose the difference.",
+  "method": "NASA PCoE cell B0005, first 2 A discharge: voltage vs delivered charge q. Fit on the middle 90 % of the curve (then also on the first 80 % to test extrapolation to the knee). Polynomials degree 1\u201312 (Chebyshev basis) and the\n5-parameter model (nonlinear LS). Metrics: RMS residual, lag-1 residual autocorrelation, 5-fold interleaved CV error, extrapolation error on the last 20 %.",
+  "data": "Real: NASA Ames PCoE Battery Data Set (B0005).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation"
+ },
+ "rows": [
+  {
+   "quantity": "Shepherd model extrapolates to the knee better than a degree-12 polynomial (error ratio poly12 / Shepherd > 1)",
+   "predicted": 3.0,
+   "measured": 12.71297766664525,
+   "unit": "\u00d7",
+   "error": 9.71297766664525,
+   "error_str": "+9.713 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Residuals are autocorrelated for every model (lag-1 > 0.5 means structure the model misses)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "poly 1: RMS residual / lag-1 autocorr / CV RMS / extrapolation RMS",
+   "value": "66.5 mV / 0.99 / 64.9 mV / 150 mV",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "poly 2: RMS residual / lag-1 autocorr / CV RMS / extrapolation RMS",
+   "value": "65.3 mV / 0.99 / 64.2 mV / 231 mV",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "poly 3: RMS residual / lag-1 autocorr / CV RMS / extrapolation RMS",
+   "value": "44.0 mV / 0.98 / 43.4 mV / 177 mV",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "poly 5: RMS residual / lag-1 autocorr / CV RMS / extrapolation RMS",
+   "value": "19.9 mV / 0.94 / 20.1 mV / 65 mV",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "poly 8: RMS residual / lag-1 autocorr / CV RMS / extrapolation RMS",
+   "value": "6.5 mV / 0.83 / 7.4 mV / 764 mV",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "poly 12: RMS residual / lag-1 autocorr / CV RMS / extrapolation RMS",
+   "value": "1.7 mV / 0.61 / 2.5 mV / 2421 mV",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Shepherd-type (5 par.): RMS residual / lag-1 autocorr / CV RMS / extrapolation RMS",
+   "value": "10.2 mV / 0.83 / 11.7 mV / 190 mV",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Shepherd E0 \u00b1 1\u03c3 (naive covariance / corrected for autocorrelation)",
+   "value": "3.6505 \u00b1 22.06 mV / \u00b1 72.0 mV",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/battery_fit.png"
+ ],
+ "runtime_s": 0.21,
+ "folder": "projects/applied-math/F-optimisation/AM111-least-squares-curve-fitting"
+}

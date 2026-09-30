@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "AM-021",
+  "title": "Fourier-series synthesiser: square and sawtooth waves",
+  "level": "E",
+  "tools": "Analytic Fourier coefficients, partial-sum synthesis, RMS error predicted from the omitted harmonics (Parseval), audio (WAV) output",
+  "summary": "Synthesise square and sawtooth waves from their harmonics, predict the mean-square error of every partial sum from the energy in the omitted terms, and render the results as audio so the harmonic build-up can be heard.",
+  "problem": "How many harmonics does a square wave need \u2014 and can we predict the approximation error before computing it?",
+  "theory": "Square (\u00b11): $\\frac4\u03c0\\sum_{k\\,odd}\\frac{\\sin k\u03c9t}{k}$; sawtooth: $\\frac2\u03c0\\sum_k\\frac{(-1)^{k+1}}{k}\\sin k\u03c9t$. By Parseval the mean-square error of the N-harmonic partial sum equals the energy of the\nomitted terms: square $\\frac{8}{\u03c0^2}\\sum_{k>N,\\,odd}\\frac1{k^2}$, sawtooth $\\frac{2}{\u03c0^2}\\sum_{k>N}\\frac1{k^2}$ \u2014 both fall as 1/N, i.e. RMS error \u221d N^{\u22121/2}.",
+  "method": "One period sampled at 2\u00b9\u2076 points; partial sums N = 1 \u2026 200 harmonics; measured MSE vs the tail-sum prediction. 220 Hz tones with 1, 3, 9, 27 harmonics written to a 48 kHz WAV.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "square: worst |measured MSE / Parseval tail \u2212 1| over N = 1\u2026200",
+   "predicted": 0.0,
+   "measured": 0.0010623498968489464,
+   "unit": "",
+   "error": 0.0010623498968489464,
+   "error_str": "+0.001062",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "sawtooth: worst |measured MSE / Parseval tail \u2212 1| over N = 1\u2026200",
+   "predicted": 0.0,
+   "measured": 0.0010651529864202924,
+   "unit": "",
+   "error": 0.0010651529864202924,
+   "error_str": "+0.001065",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Square wave: RMS error \u221d N^slope",
+   "predicted": -0.5,
+   "measured": -0.49496586303501794,
+   "unit": "",
+   "error": 0.005034136964982061,
+   "error_str": "+0.005034",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/synth.png"
+ ],
+ "runtime_s": 0.7,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM021-fourier-series-synthesiser"
+}

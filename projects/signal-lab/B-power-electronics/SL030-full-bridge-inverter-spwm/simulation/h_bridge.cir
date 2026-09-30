@@ -1,0 +1,12 @@
+* H-bridge — exported by eelab.circuit
+Vdc p 0 DC 200.0 AC 0.0
+* switch a_hi between p and a (Ron=0.05, Roff=1000000.0)
+* switch a_lo between a and 0 (Ron=0.05, Roff=1000000.0)
+* switch b_hi between p and b (Ron=0.05, Roff=1000000.0)
+* switch b_lo between b and 0 (Ron=0.05, Roff=1000000.0)
+Lf a lx 0.005
+Rdcr lx o 0.1
+Cf o b 1e-05
+RL o b 20
+Rref b 0 1e+07
+.end

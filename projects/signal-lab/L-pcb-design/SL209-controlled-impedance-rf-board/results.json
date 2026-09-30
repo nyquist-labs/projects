@@ -1,0 +1,150 @@
+{
+ "meta": {
+  "id": "SL-209",
+  "title": "Controlled-impedance RF board: 50 \u03a9 microstrip vs grounded CPW",
+  "level": "H",
+  "tools": "Closed-form synthesis (Wheeler/Hammerstad, conformal-mapping GCPW), own 2-D finite-difference field solver with Richardson extrapolation, eelab.pcb for the via-fenced SMA-to-SMA board",
+  "summary": "Design a 50 \u03a9 through-line between two edge-mount SMA connectors on standard 1.6 mm FR-4. The closed-form widths for microstrip and grounded coplanar waveguide are checked with a 2-D field solver, and the board is built with a stitched via fence and poured grounds.",
+  "problem": "On a 1.6 mm board a 50 \u03a9 microstrip is 3 mm wide \u2014 wider than an SMA centre pin. How do RF boards get narrow 50 \u03a9 lines, and how accurate are the formulas?",
+  "theory": "Microstrip Z0 depends on w/h: on h = 1.6 mm, \u03b5_r = 4.4 the Wheeler synthesis gives w \u2248 3.06 mm for 50 \u03a9. Bringing ground up beside the trace (grounded CPW,\ngap s) adds capacitance, so the same 50 \u03a9 is reached with a much narrower trace: conformal mapping gives s for w = 1.0 mm. Both closed forms claim \u2248 1 %\naccuracy (zero-thickness strips). The via fence ties the top grounds to the bottom plane; spacing \u2264 \u03bb_g/10 at the highest frequency keeps the fence\nfrom resonating.",
+  "method": "Field solver: 5-point finite differences on a grounded box 30h \u00d7 15h, zero-thickness conductors, capacitance from field energy with and without the\ndielectric (Z0 = 1/(c\u221a(C\u00b7C_air))); three grids (0.2/0.1/0.05 mm) and Richardson extrapolation with the observed convergence order. Board: 50 \u00d7 20 mm, SMA\nedge launches, GCPW trace, top ground pour with clearance s, bottom ground plane, vias every 2.5 mm on both sides.",
+  "data": "Simulation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "Microstrip w = 3.2 mm: Hammerstad\u2013Jensen vs field solver",
+   "predicted": 48.88811502528727,
+   "measured": 48.534660746268734,
+   "unit": "\u03a9",
+   "error": -0.7229861057962903,
+   "error_str": "-0.72 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "GCPW w = 1.2 mm, s = 0.20 mm: conformal mapping vs field solver",
+   "predicted": 51.2006559299233,
+   "measured": 51.05932494118494,
+   "unit": "\u03a9",
+   "error": -0.27603355107754024,
+   "error_str": "-0.28 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "DRC violations (clearance, widths, drills, annular rings, edge, courtyards, connectivity)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Drill hits in the Excellon file (re-read with gerbonara) = holes in the design",
+   "predicted": 32.0,
+   "measured": 32.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Board outline from the Gerber profile (re-read with gerbonara)",
+   "predicted": 50.0,
+   "measured": 49.99999999999999,
+   "unit": "mm",
+   "error": -1.4210854715202004e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pads in the KiCad file (re-read with kiutils) = pads in the design",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gap between trace and top ground pour in the exported copper",
+   "predicted": 0.2,
+   "measured": 0.21000000000000082,
+   "unit": "mm",
+   "error": 5.000000000000407,
+   "error_str": "+5.00 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Wheeler synthesis: microstrip width for 50 \u03a9",
+   "value": 3.0589749829276442,
+   "unit": "mm",
+   "note": "field-solved at the grid-aligned width 3.2 mm"
+  },
+  {
+   "quantity": "Field solver: raw values on 0.2/0.1/0.05 mm grids and observed order",
+   "value": "47.82 / 48.20 / 48.38 \u03a9, p = 1.10",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Conformal mapping: GCPW width for 50 \u03a9 with 0.20 mm gaps",
+   "value": 1.28723258111576,
+   "unit": "mm",
+   "note": ""
+  },
+  {
+   "quantity": "GCPW field solver: raw values and observed order",
+   "value": "45.96 / 48.77 / 50.03 \u03a9, p = 1.16",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "\u03bb_g/10 at 6 GHz (via-fence pitch 2.5 mm is below it)",
+   "value": 2.9974440580754846,
+   "unit": "mm",
+   "note": ""
+  },
+  {
+   "quantity": "Board",
+   "value": "50 \u00d7 20 mm, 2 layers, 1.6 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Components / nets / pads",
+   "value": "2 / 2 / 6",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Routed track length",
+   "value": 46.0,
+   "unit": "mm",
+   "note": "1 segments, 32 vias"
+  }
+ ],
+ "figures": [
+  "figures/board.png",
+  "figures/impedance.png"
+ ],
+ "runtime_s": 57.16,
+ "folder": "projects/signal-lab/L-pcb-design/SL209-controlled-impedance-rf-board"
+}

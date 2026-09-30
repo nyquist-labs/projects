@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "AM-028",
+  "title": "STFT and spectrograms: the resolution trade-off",
+  "level": "M",
+  "tools": "Own short-time Fourier transform (Hann windows, hop, zero-padding), resolution measurements on a synthetic test signal, real speech recording",
+  "summary": "Implement the STFT, measure its time and frequency resolution on a test signal with clicks and close tones for several window lengths, confirm that their product is constant, and apply it to a real recording of the word 'hello'.",
+  "problem": "A spectrogram cannot be sharp in both time and frequency. How exactly does the window length trade one for the other?",
+  "theory": "With a Hann window of length T_w, a click smears over \u2248 T_w/2 (full width at half maximum of the window's energy, \u2248 0.5 T_w for Hann... measured as FWHM of |x|\u00b2 envelope) and a tone over a\nmainlobe of \u22126 dB width 2/T_w\u2026 so \u0394t\u00b7\u0394f is a constant \u2248 1 for the half-power widths of Hann, independent of T_w. Voiced speech needs \u0394f < pitch (~100\u2013200 Hz) to show\nharmonics (narrow-band, T_w \u2273 20 ms) or \u0394t < pitch period to show glottal pulses (wide-band, T_w \u2272 5 ms).",
+  "method": "Test signal at 8 kHz: clicks every 50 ms + tones at 1000 and 1060 Hz. Window lengths 4, 8, 16, 32, 64 ms; FWHM of the click in time and of the 1000 Hz line in frequency.\nReal data: Wikimedia public-domain recording 'En-us-hello.ogg'.",
+  "data": "Real: 'En-us-hello.ogg', Wikimedia Commons, public domain.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms"
+ },
+ "rows": [
+  {
+   "quantity": "\u0394t\u00b7\u0394f (half-power widths) is constant across window lengths: max/min ratio",
+   "predicted": 1.0,
+   "measured": 1.1544865864939544,
+   "unit": "",
+   "error": 15.44865864939544,
+   "error_str": "+15.45 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Doubling the window doubles \u0394t (slope of log \u0394t vs log T_w)",
+   "predicted": 1.0,
+   "measured": 0.9708506338544254,
+   "unit": "",
+   "error": -0.029149366145574618,
+   "error_str": "-0.02915",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and halves \u0394f (slope)",
+   "predicted": -1.0,
+   "measured": -1.0060747298087036,
+   "unit": "",
+   "error": -0.006074729808703605,
+   "error_str": "-0.006075",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Mean \u0394t\u00b7\u0394f",
+   "value": 0.5493041992187434,
+   "unit": "",
+   "note": "Hann window, half-power widths"
+  }
+ ],
+ "figures": [
+  "figures/spectrograms.png"
+ ],
+ "runtime_s": 1.76,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM028-stft-and-spectrogram"
+}

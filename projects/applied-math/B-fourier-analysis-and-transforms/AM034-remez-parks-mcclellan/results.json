@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-034",
+  "title": "Parks\u2013McClellan from scratch: the Remez exchange algorithm",
+  "level": "H",
+  "tools": "Own Remez exchange for Type-I linear-phase low-pass filters (dense grid, barycentric Lagrange interpolation, alternation search), scipy.signal.remez as reference",
+  "summary": "Implement the Parks\u2013McClellan algorithm \u2014 Chebyshev (minimax) approximation of the ideal low-pass by a cosine polynomial \u2014 verify the alternation theorem on the result, match scipy's remez, and compare with a windowed design of the same length.",
+  "problem": "What is the *best* FIR filter of a given length, and how do you compute it?",
+  "theory": "A Type-I FIR of length N = 2L+1 has amplitude $A(\u03c9)=\\sum_{k=0}^{L}a_k\\cos k\u03c9$, a polynomial of degree L in x = cos \u03c9. Chebyshev's alternation theorem: A minimises the maximum weighted error\n$\\max|W(\u03c9)(A(\u03c9)-D(\u03c9))|$ over the bands iff the error attains its maximum with alternating sign at \u2265 L+2 points. The Remez exchange finds these points iteratively: solve for the\nripple \u03b4 on the current extremal set, interpolate, move the set to the new error extrema, repeat. Result: equiripple bands, lower peak error than any window design of equal N.",
+  "method": "N = 41 (L = 20), passband 0\u20130.2 fs, stopband 0.25\u20130.5 fs, weight 1:1. Dense grid of 16\u00b7N points per band. Converge when the extremal error differs from |\u03b4| by < 1e-9. Compare coefficients with\nscipy.signal.remez; count alternations; compare peak stopband error with a Kaiser-window design of the same length and transition.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Own Remez vs scipy.signal.remez, max |h \u2212 h_scipy|",
+   "predicted": 0.0,
+   "measured": 7.926878471974964e-06,
+   "unit": "",
+   "error": 7.926878471974964e-06,
+   "error_str": "+7.9269e-06",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Alternation theorem: number of equal-magnitude alternating extrema (\u2265 L+2 = 22)",
+   "predicted": 22.0,
+   "measured": 22.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Peak weighted error from the frequency response = \u03b4 from the exchange",
+   "predicted": 0.010303380809766336,
+   "measured": 0.010314182604047506,
+   "unit": "",
+   "error": 0.10483737795007146,
+   "error_str": "+0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Stopband peak: equiripple vs best Kaiser window of the same length (dB better)",
+   "predicted": 3.0,
+   "measured": 3.5851841585336786,
+   "unit": "dB",
+   "error": 0.5851841585336786,
+   "error_str": "+0.5852 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Iterations to converge",
+   "value": 6.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Best Kaiser \u03b2 for this N and band edges",
+   "value": 2.9000000000000004,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/remez.png"
+ ],
+ "runtime_s": 0.19,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM034-remez-parks-mcclellan"
+}

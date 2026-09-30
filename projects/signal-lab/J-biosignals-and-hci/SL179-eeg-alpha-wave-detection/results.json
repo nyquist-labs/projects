@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-179",
+  "title": "Detecting the eyes-closed alpha rhythm in real EEG",
+  "level": "M",
+  "tools": "Welch spectra of occipital EEG (O1, Oz, O2), alpha-band power ratio, EEG Motor Movement/Imagery DB baseline runs",
+  "summary": "Compare the 1-minute eyes-open and eyes-closed baselines of 20 subjects: measure the alpha (8\u201312 Hz) power increase over the occipital cortex and use it to classify 10-s epochs as eyes-open/closed.",
+  "problem": "Closing your eyes makes the brain's 10 Hz 'idling' rhythm appear \u2014 the first EEG phenomenon ever discovered (Berger, 1929). How big and how reliable is it?",
+  "theory": "Occipital alpha power typically rises several-fold (\u2248 2\u201310\u00d7, i.e. 3\u201310 dB) on eye closure, with a peak between 8 and 12 Hz; a minority of people (~10 %)\nshow little alpha. A per-subject threshold on relative alpha power should therefore classify epochs well above chance (50 %).",
+  "method": "Subjects 1\u201320, runs R01 (eyes open) and R02 (eyes closed), 160 Hz, channels O1, Oz, O2 averaged. Relative alpha = P(8\u201312 Hz)/P(2\u201330 Hz) from Welch\n(2-s windows). Classification: 10-s epochs, leave-one-epoch-out threshold at the midpoint of the two classes' medians per subject.",
+  "data": "Real: EEG Motor Movement/Imagery Database (Schalk et al. 2004, PhysioNet), ODC-By.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Median eyes-closed / eyes-open alpha increase (3\u201310 dB typical)",
+   "predicted": 6.0,
+   "measured": 4.020360469818115,
+   "unit": "dB",
+   "error": -1.9796395301818848,
+   "error_str": "-1.98 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Median alpha peak frequency (8\u201312 Hz)",
+   "predicted": 10.0,
+   "measured": 10.5,
+   "unit": "Hz",
+   "error": 0.5,
+   "error_str": "+500 mHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Epoch classification accuracy (20 subjects, chance 50 %)",
+   "predicted": 90.0,
+   "measured": 91.62878787878789,
+   "unit": "%",
+   "error": 1.6287878787878896,
+   "error_str": "+1.63 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Subjects with < 3 dB alpha increase ('low-alpha' people)",
+   "value": 9.0,
+   "unit": "",
+   "note": "of 20"
+  }
+ ],
+ "figures": [
+  "figures/alpha.png"
+ ],
+ "runtime_s": 0.44,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL179-eeg-alpha-wave-detection"
+}

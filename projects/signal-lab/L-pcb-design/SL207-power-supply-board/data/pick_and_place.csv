@@ -1,0 +1,11 @@
+ref,value,footprint,x_mm,y_mm,rot,side,type
+J1,VIN 12V,TerminalBlock_1x02_P5.08mm,6,16,90,top,THT
+J2,VOUT 5V,TerminalBlock_1x02_P5.08mm,38,16,90,top,THT
+U1,LM317,TO-220-3_Vertical,22,25,0,top,THT
+C1,10uF 25V,CP_Radial_D6.3mm_P2.5mm,13.5,17,0,top,THT
+C3,10uF 16V,CP_Radial_D6.3mm_P2.5mm,30.5,17,0,top,THT
+R1,240,C_0805,25,16,90,top,SMD
+R2,715,C_0805,22,12,0,top,SMD
+C2,10uF,C_1206,17,12,0,top,SMD
+D1,LED green,C_0805,30,9,0,top,SMD
+R3,1k,C_0805,34,9,0,top,SMD

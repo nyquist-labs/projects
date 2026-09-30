@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-096",
+  "title": "Satellite Doppler shift through a pass",
+  "level": "M",
+  "tools": "SGP4 with a live CelesTrak TLE, analytic circular-orbit Doppler model",
+  "summary": "Compute the Doppler curve of the ISS's 437.8 MHz downlink over a ground station from SGP4 range-rate, and check the maximum shift and the steepest slope against a closed-form flat-geometry model.",
+  "problem": "A satellite at 7.7 km/s shifts a UHF signal by kilohertz. How big is the shift, how fast does it change at closest approach, and can a simple formula predict both?",
+  "theory": "$\\Delta f = -f_0\\,\\dot R/c$. Maximum when the satellite is near the horizon: $|\\dot R|_{max}\\approx v\\cos\\theta_h$ with\n$\\cos\\theta_h = R_E/(R_E+h)$ (line of sight tangent to the Earth), so $\\Delta f_{max}\\approx f_0 v R_E/[c(R_E+h)]$. At closest\napproach the slope is steepest: $|d\\Delta f/dt|_{max}=\\frac{f_0v^2}{c\\,R_{min}}$ (straight-line pass approximation).",
+  "method": "ISS TLE from CelesTrak (fetched at run time), ground station at 51.48\u00b0 N, 0.0\u00b0 E. Next pass with max elevation > 30\u00b0 found by 10-s\nsearch; range-rate and Doppler at 1-s resolution; orbital speed v and minimum range R_min taken from SGP4 for the\nanalytic formulas.",
+  "data": "Real: current ISS two-line elements from CelesTrak (propagated with SGP4).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "Max Doppler shift at horizon",
+   "predicted": 10497.00053658347,
+   "measured": 9767.423994874582,
+   "unit": "Hz",
+   "error": -6.9503334706539714,
+   "error_str": "-6.95 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Steepest Doppler slope at closest approach",
+   "predicted": 117.28930063981977,
+   "measured": 101.76175660433678,
+   "unit": "Hz/s",
+   "error": -13.238670493198748,
+   "error_str": "-13.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Pass start (UTC)",
+   "value": "2026-09-28T12:51:16.121962Z",
+   "unit": "",
+   "note": "max elevation 33.3\u00b0"
+  },
+  {
+   "quantity": "TLE used",
+   "value": "26271.46476993 (epoch day)",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/doppler.png"
+ ],
+ "runtime_s": 0.12,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL096-doppler-shift-calculator"
+}

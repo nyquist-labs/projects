@@ -1,0 +1,157 @@
+{
+ "meta": {
+  "id": "AM-196",
+  "title": "Antenna far fields by numerical radiation integrals",
+  "level": "H",
+  "tools": "Radiation integral of a line current evaluated numerically (Gauss\u2013Legendre), total radiated power by integration over the sphere, radiation resistance and directivity, short/half-wave/full-wave dipoles against closed forms, small loop via its equivalent magnetic dipole, comparison with the currents from the repository's MoM solver",
+  "summary": "Compute the far field of any wire current by integrating it, then integrate the far field over a sphere to get radiated power, radiation resistance and directivity. Check against every classical closed form (73.1 \u03a9, 1.64, 1.5, 2.41 \u2026) and against a moment-method current that is not assumed sinusoidal.",
+  "problem": "An antenna's pattern and radiation resistance follow from its current. How is that computed for an arbitrary current, and how good is the textbook sinusoidal-current assumption?",
+  "theory": "For a z-directed current I(z): $E_\u03b8=j\u03b7\\frac{k e^{-jkr}}{4\u03c0r}\\sin\u03b8\\int I(z')e^{jkz'\\cos\u03b8}dz'$. Radiated power $P=\\frac{1}{2\u03b7}\\oint|E_\u03b8|^2r^2d\u03a9$, $R_{rad}=2P/|I_{feed}|^2$, directivity $D=4\u03c0|E|^2_{max}r^2/(2\u03b7P)$. Hertzian dipole of length \u2113 \u226a \u03bb: $R=80\u03c0^2(\u2113/\u03bb)^2$,\nD = 1.5. Half-wave with $I=I_0\\cos kz$: pattern $\\frac{\\cos(\\frac \u03c02\\cos\u03b8)}{\\sin\u03b8}$, R = 73.08 \u03a9, D = 1.641. Full-wave: D = 2.41, R (referred to the current maximum) = 199 \u03a9. Small loop of area A: $R=320\u03c0^4(A/\u03bb^2)^2$ = 31 171 (A/\u03bb\u00b2)\u00b2 \u03a9.",
+  "method": "Gauss\u2013Legendre integration along the wire (64 nodes), \u03b8 integration with 2000 nodes. Cases: Hertzian dipole \u2113 = 0.01\u03bb (uniform current), \u03bb/2 and \u03bb sinusoidal dipoles, a 1.25\u03bb dipole, small loop (circumference 0.1\u03bb) by direct integration of its ring current.\nMoM: thin half-wave dipole (radius 10\u207b\u2074 \u03bb), its computed current in the same integral.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Hertzian dipole \u2113 = 0.01\u03bb: R_rad = 80\u03c0\u00b2(\u2113/\u03bb)\u00b2",
+   "predicted": 0.07895683520871487,
+   "measured": 0.0788970211222336,
+   "unit": "\u03a9",
+   "error": -0.07575542550959521,
+   "error_str": "-0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Hertzian dipole: directivity 1.5",
+   "predicted": 1.5,
+   "measured": 1.5000977704058325,
+   "unit": "",
+   "error": 0.006518027055498384,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Half-wave dipole: R_rad",
+   "predicted": 73.08,
+   "measured": 73.07901028567512,
+   "unit": "\u03a9",
+   "error": -0.001354288895557749,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Half-wave dipole: directivity 1.641 (2.15 dBi)",
+   "predicted": 1.641,
+   "measured": 1.640920890192217,
+   "unit": "",
+   "error": -0.004820829237235149,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Half-wave dipole: pattern vs cos(\u03c0/2\u00b7cos\u03b8)/sin\u03b8 (worst difference, normalised)",
+   "predicted": 0.0,
+   "measured": 3.4836578192366675e-11,
+   "unit": "",
+   "error": 3.4836578192366675e-11,
+   "error_str": "+3.4837e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Full-wave dipole: directivity 2.41",
+   "predicted": 2.41,
+   "measured": 2.4105074416615997,
+   "unit": "",
+   "error": 0.02105567060579047,
+   "error_str": "+0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Full-wave dipole: radiation resistance at the current maximum",
+   "predicted": 199.1,
+   "measured": 199.1843108992252,
+   "unit": "\u03a9",
+   "error": 0.042346006642499,
+   "error_str": "+0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Small loop, circumference 0.1\u03bb: R_rad = 320\u03c0\u2074(A/\u03bb\u00b2)\u00b2",
+   "predicted": 0.019739208802178713,
+   "measured": 0.01968613719743078,
+   "unit": "\u03a9",
+   "error": -0.26886389054294957,
+   "error_str": "-0.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Small loop: directivity 1.5 (same pattern as a short dipole, rotated)",
+   "predicted": 1.5,
+   "measured": 1.4992265494230201,
+   "unit": "",
+   "error": -0.05156337179865744,
+   "error_str": "-0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "MoM current (radius 10\u207b\u2074\u03bb) in the same integral: radiation resistance vs the MoM input resistance",
+   "predicted": 80.32779410004756,
+   "measured": 79.64940610974229,
+   "unit": "\u03a9",
+   "error": -0.8445246105729501,
+   "error_str": "-0.84 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "MoM current: directivity (pattern barely changes)",
+   "predicted": 1.641,
+   "measured": 1.6477220553219103,
+   "unit": "",
+   "error": 0.40963164667338703,
+   "error_str": "+0.41 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "1.25\u03bb dipole: directivity",
+   "value": 3.2824096605819637,
+   "unit": "",
+   "note": "5.16 dBi \u2014 the longest centre-fed dipole before the main beam splits"
+  },
+  {
+   "quantity": "MoM half-wave dipole: R from the far field / R_in from the solver / sinusoidal theory",
+   "value": "79.6 / 80.3 / 73.1 \u03a9",
+   "unit": "",
+   "note": "the thin-wire current is not exactly sinusoidal"
+  }
+ ],
+ "figures": [
+  "figures/radiation.png"
+ ],
+ "runtime_s": 0.5,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM196-antenna-radiation-integral"
+}

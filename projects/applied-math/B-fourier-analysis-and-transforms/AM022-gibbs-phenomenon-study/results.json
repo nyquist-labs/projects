@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-022",
+  "title": "The Gibbs phenomenon: an overshoot that never goes away",
+  "level": "M",
+  "tools": "Partial Fourier sums of a square wave up to 2000 harmonics, the Wilbraham\u2013Gibbs constant via the sine integral, Lanczos \u03c3-factors",
+  "summary": "Measure the overshoot of square-wave partial sums as the number of harmonics grows, show it converges to 8.95 % of the jump (not to zero) while moving closer to the discontinuity, and show how Lanczos \u03c3-smoothing removes it at a cost in sharpness.",
+  "problem": "Adding more Fourier terms reduces the error everywhere \u2014 except the peak overshoot. Why doesn't it vanish?",
+  "theory": "Near the jump the partial sum approaches $\\frac2\u03c0\\mathrm{Si}(N\u03c0 x)$-shaped ringing; its first maximum is $\\frac2\u03c0\\mathrm{Si}(\u03c0)=1.17898$ for a \u00b11 wave, i.e. an overshoot of\n$\\frac{\\mathrm{Si}(\u03c0)}{\u03c0}-\\frac12 = 0.08949$ of the jump (8.95 %), independent of N. The peak sits at x \u2248 1/(2N) of a period from the jump, so it narrows but never shrinks \u2014 convergence is\npointwise but not uniform. Multiplying coefficients by $\u03c3_k=\\mathrm{sinc}(k/N)$ (Lanczos) averages the ringing away.",
+  "method": "Square wave \u00b11, jump of 2 at t = 0; partial sums with N odd harmonics up to 2000, evaluated on a fine grid near the jump (resolution \u226a 1/N); overshoot height and position.\nSame with Lanczos \u03c3 factors.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Overshoot / jump at N = 2000 harmonics (Wilbraham\u2013Gibbs 0.08949)",
+   "predicted": 0.08948987223608362,
+   "measured": 0.08948982707249253,
+   "unit": "",
+   "error": -5.046782385614101e-05,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Overshoot at N = 5 vs N = 2000 (does not decrease)",
+   "predicted": 0.08948982707249253,
+   "measured": 0.09116404792323907,
+   "unit": "",
+   "error": 1.8708504704007372,
+   "error_str": "+1.87 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Peak position \u00d7 2N (odd harmonics up to 2N\u22121: first maximum at t \u2248 1/(4N) \u2192 0.5)",
+   "predicted": 0.5,
+   "measured": 0.500166722240747,
+   "unit": "",
+   "error": 0.03334444814939719,
+   "error_str": "+0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "With Lanczos \u03c3-factors: overshoot / jump",
+   "predicted": 0.012,
+   "measured": 0.011870032763561134,
+   "unit": "",
+   "error": -0.00012996723643886668,
+   "error_str": "-1.2997e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/gibbs.png"
+ ],
+ "runtime_s": 0.28,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM022-gibbs-phenomenon-study"
+}

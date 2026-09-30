@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-017",
+  "title": "Zener shunt regulator",
+  "level": "E",
+  "tools": "eelab mini-SPICE (diode with reverse breakdown)",
+  "summary": "A 5.1 V zener and 220 \u03a9 series resistor from 12 V: predict the maximum load current, zener dissipation and line regulation, then sweep load and input.",
+  "problem": "A zener regulator is the simplest voltage reference. How much load can it hold before regulation fails, and where does the power go?",
+  "theory": "Series current $I_S=(V_{in}-V_Z)/R_S$ splits between zener and load. Regulation holds while\n$I_Z>0$, so $I_{L,max} \\approx (12-5.1)/220 = 31.4$ mA. At no load the zener dissipates\n$P_Z=V_Z I_S=0.16$ W. Line regulation is set by the zener's dynamic resistance:\n$\\Delta V_{out}/\\Delta V_{in} = r_z/(R_S+r_z)$.",
+  "method": "Zener modelled as a diode with BV = 5.1 V, 5 mA at BV, exponential breakdown (ideality 1). DC sweeps of load\ncurrent 0\u201345 mA and of input 8\u201316 V.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Output voltage at no load",
+   "predicted": 5.1,
+   "measured": 5.147291935642282,
+   "unit": "V",
+   "error": 0.9272928557310254,
+   "error_str": "+0.93 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Max load for regulation (\u22122 % point)",
+   "predicted": 0.03114867301980781,
+   "measured": 0.0315,
+   "unit": "A",
+   "error": 1.1279035224671603,
+   "error_str": "+1.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Zener dissipation at no load",
+   "predicted": 0.15995454545454543,
+   "measured": 0.16033131344081508,
+   "unit": "W",
+   "error": 0.23554690815380183,
+   "error_str": "+0.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Line regulation \u0394V_out/\u0394V_in",
+   "predicted": 0.005525631742327329,
+   "measured": 0.00685703186561583,
+   "unit": "",
+   "error": 0.0013314001232885009,
+   "error_str": "+0.001331",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Efficiency at 25 mA load",
+   "value": 33.947588146758065,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/regulation.png"
+ ],
+ "runtime_s": 0.11,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL017-zener-shunt-regulator"
+}

@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "SL-135",
+  "title": "PN junction from device physics (Poisson + drift-diffusion)",
+  "level": "H",
+  "tools": "Nonlinear Poisson\u2013Boltzmann solver (Newton), minority-carrier diffusion solver (finite differences)",
+  "summary": "Solve Poisson's equation self-consistently across a silicon p-n junction to get the built-in potential, depletion width and field, then solve minority-carrier diffusion to build the forward I\u2013V curve; compare with the depletion approximation and the Shockley diode law.",
+  "problem": "The diode equation I = I_s(e^{V/V_T} \u2212 1) is usually just given. Derive it \u2014 and its limits \u2014 from the physics of electrons and holes.",
+  "theory": "Built-in potential $V_{bi}=V_T\\ln\\frac{N_AN_D}{n_i^2}$; depletion approximation: $W=\\sqrt{\\frac{2\\varepsilon(V_{bi}-V)}{q}\\frac{N_A+N_D}{N_AN_D}}$, peak field\n$E_{max}=2(V_{bi}-V)/W$. Long-base diode: $I_s=qAn_i^2\\left(\\frac{D_n}{L_nN_A}+\\frac{D_p}{L_pN_D}\\right)$, ideality 1.",
+  "method": "Si, T = 300 K, N_A = 10\u00b9\u2076, N_D = 10\u00b9\u2077 cm\u207b\u00b3, n_i = 9.65\u00d710\u2079 cm\u207b\u00b3, \u03bc_n = 1350, \u03bc_p = 480 cm\u00b2/Vs, \u03c4 = 1 \u00b5s, A = 1 mm\u00b2. Equilibrium: Poisson with\nBoltzmann carriers on a 2,000-point graded grid over 20 \u00b5m, Newton iteration. Bias: minority-carrier diffusion equation in each neutral region\nsolved numerically with law-of-the-junction boundary values, currents summed; compared with Shockley.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Built-in potential",
+   "predicted": 0.7759683977373125,
+   "measured": 0.7759683977373124,
+   "unit": "V",
+   "error": -1.4307580410007866e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Depletion width (depletion approximation vs 50 % carrier criterion)",
+   "predicted": 3.322498483999555e-07,
+   "measured": 3.0015007503751843e-07,
+   "unit": "m",
+   "error": -9.661335743875506,
+   "error_str": "-9.66 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Peak electric field 2V_bi/W",
+   "predicted": 4670993.238818384,
+   "measured": 4443528.102337968,
+   "unit": "V/m",
+   "error": -4.869738080330807,
+   "error_str": "-4.87 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Forward current at 0.6 V (numerical diffusion vs Shockley)",
+   "predicted": 0.0011123652634443327,
+   "measured": 0.0010985131899640347,
+   "unit": "A",
+   "error": -1.2452810183416156,
+   "error_str": "-1.25 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ideality factor from the I\u2013V slope",
+   "predicted": 1.0,
+   "measured": 0.9999999364297982,
+   "unit": "",
+   "error": -6.357020176928074e-06,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Newton iterations",
+   "value": 8.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Saturation current I_s",
+   "value": 9.340365169582062e-14,
+   "unit": "A",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/junction.png"
+ ],
+ "runtime_s": 0.3,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL135-pn-junction-simulator"
+}

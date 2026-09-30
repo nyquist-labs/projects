@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-007",
+  "title": "Smith chart from scratch: a M\u00f6bius transformation",
+  "level": "H",
+  "tools": "M\u00f6bius (bilinear) map \u0393 = (z\u22121)/(z+1), circle fitting, L-section matching solved on the chart and verified algebraically",
+  "summary": "Build the Smith chart by mapping the lines Re z = r and Im z = x of the impedance plane through \u0393 = (z\u22121)/(z+1), verify that they become exactly the predicted circles, and use the chart to design an L-network that matches 25 + j40 \u03a9 to 50 \u03a9.",
+  "problem": "The Smith chart looks like magic. It is one line of complex analysis \u2014 can we derive every circle on it?",
+  "theory": "A M\u00f6bius transformation maps lines and circles to lines and circles. \u0393 = (z\u22121)/(z+1) sends Re z = r to the circle centred $(r/(1+r), 0)$ of radius $1/(1+r)$, and Im z = x to the\ncircle centred $(1, 1/x)$ of radius $1/|x|$; the right half-plane maps onto the unit disc. Matching: adding series reactance moves along a constant-r circle, adding shunt\nsusceptance along a constant-g circle; the L-network is where they intersect the unit-conductance circle.",
+  "method": "600 points on each of 12 lines mapped, circles fitted algebraically (least squares). Load z_L = (25 + j40)/50; shunt-C-then-series-L solution from the chart construction\n(intersection of the rotated g = 1 circle), then checked by computing \u0393_in at 1 GHz.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Worst deviation of mapped lines from the predicted circles (centre/radius)",
+   "predicted": 0.0,
+   "measured": 5.339468714465245e-15,
+   "unit": "",
+   "error": 5.339468714465245e-15,
+   "error_str": "+5.3395e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Passive impedances (Re z \u2265 0) mapped inside the unit disc",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Reflection coefficient after matching (both solutions, worst)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "|\u0393| of the unmatched load",
+   "predicted": 0.5549400665915648,
+   "measured": 0.5549400665915648,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "L-network (solution 2): shunt element",
+   "value": "C = 1.28 pF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "L-network (solution 2): series element",
+   "value": "C = 3.60 pF",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/smith.png"
+ ],
+ "runtime_s": 0.07,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM007-smith-chart-from-scratch"
+}

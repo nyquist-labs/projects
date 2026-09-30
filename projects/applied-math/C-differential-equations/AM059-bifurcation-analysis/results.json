@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-059",
+  "title": "Bifurcations: Hopf onset of oscillation and the period-doubling route to chaos",
+  "level": "H",
+  "tools": "Van der Pol-type oscillator with parameter \u03bc (supercritical Hopf), amplitude scaling fit; logistic map bifurcation diagram and Feigenbaum ratio measurement",
+  "summary": "Map how behaviour changes qualitatively with a parameter: show that an oscillator is born at \u03bc = 0 with amplitude 2\u221a\u03bc (a supercritical Hopf bifurcation), then trace a period-doubling cascade and measure how fast the doublings accumulate (Feigenbaum's constant).",
+  "problem": "When a parameter is turned slowly, a circuit can switch from silent to oscillating to chaotic. Are these transitions predictable?",
+  "theory": "$\\ddot x-(\u03bc-x^2)\\dot x+x=0$: the origin's eigenvalues cross the j\u03c9 axis at \u03bc = 0 and averaging gives a limit cycle of amplitude $2\\sqrt{\u03bc}$ \u2014 it grows continuously from zero (supercritical).\nPeriod doubling in the map $x\\mapsto rx(1-x)$ (the discrete-time model of many sampled nonlinear loops): doubling points $r_n$ accumulate geometrically with ratio\n$\u03b4=\\lim\\frac{r_n-r_{n-1}}{r_{n+1}-r_n}=4.6692\u2026$, a universal constant for smooth unimodal maps.",
+  "method": "Hopf: \u03bc from \u22120.2 to 0.5, amplitude after transients; fit a\u00b2 vs \u03bc. Logistic map: bifurcation diagram for r \u2208 [2.8, 4]; doubling points located by bisection on the attractor's period (detected from\n2\u00b9\u2075 iterations with tolerance 1e-9), then \u03b4 from successive intervals.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Below the bifurcation (\u03bc = \u22120.1): oscillation decays to 0",
+   "predicted": 0.0,
+   "measured": 1.0499833189848106e-11,
+   "unit": "",
+   "error": 1.0499833189848106e-11,
+   "error_str": "+1.0500e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Supercritical Hopf: a\u00b2 \u221d \u03bc with slope 4 (a = 2\u221a\u03bc)",
+   "predicted": 4.0,
+   "measured": 4.00190870295015,
+   "unit": "",
+   "error": 0.04771757375374719,
+   "error_str": "+0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "First doubling at r = 3 (exact) located numerically",
+   "predicted": 3.0,
+   "measured": 2.999162437937639,
+   "unit": "",
+   "error": -0.027918735412028422,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Second doubling r\u2082 = 1 + \u221a6",
+   "predicted": 3.449489742783178,
+   "measured": 3.4491621288692613,
+   "unit": "",
+   "error": -0.009497460156302037,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Feigenbaum ratio from the last available doublings",
+   "predicted": 4.6692,
+   "measured": 4.631319360220885,
+   "unit": "",
+   "error": -0.8112875820079537,
+   "error_str": "-0.81 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Successive doubling-interval ratios",
+   "value": "4.738, 4.647, 4.653, 4.631",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/bifurcation.png"
+ ],
+ "runtime_s": 43.62,
+ "folder": "projects/applied-math/C-differential-equations/AM059-bifurcation-analysis"
+}

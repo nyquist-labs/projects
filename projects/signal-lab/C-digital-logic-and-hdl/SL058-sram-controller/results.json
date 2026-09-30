@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "SL-058",
+  "title": "Asynchronous SRAM controller",
+  "level": "M",
+  "tools": "Verilog controller FSM + timing-checking SRAM behavioural model, Icarus Verilog",
+  "summary": "A controller that turns single-cycle read/write requests into correctly timed asynchronous SRAM cycles; the SRAM model checks t_AA, t_WP and data setup and returns X on violations. Sweep the clock and find the minimum number of wait states.",
+  "problem": "An asynchronous SRAM has no clock \u2014 only timing parameters. How many clock cycles must a controller spend per access at a given frequency?",
+  "theory": "A read is valid t_AA = 55 ns after the address is stable; a write needs WE\u0305 low for t_WP = 40 ns with data set up\nt_DW = 25 ns before WE\u0305 rises. With a clock period T and W wait states the controller holds the address for\n(W+1)\u00b7T before latching data, so it needs $W_{read}=\\lceil t_{AA}/T\\rceil-1$ and the write pulse of\n(W+1)\u00b7T \u2265 t_WP \u2192 $W_{write}=\\lceil t_{WP}/T\\rceil-1$. At 100 MHz: W_read = 5, W_write = 3.",
+  "method": "Controller parameterised by wait states; the SRAM model (1 K \u00d7 16) checks its own timing with specify-like\nchecks and drives X if t_AA is not met. For clock frequencies 25\u2013200 MHz, each W from 0 up is tried with\n250 writes followed by 250 reads in scrambled order (so every read presents a new address); the smallest W with zero errors is recorded.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "25 MHz: minimum wait states",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "50 MHz: minimum wait states",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "100 MHz: minimum wait states",
+   "predicted": 5.0,
+   "measured": 5.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "150 MHz: minimum wait states",
+   "predicted": 8.0,
+   "measured": 8.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "180 MHz: minimum wait states",
+   "predicted": 9.0,
+   "measured": 9.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Access time at 100 MHz (read)",
+   "value": 70.0,
+   "unit": "ns",
+   "note": "address\u2192data latched incl. setup cycle"
+  }
+ ],
+ "figures": [
+  "figures/wait_states.png"
+ ],
+ "runtime_s": 2.18,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL058-sram-controller"
+}

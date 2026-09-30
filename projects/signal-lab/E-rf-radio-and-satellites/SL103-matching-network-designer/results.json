@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "SL-103",
+  "title": "L-network impedance-matching designer",
+  "level": "M",
+  "tools": "Analytic L-network solver + verification in the eelab mini-SPICE (AC analysis)",
+  "summary": "Solve the two-element L-network that matches an arbitrary load (e.g. a 25 \u2212 j40 \u03a9 antenna) to 50 \u03a9 at 100 MHz, choose L/C values, then verify the match and bandwidth by circuit simulation.",
+  "problem": "A load that isn't 50 \u03a9 reflects power. What two components cancel the mismatch, and how wide is the resulting match?",
+  "theory": "For R_L < R_S: series element $X_s$ then shunt $B$: $B=\\pm\\frac{\\sqrt{R_L/R_S}\\cdots}{}$ \u2014 in closed form (Pozar 5.1)\n$X=\\pm\\sqrt{R_L(R_S-R_L)}-X_L$, $B=\\pm\\frac{\\sqrt{(R_S-R_L)/R_L}}{R_S}$. The loaded Q is $Q=\\sqrt{R_S/R_L-1}$ and the\nfractional bandwidth for a given VSWR scales roughly as $\\approx\\frac{1}{Q}\\cdot\\frac{VSWR-1}{\\sqrt{VSWR}}$; lower Q \u2192 wider match.",
+  "method": "Load 25 \u2212 j40 \u03a9 at 100 MHz (modelled as 25 \u03a9 + 39.8 pF). Both L-network solutions computed; component values from X and B.\nVerification: a 50 \u03a9 source driving the network + load in the mini-SPICE AC sweep 50\u2013150 MHz; \u0393 at the input from the\nsimulated input impedance; VSWR \u2264 2 bandwidth measured.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Solution 1: |\u0393| at 100 MHz",
+   "predicted": 0.0,
+   "measured": 2.1316282072803015e-16,
+   "unit": "",
+   "error": 2.1316282072803015e-16,
+   "error_str": "+2.1316e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Solution 1: VSWR \u2264 2 bandwidth (\u2248 f\u2080/Q\u00b7(VSWR\u22121)/\u221aVSWR estimate)",
+   "predicted": 70710678.11865474,
+   "measured": 32500000.0,
+   "unit": "Hz",
+   "error": -54.0380592228744,
+   "error_str": "-54.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Solution 2: |\u0393| at 100 MHz",
+   "predicted": 0.0,
+   "measured": 1.1102230246251565e-16,
+   "unit": "",
+   "error": 1.1102230246251565e-16,
+   "error_str": "+1.1102e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Solution 2: VSWR \u2264 2 bandwidth (\u2248 f\u2080/Q\u00b7(VSWR\u22121)/\u221aVSWR estimate)",
+   "predicted": 70710678.11865474,
+   "measured": 69300000.0,
+   "unit": "Hz",
+   "error": -1.9950001275445,
+   "error_str": "-2.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Solution 1 components",
+   "value": "series L = 103.45 nH, shunt C = 31.83 pF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Solution 2 components",
+   "value": "series L = 23.87 nH, shunt L = 79.58 nH",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/match.png"
+ ],
+ "runtime_s": 0.06,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL103-matching-network-designer"
+}

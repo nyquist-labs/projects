@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "SL-173",
+  "title": "Heart-rate variability: time and frequency domain",
+  "level": "M",
+  "tools": "Pan\u2013Tompkins R peaks (eelab.bio) on MIT-BIH record 100, time-domain HRV, Lomb\u2013Scargle spectrum (SciPy)",
+  "summary": "Compute SDNN, RMSSD, pNN50 and LF/HF power from detected R peaks of a 30-minute real ECG, and check each metric against the same metric computed from the cardiologist's beat annotations.",
+  "problem": "HRV is widely used as a stress/fitness marker. How sensitive are the numbers to the beat detector that produces them?",
+  "theory": "SDNN = std of NN intervals; RMSSD = \u221amean(\u0394NN\u00b2) (short-term, vagal); LF 0.04\u20130.15 Hz and HF 0.15\u20130.4 Hz powers of the unevenly sampled RR series\n(Lomb\u2013Scargle avoids resampling). A timing error of \u03c3_t per beat adds \u2248 2\u03c3_t\u00b2 to the successive-difference variance, so RMSSD is the most\ndetector-sensitive metric (e.g. a 3 ms jitter adds ~4 ms\u00b2 to RMSSD\u00b2).",
+  "method": "Record 100 (normal sinus rhythm with rare ectopics), full 30 min, 360 Hz. NN series = normal-to-normal intervals (ectopic beats and their neighbours\nremoved using the annotations for both series, so only detector timing differs). Metrics from detected vs annotated peaks.",
+  "data": "Real: MIT-BIH Arrhythmia Database record 100 (PhysioNet).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "SDNN: detected peaks vs annotation reference",
+   "predicted": 35.95274315098645,
+   "measured": 35.94864197448323,
+   "unit": "ms",
+   "error": -0.011407130983013684,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RMSSD: detected peaks vs annotation reference",
+   "predicted": 27.79114017635982,
+   "measured": 27.830748404602865,
+   "unit": "ms",
+   "error": 0.14252106243822152,
+   "error_str": "+0.14 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "pNN50: detected peaks vs annotation reference",
+   "predicted": 6.309577848388562,
+   "measured": 6.309577848388562,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "LFHF: detected peaks vs annotation reference",
+   "predicted": 0.41726712608002803,
+   "measured": 0.4181718983410528,
+   "unit": "",
+   "error": 0.216832864243235,
+   "error_str": "+0.22 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "meanHR: detected peaks vs annotation reference",
+   "predicted": 75.47059737410312,
+   "measured": 75.47023844438068,
+   "unit": "bpm",
+   "error": -0.000475588818594894,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RMSSD\u00b2 inflation predicted from jitter (2\u03c3\u00b2)",
+   "predicted": 773.2517018912426,
+   "measured": 774.5505567603049,
+   "unit": "ms\u00b2",
+   "error": 0.16797310188719045,
+   "error_str": "+0.17 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "R-peak timing jitter vs annotations",
+   "value": 0.6723948204595445,
+   "unit": "ms",
+   "note": "the annotations themselves have \u00b1~1 sample placement"
+  }
+ ],
+ "figures": [
+  "figures/hrv.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL173-heart-rate-variability"
+}

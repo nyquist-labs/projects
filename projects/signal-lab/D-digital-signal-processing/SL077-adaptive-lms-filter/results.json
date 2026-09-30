@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "SL-077",
+  "title": "Adaptive LMS noise canceller",
+  "level": "H",
+  "tools": "NumPy LMS implementation, eigenvalue-based convergence/misadjustment/stability predictions",
+  "summary": "Cancel broadband interference picked up through an unknown acoustic path using a reference microphone and an LMS adaptive filter; predict learning time, misadjustment and the step-size stability limit from LMS theory and measure all three.",
+  "problem": "An adaptive filter learns the unknown path from a noise reference to the corrupted signal. How fast does it learn, what does adaptation cost, and how large may the step size be?",
+  "theory": "LMS update $\\mathbf w_{n+1}=\\mathbf w_n+\\mu e_n\\mathbf x_n$. With a white reference of variance \u03c3\u00b2 all eigenvalues of\n$R=E[\\mathbf x\\mathbf x^T]$ equal \u03c3\u00b2, so every weight-error mode decays as $(1-\\mu\\sigma^2)^n$: MSE time constant\n$\\tau=1/(2\\mu\\sigma^2)$ samples and interference down 20 dB after $\\tau\\ln 100$. Misadjustment (excess MSE / minimum MSE)\n$\\mathcal M\\approx\\frac{\\mu\\,\\mathrm{tr}R}{2}=\\frac{\\mu L\\sigma^2}{2}$. Mean-square stability needs roughly\n$\\mu<2/\\mathrm{tr}R = 2/(L\\sigma^2)$ (the looser bound $2/\\lambda_{max}$ only guarantees convergence of the *mean*).",
+  "method": "Wanted signal s: low-pass random process (power 0.05). Reference x: white noise \u03c3\u00b2 = 1. Interference = x through an\nunknown 16-tap path (\u2016h\u2016\u00b2 = 0.53). Filter length L = 32. Learning curves = ensemble mean of (e \u2212 s)\u00b2 over 30 runs of\n6,000 samples for \u03bc = 0.001, 0.002, 0.005. Divergence: \u03bc swept in multiples of 2/tr R.",
+  "data": "Synthetic signals with a known path, so the optimum solution (e = s) is known exactly.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "\u03bc = 0.001: misadjustment (excess MSE / min MSE)",
+   "predicted": 0.015903893246405055,
+   "measured": 0.017108934354504727,
+   "unit": "",
+   "error": 7.577019597840056,
+   "error_str": "+7.58 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.001: samples to \u221220 dB interference (\u03c4\u00b7ln100)",
+   "predicted": 2302.5850929940457,
+   "measured": 2353.0,
+   "unit": "samples",
+   "error": 2.1894915918351554,
+   "error_str": "+2.19 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.002: misadjustment (excess MSE / min MSE)",
+   "predicted": 0.03180778649281011,
+   "measured": 0.03151426350599094,
+   "unit": "",
+   "error": -0.9228023046668806,
+   "error_str": "-0.92 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.002: samples to \u221220 dB interference (\u03c4\u00b7ln100)",
+   "predicted": 1151.2925464970228,
+   "measured": 1233.0,
+   "unit": "samples",
+   "error": 7.0970192373419,
+   "error_str": "+7.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.005: misadjustment (excess MSE / min MSE)",
+   "predicted": 0.07951946623202527,
+   "measured": 0.08369887442158756,
+   "unit": "",
+   "error": 5.255830286093015,
+   "error_str": "+5.26 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.005: samples to \u221220 dB interference (\u03c4\u00b7ln100)",
+   "predicted": 460.51701859880916,
+   "measured": 550.0,
+   "unit": "samples",
+   "error": 19.430982523394245,
+   "error_str": "+19.43 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Divergence threshold (in units of 2/tr R)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "\u00d7",
+   "error": 0.0,
+   "error_str": "+0 \u00d7",
+   "kind": "abs",
+   "ok": null,
+   "note": "exact MSE bound for white input lies between 2/(3 tr R) and 2/tr R"
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/learning_curves.png"
+ ],
+ "runtime_s": 1.48,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL077-adaptive-lms-filter"
+}

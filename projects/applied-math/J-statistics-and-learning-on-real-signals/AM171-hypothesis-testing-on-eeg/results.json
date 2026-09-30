@@ -1,0 +1,176 @@
+{
+ "meta": {
+  "id": "AM-171",
+  "title": "Hypothesis testing on real EEG: is alpha stronger with eyes closed?",
+  "level": "M",
+  "tools": "Own paired t-test, exact Wilcoxon signed-rank distribution (dynamic programming), exact sign-flip permutation test (all 2\u00b2\u2070 relabelings), Bonferroni and Benjamini\u2013Hochberg corrections over 64 channels, permutation-based check of false-positive rates, effect size and power by subsampling",
+  "summary": "Test the classic Berger effect on 20 PhysioNet subjects with three different tests built from scratch, check each against SciPy, then confront the multiple-comparison problem across 64 electrodes and verify empirically that the corrections control what they claim to control.",
+  "problem": "An effect 'is significant at p < 0.05' \u2014 by which test, corrected for how many comparisons, and how often would chance alone produce it?",
+  "theory": "Paired design: per-subject difference $d_i$ of log alpha power (eyes closed \u2212 eyes open). t-test: $t=\\bar d/(s_d/\\sqrt n)$, n \u2212 1 degrees of freedom (assumes roughly normal d). Wilcoxon signed-rank: sum of ranks of positive differences; exact null\ndistribution by counting subsets of {1\u2026n}. Sign-flip permutation test: under H\u2080 each $d_i$ is equally likely \u00b1, so the null distribution of $\\bar d$ is its distribution over all 2\u207f sign patterns \u2014 no distributional assumption.\nWith m = 64 tests at \u03b1 = 0.05, some false positives are expected by chance (3.2 on average if all nulls were true); Bonferroni (\u03b1/m) controls the family-wise error rate, Benjamini\u2013Hochberg the false-discovery rate and is never less powerful.",
+  "method": "EEG Motor Movement/Imagery database, subjects 1\u201320, runs 1 (eyes open) and 2 (eyes closed), 64 channels, 160 Hz, 1 min each. Alpha power = Welch PSD (2 s windows) integrated over 8\u201313 Hz, in log units. Primary test on the mean of O1, Oz, O2. Null\ncalibration: 2000 random sign-flip relabelings of the subjects (same flip for all channels, preserving the correlation between channels).",
+  "data": "PhysioNet EEG Motor Movement/Imagery Dataset (Schalk et al. 2004), fetched on first run.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Own paired t statistic vs scipy.stats",
+   "predicted": 7.784913397675634,
+   "measured": 7.784913397675636,
+   "unit": "",
+   "error": 2.281793963091e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Own t-test p-value vs scipy.stats (ratio)",
+   "predicted": 1.0,
+   "measured": 0.9999999999999968,
+   "unit": "",
+   "error": -3.219646771412954e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Exact Wilcoxon signed-rank p-value vs scipy.stats (ratio)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "The three tests agree on the conclusion at \u03b1 = 0.001 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Smallest p the permutation test can give with n = 20 is 2/2\u00b2\u2070; it cannot go below that (1 = holds)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Ordering: Bonferroni \u2264 BH \u2264 uncorrected discoveries (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Null calibration: per-channel false-positive rate at \u03b1 = 0.05",
+   "predicted": 5.0,
+   "measured": 5.1460937499999995,
+   "unit": "%",
+   "error": 0.14609374999999947,
+   "error_str": "+0.146 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Null: without correction, 'at least one significant channel' happens far more often than 5 % (> 10 %; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Null: family-wise error rate with Bonferroni \u2264 5 % (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Power with only 6 subjects: non-central t prediction vs subsampling the real data",
+   "predicted": 92.0992457091646,
+   "measured": 99.23333333333333,
+   "unit": "%",
+   "error": 7.134087624168728,
+   "error_str": "+7.13 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Occipital alpha, eyes closed vs open: mean change",
+   "value": "\u00d74.73 in power (6.7 dB), 20/20 subjects increase",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "p-values: t-test / Wilcoxon / exact sign-flip permutation",
+   "value": "2.5e-07 / 1.9e-06 / 1.9e-06",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Effect size (Cohen's d_z)",
+   "value": 1.7407595556151574,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Channels significant: uncorrected / Benjamini\u2013Hochberg / Bonferroni",
+   "value": "59 / 59 / 55",
+   "unit": "of 64",
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 measured family-wise error without correction (64 independent tests would give 96 %)",
+   "value": 19.1,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Null: family-wise error \u2014 uncorrected / Bonferroni / BH",
+   "value": "19.1 % / 0.6 % / 2.8 %",
+   "unit": "",
+   "note": "channels are strongly correlated, so far fewer than 64 independent tests"
+  },
+  {
+   "quantity": "Power at n = 4 / 6 / 8 / 12 subjects (subsampled)",
+   "value": "62 % / 99 % / 100 % / 100 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/hypothesis.png"
+ ],
+ "runtime_s": 1.65,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM171-hypothesis-testing-on-eeg"
+}

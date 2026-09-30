@@ -1,0 +1,92 @@
+{
+ "meta": {
+  "id": "SL-063",
+  "title": "IIR filter designer: bilinear transform, poles and quantisation",
+  "level": "M",
+  "tools": "Own bilinear-transform implementation, SciPy analog prototypes, fixed-point coefficient study",
+  "summary": "Design Butterworth and Chebyshev IIR low-pass filters with the bilinear transform (with pre-warping), check the cutoff lands where specified, and show how coefficient quantisation pushes poles toward \u2014 and past \u2014 the unit circle.",
+  "problem": "IIR filters are far cheaper than FIR, but their poles make them fragile. How precisely must the coefficients be stored for a narrow filter to stay stable?",
+  "theory": "Bilinear transform $s = \\frac{2}{T}\\frac{1-z^{-1}}{1+z^{-1}}$ maps the j\u03c9 axis onto the unit circle with warping\n$\\Omega = \\frac2T\\tan\\frac{\\omega}{2}$; pre-warping the analog cutoff to $\\frac2T\\tan(\\omega_c/2)$ puts the digital \u22123 dB point\nexactly at $f_c$. Stability \u21d4 all poles inside |z| = 1. A narrow low-pass (f_c \u226a f_s) has poles near z = 1, so a\ndirect-form denominator quantised to B bits perturbs pole radius by ~$2^{-B}$ \u00d7 (sensitivity \u221d 1/distance\nbetween poles) \u2014 second-order sections are far less sensitive.",
+  "method": "f_s = 48 kHz. 6th-order Butterworth and 1 dB Chebyshev at f_c = 1 kHz and at f_c = 100 Hz. Own bilinear transform\nof the analog zpk (with and without pre-warping); measure the \u22123 dB point. Then quantise direct-form\ncoefficients and SOS coefficients to 8\u201324 fractional bits and record max pole radius.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "butter pre-warped: cutoff (\u22123 dB)",
+   "predicted": 1000.0,
+   "measured": 999.9985632398202,
+   "unit": "Hz",
+   "error": -0.00014367601797857788,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "butter no pre-warp: cutoff (\u22123 dB)",
+   "predicted": 1000.0,
+   "measured": 998.5743903160879,
+   "unit": "Hz",
+   "error": -0.14256096839120574,
+   "error_str": "-0.14 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "cheby pre-warped: cutoff (\u22121 dB ripple edge)",
+   "predicted": 1000.0,
+   "measured": 999.9918239941532,
+   "unit": "Hz",
+   "error": -0.0008176005846848967,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Direct form: bits needed for guaranteed stability",
+   "predicted": 41.0,
+   "measured": 37.0,
+   "unit": "bits",
+   "error": -4.0,
+   "error_str": "-4 bits",
+   "kind": "abs",
+   "ok": null,
+   "note": "first-order root-sensitivity bound (worst case)"
+  },
+  {
+   "quantity": "SOS form: bits needed for guaranteed stability",
+   "predicted": 14.0,
+   "measured": 13.0,
+   "unit": "bits",
+   "error": -1.0,
+   "error_str": "-1 bits",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Warped cutoff without pre-warp (theory)",
+   "value": 998.5757646397979,
+   "unit": "Hz",
+   "note": "f_d = (f_s/\u03c0)\u00b7atan(\u03c0 f_c / f_s)"
+  },
+  {
+   "quantity": "True max pole radius (f_c = 100 Hz)",
+   "value": 0.9966178826993422,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/responses.png",
+  "figures/quantisation.png"
+ ],
+ "runtime_s": 0.19,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL063-iir-filter-designer"
+}

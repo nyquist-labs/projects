@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-143",
+  "title": "4\u00d74 matrix keypad scanner with debouncing (and ghosting)",
+  "level": "E",
+  "tools": "C firmware (row-drive / column-read scanning, per-key debounce counters) with a simulated switch matrix",
+  "summary": "Scan a 16-key matrix with 8 pins, debounce each key with an integrator, measure detection latency and verify every key; then press three keys at the corners of a rectangle and watch the 'ghost' fourth key appear without diodes.",
+  "problem": "How can 8 wires read 16 buttons, how quickly does a press register, and what breaks when several keys are held?",
+  "theory": "Driving one row low at a time and reading the columns identifies each key; a full scan of 4 rows at a 1 ms row period takes 4 ms. A key\nmust read pressed on N consecutive scans (N = 5) \u2192 latency \u2248 N \u00d7 4 ms = 20 ms (+ up to one scan). With three keys pressed at (r1,c1),\n(r1,c2), (r2,c1), current flows r2\u2192c1\u2192r1\u2192c2, so (r2,c2) reads pressed too: ghosting (fixed by a diode per switch).",
+  "method": "Each of the 16 keys is pressed once with 3 ms of bounce, then released; firmware scans every 1 ms per row. Then keys 1, 2, 5 held\ntogether. Latency = time from bounce end to the debounced 'press' event.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Keys detected (16 pressed one at a time)",
+   "predicted": 16.0,
+   "measured": 16.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Worst detection latency after bounce ends (\u2264 N \u00d7 1 ms scan)",
+   "predicted": 5.0,
+   "measured": 4.25,
+   "unit": "ms",
+   "error": -0.75,
+   "error_str": "-0.75 ms",
+   "kind": "abs",
+   "ok": null,
+   "note": "N = 5; the integrator may already be part-way up when the bounce ends"
+  },
+  {
+   "quantity": "Keys reported with 3 held (ghost appears)",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Median detection latency after bounce ends",
+   "value": 3.5,
+   "unit": "ms",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/keypad.png"
+ ],
+ "runtime_s": 0.33,
+ "folder": "projects/signal-lab/H-embedded-systems/SL143-matrix-keypad-scanner"
+}

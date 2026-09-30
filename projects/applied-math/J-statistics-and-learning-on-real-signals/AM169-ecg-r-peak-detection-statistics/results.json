@@ -1,0 +1,136 @@
+{
+ "meta": {
+  "id": "AM-169",
+  "title": "ECG R-peak detection as a statistical decision problem",
+  "level": "M",
+  "tools": "Own energy detector (band-pass, derivative, squaring, moving-window integration, threshold with refractory period), threshold sweep for the sensitivity/precision trade-off, binomial confidence intervals, comparison with the repository's adaptive Pan\u2013Tompkins detector, noise stress test with recorded electrode-motion artefact",
+  "summary": "Treat beat detection as a detection problem with a tunable threshold: trace the sensitivity versus positive-predictivity curve on real MIT-BIH recordings, put confidence intervals on the scores, compare a fixed threshold with an adaptive one, and measure how performance degrades as real motion artefact is added.",
+  "problem": "A QRS detector reports '99.5 % sensitivity'. How sure is that number, what was traded to get it, and how much noise does it survive?",
+  "theory": "Every detector thresholds a statistic; moving the threshold trades missed beats (FN) against false detections (FP): $Se=\\frac{TP}{TP+FN}$, $+P=\\frac{TP}{TP+FP}$. A score from n beats has the binomial standard error $\\sqrt{p(1-p)/n}$ \u2014 with 7000 beats,\n99.5 % \u00b1 0.17 % (95 %). Published detectors reach Se and +P above 99 % on the MIT-BIH database with adaptive thresholds. The QRS occupies roughly 5\u201315 Hz; noise inside that band (electrode motion) cannot be filtered away, so performance must fall as its\nlevel approaches that of the QRS energy.",
+  "method": "Ten MIT-BIH records \u00d7 10 min (lead MLII), reference annotations, \u00b1150 ms matching window. Detector statistic: 5\u201315 Hz band-pass \u2192 derivative \u2192 square \u2192 150 ms integration; threshold = k \u00d7 median of the 8 s running maximum, 200 ms refractory.\nk swept from 0.05 to 0.9. Noise test: electrode-motion record 'em' of the MIT-BIH Noise Stress Test database added to the first 2 min of each record at SNR 24\u2026\u22126 dB.",
+  "data": "PhysioNet MIT-BIH Arrhythmia Database and MIT-BIH Noise Stress Test Database (Open Data Commons licence), fetched on first run.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Fixed-threshold detector at its best F1: sensitivity (published detectors: > 99 %)",
+   "predicted": 99.0,
+   "measured": 99.25896519782982,
+   "unit": "%",
+   "error": 0.2589651978298235,
+   "error_str": "+0.259 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 positive predictivity (> 99 %)",
+   "predicted": 99.0,
+   "measured": 99.81370592149035,
+   "unit": "%",
+   "error": 0.813705921490353,
+   "error_str": "+0.814 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Trade-off: sensitivity falls monotonically as the threshold rises (violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Trade-off: false detections fall monotonically as the threshold rises (violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Adaptive-threshold Pan\u2013Tompkins on the same data: sensitivity",
+   "predicted": 99.5,
+   "measured": 98.58409421728199,
+   "unit": "%",
+   "error": -0.9159057827180135,
+   "error_str": "-0.916 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 positive predictivity",
+   "predicted": 99.5,
+   "measured": 99.70556745182013,
+   "unit": "%",
+   "error": 0.20556745182013003,
+   "error_str": "+0.206 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Noise stress: both scores stay above 95 % down to 12 dB SNR (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and positive predictivity collapses below 90 % at \u22126 dB (in-band artefact looks like beats; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Beats evaluated / records",
+   "value": "7557 / 10",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "95 % binomial confidence half-width on the sensitivity",
+   "value": 0.19336841359350962,
+   "unit": "pp",
+   "note": "the third digit of a published score is inside this"
+  },
+  {
+   "quantity": "Is adaptive better than fixed? z-score of the sensitivity difference",
+   "value": -4.018489565554866,
+   "unit": "",
+   "note": "|z| > 1.96 \u21d2 significant at 5 %"
+  },
+  {
+   "quantity": "Timing of detections vs annotations: median / 95th percentile offset",
+   "value": "0.0 / 5.6",
+   "unit": "ms",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/rpeak_stats.png"
+ ],
+ "runtime_s": 1.8,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM169-ecg-r-peak-detection-statistics"
+}

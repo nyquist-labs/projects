@@ -1,0 +1,119 @@
+{
+ "meta": {
+  "id": "AM-177",
+  "title": "A neural network from scratch: backpropagation verified",
+  "level": "H",
+  "tools": "Own multilayer perceptron in NumPy (ReLU, softmax, cross-entropy, Adam), analytic gradients checked against finite differences, XOR as the minimal non-linear problem, human-activity recognition from smartphone IMU features, comparison with softmax regression, over-fitting study",
+  "summary": "Write forward and backward passes by hand, prove the gradients right to seven digits, show the network solving a problem no linear model can, then train it on a real 6-class activity-recognition benchmark, compare it fairly with a linear baseline and watch it over-fit when data are scarce.",
+  "problem": "What does a neural network actually compute during training, and how do we know the hand-derived gradients are correct?",
+  "theory": "Layer: $a_l=\\mathrm{ReLU}(a_{l-1}W_l+b_l)$, output softmax, loss = cross-entropy. Backpropagation is the chain rule applied layer by layer: $\u03b4_L=(p-y)/n$, $\\nabla W_l=a_{l-1}^T\u03b4_l$, $\u03b4_{l-1}=(\u03b4_lW_l^T)\\odot[a_{l-1}>0]$.\nA correct implementation matches central finite differences to ~10\u207b\u2077 relative error. One hidden layer suffices to represent XOR, which no linear classifier separates (best possible 75 %). On a well-engineered feature set a linear model is already\nstrong, so the network's gain is expected to be small; with few training samples a large network memorises (training accuracy 100 %) and generalises worse.",
+  "method": "Gradient check on a 5-7-6-3 network (all parameters, step 10\u207b\u2075, float64). XOR: 2-8-2 network, 400 noisy points. HAR: 561 features, 21 training subjects (7352 windows) and 9 test subjects (2947); network 561-64-6, 25 epochs of Adam; softmax\nregression baseline. Over-fitting: 200 training windows, 561-256-6 network without weight decay, versus the same with weight decay 0.03.",
+  "data": "UCI Human Activity Recognition Using Smartphones (Anguita et al. 2013), fetched on first run.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Backpropagation vs central finite differences: worst relative error over all 119 parameters",
+   "predicted": 0.0,
+   "measured": 1.0244021572999595e-08,
+   "unit": "",
+   "error": 1.0244021572999595e-08,
+   "error_str": "+1.0244e-08",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "XOR: best linear classifier cannot beat 75 % (measured accuracy of the linear model \u2264 75 %; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "XOR: one hidden layer of 8 units",
+   "predicted": 100.0,
+   "measured": 97.75,
+   "unit": "%",
+   "error": -2.25,
+   "error_str": "-2.25 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "HAR, 9 unseen subjects: MLP test accuracy (published results on these features: \u2248 95\u201396 %)",
+   "predicted": 95.5,
+   "measured": 95.01187648456056,
+   "unit": "%",
+   "error": -0.4881235154394403,
+   "error_str": "-0.488 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "HAR: linear softmax regression on the same features (expected within ~2 points of the network)",
+   "predicted": 95.01187648456056,
+   "measured": 95.07974211062097,
+   "unit": "%",
+   "error": 0.06786562606041002,
+   "error_str": "+0.0679 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "200 training windows, 145 000 parameters, no regularisation: training accuracy (memorisation)",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 generalisation gap (train \u2212 test) is large (> 5 points; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Binomial standard error of a test accuracy on 2947 windows",
+   "value": 0.401021335783862,
+   "unit": "pp",
+   "note": "differences smaller than ~1 point are not meaningful (and windows of one subject are correlated)"
+  },
+  {
+   "quantity": "Share of the network's errors that are sitting \u2194 standing",
+   "value": 48.97959183673469,
+   "unit": "%",
+   "note": "the two static postures differ only in the gravity direction at the waist"
+  },
+  {
+   "quantity": "Test accuracy with 200 training windows: no weight decay / weight decay 0.03 / full training set",
+   "value": "86.9 % / 87.1 % / 95.0 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/mlp.png"
+ ],
+ "runtime_s": 10.1,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM177-neural-network-from-scratch"
+}

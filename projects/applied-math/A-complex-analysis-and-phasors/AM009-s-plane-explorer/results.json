@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-009",
+  "title": "s-plane explorer: drag a pole, watch the step response",
+  "level": "M",
+  "tools": "Interactive SVG page (drag the pole pair), closed-form step responses in JavaScript, Node test harness vs SciPy, damping formulas",
+  "summary": "A browser tool where you drag a pole pair around the s-plane and see the step response, overshoot and settling time update live. The JavaScript is verified against SciPy and the standard second-order formulas are tested across the plane.",
+  "problem": "How exactly does moving a pole change what a system does in time?",
+  "theory": "For poles $-\u03c3\\pm j\u03c9_d$: $y(t)=1-e^{-\u03c3t}\\big(\\cos \u03c9_dt+\\tfrac{\u03c3}{\u03c9_d}\\sin \u03c9_dt\\big)$. The pole angle sets the damping ratio $\u03b6=\\cos \u03b8 = \u03c3/\\sqrt{\u03c3^2+\u03c9_d^2}$, overshoot is\n$100\\,e^{-\u03c0\u03b6/\\sqrt{1-\u03b6^2}}$ % \u2014 a function of the angle only \u2014 while the distance from the j\u03c9 axis sets the envelope $e^{-\u03c3t}$ and the settling time \u2248 4/\u03c3.",
+  "method": "200 random pole pairs (\u03c3 \u2208 [0.2, 5], \u03c9_d \u2208 [0.1, 10]): calc.js step response vs scipy.signal.step on 4000 points; overshoot from the JS output vs the \u03b6 formula; settling\nvs 4/\u03c3. Two real poles checked the same way.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Max |JS step \u2212 SciPy step| over 200 pole pairs",
+   "predicted": 0.0,
+   "measured": 7.349676423018536e-14,
+   "unit": "",
+   "error": 7.349676423018536e-14,
+   "error_str": "+7.3497e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Overshoot: worst |measured \u2212 100\u00b7exp(\u2212\u03c0\u03b6/\u221a(1\u2212\u03b6\u00b2))|",
+   "predicted": 0.0,
+   "measured": 0.041327195141562356,
+   "unit": "pp",
+   "error": 0.041327195141562356,
+   "error_str": "+0.04133 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Settling time / (4/\u03c3), median over the 200 systems",
+   "predicted": 1.0,
+   "measured": 0.9549887471867966,
+   "unit": "",
+   "error": -4.5011252813203395,
+   "error_str": "-4.50 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Two real poles (\u22120.5, \u22123): JS vs SciPy",
+   "predicted": 0.0,
+   "measured": 2.7533531010703882e-14,
+   "unit": "",
+   "error": 2.7533531010703882e-14,
+   "error_str": "+2.7534e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Settling time / (4/\u03c3), range",
+   "value": "0.70 \u2013 1.46",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/splane.png"
+ ],
+ "runtime_s": 16.26,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM009-s-plane-explorer"
+}

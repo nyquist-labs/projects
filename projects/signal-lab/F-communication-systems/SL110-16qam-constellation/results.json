@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-110",
+  "title": "16-QAM: constellation, EVM and symbol errors",
+  "level": "M",
+  "tools": "Monte Carlo (NumPy), square-QAM SER theory, EVM measurement",
+  "summary": "Transmit Gray-mapped 16-QAM through AWGN, watch the constellation blur as SNR falls, and compare measured SER and EVM with 4(1\u22121/\u221aM)Q(\u221a(3E_s/((M\u22121)N\u2080))) and EVM = 1/\u221aSNR.",
+  "problem": "16-QAM carries 4 bits per symbol. How much more SNR does it need than QPSK, and how do engineers measure signal quality from a constellation?",
+  "theory": "Square M-QAM: $P_s\\approx 1-\\left(1-2(1-\\tfrac1{\\sqrt M})Q\\!\\left(\\sqrt{\\tfrac{3E_s}{(M-1)N_0}}\\right)\\right)^2$. For M = 16 the minimum distance at\nequal average energy is \u221a(2/5)\u00b7\u221a(2/\u2026)\u2026 i.e. ~7 dB worse than QPSK at the same SER per symbol, ~4 dB per bit. Error-vector\nmagnitude (RMS) = $1/\\sqrt{E_s/N_0}$ when noise is the only impairment.",
+  "method": "10\u2076 symbols per point, normalised to E_s = 1, Gray mapping per axis, minimum-distance decisions. EVM = \u221a(mean|y\u2212s|\u00b2/mean|s|\u00b2).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "SER at Es/N0 = 14 dB",
+   "predicted": 0.03715084560591553,
+   "measured": 0.036922,
+   "unit": "",
+   "error": -0.6159903016557053,
+   "error_str": "-0.62 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SER at Es/N0 = 18 dB",
+   "predicted": 0.000572641319226963,
+   "measured": 0.000577,
+   "unit": "",
+   "error": 0.7611537321339293,
+   "error_str": "+0.76 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "EVM at Es/N0 = 20 dB (= 1/\u221aSNR)",
+   "predicted": 0.1,
+   "measured": 0.09999296414280712,
+   "unit": "",
+   "error": -0.007035857192888573,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Extra Es/N0 needed vs QPSK for SER 10\u207b\u00b3",
+   "value": 7.758668773992477,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/qam16.png"
+ ],
+ "runtime_s": 1.06,
+ "folder": "projects/signal-lab/F-communication-systems/SL110-16qam-constellation"
+}

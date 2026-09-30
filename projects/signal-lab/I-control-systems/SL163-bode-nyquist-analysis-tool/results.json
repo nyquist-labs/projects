@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "SL-163",
+  "title": "Bode/Nyquist margin analyser",
+  "level": "M",
+  "tools": "Own gain/phase-margin finder on dense frequency grids (NumPy), SciPy closed-loop step responses",
+  "summary": "Compute gain and phase margins of a loop L(s) = K/(s(s+1)(0.1s+1)) for several gains, check them against the analytic crossover conditions, and relate phase margin to measured closed-loop overshoot.",
+  "problem": "Phase and gain margins are how engineers judge 'how stable' a loop is. Compute them reliably and see what they mean for the step response.",
+  "theory": "Phase crossover where \u2220L = \u2212180\u00b0: $\\arctan\\omega+\\arctan0.1\\omega=90\u00b0$ \u21d2 $\\omega_{pc}=\\sqrt{10}$ = 3.162 rad/s, and $|L(j\\omega_{pc})|=K/11$, so the loop\ngoes unstable at K = 11 (GM = 20log(11/K)). Rule of thumb for a dominant second-order loop: overshoot \u2248 70 \u2212 PM (degrees), valid for PM \u2248 30\u201365\u00b0.",
+  "method": "K \u2208 {1, 2, 4, 6}. Margins by locating crossings on a 200,000-point log grid with unwrapped phase; closed-loop step responses with SciPy.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "K = 1: gain margin 20\u00b7log\u2081\u2080(11/K)",
+   "predicted": 20.827853703164504,
+   "measured": 20.827153701995652,
+   "unit": "dB",
+   "error": -0.0007000011688518271,
+   "error_str": "-7.0000e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Phase-crossover frequency \u221a10",
+   "predicted": 3.1622776601683795,
+   "measured": 3.162150237364048,
+   "unit": "rad/s",
+   "error": -0.004029462875336164,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 2: gain margin 20\u00b7log\u2081\u2080(11/K)",
+   "predicted": 14.807253789884879,
+   "measured": 14.806553788716029,
+   "unit": "dB",
+   "error": -0.0007000011688500507,
+   "error_str": "-7.0000e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "K = 4: gain margin 20\u00b7log\u2081\u2080(11/K)",
+   "predicted": 8.786653876605254,
+   "measured": 8.785953875436403,
+   "unit": "dB",
+   "error": -0.0007000011688500507,
+   "error_str": "-7.0000e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "K = 6: gain margin 20\u00b7log\u2081\u2080(11/K)",
+   "predicted": 5.264828695491628,
+   "measured": 5.264128694322782,
+   "unit": "dB",
+   "error": -0.000700001168846498,
+   "error_str": "-7.0000e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "K = 1: overshoot vs '70 \u2212 PM' rule",
+   "predicted": 22.594016136903093,
+   "measured": 20.600488839762598,
+   "unit": "%",
+   "error": -1.9935272971404956,
+   "error_str": "-1.99 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "K = 2: overshoot vs '70 \u2212 PM' rule",
+   "predicted": 38.285533209938194,
+   "measured": 39.421418247183105,
+   "unit": "%",
+   "error": 1.1358850372449112,
+   "error_str": "+1.14 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/margins.png"
+ ],
+ "runtime_s": 0.22,
+ "folder": "projects/signal-lab/I-control-systems/SL163-bode-nyquist-analysis-tool"
+}

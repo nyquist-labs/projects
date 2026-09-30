@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "AM-020",
+  "title": "Radix-2 FFT: derive the butterfly, implement, benchmark",
+  "level": "H",
+  "tools": "Own iterative radix-2 decimation-in-time FFT (bit reversal + butterflies, vectorised per stage), naive O(N\u00b2) DFT, numpy.fft; accuracy and timing scaling",
+  "summary": "Derive the Cooley\u2013Tukey butterfly from splitting the DFT into even and odd samples, implement an iterative radix-2 FFT, verify it against numpy, and measure how its cost and its round-off error scale with N compared with the naive DFT.",
+  "problem": "Where does N log N come from \u2014 and does a from-scratch FFT really beat the O(N\u00b2) DFT by the predicted factor?",
+  "theory": "$X_k=E_k+W_N^kO_k$, $X_{k+N/2}=E_k-W_N^kO_k$, where E, O are the N/2-point DFTs of even/odd samples. Recursing log\u2082N times gives (N/2)log\u2082N butterflies instead of N\u00b2 products, a\npredicted speed-up of 2N/log\u2082N (\u2248 186\u00d7 at N = 1024 in operation count). Round-off: FFT error grows like O(log N)\u00b7\u03b5 versus O(\u221aN)\u2026O(N)\u00b7\u03b5 for the direct sum.",
+  "method": "Iterative in-place DIT: bit-reversed permutation, then log\u2082N stages, each a vectorised NumPy butterfly. N = 16 \u2026 65536 (naive DFT up to 2048). Accuracy against an extended-precision\nreference (numpy.longdouble DFT for N \u2264 1024).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Own radix-2 FFT vs numpy.fft, worst relative error (N = 16 \u2026 65536)",
+   "predicted": 0.0,
+   "measured": 9.404826137987048e-16,
+   "unit": "",
+   "error": 9.404826137987048e-16,
+   "error_str": "+9.4048e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Measured speed-up over the naive DFT at N = 1024 vs op-count ratio 2N/log\u2082N",
+   "predicted": 204.8,
+   "measured": 171.56762636388996,
+   "unit": "\u00d7",
+   "error": -16.22674493950686,
+   "error_str": "-16.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "FFT time / log\u2082N \u221d N^k (k = 1 for N log N)",
+   "predicted": 1.0,
+   "measured": 0.8797874998717081,
+   "unit": "",
+   "error": -0.12021250012829188,
+   "error_str": "-0.1202",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "RMS relative round-off at N = 1024: FFT / naive DFT",
+   "value": "1.64e-13 / 2.58e-16",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/fft.png"
+ ],
+ "runtime_s": 3.14,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM020-radix-2-fft"
+}

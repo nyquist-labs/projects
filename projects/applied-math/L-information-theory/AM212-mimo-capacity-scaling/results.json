@@ -1,0 +1,108 @@
+{
+ "meta": {
+  "id": "AM-212",
+  "title": "MIMO capacity scaling: why more antennas mean more bits",
+  "level": "H",
+  "tools": "Monte-Carlo ergodic capacity log\u2082det(I + (SNR/N_t)HH\u1d34) of i.i.d. Rayleigh channels, high-SNR slope (multiplexing gain), large-system limit from the Marchenko\u2013Pastur law, outage capacity and diversity, water-filling with channel knowledge, rank-deficient (keyhole-like) channels",
+  "summary": "Measure how the capacity of multi-antenna links grows with the number of antennas and with SNR: slope min(N_t, N_r) per 3 dB, linear growth with antenna count predicted by random-matrix theory, the reliability gain seen in outage, and the collapse when the propagation offers only one path.",
+  "problem": "Adding antennas at both ends of a radio link multiplies its capacity \u2014 under what conditions, and by how much?",
+  "theory": "Without channel knowledge at the transmitter $C=\\log_2\\det(I+\\frac{\u03c1}{N_t}HH^H)$. At high SNR $C\u2248\\min(N_t,N_r)\\log_2\u03c1+$const: each doubling of SNR adds min(N_t, N_r) bits. For N_t = N_r = n \u2192 \u221e with i.i.d. entries, C/n converges to a deterministic limit given by the\nMarchenko\u2013Pastur eigenvalue law: $\\frac Cn=2\\log_2\\left(1+\u03c1-\\tfrac14F\\right)-\\frac{\\log_2e}{4\u03c1}F$, $F=\\left(\\sqrt{4\u03c1+1}-1\\right)^2$. Diversity: the 1 % outage capacity improves sharply with more antennas. A rank-1 channel (a single scatterer path) gives only $\\log_2(1+\u03c1\\,\u03bb)$ \u2014 no multiplexing.",
+  "method": "10 000 channel draws per point. n \u00d7 n systems for n = 1\u202616 at 10 dB; slopes between 20 and 30 dB for 2\u00d72, 4\u00d74, 2\u00d74; 1 % outage for 1\u00d71, 2\u00d72, 4\u00d74; rank-one channel H = a b\u1d34 with Gaussian vectors.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "2\u00d72: bits gained per 3 dB at high SNR = min(N_t, N_r)",
+   "predicted": 2.0,
+   "measured": 1.9424758408929843,
+   "unit": "bit",
+   "error": -2.8762079553507847,
+   "error_str": "-2.88 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "4\u00d74: bits gained per 3 dB at high SNR = min(N_t, N_r)",
+   "predicted": 4.0,
+   "measured": 3.8372383232791107,
+   "unit": "bit",
+   "error": -4.069041918022231,
+   "error_str": "-4.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "4\u00d72: bits gained per 3 dB at high SNR = min(N_t, N_r)",
+   "predicted": 2.0,
+   "measured": 1.9922547591387023,
+   "unit": "bit",
+   "error": -0.3872620430648843,
+   "error_str": "-0.39 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Large-system limit: C/n for 16\u00d716 at 10 dB vs the Marchenko\u2013Pastur formula",
+   "predicted": 2.723326465736502,
+   "measured": 2.7225879725205306,
+   "unit": "bit",
+   "error": -0.02711732233585089,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 % outage capacity: 1\u00d71 is far below its mean (deep fades), 4\u00d74 close to its mean (diversity; ratio outage/mean > 0.7; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Rank-one (keyhole) 4\u00d74 channel: bits per 3 dB at high SNR = 1 (no multiplexing)",
+   "predicted": 1.0,
+   "measured": 0.9982358937855985,
+   "unit": "bit",
+   "error": -0.1764106214401484,
+   "error_str": "-0.18 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Capacity per antenna pair at 10 dB, n = 1 / 2 / 4 / 8 / 16",
+   "value": "2.94 / 2.76 / 2.74 / 2.72 / 2.72",
+   "unit": "bit/s/Hz",
+   "note": "limit 2.72 \u2014 capacity grows linearly with n"
+  },
+  {
+   "quantity": "1 % outage / mean capacity at 10 dB: 1\u00d71, 2\u00d72, 4\u00d74",
+   "value": "0.13 / 2.91 ; 2.62 / 5.56 ; 8.10 / 10.94",
+   "unit": "bit/s/Hz",
+   "note": ""
+  },
+  {
+   "quantity": "Gain from channel knowledge at the transmitter (water-filling over eigenmodes), \u22125 dB / 20 dB",
+   "value": "50 % / 0.6 %",
+   "unit": "",
+   "note": "large at low SNR, negligible at high SNR (compare AM-211)"
+  }
+ ],
+ "figures": [
+  "figures/mimo.png"
+ ],
+ "runtime_s": 1.09,
+ "folder": "projects/applied-math/L-information-theory/AM212-mimo-capacity-scaling"
+}

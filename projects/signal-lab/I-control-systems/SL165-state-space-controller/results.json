@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "SL-165",
+  "title": "State-feedback pole placement for a two-mass system",
+  "level": "H",
+  "tools": "State-space model of two masses and a spring, Ackermann/pole placement (SciPy place_poles), simulation",
+  "summary": "Place all four closed-loop poles of a flexible two-mass system (force on mass 1, position of mass 2 controlled) and verify the realised eigenvalues, the reference tracking and the suppression of the resonance.",
+  "problem": "A flexible link rings when you move it. How does full state feedback move every pole \u2014 including the resonance \u2014 where you want it?",
+  "theory": "x = [x\u2081, v\u2081, x\u2082, v\u2082]; m\u2081 = m\u2082 = 1 kg, k = 100 N/m, light damping c = 0.2 N\u00b7s/m \u21d2 a lightly damped mode at \u221a(2k/m) \u2248 14.1 rad/s. u = \u2212Kx + N r places\neig(A \u2212 BK) anywhere (controllable). Chosen poles: \u22124 \u00b1 4j, \u221210 \u00b1 10j. A pre-gain $N = -1/(C(A-BK)^{-1}B)$ gives unit steady-state gain.",
+  "method": "Controllability rank checked; K from place_poles; closed-loop eigenvalues compared; 5 s step of the mass-2 position simulated with exact ZOH at 1 ms,\ncompared with open-loop (force step) ringing.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Controllability matrix rank",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Open-loop resonance \u221a(2k/m)",
+   "predicted": 14.142135623730951,
+   "measured": 14.140721339450824,
+   "unit": "rad/s",
+   "error": -0.01000050005003351,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Max |placed \u2212 desired| eigenvalue error",
+   "predicted": 0.0,
+   "measured": 1.9860273225978185e-14,
+   "unit": "",
+   "error": 1.9860273225978185e-14,
+   "error_str": "+1.9860e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Steady-state tracking of mass-2 position",
+   "predicted": 1.0,
+   "measured": 0.999999995525331,
+   "unit": "m",
+   "error": -4.4746689686903096e-07,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Open-loop spring deflection ringing after a 0.2 s push (peak)",
+   "value": 0.009242874624370324,
+   "unit": "m",
+   "note": ""
+  },
+  {
+   "quantity": "State-feedback gains K",
+   "value": "187.5, 27.6, -123.5, -5.3",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/two_mass.png"
+ ],
+ "runtime_s": 0.15,
+ "folder": "projects/signal-lab/I-control-systems/SL165-state-space-controller"
+}

@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-006",
+  "title": "Nyquist plot generator with encirclement counting",
+  "level": "M",
+  "tools": "Contour mapping of L(j\u03c9), numerical winding number (argument principle), Routh\u2013Hurwitz for the prediction, closed-loop pole computation",
+  "summary": "Map the imaginary axis through L(s) = K/((s+1)(s+2)(s+3)), count encirclements of \u22121 with a winding-number algorithm, and find the gain at which the closed loop goes unstable \u2014 predicted beforehand with the Routh\u2013Hurwitz criterion.",
+  "problem": "Nyquist's criterion turns a question about roots into a question about a curve. Can a program count the encirclements reliably?",
+  "theory": "Argument principle: as s traverses the Nyquist contour, 1+L(s) winds around 0 (equivalently L around \u22121) N = Z \u2212 P times, Z = closed-loop RHP poles, P = open-loop RHP poles\n(here 0). Characteristic polynomial $s^3+6s^2+11s+6+K$: Routh gives stability for 6\u00b711 > 6+K, i.e. **K < 60**; at K = 60 the loop crosses \u22121 at \u03c9 = \u221a11 = 3.317 rad/s.",
+  "method": "L(j\u03c9) on \u03c9 \u2208 [\u221210\u2074, 10\u2074] (log-dense near 0) plus the vanishing arc; winding number = total change of arg(1+L)/2\u03c0, computed from unwrapped phase. K swept 1\u2013200; closed-loop\npoles from numpy.roots for comparison; critical K and crossing frequency by bisection on the winding count.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Gains where the encirclement count \u2260 number of RHP closed-loop poles (K = 1\u2026200 except the marginal K = 60)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Critical gain from Nyquist (bisection on the winding number) vs Routh",
+   "predicted": 60.0,
+   "measured": 60.00003039301669,
+   "unit": "",
+   "error": 5.065502781083826e-05,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Phase-crossover frequency at K = 60 (= \u221a11)",
+   "predicted": 3.3166247903554,
+   "measured": 3.316609,
+   "unit": "rad/s",
+   "error": -0.0004760971287915151,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Gain margin at K = 10 (predicted 60/10)",
+   "predicted": 15.563025007672874,
+   "measured": 15.563025007672874,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/nyquist.png"
+ ],
+ "runtime_s": 0.51,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM006-nyquist-plot-generator"
+}

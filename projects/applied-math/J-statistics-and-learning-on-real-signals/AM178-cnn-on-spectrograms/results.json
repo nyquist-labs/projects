@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "AM-178",
+  "title": "A convolutional network on spectrograms, written in NumPy",
+  "level": "H",
+  "tools": "Own CNN (3\u00d73 convolutions via sliding windows and einsum, ReLU, 2\u00d72 max-pooling, dense layers, Adam) with hand-derived backward pass, finite-difference gradient check, log-mel spectrograms of spoken digits, comparisons with a dense network and a nearest-centroid baseline, random-recording versus unseen-speaker evaluation",
+  "summary": "Turn one-second audio clips into 32 \u00d7 32 log-mel images and classify spoken digits with a small convolutional network implemented from scratch \u2014 gradients verified numerically \u2014 then ask the question that matters: does it recognise digits, or the six speakers it was trained on?",
+  "problem": "Why do convolutions suit spectrograms, how is a CNN trained without a deep-learning library, and what does its test accuracy really measure?",
+  "theory": "A convolution layer applies the same small filter at every time\u2013frequency position (weight sharing): far fewer parameters than a dense layer and built-in tolerance to shifts, which pooling reinforces. Backward pass: the gradient w.r.t. the\nfilters is the correlation of the layer input with the output gradient; the gradient w.r.t. the input is the 'full' correlation with the flipped filters; max-pooling routes the gradient to the winning position.\nExpected: CNN > dense network > template matching on unseen recordings of known speakers (published small-CNN results on FSDD: 95\u201399 %), with a clear drop on a speaker never heard in training.",
+  "method": "Free Spoken Digit Dataset: 3000 recordings, 6 speakers, 8 kHz. Features: 32-band log-mel spectrogram, 32 frames centred on the energy centroid. Network: conv 8@3\u00d73 \u2192 pool \u2192 conv 16@3\u00d73 \u2192 pool \u2192 dense 64 \u2192 10 (\u2248 67 000 parameters), 14 epochs.\nSplit A (standard): takes 0\u20134 of every speaker and digit for testing (300), the rest for training. Split B: one speaker held out completely.",
+  "data": "Free Spoken Digit Dataset (Jakobovski et al., CC BY-SA 4.0), fetched on first run.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "CNN backward pass vs finite differences (sampled parameters of every layer): worst relative error",
+   "predicted": 0.0,
+   "measured": 1.4134084395566528e-09,
+   "unit": "",
+   "error": 1.4134084395566528e-09,
+   "error_str": "+1.4134e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Standard split (new takes of known speakers): CNN test accuracy (published small CNNs: 95\u201399 %)",
+   "predicted": 97.0,
+   "measured": 99.0,
+   "unit": "%",
+   "error": 2.0,
+   "error_str": "+2 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "CNN at least as accurate as the dense network on the same input (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Shift tolerance: accuracy lost when test clips are delayed by 3 frames (37 ms) is smaller for the CNN than for the dense net (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Unseen speaker: accuracy is lower than on new takes of known speakers (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Test accuracy: nearest class-mean template / dense 1024-64-10 / CNN",
+   "value": "66.7 % / 98.7 % / 99.0 %",
+   "unit": "",
+   "note": "300 test clips; CNN has 67498 parameters, the dense net 66250"
+  },
+  {
+   "quantity": "Accuracy after a 3-frame shift: dense / CNN",
+   "value": "90.0 % / 93.7 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "CNN accuracy on a completely held-out speaker (two different speakers tried)",
+   "value": "72.8 % / 82.0 %",
+   "unit": "",
+   "note": "speakers: george, yweweler"
+  }
+ ],
+ "figures": [
+  "figures/cnn.png"
+ ],
+ "runtime_s": 46.55,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM178-cnn-on-spectrograms"
+}

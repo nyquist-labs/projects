@@ -1,0 +1,155 @@
+{
+ "meta": {
+  "id": "AM-144",
+  "title": "CRC as polynomial division over GF(2)",
+  "level": "M",
+  "tools": "Own bit-serial long division and table-driven CRC engine with the standard parameter model (width, polynomial, init, reflect, xor-out), catalogue check values, zlib/binascii cross-checks, exhaustive and Monte-Carlo error-detection experiments",
+  "summary": "Implement the CRC as the remainder of polynomial division, reproduce the published check values of four standard CRCs and Python's own zlib/binascii results, and verify the detection guarantees algebra predicts: all single, double (up to the polynomial's period), odd and burst errors.",
+  "problem": "Why does appending a division remainder catch almost every transmission error \u2014 and exactly which errors can slip through?",
+  "theory": "Message M(x), generator G(x) of degree r: transmit $T=x^rM+(x^rM \\bmod G)$, divisible by G. An error pattern E is undetected iff G | E. Hence: single-bit errors always detected (G has \u2265 2 terms); double-bit errors $x^i+x^j$ detected while\n$j-i$ < order of x mod G; all odd-weight errors detected if (x+1) | G; all bursts of length \u2264 r detected; bursts of length r+1 undetected with probability $2^{-(r-1)}$; random garbage undetected with probability $2^{-r}$.\nCRC-8 polynomial x\u2078+x\u00b2+x+1 = (x+1)\u00b7(degree-7 primitive) has period 127. Catalogue check values for \"123456789\": CRC-32 = CBF43926, CRC-16/CCITT-FALSE = 29B1, CRC-16/ARC = BB3D, CRC-8 = F4.",
+  "method": "Bit-serial reference and 256-entry-table implementation compared on random data. Error experiments with CRC-8 (0x07) on 96-bit codewords: every single, every double and every burst \u2264 8 exhaustively; 10\u2076 random odd-weight errors, 9-bit bursts and\nfully random error patterns. The first undetectable double-bit spacing is searched directly.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "CRC-32 of \"123456789\"",
+   "predicted": 3421780262.0,
+   "measured": 3421780262.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "CRC-16/CCITT-FALSE of \"123456789\"",
+   "predicted": 10673.0,
+   "measured": 10673.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "CRC-16/ARC of \"123456789\"",
+   "predicted": 47933.0,
+   "measured": 47933.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "CRC-8 of \"123456789\"",
+   "predicted": 244.0,
+   "measured": 244.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Disagreements with zlib.crc32, binascii.crc_hqx and the table-driven engine (300 random messages)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Undetected single-bit errors (96-bit codeword)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Smallest undetectable double-bit spacing = order of x mod G",
+   "predicted": 127.0,
+   "measured": 127.0,
+   "unit": "bits",
+   "error": 0.0,
+   "error_str": "+0 bits",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Undetected double-bit errors within a 96-bit codeword (all 4560 pairs)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Undetected bursts of length \u2264 8 (all 11423 patterns)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "9-bit bursts undetected: 2^\u2212(r\u22121) = 1/128",
+   "predicted": 0.0078125,
+   "measured": 0.007743333333333333,
+   "unit": "",
+   "error": -0.885333333333338,
+   "error_str": "-0.89 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Undetected odd-weight errors (100 000 random patterns; (x+1) divides G)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Random error patterns undetected: 2^\u22128",
+   "predicted": 0.00390625,
+   "measured": 0.00386,
+   "unit": "",
+   "error": -1.1839999999999962,
+   "error_str": "-1.18 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/crc.png"
+ ],
+ "runtime_s": 3.18,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM144-crc-as-polynomial-division"
+}

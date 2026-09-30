@@ -1,0 +1,150 @@
+{
+ "meta": {
+  "id": "SL-206",
+  "title": "I\u00b2C temperature-sensor breakout board",
+  "level": "M",
+  "tools": "eelab.pcb (footprints, router, pour, DRC, Gerber/KiCad export), microstrip capacitance from the routed geometry, MNA transient simulation of the open-drain bus",
+  "summary": "A small, clean breakout for an LM75-class I\u00b2C temperature sensor (SOIC-8) with pull-ups, decoupling and a 5-pin header. The routed board's own trace capacitance feeds an I\u00b2C rise-time budget, checked by simulating the open-drain bus.",
+  "problem": "Which pull-up resistor does an I\u00b2C breakout need \u2014 and does the board itself matter?",
+  "theory": "An open-drain line rises through R_p into the bus capacitance C_b; the I\u00b2C rise time (30 %\u219270 % of V_DD) is $t_r = \\ln(0.7/0.3)\\,R_pC_b = 0.8473\\,R_pC_b$. Limits:\n$t_r$ \u2264 1000 ns (standard mode, 100 kHz) or \u2264 300 ns (fast mode, 400 kHz), and $R_p \u2265 (V_{DD}-0.4\\,V)/3\\,\\text{mA}$ so a device can pull the line low.\nThe breakout's own contribution is its trace capacitance: for a 0.25 mm trace over a 1.6 mm board with a ground pour below, \u2248 0.05 pF/mm, i.e. a few pF \u2014\nsmall next to device pins (~10 pF each) and wiring (tens of pF).",
+  "method": "LM75-style pinout (1 SDA, 2 SCL, 3 OS, 4 GND, 5\u20137 A2\u2013A0, 8 V+), address pins strapped to GND (0x48). 4.7 k\u03a9 pull-ups, 10 k\u03a9 on OS, 100 nF decoupling.\nC_b = routed SDA length \u00d7 microstrip C\u2032 (Hammerstad\u2013Jensen, \u03b5_r 4.4) + 10 pF sensor pin + 10 pF controller pin + 50 pF wiring (assumed jumper wires).\nTransient: MNA simulation of R_p charging C_b when the open-drain driver (switch, 20 \u03a9 on) releases.",
+  "data": "Design + simulation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "DRC violations (clearance, widths, drills, annular rings, edge, courtyards, connectivity)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Drill hits in the Excellon file (re-read with gerbonara) = holes in the design",
+   "predicted": 14.0,
+   "measured": 14.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Board outline from the Gerber profile (re-read with gerbonara)",
+   "predicted": 22.0,
+   "measured": 22.0,
+   "unit": "mm",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pads in the KiCad file (re-read with kiutils) = pads in the design",
+   "predicted": 23.0,
+   "measured": 23.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Microstrip capacitance per mm of 0.25 mm track over the pour (my guess \u2248 0.05 pF/mm)",
+   "predicted": 0.05,
+   "measured": 0.040853202146782314,
+   "unit": "pF/mm",
+   "error": -0.009146797853217689,
+   "error_str": "-0.009147 pF/mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SDA rise time with 4.7 k\u03a9 (0.8473\u00b7Rp\u00b7Cb)",
+   "predicted": 2.8122059206485425e-07,
+   "measured": 2.812214066623735e-07,
+   "unit": "s",
+   "error": 0.00028966496133253026,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "4.7 k\u03a9 meets fast-mode 300 ns? (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Unrouted connections",
+   "value": 0.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Board",
+   "value": "22 \u00d7 18 mm, 2 layers, 1.6 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Components / nets / pads",
+   "value": "8 / 5 / 23",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Routed track length",
+   "value": 66.97361107568207,
+   "unit": "mm",
+   "note": "47 segments, 7 vias"
+  },
+  {
+   "quantity": "Routed SDA length on the breakout",
+   "value": 15.11396103067893,
+   "unit": "mm",
+   "note": ""
+  },
+  {
+   "quantity": "SDA trace capacitance of the breakout",
+   "value": 0.6174537052249166,
+   "unit": "pF",
+   "note": ""
+  },
+  {
+   "quantity": "Allowed pull-up range, standard mode (100 kHz)",
+   "value": "967 \u03a9 \u2013 16.7 k\u03a9",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Allowed pull-up range, fast mode (400 kHz)",
+   "value": "967 \u03a9 \u2013 5.01 k\u03a9",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/board.png",
+  "figures/i2c.png"
+ ],
+ "runtime_s": 0.78,
+ "folder": "projects/signal-lab/L-pcb-design/SL206-sensor-breakout-board"
+}

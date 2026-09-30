@@ -1,0 +1,81 @@
+{
+ "meta": {
+  "id": "SL-085",
+  "title": "Decode a SatNOGS observation: pass geometry vs signal quality",
+  "level": "H",
+  "tools": "SatNOGS Network API + archive, SGP4 orbit propagation (TLE from the observation), SciPy DSP",
+  "summary": "Take a real NOAA-18 pass recorded by a volunteer ground station, reconstruct the satellite's geometry during the recording from its TLE, predict how the downlink signal-to-noise ratio should change with slant range, and measure it from the audio.",
+  "problem": "A satellite 850 km up sweeps from horizon to horizon in 15 minutes. How much should the signal quality change along the pass, and does a real recording follow free-space physics?",
+  "theory": "Received carrier power \u221d $1/R^2$ (free-space path loss $FSPL = 20\\log_{10}(4\\pi R/\\lambda)$), so C/N\u2080 in dB should follow\n$-20\\log_{10}R(t)$ + const (+ antenna pattern). Above the FM threshold, the demodulated audio SNR of the 2.4 kHz APT\nsubcarrier is proportional to C/N, so audio SNR (dB) vs $-20\\log_{10}R(t)$ should have slope 1. Over this recording\n(elevation 20\u00b0 \u2192 89\u00b0) R changes from ~2,100 km to ~850 km: a ~8 dB path-loss swing. Two effects break the slope-1\nprediction: below the FM threshold (C/N \u2272 10 dB) the output SNR collapses several dB per dB of C/N, and the ground\nstation antenna's gain varies with elevation.",
+  "method": "Observation 11229309 (NOAA-18, 137.9125 MHz, station M0EYT, 50.77\u00b0 N 2.02\u00b0 W, 2025-03-14 22:07\u201322:15 UTC, max elevation\n89\u00b0) fetched from the SatNOGS archive. SGP4 propagates the TLE stored with the observation; topocentric range and\nelevation computed every second. Audio SNR per 2-s block = power in the 2.2\u20132.6 kHz subcarrier band vs noise\ndensity in 5.5\u20136.5 kHz. Compared: slope of a linear fit of measured SNR (dB) against \u221220 log\u2081\u2080 R(t).",
+  "data": "Real: SatNOGS Network observation 11229309 (audio, CC-BY-SA 4.0) and its TLE.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "Max elevation of the pass (SGP4 vs SatNOGS schedule)",
+   "predicted": 89.0,
+   "measured": 89.20956558116805,
+   "unit": "\u00b0",
+   "error": 0.20956558116805013,
+   "error_str": "+0.2096 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Min slant range at culmination",
+   "predicted": 859.0,
+   "measured": 846.5643440237635,
+   "unit": "km",
+   "error": -1.4476898691777054,
+   "error_str": "-1.45 %",
+   "kind": "rel",
+   "ok": true,
+   "note": "orbit altitude \u2248 854 km"
+  },
+  {
+   "quantity": "Slope of audio SNR vs \u221220\u00b7log\u2081\u2080R (dB per dB)",
+   "predicted": 1.0,
+   "measured": 4.653870235607063,
+   "unit": "",
+   "error": 3.653870235607063,
+   "error_str": "+3.654",
+   "kind": "abs",
+   "ok": null,
+   "note": "1 = linear FM above threshold with an isotropic antenna"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Free-space path-loss swing over the recording (20\u00b0 \u2192 89\u00b0 elevation)",
+   "value": 6.7467344544770285,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "Measured audio-SNR swing (5th \u2192 95th percentile)",
+   "value": 28.28083306676783,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "Correlation of audio SNR with \u221220\u00b7log R",
+   "value": 0.9661378575554092,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Recording",
+   "value": "465 s @ 48000 Hz, station M0EYT",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pass_snr.png"
+ ],
+ "runtime_s": 0.93,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL085-decode-a-satnogs-observation"
+}

@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bit manipulation visualiser</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>Bit manipulation visualiser</h1><p class="lead">Click bits; see unsigned, two's-complement and hex views; apply shifts, rotates and masks.</p>
+<div class="card"><div class="row"><label style="flex:1">Width<select id="w"><option>8</option><option>16</option><option selected>32</option><option>64</option></select></label>
+<label style="flex:2">Value (decimal, 0x…, 0b…, negative ok)<input id="x" value="0xDEADBEEF"></label></div>
+<div id="bits" style="display:flex;flex-wrap:wrap;gap:2px;margin:10px 0;font-family:ui-monospace,monospace"></div>
+<table id="views"></table></div>
+<div class="card"><div class="row"><label style="flex:1">Operation<select id="op"><option>shl</option><option>shrl</option><option>shra</option><option>rotl</option><option>rotr</option>
+<option>and</option><option>or</option><option>xor</option><option>not</option><option>neg</option><option>popcount</option><option>clz</option></select></label>
+<label style="flex:1">Operand / amount<input id="y" value="4"></label><button id="apply">apply → value</button></div><p id="res" style="font-family:ui-monospace,monospace"></p></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);const W=()=>+$('w').value;
+function val(){try{let s=$('x').value.trim().replace(/_/g,'');const neg=s.startsWith('-');if(neg)s=s.slice(1);let v=BigInt(s);return op('norm',[(neg?-v:v).toString(),W()]);}catch(e){return '0';}}
+function draw(){const w=W(),v=val(),b=toBin(v,w);$('bits').innerHTML=[...b].map((c,i)=>`<button data-i="${w-1-i}" title="bit ${w-1-i}" style="width:26px;padding:4px 0;${c=='1'?'background:var(--acc);color:#fff;border-color:var(--acc)':''}${(w-1-i)%8==7&&i?';margin-left:8px':''}">${c}</button>`).join('');
+document.querySelectorAll('#bits button').forEach(e=>e.onclick=()=>{$('x').value='0x'+toHex(op('toggleBit',[v,+e.dataset.i,w]),w).toUpperCase();draw();});
+$('views').innerHTML=[["Unsigned",v],["Signed (two's complement)",op('toSigned',[v,w])],["Hex","0x"+toHex(v,w).toUpperCase()],["Popcount",op('popcount',[v,w])]].map(r=>`<tr><td>${r[0]}</td><td class="n">${r[1]}</td></tr>`).join('');calc();}
+function calc(){const w=W(),v=val(),o=$('op').value;let y=$('y').value.trim();try{y=BigInt(y.startsWith('-')?'-'+y.slice(1):y).toString();}catch(e){y='0';}
+const unary=['not','neg','popcount','clz'].includes(o);const r=op(o,unary?[v,w]:[v,['and','or','xor'].includes(o)?op('norm',[y,w]):y,w]);
+$('res').innerHTML=['popcount','clz'].includes(o)?`${o} = <b>${r}</b>`:`${toBin(v,w)}<br>${toBin(r,w)} &nbsp;← ${o}<br>= ${r} (signed ${op('toSigned',[r,w])})`;window._r=r;}
+$('apply').onclick=()=>{if(!['popcount','clz'].includes($('op').value)){$('x').value='0x'+toHex(window._r,W()).toUpperCase();draw();}};
+document.querySelectorAll('input,select').forEach(e=>e.oninput=draw);draw();</script></body></html>

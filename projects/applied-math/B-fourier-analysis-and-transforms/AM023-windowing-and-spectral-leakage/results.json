@@ -1,0 +1,206 @@
+{
+ "meta": {
+  "id": "AM-023",
+  "title": "Windowing and spectral leakage: measured sidelobes",
+  "level": "M",
+  "tools": "Window spectra via heavily zero-padded FFTs, sidelobe/mainlobe/scalloping measurements, detection of a weak tone next to a strong one",
+  "summary": "Measure the highest sidelobe, mainlobe width, scalloping loss and equivalent noise bandwidth of rectangular, Hann, Hamming and Blackman windows, compare with their textbook values, and show which windows can see a \u221270 dB tone beside a strong one.",
+  "problem": "Every FFT of a finite record is the spectrum of a windowed signal. How much do windows really differ?",
+  "theory": "Textbook (Harris 1978) values \u2014 highest sidelobe: rectangular \u221213.3 dB, Hann \u221231.5 dB, Hamming \u221242.7 dB, Blackman \u221258.1 dB; mainlobe null-to-null width 2, 4, 4, 6 bins;\nscalloping loss (tone halfway between bins) 3.92, 1.42, 1.78, 1.10 dB; ENBW 1.00, 1.50, 1.36, 1.73 bins. Leakage from a strong tone falls off at \u22126, \u221218, \u22126, \u221218 dB/octave\nfor these windows, which decides whether a weak neighbour is visible.",
+  "method": "N = 64 windows (symmetric=False, 'periodic' DFT-even), FFT zero-padded 256\u00d7; sidelobe = highest peak outside the mainlobe; scalloping from a tone at +0.5 bin; ENBW = N\u00b7\u03a3w\u00b2/(\u03a3w)\u00b2.\nDetection test: tones at 10.3 bins (0 dB) and 16.3 bins (\u221270 dB) with N = 256.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "boxcar: highest sidelobe",
+   "predicted": -13.3,
+   "measured": -13.25434369561499,
+   "unit": "dB",
+   "error": 0.04565630438501067,
+   "error_str": "+0.04566 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "boxcar: mainlobe width (null to null)",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "bins",
+   "error": 0.0,
+   "error_str": "+0 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "boxcar: scalloping loss",
+   "predicted": 3.92,
+   "measured": 3.9215254701275,
+   "unit": "dB",
+   "error": 0.0015254701275000393,
+   "error_str": "+0.001525 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "boxcar: equivalent noise bandwidth",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "bins",
+   "error": 0.0,
+   "error_str": "+0 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hann: highest sidelobe",
+   "predicted": -31.5,
+   "measured": -31.46748242735579,
+   "unit": "dB",
+   "error": 0.032517572644209736,
+   "error_str": "+0.03252 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hann: mainlobe width (null to null)",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "bins",
+   "error": 0.0,
+   "error_str": "+0 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hann: scalloping loss",
+   "predicted": 1.42,
+   "measured": 1.4236221776930624,
+   "unit": "dB",
+   "error": 0.0036221776930625005,
+   "error_str": "+0.003622 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hann: equivalent noise bandwidth",
+   "predicted": 1.5,
+   "measured": 1.5,
+   "unit": "bins",
+   "error": 0.0,
+   "error_str": "+0 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: highest sidelobe",
+   "predicted": -42.7,
+   "measured": -42.449333255721086,
+   "unit": "dB",
+   "error": 0.25066674427891655,
+   "error_str": "+0.2507 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: mainlobe width (null to null)",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "bins",
+   "error": 0.0,
+   "error_str": "+0 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: scalloping loss",
+   "predicted": 1.75,
+   "measured": 1.7515969956394895,
+   "unit": "dB",
+   "error": 0.0015969956394894513,
+   "error_str": "+0.001597 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: equivalent noise bandwidth",
+   "predicted": 1.36,
+   "measured": 1.3628257887517148,
+   "unit": "bins",
+   "error": 0.0028257887517146862,
+   "error_str": "+0.002826 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: highest sidelobe",
+   "predicted": -58.1,
+   "measured": -58.110148414546295,
+   "unit": "dB",
+   "error": -0.010148414546293338,
+   "error_str": "-0.01015 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: mainlobe width (null to null)",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "bins",
+   "error": 0.0,
+   "error_str": "+0 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: scalloping loss",
+   "predicted": 1.1,
+   "measured": 1.0988785711564324,
+   "unit": "dB",
+   "error": -0.0011214288435676956,
+   "error_str": "-0.001121 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: equivalent noise bandwidth",
+   "predicted": 1.73,
+   "measured": 1.726757369614512,
+   "unit": "bins",
+   "error": -0.003242630385487999,
+   "error_str": "-0.003243 bins",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Weak tone (\u221270 dB, 6 bins away) stands out above local floor by",
+   "value": "boxcar: -4 dB, hann: -11 dB, hamming: -0 dB, blackman: -2 dB",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/windows.png"
+ ],
+ "runtime_s": 0.12,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM023-windowing-and-spectral-leakage"
+}

@@ -1,0 +1,94 @@
+{
+ "meta": {
+  "id": "SL-076",
+  "title": "Dither: trading distortion for noise",
+  "level": "M",
+  "tools": "NumPy quantiser, RPDF/TPDF dither, harmonic analysis",
+  "summary": "Quantise a very quiet tone (1\u20132 LSB) with no dither, RPDF and TPDF dither; measure harmonic distortion, noise floor and noise modulation to show why adding noise helps.",
+  "problem": "Why do mastering engineers add noise to audio before reducing its bit depth?",
+  "theory": "Undithered, a signal of ~1 LSB turns into a square-ish wave: all error lands on odd harmonics (THD of tens of %).\nAdding dither of variance \u03c3\u00b2 before quantising makes the error independent of the signal. RPDF (\u00b1\u00bd LSB uniform)\ndecorrelates the *mean* error; TPDF (sum of two uniform, \u00b11 LSB) also makes the error *power* independent of the\nsignal (no noise modulation). Cost: total noise power rises from \u0394\u00b2/12 to \u0394\u00b2/12 + \u03c3\u00b2_d:\n+3.0 dB for RPDF, +4.8 dB for TPDF.",
+  "method": "16-bit-scale quantiser (\u0394 = 1 LSB), tone of 1.3 LSB amplitude at 1 kHz, f_s = 48 kHz, 2\u00b9\u2077 samples. Measured:\nTHD (harmonics 2\u201315), total error power relative to \u0394\u00b2/12, and noise modulation (error variance vs signal\nlevel). Averaged power spectra over 16 segments.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "RPDF: total error power re \u0394\u00b2/12",
+   "predicted": 3.01,
+   "measured": 2.7758569914955378,
+   "unit": "dB",
+   "error": -0.234143008504462,
+   "error_str": "-0.2341 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "TPDF: total error power re \u0394\u00b2/12",
+   "predicted": 4.77,
+   "measured": 4.774255248276007,
+   "unit": "dB",
+   "error": 0.004255248276007428,
+   "error_str": "+0.004255 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "TPDF: noise modulation ratio",
+   "predicted": 1.0,
+   "measured": 0.993082218647432,
+   "unit": "",
+   "error": -0.006917781352568042,
+   "error_str": "-0.006918",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "none: THD (harmonics 2\u201315)",
+   "value": -12.270366928243892,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "none: noise modulation (var near zero / var at peaks)",
+   "value": 0.2905042009337696,
+   "unit": "",
+   "note": "1.0 = no modulation"
+  },
+  {
+   "quantity": "RPDF: THD (harmonics 2\u201315)",
+   "value": -29.628206705005592,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "RPDF: noise modulation (var near zero / var at peaks)",
+   "value": 0.6364949534930124,
+   "unit": "",
+   "note": "1.0 = no modulation"
+  },
+  {
+   "quantity": "TPDF: THD (harmonics 2\u201315)",
+   "value": -27.94267378052156,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "TPDF: noise modulation (var near zero / var at peaks)",
+   "value": 0.993082218647432,
+   "unit": "",
+   "note": "1.0 = no modulation"
+  }
+ ],
+ "figures": [
+  "figures/spectra.png",
+  "figures/time_domain.png"
+ ],
+ "runtime_s": 0.12,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL076-dithering-demo"
+}

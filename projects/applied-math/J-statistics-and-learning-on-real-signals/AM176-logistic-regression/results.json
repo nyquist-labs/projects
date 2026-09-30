@@ -1,0 +1,148 @@
+{
+ "meta": {
+  "id": "AM-176",
+  "title": "Logistic regression: likelihood, Newton's method and calibration",
+  "level": "M",
+  "tools": "Own binary logistic regression (Newton/IRLS and plain gradient descent), analytic gradient checked by finite differences, comparison with a quasi-Newton optimiser (SciPy BFGS), convergence-rate measurement, odds-ratio interpretation, reliability diagram and Brier score within and across patients",
+  "summary": "Fit a probabilistic classifier for premature ventricular beats by maximum likelihood: verify the gradient, show Newton's method converging in a handful of iterations where gradient descent needs thousands, read the coefficients as odds ratios, and test whether the predicted probabilities can be trusted on new patients.",
+  "problem": "A classifier that outputs 'probability 0.9' should be right nine times out of ten. How is such a model fitted, and is its probability honest?",
+  "theory": "Model $P(y=1|x)=\u03c3(w^Tx)$, $\u03c3(z)=1/(1+e^{-z})$. Negative log-likelihood $L=-\\sum y_i\\ln\u03c3_i+(1-y_i)\\ln(1-\u03c3_i)$ is convex with gradient $X^T(\u03c3-y)$ and Hessian $X^TSX$, $S=\\mathrm{diag}(\u03c3_i(1-\u03c3_i))$. Newton's step is a weighted\nleast-squares problem (IRLS) and converges quadratically \u2014 typically < 10 iterations; gradient descent converges linearly at a rate set by the Hessian's condition number. Each coefficient is a log odds ratio per standard deviation of its feature.\nA maximum-likelihood model is calibrated on data from the training distribution; under distribution shift (new patients) calibration is not guaranteed.",
+  "method": "PVC vs normal beats, 7 standardised features. Training set: beats of 10 patients (DS1), small ridge penalty 10\u207b\u00b3. Gradient check: central differences, step 10\u207b\u2076. Calibration: 10 equal-count probability bins, (a) on a held-out random half\nof the training patients' beats, (b) on the 10 unseen patients (DS2). Brier score and expected calibration error.",
+  "data": "PhysioNet MIT-BIH Arrhythmia Database (beat features built by eelab.ml.ecg_beats).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Analytic gradient vs central finite differences (worst relative error)",
+   "predicted": 0.0,
+   "measured": 6.02914809222618e-09,
+   "unit": "",
+   "error": 6.02914809222618e-09,
+   "error_str": "+6.0291e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Newton/IRLS solution vs SciPy BFGS: max coefficient difference",
+   "predicted": 0.0,
+   "measured": 7.99161092857048e-09,
+   "unit": "",
+   "error": 7.99161092857048e-09,
+   "error_str": "+7.9916e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Newton iterations to convergence (theory: < 10 for well-behaved data)",
+   "predicted": 8.0,
+   "measured": 12.0,
+   "unit": "",
+   "error": 4.0,
+   "error_str": "+4",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Newton convergence order near the optimum (quadratic = 2)",
+   "predicted": 2.0,
+   "measured": 1.9857987664241301,
+   "unit": "",
+   "error": -0.014201233575869887,
+   "error_str": "-0.0142",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Gradient descent (step 1/\u03bb_max) needs orders of magnitude more iterations than Newton (> 100\u00d7; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Held-out beats of the training patients: mean predicted probability = observed PVC rate",
+   "predicted": 0.04936611601997695,
+   "measured": 0.0502565416581434,
+   "unit": "",
+   "error": 1.803718238246903,
+   "error_str": "+1.80 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Calibration on the training distribution: expected calibration error (small)",
+   "predicted": 0.0,
+   "measured": 0.0008904256381664529,
+   "unit": "",
+   "error": 0.0008904256381664529,
+   "error_str": "+8.9043e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Calibration degrades on unseen patients (ECE larger than on held-out training patients; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Iterations: Newton (to a step of 10\u207b\u00b9\u2070) / gradient descent (to 0.1 % of the solution)",
+   "value": "12 / 2451",
+   "unit": "",
+   "note": "Hessian condition number 347"
+  },
+  {
+   "quantity": "Expected calibration error: same patients / new patients",
+   "value": "0.0009 / 0.0013",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Uncertain beats (predicted 0.1\u20130.9), same patients: mean prediction / observed PVC rate",
+   "value": "0.44 / 0.50",
+   "unit": "",
+   "note": "42 beats"
+  },
+  {
+   "quantity": "Uncertain beats (predicted 0.1\u20130.9), new patients: mean prediction / observed PVC rate",
+   "value": "0.38 / 0.37",
+   "unit": "",
+   "note": "30 beats"
+  },
+  {
+   "quantity": "Brier score: same patients / new patients / always predicting the base rate",
+   "value": "0.0015 / 0.0021 / 0.0380",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Discrimination on new patients (AUC)",
+   "value": 0.989220755743295,
+   "unit": "",
+   "note": "discrimination survives the change of patients"
+  }
+ ],
+ "figures": [
+  "figures/logreg.png"
+ ],
+ "runtime_s": 0.71,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM176-logistic-regression"
+}

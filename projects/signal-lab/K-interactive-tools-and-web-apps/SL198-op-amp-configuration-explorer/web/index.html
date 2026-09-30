@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Op-amp configuration explorer</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>Op-amp configuration explorer</h1><p class="lead">Pick a topology; see the gain equation, noise gain, finite-gain error and bandwidth.</p>
+<div class="card"><div class="row" id="tabs"></div><svg id="sch" viewBox="0 0 520 220" style="margin-top:8px"></svg>
+<p style="font-size:1.25em" id="eq"></p><div class="row"><label style="flex:1">R<sub>in</sub> / R<sub>g</sub> (Ω)<input id="ri" type="number" value="10000"></label>
+<label style="flex:1">R<sub>f</sub> (Ω)<input id="rf" type="number" value="100000"></label><label style="flex:1">A<sub>0</sub><input id="a0" type="number" value="100000"></label>
+<label style="flex:1">GBW (Hz)<input id="gbw" type="number" value="1000000"></label></div><table id="t" style="margin-top:8px"></table></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);let topo="inverting";const names={inverting:"Inverting",noninverting:"Non-inverting",follower:"Follower",difference:"Difference",summing2:"Summing (2 in)"};
+Object.keys(names).forEach(k=>{const b=document.createElement('button');b.textContent=names[k];b.onclick=()=>{topo=k;upd();};b.id='t_'+k;$('tabs').appendChild(b);});
+const eng=(v,u)=>!isFinite(v)?'∞':Math.abs(v)>=1e6?+(v/1e6).toPrecision(4)+' M'+u:Math.abs(v)>=1e3?+(v/1e3).toPrecision(4)+' k'+u:+v.toPrecision(4)+' '+u;
+const SCH={inverting:'M20 100h60M130 100h40M170 100v-60h120M290 40v70M290 110h-40M340 110h60M170 100h30',noninverting:'M20 120h180M340 110h60M300 110v-70h-120v60h20M180 40v130',
+follower:'M20 120h180M340 110h60M360 110v-80h-180v70h20',difference:'M20 100h60M130 100h70M20 150h60M130 150h70M170 100v-60h120M290 40v70M340 110h60',summing2:'M20 80h60M130 80h40M20 130h60M130 130h40M170 80v50M170 100h30M170 100v-60h120M290 40v70M340 110h60'};
+function upd(){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.id=='t_'+topo));
+const p={Rin:+$('ri').value,Rg:+$('ri').value,Rf:+$('rf').value},r=analyse(topo,p,+$('a0').value,+$('gbw').value);
+$('sch').innerHTML=`<path d="${SCH[topo]}" stroke="currentColor" fill="none" stroke-width="2"/><path d="M200 60v100l140-50z" fill="var(--panel)" stroke="currentColor" stroke-width="2"/>
+<text x="208" y="93" fill="currentColor">−</text><text x="206" y="140" fill="currentColor">+</text><text x="408" y="114" fill="var(--acc)">Vout</text>`;
+$('eq').textContent=r.eq;$('t').innerHTML=[["Ideal gain",r.G.toPrecision(5)],["Noise gain 1/β",r.noiseGain.toPrecision(5)],["Actual gain (finite A0)",r.Gactual.toPrecision(6)],
+["Gain error",r.gainErrorPct.toPrecision(3)+' %'],["−3 dB bandwidth ≈ GBW·β",eng(r.bw,'Hz')],["Input impedance",eng(r.Zin,'Ω')]].map(x=>`<tr><td>${x[0]}</td><td class="n">${x[1]}</td></tr>`).join('');}
+document.querySelectorAll('input').forEach(e=>e.oninput=upd);upd();</script></body></html>

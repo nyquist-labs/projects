@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "AM-114",
+  "title": "Multi-objective design: Pareto fronts for an anti-alias filter",
+  "level": "H",
+  "tools": "Enumerated design space (filter family \u00d7 order \u00d7 cutoff), Pareto-dominance filtering, weighted-sum vs \u03b5-constraint scalarisation, detection of non-convex front regions",
+  "summary": "Choose an anti-aliasing filter with three competing goals \u2014 stopband attenuation, passband droop and group-delay distortion (plus component count via order) \u2014 compute the Pareto front of 2,000 candidate designs, and show that weighted-sum optimisation misses Pareto-optimal designs where the front is non-convex.",
+  "problem": "'Best filter' has no meaning with several objectives. What does the set of reasonable choices look like, and which optimisation methods can find all of them?",
+  "theory": "A design is Pareto-optimal if no other design is at least as good in every objective and strictly better in one. Minimising a weighted sum \u03a3w_iJ_i finds only designs on the *convex hull* of the front; the \u03b5-constraint method\n(minimise J\u2081 subject to J\u2082 \u2264 \u03b5) reaches every Pareto point. Filter families trade differently: Bessel = low delay distortion, poor selectivity; Chebyshev/elliptic = sharp, distorting; Butterworth in between.",
+  "method": "Analog prototypes: Butterworth, Bessel, Chebyshev I (0.5 dB), elliptic (0.5 dB/60 dB), orders 2\u20138, cutoff 0.5\u20131.5 \u00d7 passband edge (fp = 20 kHz, stopband from 30 kHz). Objectives: J\u2081 = \u2212(min attenuation beyond 30 kHz), J\u2082 = droop at 20 kHz, J\u2083 = group-delay\nvariation over 0\u201320 kHz (\u00b5s). Pareto front in (J\u2081, J\u2083) at fixed max droop; weighted sums for 200 weights vs \u03b5-constraint sweep.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03b5-constraint sweep reaches every Pareto point (fraction)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Weighted sums reach only the convex hull (fraction of the front found; < 1 if non-convex)",
+   "predicted": 0.5,
+   "measured": 0.0975609756097561,
+   "unit": "",
+   "error": -0.4024390243902439,
+   "error_str": "-0.4024",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Candidate designs / admissible (droop \u2264 3 dB) / Pareto-optimal in (attenuation, delay variation)",
+   "value": "1960 / 1070 / 82",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Families on the front",
+   "value": "Bessel: 39, Butterworth: 13, Chebyshev: 7, elliptic: 23",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pareto.png"
+ ],
+ "runtime_s": 0.59,
+ "folder": "projects/applied-math/F-optimisation/AM114-multi-objective-trade-study"
+}

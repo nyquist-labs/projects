@@ -1,0 +1,86 @@
+{
+ "meta": {
+  "id": "SL-199",
+  "title": "Antenna length calculator \u2014 and when the 0.95 rule is right",
+  "level": "E",
+  "tools": "HTML/JS calculator (dipole, monopole, 5/8 \u03bb, loop, 3-element Yagi, coax stub) + Node harness; method-of-moments solver (PWS-Galerkin) for the resonant length vs wire thickness",
+  "summary": "Frequency in, dimensions out for common antennas. The classic 'multiply \u03bb/2 by 0.95' shortening rule is then tested with a method-of-moments simulation of dipoles of different wire thickness to show where it holds.",
+  "problem": "Every ham knows '468 / f(MHz) feet'. Where does the 0.95 come from, and does it depend on the wire?",
+  "theory": "A half-wave dipole resonates (X_in = 0) slightly shorter than \u03bb/2 because of end effects and the finite wire radius a. Thin-wire theory (Hall\u00e9n) gives a\nshortening that grows with thickness through $\u03a9 = 2\\ln(L/a)$: very thin wires resonate near 0.49 \u03bb, typical wire antennas (a/\u03bb \u2248 10\u207b\u2074\u201310\u207b\u00b3) near 0.47\u20130.48 \u03bb,\nfat elements shorter still. The 0.95 rule (0.475 \u03bb) should therefore be accurate to ~1\u20132 % for ordinary wire and err for very thin/fat conductors.\nAt resonance R_in \u2248 70 \u03a9 (less than the 73 \u03a9 of the exactly-\u03bb/2 dipole).",
+  "method": "calc.js outputs checked against closed-form values. MoM: centre-fed dipole, 41 segments (fewer for fat wires so that each segment is \u2265 4 radii long \u2014 the thin-wire kernel's validity limit; a first run ignoring this gave a nonsensical 0.483 \u03bb for the fattest wire), radius a/\u03bb = 10\u207b\u2075 \u2026 10\u207b\u00b2, length swept 0.44\u20130.50 \u03bb; resonant length from the X_in = 0\ncrossing; compared with the 0.95 rule. Example: 2 m band (146 MHz) with 2 mm wire.",
+  "data": "Simulation (own MoM solver, validated in SL-128/SL-135).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "146 MHz dipole total length (0.95\u00b7\u03bb/2)",
+   "predicted": 0.975352175,
+   "measured": 0.975352175,
+   "unit": "m",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Classic '468/f(MHz) ft' formula vs 0.95\u00b7\u03bb/2 (same rule in feet)",
+   "predicted": 0.9770301369863014,
+   "measured": 0.975352175,
+   "unit": "m",
+   "error": -0.1717410674226572,
+   "error_str": "-0.17 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "2 mm wire at 146 MHz: MoM resonant length vs 0.95 rule",
+   "predicted": 0.475,
+   "measured": 0.47893857119891875,
+   "unit": "\u03bb",
+   "error": 0.8291728839828995,
+   "error_str": "+0.83 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Resistance at resonance (\u2248 70 \u03a9)",
+   "predicted": 70.0,
+   "measured": 72.0586187698504,
+   "unit": "\u03a9",
+   "error": 2.9408839569291394,
+   "error_str": "+2.94 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Resonant length for very thin wire (a/\u03bb = 10\u207b\u2075)",
+   "value": 0.4873529804049893,
+   "unit": "\u03bb",
+   "note": ""
+  },
+  {
+   "quantity": "Resonant length for fat element (a/\u03bb = 10\u207b\u00b2)",
+   "value": 0.46384622254727936,
+   "unit": "\u03bb",
+   "note": ""
+  },
+  {
+   "quantity": "a/\u03bb range where the 0.95 rule is within \u00b11 % (interpolated)",
+   "value": "4.2e-04 \u2013 2.2e-03",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/resonance.png"
+ ],
+ "runtime_s": 2.51,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL199-antenna-length-calculator"
+}

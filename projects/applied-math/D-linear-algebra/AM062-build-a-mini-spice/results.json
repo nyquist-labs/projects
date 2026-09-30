@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "AM-062",
+  "title": "Build a mini SPICE: modified nodal analysis from scratch",
+  "level": "H",
+  "tools": "A self-contained ~80-line MNA engine (stamps for R, C, L, independent V/I sources, VCVS/VCCS; DC and complex AC), sparse assembly, cross-checked against the repository's full simulator and hand solutions",
+  "summary": "Write the matrix stamps of modified nodal analysis, assemble and solve the circuit matrix for DC and AC problems, and verify the engine on hand-solvable circuits (Wheatstone bridge, R-2R ladder, an op-amp modelled as a VCVS) and on 200 random networks against an independent simulator.",
+  "problem": "What does a circuit simulator actually do? Can the whole idea fit in one page of linear algebra?",
+  "theory": "KCL at every non-ground node gives $Gv = i$; voltage sources add one unknown current each and one constraint row, giving the MNA system\n$\\begin{bmatrix}G & B\\\\ C & D\\end{bmatrix}\\begin{bmatrix}v\\\\ j\\end{bmatrix}=\\begin{bmatrix}i\\\\ e\\end{bmatrix}$. Each element 'stamps' a few entries: a conductance g between a and b adds +g to (a,a),(b,b) and \u2212g to (a,b),(b,a); a capacitor\nis j\u03c9C, an inductor 1/(j\u03c9L) (or a branch current for DC). R-2R ladder: node voltages halve each stage exactly; bridge: zero detector current when R1/R2 = R3/R4.",
+  "method": "Own engine (independent code path from eelab.circuit). Tests: R-2R ladder (8 bits), unbalanced/balanced Wheatstone bridge, inverting amplifier with VCVS gain 10\u2076, RLC AC sweep; 200 random connected\nnetworks (5\u201340 nodes, R/C/L/V/I) solved at DC and at 1 kHz by both engines.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "R-2R ladder: every node is half the previous (worst deviation of the ratio)",
+   "predicted": 0.0,
+   "measured": 1.1102230246251565e-16,
+   "unit": "",
+   "error": 1.1102230246251565e-16,
+   "error_str": "+1.1102e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Wheatstone bridge (balanced): v_a \u2212 v_b",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "V",
+   "error": 0.0,
+   "error_str": "+0 V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Wheatstone bridge (unbalanced): v_a \u2212 v_b",
+   "predicted": -0.39215686274509887,
+   "measured": -0.39215686274509753,
+   "unit": "V",
+   "error": 1.3322676295501878e-15,
+   "error_str": "+1.332 fV",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Inverting amplifier (VCVS, A = 10\u2076): gain",
+   "predicted": -9.999890001209987,
+   "measured": -9.999890001209987,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "200 random networks at DC: mini SPICE vs eelab.circuit (worst relative)",
+   "predicted": 0.0,
+   "measured": 9.115284044997757e-11,
+   "unit": "",
+   "error": 9.115284044997757e-11,
+   "error_str": "+9.1153e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 at 1 kHz (complex AC)",
+   "predicted": 0.0,
+   "measured": 1.0508615635581168e-11,
+   "unit": "",
+   "error": 1.0508615635581168e-11,
+   "error_str": "+1.0509e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Series RLC: |v_C| peak at \u03c90\u221a(1 \u2212 2\u03b6\u00b2)",
+   "predicted": 1575.5535532749357,
+   "measured": 1577.5930613623614,
+   "unit": "Hz",
+   "error": 0.12944708119799503,
+   "error_str": "+0.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/mini_spice.png"
+ ],
+ "runtime_s": 0.4,
+ "folder": "projects/applied-math/D-linear-algebra/AM062-build-a-mini-spice"
+}

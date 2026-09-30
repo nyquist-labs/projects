@@ -1,0 +1,15 @@
+* schmitt — exported by eelab.circuit
+Vin in 0 DC 0.0 AC 0.0  ; time-varying in eelab
+R1 p 0 1000
+R2 p out 47000
+RL out 0 10000
+* op-amp U1: A0=2e+05, GBW=1e+07 Hz, SR=1e+07 V/s
+XUU1 p in out OPAMP1P A0=2e+05 GBW=1e+07
+.subckt OPAMP1P inp inn out A0=2e5 GBW=1e6
+G1 0 x inp inn {A0/1e6}
+R1 x 0 1e6
+C1 x 0 {1/(6.2832*GBW/A0*1e6)}
+E1 o 0 x 0 1
+Ro o out 50
+.ends
+.end

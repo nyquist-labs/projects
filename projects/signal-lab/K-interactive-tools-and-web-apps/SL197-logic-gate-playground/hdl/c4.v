@@ -1,0 +1,22 @@
+module c4(input wire i0, i1, i2, i3, output wire o0, o1, o2);
+  wire g0 = ~i0;
+  wire g1 = i3 | i3;
+  wire g2 = i0 & i3 & i3;
+  wire g3 = i1 | i1;
+  wire g4 = i3 | g2 | i1;
+  wire g5 = ~(g2 ^ g0 ^ g0);
+  wire g6 = g3 | g0 | i0;
+  wire g7 = ~(g2 & g1 & i2);
+  wire g8 = i0;
+  wire g9 = g7 & g8 & i1;
+  wire g10 = g6 ^ g3;
+  wire g11 = g5 ^ g0 ^ g3;
+  wire g12 = g1;
+  wire g13 = i1;
+  wire g14 = ~(g13 & g2);
+  wire g15 = i2 & g2 & i3;
+  wire g16 = ~(g10 | g11);
+  assign o0 = g16;
+  assign o1 = g15;
+  assign o2 = g14;
+endmodule

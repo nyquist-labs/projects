@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-146",
+  "title": "Bit-banged SPI and its maximum clock rate",
+  "level": "M",
+  "tools": "C firmware (software SPI, modes 0 and 3) with a per-instruction cycle-cost model, logic-analyser decode in Python",
+  "summary": "Implement SPI in software on GPIO pins, count the CPU cycles per bit to predict the maximum SCLK, and decode the generated waveform to verify mode, bit order and data.",
+  "problem": "When a microcontroller lacks a free SPI peripheral, you toggle pins yourself. How fast can that go, and does the timing still meet the protocol?",
+  "theory": "Per bit: set MOSI (\u2248 3 cycles for read-modify-write), SCLK high (2), read MISO (2), SCLK low (2), shift/loop (\u2248 5) \u2192 ~14 cycles at 16 MHz\n= 0.875 \u00b5s/bit \u2192 \u2248 1.14 MHz max SCLK, with an asymmetric duty cycle (high for 4 of 14 cycles).",
+  "method": "Cycle-cost model inside the simulated HAL (cycles advance simulated time at 16 MHz). 64 bytes sent in modes 0 and 3; Python decodes SCLK/MOSI and measures\nthe period and duty; data compared with the sent bytes.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Mode 0: bytes decoded incorrectly (of 64)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Maximum SCLK (16 MHz / 14 cycles per bit)",
+   "predicted": 1142857.142857143,
+   "measured": 1144164.7597254005,
+   "unit": "Hz",
+   "error": 0.11441647597253321,
+   "error_str": "+0.11 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SCLK high fraction (4 of 14 cycles)",
+   "predicted": 0.2857142857142857,
+   "measured": 0.28604118993135014,
+   "unit": "",
+   "error": 0.00032690421706443873,
+   "error_str": "+3.2690e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Mode 3: bytes decoded incorrectly (of 64)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/softspi.png"
+ ],
+ "runtime_s": 0.41,
+ "folder": "projects/signal-lab/H-embedded-systems/SL146-bit-banged-spi"
+}

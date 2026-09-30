@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "AM-108",
+  "title": "Economic dispatch: equal incremental cost",
+  "level": "M",
+  "tools": "Quadratic generator cost curves, Lagrange-multiplier (equal-\u03bb) solution with limits by bisection on \u03bb, verification with a general constrained optimiser (SLSQP), marginal cost check",
+  "summary": "Split a demand among four generators with quadratic fuel costs so that total cost is minimal, derive the equal-incremental-cost rule, handle generator limits by bisection on \u03bb, and confirm against a general-purpose optimiser across a range of demands.",
+  "problem": "Four power plants, one demand. Should each run at the same output, the same efficiency \u2014 or something else?",
+  "theory": "Minimise \u03a3(a_i + b_iP_i + c_iP_i\u00b2) subject to \u03a3P_i = D. Lagrange: $b_i + 2c_iP_i = \u03bb$ for all units not at a limit \u21d2 $P_i = \\frac{\u03bb-b_i}{2c_i}$, clipped to [P_min, P_max]; find \u03bb with \u03a3P_i(\u03bb) = D (monotone \u21d2 bisection). \u03bb is the system marginal cost:\nd(total cost)/dD = \u03bb. Equal *outputs* or equal *efficiencies* are not optimal; equal marginal costs are.",
+  "method": "Four units: b = 20, 22, 18, 25 $/MWh; c = 0.02, 0.015, 0.03, 0.01 $/MW\u00b2h; limits 50\u2013300 MW (unit 4: 0\u2013500). Demand 200\u20131200 MW. \u03bb-bisection vs SLSQP; marginal cost check by \u00b11 MW finite difference; comparison with equal-share\ndispatch.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03bb-bisection vs SLSQP optimum cost (worst relative over demands)",
+   "predicted": 0.0,
+   "measured": 4.1588068978087164e-11,
+   "unit": "",
+   "error": 4.1588068978087164e-11,
+   "error_str": "+4.1588e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bb = marginal cost d(total)/dD (worst |\u03bb \u2212 finite difference|)",
+   "predicted": 0.0,
+   "measured": 1.212896449942491e-11,
+   "unit": "$/MWh",
+   "error": 1.212896449942491e-11,
+   "error_str": "+1.2129e-11 $/MWh",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "At 800 MW: incremental costs of all units not at a limit are equal (spread)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "$/MWh",
+   "error": 0.0,
+   "error_str": "+0 $/MWh",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Saving vs equal-share dispatch at 800 MW",
+   "value": 30.55555555556566,
+   "unit": "$/h",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/dispatch.png"
+ ],
+ "runtime_s": 0.18,
+ "folder": "projects/applied-math/F-optimisation/AM108-economic-dispatch"
+}

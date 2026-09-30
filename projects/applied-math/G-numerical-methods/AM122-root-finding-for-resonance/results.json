@@ -1,0 +1,108 @@
+{
+ "meta": {
+  "id": "AM-122",
+  "title": "Root finding for resonance: bisection, secant and Newton",
+  "level": "E",
+  "tools": "Own bisection, secant, Newton and Brent-free comparison on the reactance of an LC network, convergence-order measurement from error sequences",
+  "summary": "Find the series-resonance frequency of a two-tank network (a zero of its reactance) with three root finders, and measure their convergence orders \u2014 1 (with factor \u00bd), the golden ratio 1.618, and 2 \u2014 from the error sequences.",
+  "problem": "Resonance is where reactance crosses zero. Which root finder should a filter-tuning script use?",
+  "theory": "Bisection halves the bracket: linear convergence, error ratio \u00bd, guaranteed. Secant: order \u03c6 = (1+\u221a5)/2 \u2248 1.618, one function evaluation per step. Newton: order 2 but needs the derivative (two evaluations per step for\nreactance plus slope), so per *function evaluation* the secant method's efficiency index 1.618 beats Newton's \u221a2 \u2248 1.414. Order estimated as $p \u2248 \\frac{\\ln(e_{k+1}/e_k)}{\\ln(e_k/e_{k-1})}$.",
+  "method": "Network: L1 = 10 \u00b5H in series with (L2 = 4.7 \u00b5H \u2225 C2 = 1 nF) in series with C1 = 470 pF \u2014 its reactance X(\u03c9) has series-resonance zeros on either side of the parallel resonance (a pole) at 2.32 MHz. Reference root: closed form (a quadratic in \u03c9\u00b2). The three methods search the upper zero from the bracket\n[2.6, 4.0] MHz (Newton from 3.0 MHz); orders from the last three errors above round-off; evaluations to 1e-12 relative. A second bisection on [2, 3] MHz demonstrates the pole pitfall.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Upper series resonance: bisection root vs closed form (quadratic in \u03c9\u00b2)",
+   "predicted": 3249890.0468143597,
+   "measured": 3249890.0468143597,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pitfall: bisection on [2, 3] MHz (sign change across a pole) converges to the parallel resonance 1/2\u03c0\u221a(L\u2082C\u2082)",
+   "predicted": 2321513.4420947204,
+   "measured": 2321513.442094721,
+   "unit": "Hz",
+   "error": 2.0058522120275527e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Bisection: bracket (error bound) ratio per step (\u00bd)",
+   "predicted": 0.5,
+   "measured": 0.5,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Bisection: midpoint error never exceeds half the bracket (violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Secant: convergence order (golden ratio 1.618)",
+   "predicted": 1.618,
+   "measured": 1.6187987082351483,
+   "unit": "",
+   "error": 0.04936392059012114,
+   "error_str": "+0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Newton: convergence order (2)",
+   "predicted": 2.0,
+   "measured": 2.01032909368632,
+   "unit": "",
+   "error": 0.5164546843160034,
+   "error_str": "+0.52 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Lower series resonance / parallel resonance (pole)",
+   "value": "1.6583 MHz / 2.3215 MHz",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "|X| at that 'root'",
+   "value": 1.4411518807585587e+17,
+   "unit": "\u03a9",
+   "note": "not a zero at all \u2014 always check the residual"
+  },
+  {
+   "quantity": "Function evaluations to 1e-12 relative: bisection / secant / Newton (derivative by 2 extra evaluations)",
+   "value": "35 / 9 / 12",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/roots.png"
+ ],
+ "runtime_s": 0.14,
+ "folder": "projects/applied-math/G-numerical-methods/AM122-root-finding-for-resonance"
+}

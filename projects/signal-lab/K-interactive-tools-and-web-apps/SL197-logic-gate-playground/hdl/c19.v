@@ -1,0 +1,25 @@
+module c19(input wire i0, i1, i2, i3, output wire o0, o1, o2);
+  wire g0 = i0 | i0;
+  wire g1 = g0 | i2;
+  wire g2 = ~(i2 | g1);
+  wire g3 = ~(g0 ^ g0);
+  wire g4 = g3;
+  wire g5 = ~(i1 & i1 & i1);
+  wire g6 = g1 | g1 | i1;
+  wire g7 = ~(g3 | g1 | i0);
+  wire g8 = g4 ^ g5;
+  wire g9 = ~(g0 & g0 & i2);
+  wire g10 = ~(g7 & g9);
+  wire g11 = ~g1;
+  wire g12 = ~(i3 | i3 | g1);
+  wire g13 = g5 ^ g5 ^ g1;
+  wire g14 = i1 | g6 | i3;
+  wire g15 = i2 | g5;
+  wire g16 = ~(g9 | g3 | i3);
+  wire g17 = ~(g0 ^ i1);
+  wire g18 = ~(g10 | i0);
+  wire g19 = g18 | i0 | g1;
+  assign o0 = g19;
+  assign o1 = g18;
+  assign o2 = g17;
+endmodule

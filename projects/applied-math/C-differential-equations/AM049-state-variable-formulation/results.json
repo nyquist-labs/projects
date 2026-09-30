@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-049",
+  "title": "State-variable formulation of circuits",
+  "level": "M",
+  "tools": "Systematic state equations from capacitor voltages and inductor currents (KCL/KVL on a normal tree), state matrix eigenvalues, comparison with MNA AC/transient simulation",
+  "summary": "Convert a 5th-order LC ladder low-pass into first-order state equations by hand-derivable rules, show that the state matrix's eigenvalues are the transfer-function poles, and check the state-space model against the circuit simulator in time and frequency.",
+  "problem": "How does a circuit become \u1e8b = Ax + Bu \u2014 and is that model identical to what a simulator computes?",
+  "theory": "Pick states = capacitor voltages and inductor currents (a normal tree puts all C in the tree, all L in the co-tree). Each capacitor current follows from KCL at its node, each inductor\nvoltage from KVL around its loop, giving $\\dot x=Ax+Bu$, $y=Cx$. Then $H(s)=C(sI-A)^{-1}B$ and the poles of H are eig(A). For a doubly terminated 5th-order Butterworth ladder\n(R_s = R_L = 1 \u03a9, normalised values 0.618, 1.618, 2, 1.618, 0.618) the poles should lie on the unit circle.",
+  "method": "Ladder: R_s \u2013 C1 \u2013 L2 \u2013 C3 \u2013 L4 \u2013 C5 \u2013 R_L, scaled to 1 kHz / 50 \u03a9. A built by the rules; eig(A) vs Butterworth poles; Bode from the state model vs MNA AC; step response from\nthe state model vs MNA transient.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "eig(A) vs 5th-order Butterworth poles (max relative distance)",
+   "predicted": 0.0,
+   "measured": 5.499881323035125e-05,
+   "unit": "",
+   "error": 5.499881323035125e-05,
+   "error_str": "+5.4999e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Frequency response: state model vs MNA (max |\u0394H|)",
+   "predicted": 0.0,
+   "measured": 3.3306690738754696e-16,
+   "unit": "",
+   "error": 3.3306690738754696e-16,
+   "error_str": "+3.3307e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "DC gain = R_L/(R_s+R_L)",
+   "predicted": 0.5,
+   "measured": 0.49999999999999994,
+   "unit": "",
+   "error": -1.1102230246251565e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Step response: state model vs MNA transient (max difference)",
+   "predicted": 0.0,
+   "measured": 2.294814824888025e-06,
+   "unit": "V",
+   "error": 2.294814824888025e-06,
+   "error_str": "+2.295 \u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/state_space.png"
+ ],
+ "runtime_s": 0.3,
+ "folder": "projects/applied-math/C-differential-equations/AM049-state-variable-formulation"
+}

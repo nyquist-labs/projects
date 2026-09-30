@@ -1,0 +1,184 @@
+{
+ "meta": {
+  "id": "SL-055",
+  "title": "Single-cycle RISC-V (RV32I subset) CPU",
+  "level": "H",
+  "tools": "Verilog RTL, Python assembler + golden ISA simulator, Icarus Verilog",
+  "summary": "A single-cycle processor that executes real RV32I machine code (ALU, loads/stores, branches, JAL/JALR): four programs are assembled, run on the Verilog CPU and checked register-for-register against an independent instruction-set simulator.",
+  "problem": "Build the smallest processor that runs real instructions, and prove it computes exactly what the ISA specification says.",
+  "theory": "A single-cycle datapath fetches, decodes, executes, accesses memory and writes back in one clock, so\nCPI = 1 exactly and cycles = dynamic instruction count. The cost is the clock period: it must cover the\nslowest instruction (lw: instruction memory \u2192 register read \u2192 ALU address add \u2192 data memory \u2192 write-back\nmux). Correctness criterion: after each program, all 31 registers and every data-memory word equal the\ngolden ISS's final state.",
+  "method": "Programs (hand-written RISC-V assembly, assembled by `eelab.rv32`): sum 1\u2026100, first 20 Fibonacci numbers\nto memory, bubble sort of 16 signed words, and a shift-and-add multiply subroutine called with JAL/JALR.\nThe Verilog core loads the machine code with $readmemh, runs until it reaches the `j halt` self-loop,\ndumps registers/memory; Python compares with the ISS.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "sum_1_to_100: register mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "sum_1_to_100: memory mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "sum_1_to_100: cycles (CPI = 1 \u2192 dynamic instruction count)",
+   "predicted": 304.0,
+   "measured": 304.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "fibonacci_20: register mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "fibonacci_20: memory mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "fibonacci_20: cycles (CPI = 1 \u2192 dynamic instruction count)",
+   "predicted": 144.0,
+   "measured": 144.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "bubble_sort_16: register mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "bubble_sort_16: memory mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "bubble_sort_16: cycles (CPI = 1 \u2192 dynamic instruction count)",
+   "predicted": 963.0,
+   "measured": 963.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "bubble sort output is sorted(input)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "shift_add_multiply: register mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "shift_add_multiply: memory mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "shift_add_multiply: cycles (CPI = 1 \u2192 dynamic instruction count)",
+   "predicted": 41.0,
+   "measured": 41.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "123 \u00d7 45 via shift-and-add",
+   "predicted": 5535.0,
+   "measured": 5535.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "sum 1..100 stored in mem[0]",
+   "value": 5050.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/cycles.png"
+ ],
+ "runtime_s": 0.2,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL055-single-cycle-risc-cpu"
+}

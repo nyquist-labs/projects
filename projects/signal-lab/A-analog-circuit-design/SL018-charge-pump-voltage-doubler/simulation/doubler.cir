@@ -1,0 +1,12 @@
+* doubler — exported by eelab.circuit
+Vdrv sq 0 DC 0.0 AC 0.0  ; time-varying in eelab
+Rdrv sq b 10
+Vdc vdd 0 DC 5.0 AC 0.0
+C1 b top 1e-05
+C2 out 0 1e-05
+RL out 0 1000
+D1 vdd top D_1
+D2 top out D_2
+.model D_1 D(Is=1e-06 N=1.05)
+.model D_2 D(Is=1e-06 N=1.05)
+.end

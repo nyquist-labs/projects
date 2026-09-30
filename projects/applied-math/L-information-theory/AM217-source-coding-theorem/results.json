@@ -1,0 +1,119 @@
+{
+ "meta": {
+  "id": "AM-217",
+  "title": "The source coding theorem, demonstrated",
+  "level": "M",
+  "tools": "Exact binomial computations in the log domain for i.i.d. binary sequences up to n = 5000, the typical set and its size, asymptotic equipartition checked by simulation, error of optimal fixed-length block codes above and below the entropy, the same phenomenon on real English text",
+  "summary": "Show why the entropy is the compression limit: long sequences concentrate on a 'typical set' of about 2^{nH} equally likely members, so fixed-length codes at any rate above H succeed with probability \u2192 1 and at any rate below H fail with probability \u2192 1. Everything is computed exactly for binary sources and checked on English.",
+  "problem": "Why is H the number of bits per symbol needed \u2014 no more, no less \u2014 for long sequences?",
+  "theory": "For i.i.d. $X_i$ with entropy H, $-\\tfrac1n\\log_2p(X^n)\\to H$ (AEP), with standard deviation $\u03c3/\\sqrt n$, $\u03c3^2=\\mathrm{Var}[-\\log_2p(X)]$. The \u03b5-typical set has probability \u2192 1 and size between $(1-\u03b5)2^{n(H-\u03b5)}$ and $2^{n(H+\u03b5)}$ \u2014 a vanishing fraction of all $2^n$ sequences when H < 1. A fixed-length code of rate R that lists the\n$2^{nR}$ most probable sequences fails with probability \u2192 0 if R > H and \u2192 1 if R < H (strong converse).",
+  "method": "Bernoulli(0.2) source (H = 0.722 bit). Exact: sequences sorted by probability are grouped by their number of ones; failure probability of the best code of rate R is 1 \u2212 P(the 2^{nR} most probable sequences), computed with log-binomials for n = 10\u20265000 and R = 0.6, 0.7, 0.75, 0.85. AEP by simulation\n(20 000 sequences per n). English: letters of 'Alice' under the order-0 model, blocks of n letters.",
+  "data": "Project Gutenberg eBook #11 (public domain).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory"
+ },
+ "rows": [
+  {
+   "quantity": "AEP: std of \u2212(1/n)log\u2082p(X\u207f) at n = 1000 vs \u03c3/\u221an",
+   "predicted": 0.025298221281347035,
+   "measured": 0.025363567521939797,
+   "unit": "bit",
+   "error": 0.2583036960030986,
+   "error_str": "+0.26 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and its mean \u2192 H = 0.722 bit",
+   "predicted": 0.7219280948873623,
+   "measured": 0.7220337548873623,
+   "unit": "bit",
+   "error": 0.014635806633414489,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Typical set (\u03b5 = 0.05) captures almost all probability at n = 5000",
+   "predicted": 1.0,
+   "measured": 0.9999900299362603,
+   "unit": "",
+   "error": -0.0009970063739705992,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 while its size is 2^{n\u00b7(H \u00b1 \u03b5)}: log\u2082(size)/n at n = 5000",
+   "predicted": 0.7219280948873623,
+   "measured": 0.7680497261295376,
+   "unit": "bit",
+   "error": 0.046121631242175276,
+   "error_str": "+0.04612 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rate 0.85 > H: failure probability of the best fixed-length code at n = 5000 \u2192 0",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rate 0.6 < H: failure probability at n = 5000 \u2192 1 (strong converse)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "English letters (order-0 model): per-letter \u2212log\u2082p of 1000-letter blocks concentrates on H",
+   "predicted": 4.417420134597074,
+   "measured": 4.417591134836198,
+   "unit": "bit",
+   "error": 0.0038710431408805674,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Typical-set probability for n = 10 / 100 / 1000 / 5000",
+   "value": "0.302 / 0.468 / 0.952 / 1.000",
+   "unit": "",
+   "note": "small n: the 'typical' sequences are not yet most of the probability"
+  },
+  {
+   "quantity": "Failure probability at rate 0.75 (just above H = 0.722): n = 100 / 1000 / 5000",
+   "value": "0.187 / 0.085 / 0.004",
+   "unit": "",
+   "note": "convergence is slow near the entropy"
+  },
+  {
+   "quantity": "Spread of block log-probabilities per letter, n = 10 / 100 / 1000 letters",
+   "value": "0.437 / 0.152 / 0.074",
+   "unit": "bit",
+   "note": "falls roughly as 1/\u221an \u2014 dependence between letters slows it a little"
+  }
+ ],
+ "figures": [
+  "figures/source_coding.png"
+ ],
+ "runtime_s": 0.22,
+ "folder": "projects/applied-math/L-information-theory/AM217-source-coding-theorem"
+}

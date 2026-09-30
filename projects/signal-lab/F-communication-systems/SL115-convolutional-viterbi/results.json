@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-115",
+  "title": "Convolutional code + Viterbi decoder: hard vs soft decisions",
+  "level": "H",
+  "tools": "k = 7, r = \u00bd encoder and Viterbi decoder (eelab.comms), Monte Carlo over AWGN",
+  "summary": "Measure the coding gain of the NASA-standard k = 7 rate-\u00bd convolutional code with hard- and soft-decision Viterbi decoding and compare with the union-bound prediction and the classic ~2 dB soft-decision advantage.",
+  "problem": "The Viterbi algorithm finds the most likely transmitted sequence through a trellis. How much does feeding it analog ('soft') values instead of hard bits help?",
+  "theory": "The (171,133) code has free distance d_free = 10. Soft-decision union bound: $P_b\\lesssim\\sum_d c_d\\,Q(\\sqrt{2dRE_b/N_0})$ with leading\nspectrum terms $c_{10}=36$, $c_{12}=211$, $c_{14}=1404$. Asymptotic coding gain $10\\log_{10}(Rd_{free})$ = 7 dB; soft decisions are\nworth \u2248 2 dB over hard decisions (the information lost by quantising to 1 bit).",
+  "method": "20,000 information bits per E_b/N\u2080 point; BPSK over AWGN; hard decoding uses \u00b11 of the sign, soft uses the raw values.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Soft Viterbi BER at 3 dB vs union bound",
+   "predicted": 0.00033570620842110455,
+   "measured": 6.666666666666667e-05,
+   "unit": "",
+   "error": -0.00026903954175443786,
+   "error_str": "-2.6904e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": "the bound is an upper bound"
+  },
+  {
+   "quantity": "Soft \u2212 hard decision gain at BER 10\u207b\u2074",
+   "predicted": 2.0,
+   "measured": 2.301584530944444,
+   "unit": "dB",
+   "error": 0.30158453094444404,
+   "error_str": "+0.3016 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Coding gain at 10\u207b\u2074, soft decisions",
+   "value": 5.486646583851716,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "Coding gain at 10\u207b\u2074, hard decisions",
+   "value": 3.1850620529072717,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/viterbi.png"
+ ],
+ "runtime_s": 53.07,
+ "folder": "projects/signal-lab/F-communication-systems/SL115-convolutional-viterbi"
+}

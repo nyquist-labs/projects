@@ -1,0 +1,144 @@
+{
+ "meta": {
+  "id": "AM-031",
+  "title": "Designing in the z-plane: pole radius and decay",
+  "level": "M",
+  "tools": "Two-pole digital resonator placed directly in the z-plane, impulse-response envelope fitting, \u22123 dB bandwidth measurement",
+  "summary": "Place a pole pair at r\u00b7e^{\u00b1j\u03b8} to build a digital resonator, predict its ringing frequency, decay time and bandwidth from r and \u03b8, and measure all three from the impulse and frequency responses for pole radii from 0.8 to 0.999.",
+  "problem": "In the z-plane, what does moving a pole toward the unit circle do \u2014 quantitatively?",
+  "theory": "Poles $re^{\\pm j\u03b8}$: $h[n]\\propto r^n\\sin((n+1)\u03b8)$, so the envelope decays as $r^n$ \u2014 time constant $n_\u03c4 = -1/\\ln r \u2248 1/(1-r)$ samples, oscillation at $f=\u03b8f_s/2\u03c0$. Near the circle the\n\u22123 dB bandwidth is $\u0394f \u2248 (1-r)f_s/\u03c0$ (the pole's distance to the circle sets it, just as Re s does in the s-plane). The mapping $z=e^{sT}$ makes r \u2194 e^{\u03c3T}.",
+  "method": "fs = 8 kHz, \u03b8 for 1 kHz; r \u2208 {0.8, 0.9, 0.95, 0.99, 0.995, 0.999}. Envelope rate from peaks of |h[n]| (log-linear fit); bandwidth from a 2\u00b9\u2078-point frequency response.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "r = 0.8: envelope decay per sample = ln r",
+   "predicted": -0.2231435513142097,
+   "measured": -0.2231435513142097,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.9: envelope decay per sample = ln r",
+   "predicted": -0.10536051565782628,
+   "measured": -0.10536051565782624,
+   "unit": "",
+   "error": 3.9515147741544676e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.95: envelope decay per sample = ln r",
+   "predicted": -0.05129329438755058,
+   "measured": -0.051293294387550564,
+   "unit": "",
+   "error": 2.705575450654373e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.99: envelope decay per sample = ln r",
+   "predicted": -0.01005033585350145,
+   "measured": -0.010050335853501456,
+   "unit": "",
+   "error": -5.178105989480275e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.995: envelope decay per sample = ln r",
+   "predicted": -0.005012541823544286,
+   "measured": -0.005012541823544258,
+   "unit": "",
+   "error": 5.710264045912441e-13,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.999: envelope decay per sample = ln r",
+   "predicted": -0.0010005003335835344,
+   "measured": -0.0010005003335835203,
+   "unit": "",
+   "error": 1.4087579753050388e-12,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.95: \u22123 dB bandwidth \u2248 (1\u2212r)\u00b7fs/\u03c0",
+   "predicted": 127.32395447351638,
+   "measured": 131.103515625,
+   "unit": "Hz",
+   "error": 2.968460386823577,
+   "error_str": "+2.97 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.99: \u22123 dB bandwidth \u2248 (1\u2212r)\u00b7fs/\u03c0",
+   "predicted": 25.464790894703278,
+   "measured": 25.619506835937386,
+   "unit": "Hz",
+   "error": 0.6075680804678825,
+   "error_str": "+0.61 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.995: \u22123 dB bandwidth \u2248 (1\u2212r)\u00b7fs/\u03c0",
+   "predicted": 12.732395447351639,
+   "measured": 12.786865234374886,
+   "unit": "Hz",
+   "error": 0.4278047068870876,
+   "error_str": "+0.43 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "r = 0.999: \u22123 dB bandwidth \u2248 (1\u2212r)\u00b7fs/\u03c0",
+   "predicted": 2.5464790894703278,
+   "measured": 2.5634765625001137,
+   "unit": "Hz",
+   "error": 0.6674892049995762,
+   "error_str": "+0.67 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ringing frequency (r = 0.99) = \u03b8\u00b7fs/2\u03c0",
+   "predicted": 1000.0,
+   "measured": 1000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/resonator.png"
+ ],
+ "runtime_s": 0.28,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM031-z-transform-digital-filter"
+}

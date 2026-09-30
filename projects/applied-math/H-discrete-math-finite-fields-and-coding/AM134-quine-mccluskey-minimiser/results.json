@@ -1,0 +1,153 @@
+{
+ "meta": {
+  "id": "AM-134",
+  "title": "Quine\u2013McCluskey: exact two-level minimisation",
+  "level": "H",
+  "tools": "Own Quine\u2013McCluskey prime-implicant generation and exact minimum cover by branch and bound (eelab.boolmin), truth-table verification, known-answer functions (parity, majority, prime detector), Yosys for a multi-level comparison, scaling measurements",
+  "summary": "Implement the exact minimisation algorithm, verify it on functions whose minimum is known from theory, and measure how the number of prime implicants and the run time grow with the number of variables \u2014 the reason exact methods stop at ~10\u201312 variables.",
+  "problem": "What is the provably smallest AND-OR circuit for a truth table \u2014 and how hard is it to find?",
+  "theory": "QM: repeatedly merge implicants differing in one variable; unmerged ones are prime. Minimum cover is NP-hard (set cover). Known minima: n-input parity has no mergeable pairs \u2192 exactly $2^{n-1}$ product terms of n literals; majority-of-n needs\n$\\binom{n}{\\lceil n/2\\rceil}$ terms; a function's number of primes can reach ~3\u207f/n. Multi-level logic can be exponentially smaller (parity: n\u22121 XORs), which two-level minimisation cannot see.",
+  "method": "Parity and majority for n = 3\u20267; 4-bit prime detector with and without don't-cares (BCD inputs); random functions for n = 4\u20268 (500 each up to n = 6, 80 and 40 for n = 7 and 8) verified against truth tables; timing and prime counts; parity in Yosys (multi-level) for contrast.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Parity of 3 inputs: minimum product terms = 2^(n\u22121)",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Parity of 5 inputs: minimum product terms = 2^(n\u22121)",
+   "predicted": 16.0,
+   "measured": 16.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Parity of 7 inputs: minimum product terms = 2^(n\u22121)",
+   "predicted": 64.0,
+   "measured": 64.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Majority of 3: minimum terms = C(n, \u2308n/2\u2309)",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Majority of 5: minimum terms = C(n, \u2308n/2\u2309)",
+   "predicted": 10.0,
+   "measured": 10.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Majority of 7: minimum terms = C(n, \u2308n/2\u2309)",
+   "predicted": 35.0,
+   "measured": 35.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Don't-cares never increase the minimum (terms with DC \u2264 without; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Exact covers that disagree with their truth table (all random functions, n = 4\u20268)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "7-input parity as multi-level logic (Yosys): XOR gates = n \u2212 1",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "4-bit prime detector",
+   "value": "A'B'C + B'CD + BC'D + A'CD",
+   "unit": "",
+   "note": "4 terms"
+  },
+  {
+   "quantity": "\u2026 with BCD don't-cares (10\u201315)",
+   "value": "B'C + BD",
+   "unit": "",
+   "note": "2 terms"
+  },
+  {
+   "quantity": "Mean primes per random function, n = 4 / 6 / 8",
+   "value": "4 / 20 / 88",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Mean solve time, n = 4 / 8",
+   "value": "0.05 ms / 7 ms",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 versus two-level: 64 seven-input ANDs + one 64-input OR",
+   "value": 448.0,
+   "unit": "literals",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/qm.png"
+ ],
+ "runtime_s": 2.04,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM134-quine-mccluskey-minimiser"
+}

@@ -1,0 +1,70 @@
+{
+ "meta": {
+  "id": "SL-154",
+  "title": "Low-power firmware state machine and battery-life estimate",
+  "level": "M",
+  "tools": "C firmware (sleep/wake state machine with an energy ledger per state) on the simulated MCU",
+  "summary": "A sensor node that sleeps, wakes on a timer or button interrupt, samples, and transmits in bursts: log the time spent in each power state, compute the average current and battery life, and compare with the duty-cycle formula.",
+  "problem": "A coin cell holds 220 mAh. Will a sensor node last a month or five years \u2014 and which state dominates the budget?",
+  "theory": "$\\bar I=\\sum_s I_s\\,t_s/T$ and life = capacity/$\\bar I$. Currents: deep sleep 2 \u00b5A, wake + sample 1.5 mA for 5 ms every 60 s, radio TX 12 mA for 20 ms every\n10 minutes, button wake (random, ~20/day) 1.5 mA for 50 ms. Predicted $\\bar I$ \u2248 2 + 1500\u00b75/60,000 + 12,000\u00b720/600,000 + (20/86,400)\u00b71500\u00b70.05 \u2248 2 + 0.125 + 0.4 + 0.017 \u2248 2.54 \u00b5A\n\u2192 life \u2248 220 mAh / 2.54 \u00b5A \u2248 9.9 years (before self-discharge).",
+  "method": "State machine SLEEP \u2192 WAKE \u2192 SAMPLE \u2192 (every 10th sample) TX \u2192 SLEEP; button events from a Poisson process. 30 simulated days at 1 \u00b5s resolution for\nstate changes; ledger accumulates charge per state.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Average current (duty-cycle formula)",
+   "predicted": 2.542127777777778,
+   "measured": 2.541238,
+   "unit": "\u00b5A",
+   "error": -0.03500130031055743,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Battery life on a 220 mAh CR2032",
+   "predicted": 9.87918682557149,
+   "measured": 9.882645880134625,
+   "unit": "years",
+   "error": 0.03501355551027924,
+   "error_str": "+0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "sleep: share of charge / share of time",
+   "value": "78.7 % / 99.9872 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "sample: share of charge / share of time",
+   "value": "4.9 % / 0.0083 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "radio TX: share of charge / share of time",
+   "value": "15.7 % / 0.0033 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "button: share of charge / share of time",
+   "value": "0.6 % / 0.0011 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/budget.png"
+ ],
+ "runtime_s": 0.49,
+ "folder": "projects/signal-lab/H-embedded-systems/SL154-low-power-state-machine"
+}

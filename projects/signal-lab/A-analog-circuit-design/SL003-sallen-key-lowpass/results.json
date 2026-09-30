@@ -1,0 +1,120 @@
+{
+ "meta": {
+  "id": "SL-003",
+  "title": "Sallen-Key active low-pass filter",
+  "level": "M",
+  "tools": "eelab mini-SPICE with single-pole op-amp macromodel",
+  "summary": "Unity-gain Sallen-Key 2nd-order low-pass at 1 kHz built for Q = 0.5, 0.707 and 2: predict peaking and step overshoot from Q, then measure them.",
+  "problem": "How does the quality factor Q of a second-order filter trade flat passband against overshoot and ringing, and does a real (finite-bandwidth) op-amp change the answer?",
+  "theory": "For the unity-gain Sallen-Key with $R_1=R_2=R$, feedback capacitor $C_1$ and ground capacitor $C_2$:\n$$\\omega_0=\\frac1{R\\sqrt{C_1C_2}},\\qquad Q=\\frac12\\sqrt{\\frac{C_1}{C_2}}$$\nso the design is $C_2 = 1/(2Q\\omega_0R)$, $C_1 = 2Q/(\\omega_0R)$. Gain at $f_0$ equals $Q$ ($20\\log Q$ dB),\nthe peak (for $Q>0.707$) is $Q/\\sqrt{1-1/(4Q^2)}$, and step overshoot is\n$\\exp(-\\pi\\zeta/\\sqrt{1-\\zeta^2})$ with $\\zeta = 1/(2Q)$.",
+  "method": "R = 10 k\u03a9; capacitors computed for f\u2080 = 1 kHz at each Q. Op-amp macromodel: A\u2080 = 2\u00d710\u2075,\nGBW = 1 MHz, slew rate 0.5 V/\u00b5s. For each Q: AC sweep (gain at f\u2080, peak) and a 100 mV step\ntransient (overshoot).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Q=0.5: gain at f\u2080",
+   "predicted": -6.020599913279624,
+   "measured": -6.020467025883219,
+   "unit": "dB",
+   "error": 0.00013288739640504588,
+   "error_str": "+1.3289e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Q=0.5: step overshoot",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Q=0.707: gain at f\u2080",
+   "predicted": -3.0103832551202765,
+   "measured": -3.0104876962743092,
+   "unit": "dB",
+   "error": -0.00010444115403274168,
+   "error_str": "-1.0444e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Q=0.707: step overshoot",
+   "predicted": 4.3211314380378605,
+   "measured": 4.3405560256226305,
+   "unit": "%",
+   "error": 0.01942458758477006,
+   "error_str": "+0.0194 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Q=2: gain at f\u2080",
+   "predicted": 6.020599913279624,
+   "measured": 6.016948275065376,
+   "unit": "dB",
+   "error": -0.0036516382142481874,
+   "error_str": "-0.003652 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Q=2: peak gain",
+   "predicted": 6.300887149282058,
+   "measured": 6.314495012867924,
+   "unit": "dB",
+   "error": 0.01360786358586541,
+   "error_str": "+0.01361 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Q=2: step overshoot",
+   "predicted": 44.43442250884888,
+   "measured": 44.501594007172045,
+   "unit": "%",
+   "error": 0.06717149832316238,
+   "error_str": "+0.0672 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Q=0.5: C1 / C2",
+   "value": "15.92 nF / 15.92 nF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Q=0.707: C1 / C2",
+   "value": "22.51 nF / 11.25 nF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Q=2: C1 / C2",
+   "value": "63.66 nF / 3.98 nF",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/bode_by_q.png",
+  "figures/step_by_q.png"
+ ],
+ "runtime_s": 0.61,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL003-sallen-key-lowpass"
+}

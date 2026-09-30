@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "AM-085",
+  "title": "The Q-function: derivation, bounds and rare-event estimation",
+  "level": "M",
+  "tools": "Gaussian tail integral by quadrature, erfc identity, Chernoff and asymptotic bounds, Craig's finite-range formula, naive vs importance-sampling Monte Carlo for probabilities down to 10\u207b\u00b9\u00b2",
+  "summary": "Derive the Q-function and its erfc form, test the classic bounds and approximations against exact values, verify Craig's formula, and show why brute-force Monte Carlo cannot measure a 10\u207b\u00b9\u00b2 error rate while importance sampling can.",
+  "problem": "Error probabilities in communications all reduce to Gaussian tails. How accurate are the shortcuts \u2014 and how do you simulate an event that happens once in a trillion trials?",
+  "theory": "$Q(x)=\\frac1{\\sqrt{2\u03c0}}\\int_x^\u221ee^{-t^2/2}dt=\\tfrac12\\mathrm{erfc}(x/\\sqrt2)$. Bounds: $\\frac{x}{1+x^2}\\frac{e^{-x^2/2}}{\\sqrt{2\u03c0}} < Q(x) < \\frac{e^{-x^2/2}}{x\\sqrt{2\u03c0}}$; Chernoff $Q(x)\\le\\frac12e^{-x^2/2}$. Craig: $Q(x)=\\frac1\u03c0\\int_0^{\u03c0/2}e^{-x^2/(2\\sin^2\u03b8)}d\u03b8$ (finite limits).\nNaive Monte Carlo needs ~100/p samples for 10 % accuracy; importance sampling from N(x, 1) with weights e^{\u2212xz + x\u00b2/2} has relative error that stays O(1/\u221an) at any depth.",
+  "method": "x from 0.5 to 7: quad integral vs erfc; bounds; Craig by quad. Estimation of Q(7) \u2248 1.28\u00d710\u207b\u00b9\u00b2: naive (10\u2077 samples) vs importance sampling (10\u2075 samples), 50 repetitions each.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Direct integral vs \u00bd\u00b7erfc(x/\u221a2) (worst relative, x = 0.5\u20267)",
+   "predicted": 0.0,
+   "measured": 3.224498146270349e-08,
+   "unit": "",
+   "error": 3.224498146270349e-08,
+   "error_str": "+3.2245e-08",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Craig's formula vs erfc (worst relative)",
+   "predicted": 0.0,
+   "measured": 4.773320627649014e-10,
+   "unit": "",
+   "error": 4.773320627649014e-10,
+   "error_str": "+4.7733e-10",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Upper/lower bounds bracket Q(x) everywhere (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Asymptotic bound e^{\u2212x\u00b2/2}/(x\u221a2\u03c0): relative error at x = 5 (\u2248 1/x\u00b2)",
+   "predicted": 0.04,
+   "measured": 0.03730079342516657,
+   "unit": "",
+   "error": -0.0026992065748334335,
+   "error_str": "-0.002699",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Importance sampling (10\u2075 samples) estimate of Q(7) = 1.28e-12",
+   "predicted": 1.279812543885835e-12,
+   "measured": 1.27950291223103e-12,
+   "unit": "",
+   "error": -0.024193516174239104,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Chernoff bound \u00bde^{\u2212x\u00b2/2} overestimates Q(7) by",
+   "value": 8.94558682279101,
+   "unit": "\u00d7",
+   "note": ""
+  },
+  {
+   "quantity": "Importance-sampling relative std per 10\u2075-sample run",
+   "value": 0.008510142008257672,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Naive Monte Carlo with 10\u2077 samples: estimates",
+   "value": "0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00",
+   "unit": "all zero \u2014 would need ~10\u00b9\u2074 samples",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/qfunction.png"
+ ],
+ "runtime_s": 0.55,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM085-q-function-derivation"
+}

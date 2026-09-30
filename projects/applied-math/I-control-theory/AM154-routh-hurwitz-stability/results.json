@@ -1,0 +1,133 @@
+{
+ "meta": {
+  "id": "AM-154",
+  "title": "Routh\u2013Hurwitz: stability without finding the roots",
+  "level": "M",
+  "tools": "Own Routh array (exact rational arithmetic, with the \u03b5 rule for a zero pivot and the auxiliary-polynomial rule for a zero row), Hurwitz determinants, comparison with numerically computed roots on thousands of random polynomials, critical-gain prediction checked by simulation",
+  "summary": "Count right-half-plane roots from the signs in the first column of the Routh array, verify against computed roots for 5000 random polynomials, handle the two special cases, and use the array to predict the gain and frequency at which a feedback loop starts to oscillate.",
+  "problem": "Is this characteristic polynomial stable \u2014 and for which range of a gain K \u2014 without solving it?",
+  "theory": "The number of sign changes in the first column of the Routh array equals the number of roots with positive real part. A zero pivot is replaced by \u03b5 \u2192 0\u207a; an all-zero row signals roots symmetric about the origin (e.g. a pair on the j\u03c9 axis) and is replaced by the\nderivative of the auxiliary polynomial from the row above. Equivalent: all Hurwitz determinants positive. For $s^3+3s^2+2s+K$ the array gives stability for $0<K<6$; at K = 6 the auxiliary polynomial $3s^2+6$ gives oscillation at $\u03c9=\\sqrt2$ rad/s.",
+  "method": "5000 polynomials of degree 2\u20138 built from random roots (kept away from the imaginary axis), floating-point Routh array vs numpy.roots. Special cases in exact arithmetic: s\u2075+2s\u2074+2s\u00b3+4s\u00b2+11s+10 (zero pivot; 2 RHP roots) and s\u2075+7s\u2074+6s\u00b3+42s\u00b2+8s+56\n(zero row; roots \u00b1j\u221a2, \u00b1j2). Critical gain by root sweep and oscillation period from a simulated step response at K = 6.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Routh sign changes vs number of RHP roots from numpy.roots (5000 random polynomials, degree 2\u20138): mismatches",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Hurwitz determinant test disagrees with the roots (same polynomials)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Zero pivot (\u03b5 rule): RHP roots of s\u2075+2s\u2074+2s\u00b3+4s\u00b2+11s+10",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Zero row detected for s\u2075+7s\u2074+6s\u00b3+42s\u00b2+8s+56 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and no sign changes (no RHP roots; the roots of the auxiliary polynomial sit on the j\u03c9 axis)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Auxiliary polynomial 7s\u2074+42s\u00b2+56: largest root magnitude (\u00b1j2)",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "rad/s",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "s\u00b3+3s\u00b2+2s+K: critical gain from the Routh array (K = 6) vs root sweep",
+   "predicted": 6.0,
+   "measured": 5.999999999999999,
+   "unit": "",
+   "error": -1.4802973661668752e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Routh array says stable at K = 5.9 and unstable at K = 6.1 (sign changes 0 and 2)",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "K = 6: period of the sustained oscillation = 2\u03c0/\u221a2",
+   "predicted": 4.442882938158366,
+   "measured": 4.442933333333333,
+   "unit": "s",
+   "error": 0.0011342899569662926,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 6: oscillation neither grows nor decays (amplitude ratio late/early)",
+   "predicted": 1.0,
+   "measured": 0.9999999867158669,
+   "unit": "",
+   "error": -1.3284133126845177e-06,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/routh.png"
+ ],
+ "runtime_s": 0.64,
+ "folder": "projects/applied-math/I-control-theory/AM154-routh-hurwitz-stability"
+}

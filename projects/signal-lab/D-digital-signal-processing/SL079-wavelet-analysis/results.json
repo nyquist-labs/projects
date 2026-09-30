@@ -1,0 +1,98 @@
+{
+ "meta": {
+  "id": "SL-079",
+  "title": "Wavelet multi-resolution analysis of a transient",
+  "level": "H",
+  "tools": "Own Haar and Daubechies-4 discrete wavelet transform (lifting-free filter-bank form), NumPy",
+  "summary": "Implement a DWT filter bank, verify perfect reconstruction, and compare wavelets with the FFT at localising a short transient and compacting a signal's energy into few coefficients.",
+  "problem": "The FFT says *which* frequencies are present but not *when*. Can wavelets locate a 5 ms click inside a second of signal, and represent it with far fewer coefficients?",
+  "theory": "A DWT splits a signal with a low-pass/high-pass quadrature-mirror pair and downsamples by 2, repeating on the\nlow band: level j has time resolution $2^j$ samples. Orthogonal wavelets (Haar, db4) conserve energy\n(Parseval) and reconstruct perfectly. A transient of duration T appears as large coefficients only at levels\nwhose scale \u2248 T and only at its location, so its energy compacts into ~log levels \u00d7 few coefficients, whereas\nthe FFT spreads it over all bins.",
+  "method": "Signal: 1 s at 4096 Hz: two sines (40, 120 Hz) + a 5 ms decaying 600 Hz click at t = 0.62 s + white noise (\u03c3 = 0.05).\ndb4 filters from the published coefficients. 6-level decomposition, reconstruction error, location of the largest\ndetail coefficient at the click's scale, and the number of coefficients holding 99 % of the click's energy in\nthe DWT vs FFT domain.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "haar: perfect reconstruction error (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 1.7763568394002505e-15,
+   "unit": "",
+   "error": 1.7763568394002505e-15,
+   "error_str": "+1.7764e-15",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "haar: energy conservation (Parseval)",
+   "predicted": 2575.833145757866,
+   "measured": 2575.8331457578633,
+   "unit": "",
+   "error": -1.059262751476088e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "db4: perfect reconstruction error (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 3.275824056458987e-12,
+   "unit": "",
+   "error": 3.275824056458987e-12,
+   "error_str": "+3.2758e-12",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "db4: energy conservation (Parseval)",
+   "predicted": 2575.833145757866,
+   "measured": 2575.8331457528675,
+   "unit": "",
+   "error": -1.9405693607041935e-10,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Click location from largest level-3 detail coefficient",
+   "predicted": 0.62,
+   "measured": 0.619140625,
+   "unit": "s",
+   "error": -0.0008593749999999956,
+   "error_str": "-859.4 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": "resolution 2.0 ms"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Coefficients for 99 % of click energy: db4 DWT",
+   "value": 14.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Coefficients for 99 % of click energy: FFT",
+   "value": 2193.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Compaction advantage of DWT over FFT for the click",
+   "value": 156.64285714285714,
+   "unit": "\u00d7",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/decomposition.png",
+  "figures/compaction.png"
+ ],
+ "runtime_s": 0.32,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL079-wavelet-analysis"
+}

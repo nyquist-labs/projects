@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-073",
+  "title": "Sample-rate conversion 48 kHz \u2192 44.1 kHz (polyphase)",
+  "level": "M",
+  "tools": "Own polyphase resampler (L = 147, M = 160), Kaiser FIR prototype, SciPy for cross-check",
+  "summary": "Convert audio between the two standard rates with a rational polyphase filter, predict the alias rejection and passband ripple from the filter design, and measure them with test tones.",
+  "problem": "44,100/48,000 = 147/160. How do you resample by a ratio like that without aliasing and without computing 147\u00d7 more samples than needed?",
+  "theory": "Conceptually upsample by L = 147 (insert zeros), low-pass at $\\min(\\pi/L,\\pi/M)$, keep every M = 160th sample. The\npolyphase form computes only the kept outputs: cost per output = taps/L. The filter's stopband attenuation\nA sets how much an out-of-band tone (e.g. 23 kHz, which would alias to 21.1 kHz at 44.1 kHz) is suppressed:\nalias level \u2248 \u2212A dB. Passband ripple \u2248 $10^{-A/20}$.",
+  "method": "Prototype: Kaiser low-pass, cutoff 20 kHz, stopband from 22.05 kHz, A = 90 dB, designed at 147 \u00d7 48 kHz. Polyphase\nimplementation by hand (each output picks one sub-filter). Tests: 1 kHz and 19 kHz tones (passband), 23 kHz tone\n(must be rejected).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Passband gain at 1 kHz",
+   "predicted": 0.0,
+   "measured": -1.7694209251848467e-06,
+   "unit": "dB",
+   "error": -1.7694209251848467e-06,
+   "error_str": "-1.7694e-06 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Passband gain at 19 kHz",
+   "predicted": 0.0,
+   "measured": 0.00013245759836441384,
+   "unit": "dB",
+   "error": 0.00013245759836441384,
+   "error_str": "+1.3246e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "23 kHz tone after conversion (alias rejection, spec \u2264 \u221290 dB)",
+   "predicted": -90.0,
+   "measured": -100.45598047957577,
+   "unit": "dB",
+   "error": -10.455980479575771,
+   "error_str": "-10.46 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Prototype taps / taps per output",
+   "value": 19661.0,
+   "unit": "",
+   "note": "133.7 MACs per output sample"
+  }
+ ],
+ "figures": [
+  "figures/prototype.png"
+ ],
+ "runtime_s": 0.08,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL073-resampling-rate-conversion"
+}

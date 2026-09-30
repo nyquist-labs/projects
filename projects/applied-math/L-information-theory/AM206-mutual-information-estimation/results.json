@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "AM-206",
+  "title": "Mutual information of continuous signals: estimators and a real ECG",
+  "level": "H",
+  "tools": "Plug-in histogram estimator with bias correction, Kraskov\u2013St\u00f6gbauer\u2013Grassberger k-nearest-neighbour estimator (own, KD-tree), Gaussian closed form, nonlinear dependence invisible to correlation, time-delayed mutual information between two ECG leads and within one lead",
+  "summary": "Estimate how many bits one signal carries about another without assuming linearity: validate two estimators where the answer is known, show a dependence that correlation misses entirely, and apply them to two leads of a real electrocardiogram.",
+  "problem": "Correlation measures only linear dependence. How can the total statistical dependence between two measured signals be quantified in bits?",
+  "theory": "$I(X;Y)=h(X)+h(Y)-h(X,Y)$. Jointly Gaussian: $I=-\\tfrac12\\log_2(1-\u03c1^2)$. KSG estimator: for each sample find the distance \u03b5 to its k-th neighbour in the joint (max-norm) space, count neighbours $n_x,n_y$ within \u03b5 in each marginal:\n$\\hat I=\u03c8(k)+\u03c8(N)-\\langle\u03c8(n_x+1)+\u03c8(n_y+1)\\rangle$ (nats); nearly unbiased at independence. Histograms are biased and depend on the bin count. For $Y=X^2+\\text{noise}$ with symmetric X, \u03c1 = 0 but I > 0.",
+  "method": "Synthetic: 5000 Gaussian pairs, \u03c1 = 0 \u2026 0.95; independent pairs; Y = X\u00b2 + 0.1\u00b7noise. Real: MIT-BIH record 100, leads MLII and V5, 2 min at 360 Hz (subsampled 4\u00d7): I between the leads and the auto-mutual information of MLII versus lag (0\u20131.5 s), next to the correlations.",
+  "data": "PhysioNet MIT-BIH Arrhythmia Database, record 100.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory"
+ },
+ "rows": [
+  {
+   "quantity": "KSG estimator vs Gaussian closed form \u2212\u00bdlog\u2082(1 \u2212 \u03c1\u00b2), worst absolute error for \u03c1 = 0\u20260.95",
+   "predicted": 0.0,
+   "measured": 0.038073956490310534,
+   "unit": "bit",
+   "error": 0.038073956490310534,
+   "error_str": "+0.03807 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Histogram estimator (16 bins, bias-corrected), worst absolute error \u2014 larger at strong dependence",
+   "predicted": 0.0,
+   "measured": 0.23262888320081565,
+   "unit": "bit",
+   "error": 0.23262888320081565,
+   "error_str": "+0.2326 bit",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Y = X\u00b2 + noise: correlation coefficient (\u2248 0)",
+   "predicted": 0.0,
+   "measured": -0.0023487909279586243,
+   "unit": "",
+   "error": -0.0023487909279586243,
+   "error_str": "-0.002349",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 yet the mutual information is large (KSG > 1 bit; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Two ECG leads: measured MI exceeds what their correlation alone implies (nonlinear/non-Gaussian dependence; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Auto-mutual information of MLII peaks again one heartbeat later (lag vs mean RR interval)",
+   "predicted": 0.8110166288737718,
+   "measured": 0.8,
+   "unit": "s",
+   "error": -1.3583727486660941,
+   "error_str": "-1.36 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Y = X\u00b2 + noise: KSG / histogram estimate",
+   "value": "2.90 / 1.44 bit",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Leads MLII vs V5: correlation / Gaussian-implied MI / KSG MI",
+   "value": "0.63 / 0.36 / 0.49 bit",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/mutual_information.png"
+ ],
+ "runtime_s": 4.23,
+ "folder": "projects/applied-math/L-information-theory/AM206-mutual-information-estimation"
+}

@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "AM-129",
+  "title": "Error-controlled adaptive time stepping (Dormand\u2013Prince RK45)",
+  "level": "H",
+  "tools": "Own embedded Runge\u2013Kutta 5(4) integrator with local error estimate and step-size controller, applied to a relaxation oscillator; comparison with fixed-step RK4 at equal accuracy; tolerance proportionality",
+  "summary": "Implement an adaptive integrator that estimates its own local error and chooses the step accordingly, show that it takes tiny steps during fast switching and large ones in slow phases, that the global error scales with the requested tolerance, and that it needs far fewer steps than fixed-step RK4 for the same accuracy.",
+  "problem": "A multivibrator switches in microseconds and then drifts for milliseconds. How should a simulator choose its time step?",
+  "theory": "Two embedded solutions of orders 5 and 4 share stages; their difference estimates the local error err. Accept if err \u2264 tol and set $h_{new}=h\\cdot 0.9(\\mathrm{tol}/err)^{1/5}$. Steps shrink where the solution changes rapidly. The global error is roughly\nproportional to tol ('tolerance proportionality'). For a relaxation oscillator (Van der Pol, \u03bc = 20) most time is spent on slow branches, so adaptive stepping should save one to two orders of magnitude in function evaluations over the smallest fixed step that resolves the jumps.",
+  "method": "Van der Pol \u03bc = 20, t = 0\u202660 (\u2248 2 periods). Own Dormand\u2013Prince 5(4) with tol = 10\u207b\u00b3\u202610\u207b\u2079; reference from a tight solve (tol 10\u207b\u00b9\u00b2). Fixed-step RK4 with the step needed for the same final error. Step-size history vs the solution.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Tolerance proportionality: global error \u221d tol^slope (\u2248 1)",
+   "predicted": 1.0,
+   "measured": 1.221477289380154,
+   "unit": "",
+   "error": 0.22147728938015399,
+   "error_str": "+0.2215",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Step sizes at tol 1e-7 span more than a decade (1 = yes; my guess of ~1000\u00d7 was too high)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Function evaluations: fixed-step RK4 / adaptive RK45 at equal accuracy (my guess 10\u2013100\u00d7)",
+   "predicted": 30.0,
+   "measured": 28.08002808002808,
+   "unit": "\u00d7",
+   "error": -1.9199719199719212,
+   "error_str": "-1.92 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Step-size range at tol 1e-7: max/min",
+   "value": 71.94754094291355,
+   "unit": "\u00d7",
+   "note": ""
+  },
+  {
+   "quantity": "Evaluations at tol 1e-7: adaptive / fixed RK4 (h = 1e-03)",
+   "value": "8547 / 240000",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/adaptive.png"
+ ],
+ "runtime_s": 1.44,
+ "folder": "projects/applied-math/G-numerical-methods/AM129-adaptive-step-size"
+}

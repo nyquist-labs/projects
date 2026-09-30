@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "SL-149",
+  "title": "Rate-monotonic RTOS scheduling: response times vs analysis",
+  "level": "H",
+  "tools": "C discrete-event simulation of a preemptive fixed-priority scheduler (1 \u00b5s resolution), response-time analysis in Python",
+  "summary": "Schedule four periodic tasks with rate-monotonic priorities in a preemptive kernel simulation; predict each task's worst-case response time with exact response-time analysis (RTA), measure it, and push the load until a deadline is missed.",
+  "problem": "Can you prove a set of real-time tasks will always meet its deadlines before running it?",
+  "theory": "Liu & Layland: n tasks are schedulable under RM if $U=\\sum C_i/T_i\\le n(2^{1/n}-1)$ (0.757 for n = 4) \u2014 sufficient only. Exact RTA:\n$R_i = C_i + \\sum_{j<i}\\lceil R_i/T_j\\rceil C_j$, iterated to a fixed point; task i meets its deadline iff $R_i\\le T_i$. Worst case at the critical instant (all\ntasks released together).",
+  "method": "Tasks (C, T) in ms: (1, 5), (2, 10), (3, 20), (4, 40) \u2192 U = 0.65; then C\u2084 increased until a miss. Kernel: 1 \u00b5s ticks, highest-priority ready task runs,\npreemption at releases, 10 hyperperiods simulated; response time = completion \u2212 release.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Task 1 (C=1 ms, T=5 ms): worst response time (RTA)",
+   "predicted": 1000.0,
+   "measured": 1000.0,
+   "unit": "\u00b5s",
+   "error": 0.0,
+   "error_str": "+0 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Task 2 (C=2 ms, T=10 ms): worst response time (RTA)",
+   "predicted": 3000.0,
+   "measured": 3000.0,
+   "unit": "\u00b5s",
+   "error": 0.0,
+   "error_str": "+0 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Task 3 (C=3 ms, T=20 ms): worst response time (RTA)",
+   "predicted": 7000.0,
+   "measured": 7000.0,
+   "unit": "\u00b5s",
+   "error": 0.0,
+   "error_str": "+0 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Task 4 (C=4 ms, T=40 ms): worst response time (RTA)",
+   "predicted": 14000.0,
+   "measured": 14000.0,
+   "unit": "\u00b5s",
+   "error": 0.0,
+   "error_str": "+0 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Utilisation at the first deadline miss (RTA prediction vs simulation)",
+   "predicted": 1.05,
+   "measured": 1.05,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Utilisation U",
+   "value": 0.65,
+   "unit": "",
+   "note": "Liu\u2013Layland bound for 4 tasks: 0.757"
+  }
+ ],
+ "figures": [
+  "figures/rta.png"
+ ],
+ "runtime_s": 4.46,
+ "folder": "projects/signal-lab/H-embedded-systems/SL149-rtos-task-scheduling"
+}

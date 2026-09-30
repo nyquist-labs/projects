@@ -1,0 +1,52 @@
+{
+ "meta": {
+  "id": "SL-134",
+  "title": "RF shielding effectiveness: Schelkunoff vs exact",
+  "level": "M",
+  "tools": "Exact plane-wave transmission through a conducting slab (ABCD / transmission-line model), Schelkunoff's A + R + B approximation",
+  "summary": "Compute the shielding effectiveness of copper, aluminium and steel foils from 10 kHz to 1 GHz exactly, compare with Schelkunoff's absorption + reflection + multiple-reflection formula, and find where thin foils fail.",
+  "problem": "How much does a metal sheet attenuate a radio wave, and why does a thin copper foil shield well at 100 MHz but poorly at 50 kHz?",
+  "theory": "Plane wave (\u03b7\u2080) through a slab of thickness t with intrinsic impedance $\\eta_s=\\sqrt{j\\omega\\mu/\\sigma}$ and propagation constant \u03b3 = (1+j)/\u03b4.\nSchelkunoff: $SE=A+R+B$ with $A=8.686\\,t/\\delta$, $R=20\\log_{10}\\frac{|\\eta_0|}{4|\\eta_s|}$, and a correction B that becomes large and negative\nwhen t \u2272 \u03b4 (multiple internal reflections). The exact result follows from the slab's transmission-line ABCD matrix.",
+  "method": "Copper (\u03c3 = 5.8e7, \u03bc_r = 1), aluminium (3.5e7, 1), steel (1e7, \u03bc_r = 200); t = 35 \u00b5m (1 oz PCB copper) and 0.5 mm. SE_exact = 20 log|E_inc/E_trans|\nfrom $T=\frac{2\\eta_0}{(A\\eta_0+B+C\\eta_0^2+D\\eta_0)}$ with the slab ABCD; A + R + B computed separately.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Copper 35 \u00b5m at 1e+05 Hz: Schelkunoff A+R+B vs exact",
+   "predicted": 111.65010628346178,
+   "measured": 111.65009953348296,
+   "unit": "dB",
+   "error": -6.749978822995217e-06,
+   "error_str": "-6.7500e-06 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Copper 35 \u00b5m at 1e+08 Hz: Schelkunoff A+R+B vs exact",
+   "predicted": 134.14240430192214,
+   "measured": 134.14194010576122,
+   "unit": "dB",
+   "error": -0.00046419616091952776,
+   "error_str": "-4.6420e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Copper 35 \u00b5m: worst |A+R (no B) \u2212 exact|",
+   "value": 16.949863024717672,
+   "unit": "dB",
+   "note": "B correction is essential for thin foils"
+  }
+ ],
+ "figures": [
+  "figures/shielding.png"
+ ],
+ "runtime_s": 0.54,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL134-rf-shielding-calculator"
+}

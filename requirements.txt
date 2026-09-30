@@ -1,0 +1,16 @@
+# Python 3.11+ (developed on 3.12). External tools: Icarus Verilog (iverilog/vvp) for the HDL projects,
+# Node.js for verifying the browser tools' JavaScript. Everything else is pip-installable:
+numpy>=2.0
+scipy>=1.14
+matplotlib>=3.9
+pandas>=2.2
+wfdb>=4.1            # PhysioNet record reader
+soundfile>=0.12      # audio datasets
+requests>=2.31
+sgp4>=2.23           # satellite orbit propagation
+yowasp-yosys>=0.40   # Yosys synthesis (WebAssembly build, no system install needed)
+gerbonara>=1.2       # independent Gerber/Excellon reader used to verify exported PCB files
+kiutils>=1.4         # independent KiCad file parser used to verify exported boards
+shapely>=2.0         # geometry for PCB design-rule checks
+schemdraw>=0.18      # schematic drawings
+networkx>=3.2        # graph algorithms used as independent references

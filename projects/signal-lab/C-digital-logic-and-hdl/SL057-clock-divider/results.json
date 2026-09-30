@@ -1,0 +1,133 @@
+{
+ "meta": {
+  "id": "SL-057",
+  "title": "Clock divider and prescaler (including odd 50 % duty)",
+  "level": "E",
+  "tools": "Verilog RTL, Icarus Verilog, VCD frequency/duty measurement",
+  "summary": "Divide a 100 MHz clock by 2, 3, 5, 10 and 1000 with exact 50 % duty \u2014 including odd ratios that need both clock edges \u2014 and measure frequency and duty from the waveform.",
+  "problem": "Dividing by an even number is easy. How do you divide by 3 or 5 and still get a 50 % duty cycle, and what does it cost?",
+  "theory": "Even N: toggle every N/2 input cycles \u2192 $f/N$, 50 % duty. Odd N with a single edge gives duty\n$\\lfloor N/2\\rfloor/N$ (33 % for N = 3). ORing a rising-edge and a falling-edge version of the same\ncounter output (shifted by half an input period) gives $\\frac{(N-1)/2 + 1/2}{N}=50\\,\\%$ exactly.",
+  "method": "Parameterised divider module with an odd/even generate branch. Input clock 100 MHz (10 ns). Python measures\neach output's period and high time from the VCD.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u00f72: output frequency",
+   "predicted": 50000000.0,
+   "measured": 50000000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f72: duty cycle",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f73: output frequency",
+   "predicted": 33333333.333333332,
+   "measured": 33333333.333333332,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f73: duty cycle",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f75: output frequency",
+   "predicted": 20000000.0,
+   "measured": 20000000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f75: duty cycle",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f710: output frequency",
+   "predicted": 10000000.0,
+   "measured": 10000000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f710: duty cycle",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f71000: output frequency",
+   "predicted": 100000.0,
+   "measured": 100000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u00f71000: duty cycle",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/timing.png"
+ ],
+ "runtime_s": 0.12,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL057-clock-divider"
+}

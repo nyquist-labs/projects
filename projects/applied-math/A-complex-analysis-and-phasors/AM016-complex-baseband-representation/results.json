@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-016",
+  "title": "Complex baseband: why IQ sampling needs half the rate",
+  "level": "H",
+  "tools": "Complex envelope, quadrature down-conversion, band-limited reconstruction, aliasing measurement vs sample rate",
+  "summary": "Represent a band-pass signal by its complex envelope, show that complex (IQ) samples at rate B capture a bandwidth-B signal that real samples need 2B to capture, and measure reconstruction error versus sampling rate for both.",
+  "problem": "Software-defined radios sample I and Q. Why two channels \u2014 and why is that no more data than one real channel at twice the rate?",
+  "theory": "A real band-pass signal $x(t)=\\mathrm{Re}\\{\\tilde x(t)e^{j2\u03c0f_ct}\\}$ occupying $f_c\\pm B/2$ is fully described by its complex envelope $\\tilde x$, whose spectrum occupies $[-B/2, B/2]$ and is\nnot symmetric. Complex samples need rate \u2265 B (the spectrum is one-sided: no mirror image to alias onto); a real baseband signal of the same bandwidth occupies\n$[-B, B]$ symmetrically and needs \u2265 2B real samples. Same number of real numbers per second \u2014 2 per complex sample at B vs 1 per real sample at 2B.",
+  "method": "Random band-limited complex envelope, B = 10 kHz (asymmetric spectrum), carrier 100 kHz, simulated at 2 MHz. (i) IQ: mix down, low-pass, resample at rate r, band-limited\ninterpolation back, compare with truth. (ii) Real: the envelope's real part shifted to 0\u2026B baseband sampled at r. Reconstruction SNR vs r/B.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Quadrature down-conversion recovers the complex envelope (SNR, my guess \u2265 40 dB)",
+   "predicted": 40.0,
+   "measured": 253.88805210099432,
+   "unit": "dB",
+   "error": 213.88805210099432,
+   "error_str": "+213.9 dB",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Complex (IQ) samples: minimum rate for > 40 dB reconstruction (\u00d7 B)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "\u00d7 B",
+   "error": 0.0,
+   "error_str": "+0 \u00d7 B",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Real samples, same bandwidth: minimum rate (\u00d7 B)",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "\u00d7 B",
+   "error": 0.0,
+   "error_str": "+0 \u00d7 B",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Real numbers per second needed: IQ vs real (ratio)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/iq.png"
+ ],
+ "runtime_s": 0.71,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM016-complex-baseband-representation"
+}

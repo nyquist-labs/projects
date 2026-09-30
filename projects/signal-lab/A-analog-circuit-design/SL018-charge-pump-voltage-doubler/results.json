@@ -1,0 +1,112 @@
+{
+ "meta": {
+  "id": "SL-018",
+  "title": "Charge pump / voltage doubler",
+  "level": "M",
+  "tools": "eelab mini-SPICE transient (Schottky diodes, square-wave drive)",
+  "summary": "A diode-capacitor doubler turns a 0\u20135 V, 50 kHz square wave into ~9 V with no inductor; predict the output vs load current from 2V_p \u2212 2V_D \u2212 I/(fC) and measure it.",
+  "problem": "How can capacitors and diodes alone produce a voltage higher than the supply, and how fast does it sag under load?",
+  "theory": "The flying capacitor C\u2081 is charged to $V_{in}-V_D$ while the drive is low; when the drive goes high\nits bottom plate lifts by $V_p$ so its top reaches $2V_p - V_D$, and D\u2082 transfers charge into C\u2082.\nUnloaded: $V_{out}=2V_p-2V_D$. Each cycle the load removes $Q = I/f$, which the flying capacitor\nmust replace. Charge-pump theory gives two limits for the output resistance: the slow-switching limit\n$R_{SSL}=1/(fC)$ = 2 \u03a9 (capacitors fully settle each phase) and the fast-switching limit\n$R_{FSL}=2\\sum R_{phase}$ = 40 \u03a9 (charge moves through resistances in half a period, as happens here since\n$\\tau = 10\\,\\Omega\\cdot10\\,\\mu F = 100\\,\\mu s \\gg$ 10 \u00b5s). Using $R_{out}\\approx\\sqrt{R_{SSL}^2+R_{FSL}^2}$:\n$$V_{out}\\approx 2V_p - 2V_D - I_L R_{out}$$",
+  "method": "5 V square wave at 50 kHz (10 \u03a9 driver resistance), C\u2081 = C\u2082 = 10 \u00b5F, Schottky diodes (Is = 1 \u00b5A, N = 1.05).\nLoads 1 k\u03a9\u202650 \u03a9; 6 ms transient per load, output averaged over the last millisecond. V_D taken from the\ndiode equation at the measured average current.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "V_out at R_L = 5000 \u03a9",
+   "predicted": 9.476765432824639,
+   "measured": 9.47325025515634,
+   "unit": "V",
+   "error": -0.03709258916678997,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "V_out at R_L = 2000 \u03a9",
+   "predicted": 9.317262611310209,
+   "measured": 9.316126902931689,
+   "unit": "V",
+   "error": -0.012189292347961901,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "V_out at R_L = 1000 \u03a9",
+   "predicted": 9.102915468469762,
+   "measured": 9.102052982572161,
+   "unit": "V",
+   "error": -0.009474831449203268,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "V_out at R_L = 500 \u03a9",
+   "predicted": 8.732683609514803,
+   "measured": 8.731542003832109,
+   "unit": "V",
+   "error": -0.013072793355870416,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "V_out at R_L = 200 \u03a9",
+   "predicted": 7.822359833944673,
+   "measured": 7.820038237622443,
+   "unit": "V",
+   "error": -0.02967897631294876,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "V_out at R_L = 100 \u03a9",
+   "predicted": 6.683936257537342,
+   "measured": 6.679930029835284,
+   "unit": "V",
+   "error": -0.059938149433125795,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "V_out at R_L = 50 \u03a9",
+   "predicted": 5.186298775053324,
+   "measured": 5.179933730191562,
+   "unit": "V",
+   "error": -0.12272807907594166,
+   "error_str": "-0.12 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Output resistance (slope)",
+   "predicted": 40.049968789001575,
+   "measured": 41.95104147652646,
+   "unit": "\u03a9",
+   "error": 4.746751982605678,
+   "error_str": "+4.75 %",
+   "kind": "rel",
+   "ok": true,
+   "note": "\u221a(R_SSL\u00b2 + R_FSL\u00b2)"
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/vout_vs_load.png",
+  "figures/waveforms.png"
+ ],
+ "runtime_s": 15.27,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL018-charge-pump-voltage-doubler"
+}

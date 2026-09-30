@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "SL-094",
+  "title": "Global WSPR spot statistics: distance by band",
+  "level": "M",
+  "tools": "wspr.live public database queries, NumPy statistics",
+  "summary": "Mine one week of the worldwide WSPR beacon network (millions of real reception reports) for how far each amateur band reaches, and compare the distance distributions with single-hop skywave geometry.",
+  "problem": "Which HF bands reach farthest, and does the distance distribution show the ionosphere's single-hop skip distance?",
+  "theory": "One F-layer hop from height h \u2248 300 km at elevation angle \u0394 spans ground distance\n$D = 2R_E\\left[\\frac{\\pi}{2}-\\Delta-\\arcsin\\!\\left(\\frac{R_E\\cos\\Delta}{R_E+h}\\right)\\right]$ \u2014 about 4,000 km at \u0394 = 0\u00b0, i.e. the\nmaximum single-hop distance. Low bands (160\u201340 m) at night and high bands in the day both need multi-hop for DX, so\nspot-distance histograms should show a shoulder near 4,000 km and a long tail. Low bands are dominated by\nshort-range (NVIS / ground-wave) spots, so their median distance should be smaller.",
+  "method": "All spots 2026-09-01\u202607 per band (80 m to 10 m): count, median and 90th-percentile distance, and a histogram of distance\nin 250 km bins for 20 m (server-side aggregation). The single-hop limit computed from the formula at h = 300 km.",
+  "data": "Real: WSPRnet spots via wspr.live.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "20 m: steepest fall in spot density (single-hop limit, h = 300 km)",
+   "predicted": 3835.8259186344676,
+   "measured": 4125.0,
+   "unit": "km",
+   "error": 7.538769680884704,
+   "error_str": "+7.54 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Median distance ratio, high bands (\u226520 m) / low bands (\u226440 m)",
+   "predicted": 2.0,
+   "measured": 2.489071383449147,
+   "unit": "\u00d7",
+   "error": 0.48907138344914713,
+   "error_str": "+0.4891 \u00d7",
+   "kind": "abs",
+   "ok": null,
+   "note": "expectation: high bands reach roughly twice as far"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Spots analysed (1 week, 80\u201310 m)",
+   "value": 40094776.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "80 m: median / 90th-percentile distance",
+   "value": "673 km / 1704 km",
+   "unit": "",
+   "note": "3,074,816 spots"
+  },
+  {
+   "quantity": "40 m: median / 90th-percentile distance",
+   "value": "910 km / 3192 km",
+   "unit": "",
+   "note": "13,751,396 spots"
+  },
+  {
+   "quantity": "30 m: median / 90th-percentile distance",
+   "value": "1367 km / 5997 km",
+   "unit": "",
+   "note": "6,950,048 spots"
+  },
+  {
+   "quantity": "20 m: median / 90th-percentile distance",
+   "value": "1796 km / 6225 km",
+   "unit": "",
+   "note": "12,409,177 spots"
+  },
+  {
+   "quantity": "17 m: median / 90th-percentile distance",
+   "value": "2989 km / 7426 km",
+   "unit": "",
+   "note": "1,768,366 spots"
+  },
+  {
+   "quantity": "15 m: median / 90th-percentile distance",
+   "value": "3221 km / 7553 km",
+   "unit": "",
+   "note": "1,495,103 spots"
+  },
+  {
+   "quantity": "12 m: median / 90th-percentile distance",
+   "value": "1711 km / 7406 km",
+   "unit": "",
+   "note": "252,638 spots"
+  },
+  {
+   "quantity": "10 m: median / 90th-percentile distance",
+   "value": "134 km / 7398 km",
+   "unit": "",
+   "note": "393,232 spots"
+  }
+ ],
+ "figures": [
+  "figures/distance_by_band.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL094-wspr-spot-analysis"
+}

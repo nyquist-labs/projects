@@ -1,0 +1,109 @@
+{
+ "meta": {
+  "id": "AM-077",
+  "title": "The algebra of OFDM: circulant channels and Kronecker products",
+  "level": "H",
+  "tools": "Channel convolution matrices with and without cyclic prefix, DFT diagonalisation of circulant matrices, Kronecker-structured 2-D (time\u2013frequency) transforms, one-tap equalisation",
+  "summary": "Show that a cyclic prefix turns the channel's Toeplitz convolution matrix into a circulant one, which the DFT diagonalises exactly \u2014 so OFDM equalisation is one complex division per subcarrier \u2014 and that a block of OFDM symbols has Kronecker structure, making the 2-D transform separable.",
+  "problem": "Why does OFDM need only one multiplication per subcarrier to undo a multipath channel?",
+  "theory": "Without CP the received block is Tx (T Toeplitz); with a CP of length \u2265 L\u22121 and discarding it, y = Hx with H circulant. Every circulant is diagonalised by the DFT: $H = F^H\u039bF$, \u039b = diag(DFT of h). Hence\n$Fy = \u039bFx + Fn$: N independent scalar channels. Without (or with too short) a CP, FTF\u1d34 has off-diagonal energy = inter-carrier/inter-symbol interference. For M OFDM symbols the 2-D transform is\n$(F_M \u2297 F_N)$ applied to vec(X), equivalently $F_NXF_M^T$ \u2014 separable because of the Kronecker structure.",
+  "method": "N = 64 subcarriers, 16-tap random multipath channel; CP lengths 0, 8, 15, 16. Off-diagonal energy of F\u00b7(effective channel)\u00b7F\u1d34; 16-QAM symbol error rate at 25 dB SNR with one-tap equalisers; Kronecker\nidentity checked on random data; operation counts for the separable vs full 2-D transform.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Circulant channel: F H F\u1d34 is diagonal (max off-diagonal / max diagonal)",
+   "predicted": 0.0,
+   "measured": 2.4297297331789334e-16,
+   "unit": "",
+   "error": 2.4297297331789334e-16,
+   "error_str": "+2.4297e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Diagonal = \u221aN\u00b7DFT of h (worst relative)",
+   "predicted": 0.0,
+   "measured": 8.821962390580339e-16,
+   "unit": "",
+   "error": 8.821962390580339e-16,
+   "error_str": "+8.8220e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "CP \u2265 L \u2212 1 = 15: symbol errors essentially vanish (SER)",
+   "predicted": 0.0,
+   "measured": 5.208333333333334e-05,
+   "unit": "",
+   "error": 5.208333333333334e-05,
+   "error_str": "+5.2083e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "No CP: SER is large (inter-carrier interference)",
+   "predicted": 0.3,
+   "measured": 0.24692708333333332,
+   "unit": "",
+   "error": -0.053072916666666664,
+   "error_str": "-0.05307",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "(F_M \u2297 F_N) vec(X) = vec(F_N X F_M\u1d40) (max difference)",
+   "predicted": 0.0,
+   "measured": 1.3506446028928517e-15,
+   "unit": "",
+   "error": 1.3506446028928517e-15,
+   "error_str": "+1.3506e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "CP = 0: 16-QAM symbol error rate with one-tap equalisers (25 dB SNR)",
+   "value": 0.24692708333333332,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "CP = 8: 16-QAM symbol error rate with one-tap equalisers (25 dB SNR)",
+   "value": 0.030208333333333334,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "CP = 15: 16-QAM symbol error rate with one-tap equalisers (25 dB SNR)",
+   "value": 5.208333333333334e-05,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "CP = 16: 16-QAM symbol error rate with one-tap equalisers (25 dB SNR)",
+   "value": 0.00010416666666666667,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Multiplications: full Kronecker matrix vs separable vs 2-D FFT",
+   "value": "262144 vs 36864 vs \u2248 4608",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ofdm_algebra.png"
+ ],
+ "runtime_s": 0.17,
+ "folder": "projects/applied-math/D-linear-algebra/AM077-kronecker-structure-in-ofdm"
+}

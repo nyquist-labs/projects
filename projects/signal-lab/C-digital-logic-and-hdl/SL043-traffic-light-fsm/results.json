@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "SL-043",
+  "title": "Traffic-light finite state machine",
+  "level": "E",
+  "tools": "Verilog Moore FSM, Icarus Verilog, VCD timing diagram",
+  "summary": "A two-road intersection controller with timed green/yellow/all-red phases and a pedestrian request; verify each phase duration and that conflicting greens never overlap.",
+  "problem": "Encode the safety rules of an intersection as a state machine and prove from simulation that the timing and the safety property hold.",
+  "theory": "Moore FSM with states NS_G \u2192 NS_Y \u2192 ALL_R \u2192 EW_G \u2192 EW_Y \u2192 ALL_R \u2192 \u2026 and a down-counter loaded on each\ntransition. With a 1 Hz tick: green 10 s, yellow 3 s, all-red 1 s, so the full cycle is\n$2(10+3+1) = 28$ s. A pedestrian request shortens the current green to 5 s (if more than 5 s remain).\nSafety invariant: NS green and EW green are never both on.",
+  "method": "Clock = 1 Hz tick (1 time unit = 1 s in simulation). 300 s simulation with pedestrian button presses at\nrandom times. Python parses the VCD, measures every phase duration and checks the invariant on every\nsample.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Green phase duration (no request)",
+   "predicted": 10.0,
+   "measured": 10.0,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0 s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Yellow phase duration",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0 s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Green remaining after a pedestrian press",
+   "predicted": 5.5,
+   "measured": 5.5,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0 s",
+   "kind": "abs",
+   "ok": null,
+   "note": "5 ticks + 0\u20131 tick registration latency"
+  },
+  {
+   "quantity": "Full cycle period (no requests)",
+   "predicted": 28.0,
+   "measured": 28.0,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0 s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Samples with both roads green (safety)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/timing.png"
+ ],
+ "runtime_s": 0.09,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL043-traffic-light-fsm"
+}

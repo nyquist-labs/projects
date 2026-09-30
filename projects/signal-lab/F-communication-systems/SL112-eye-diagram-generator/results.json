@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "id": "SL-112",
+  "title": "Eye diagrams, ISI and raised-cosine pulses",
+  "level": "M",
+  "tools": "NumPy pulse shaping, band-limited channel, eye-opening measurement",
+  "summary": "Draw eye diagrams for rectangular and root-raised-cosine (\u03b1 = 0.35) signalling through a band-limited channel, and measure vertical eye opening and timing margin against the Nyquist ISI criterion.",
+  "problem": "How much bandwidth does a data stream need before its symbols start smearing into each other, and how does an eye diagram show it?",
+  "theory": "Zero ISI requires the overall pulse to cross zero at every other symbol instant (Nyquist). A raised-cosine spectrum with\nroll-off \u03b1 meets it with bandwidth $(1+\\alpha)R_s/2$; split as RRC at transmitter and receiver it also maximises SNR. A\nrectangular pulse through a first-order channel with corner $f_c$ loses $e^{-2\\pi f_cT}$ of the next symbol into the current\none: vertical eye opening \u2248 $1-2e^{-2\\pi f_cT}$ (worst case).",
+  "method": "Binary \u00b11 symbols, 16 samples/symbol. (a) rectangular pulses through RC channels with f_c\u00b7T = 0.3, 0.5, 1.0; (b) RRC \u03b1 = 0.35 (span 8)\nmatched pair, with and without an extra channel. Eye opening = (min of +1 samples \u2212 max of \u22121 samples)/2 at the best sampling\nphase; horizontal opening where the vertical opening stays > 0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Rectangular + RC channel f_c\u00b7T = 0.3: vertical eye opening",
+   "predicted": 0.6963283960387022,
+   "measured": 0.6963283961863584,
+   "unit": "",
+   "error": 1.4765622058376948e-10,
+   "error_str": "+1.4766e-10",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Rectangular + RC channel f_c\u00b7T = 0.5: vertical eye opening",
+   "predicted": 0.9135721634724555,
+   "measured": 0.9135721634724554,
+   "unit": "",
+   "error": -1.1102230246251565e-16,
+   "error_str": "-1.1102e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Rectangular + RC channel f_c\u00b7T = 1.0: vertical eye opening",
+   "predicted": 0.9962651145365841,
+   "measured": 0.9962651145365841,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RRC \u00d7 RRC (\u03b1 = 0.35): peak ISI at the ideal sampling instant",
+   "predicted": 0.0,
+   "measured": 0.007487914199483359,
+   "unit": "",
+   "error": 0.007487914199483359,
+   "error_str": "+0.007488",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "RRC occupied bandwidth (1+\u03b1)\u00b7R_s/2",
+   "value": 0.675,
+   "unit": "\u00d7 R_s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/eyes_rect.png",
+  "figures/eye_rrc.png"
+ ],
+ "runtime_s": 0.48,
+ "folder": "projects/signal-lab/F-communication-systems/SL112-eye-diagram-generator"
+}

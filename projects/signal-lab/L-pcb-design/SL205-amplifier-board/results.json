@@ -1,0 +1,132 @@
+{
+ "meta": {
+  "id": "SL-205",
+  "title": "Stereo op-amp preamplifier board",
+  "level": "M",
+  "tools": "Own PCB toolkit (eelab.pcb: IPC-7351 footprints, A* maze router, ground pour, DRC, Gerber/Excellon/KiCad export), gerbonara + kiutils for independent file checks, MNA circuit simulator",
+  "summary": "A complete two-layer board for a \u00d711 stereo preamp around a dual op-amp in SOIC-8: schematic, simulation of the gain and bandwidth, placement, auto-routing, ground pour, design-rule check, Gerbers, drill file, KiCad board, BOM and a 3-D render.",
+  "problem": "Turn a two-resistor gain equation into a manufacturable board \u2014 and check that the numbers on the schematic survive the trip.",
+  "theory": "Non-inverting gain $1+R_f/R_g = 1+100k/10k = 11$ (20.8 dB); a 100 \u03a9 output resistor into a 10 k\u03a9 load costs 0.09 dB \u2192 20.74 dB. The input coupling capacitor and bias\nresistor form a high-pass at $1/(2\u03c0\u00b7100\\,k\u03a9\u00b71\\,\u00b5F)$ = 1.59 Hz. With a 10 MHz GBW op-amp (NE5532-class) the upper \u22123 dB point is GBW/11 \u2248 0.91 MHz.\nLayout rules: 0.2 mm clearance / 0.25 mm tracks (within any low-cost fab's capability), decoupling capacitors next to the supply pins, solid ground pour\non the bottom layer with a via at every top-side ground pad.",
+  "method": "Pinout of the industry-standard dual op-amp in SOIC-8 (1 OUTA, 2 \u2212INA, 3 +INA, 4 V\u2212, 5 +INB, 6 \u2212INB, 7 OUTB, 8 V+). Split \u00b112 V supply via a 3-pin header.\nAC simulation of one channel with an op-amp macromodel (A0 = 10\u2075, GBW = 10 MHz) driving 10 k\u03a9. Placement by hand; routing by the A* router (0.25 mm grid,\nvia cost 12 steps); GND poured on the bottom; files re-read by independent parsers.",
+  "data": "Design + simulation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "Mid-band gain into 10 k\u03a9",
+   "predicted": 20.74142622751165,
+   "measured": 20.740449290349112,
+   "unit": "dB",
+   "error": -0.000976937162537439,
+   "error_str": "-9.7694e-04 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Low \u22123 dB corner = 1/(2\u03c0\u00b7100k\u00b71\u00b5)",
+   "predicted": 1.5915494309189537,
+   "measured": 1.5915612034881483,
+   "unit": "Hz",
+   "error": 0.0007396923379127418,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "High \u22123 dB corner \u2248 GBW/11",
+   "predicted": 909090.9090909091,
+   "measured": 904292.7577045044,
+   "unit": "Hz",
+   "error": -0.5277966525045108,
+   "error_str": "-0.53 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "DRC violations (clearance, widths, drills, annular rings, edge, courtyards, connectivity)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Drill hits in the Excellon file (re-read with gerbonara) = holes in the design",
+   "predicted": 26.0,
+   "measured": 26.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Board outline from the Gerber profile (re-read with gerbonara)",
+   "predicted": 50.0,
+   "measured": 49.99999999999999,
+   "unit": "mm",
+   "error": -1.4210854715202004e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pads in the KiCad file (re-read with kiutils) = pads in the design",
+   "predicted": 49.0,
+   "measured": 49.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Connections the router could not complete",
+   "value": 0.0,
+   "unit": "",
+   "note": "all routed"
+  },
+  {
+   "quantity": "Stitching vias added for top-side GND pads",
+   "value": 8.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Board",
+   "value": "50 \u00d7 36 mm, 2 layers, 1.6 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Components / nets / pads",
+   "value": "22 / 13 / 49",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Routed track length",
+   "value": 176.262716319083,
+   "unit": "mm",
+   "note": "90 segments, 13 vias"
+  }
+ ],
+ "figures": [
+  "figures/board.png",
+  "figures/schematic_response.png"
+ ],
+ "runtime_s": 1.79,
+ "folder": "projects/signal-lab/L-pcb-design/SL205-amplifier-board"
+}

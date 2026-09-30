@@ -1,0 +1,125 @@
+{
+ "meta": {
+  "id": "AM-185",
+  "title": "Independent component analysis for removing eye blinks from EEG",
+  "level": "H",
+  "tools": "Own FastICA (PCA whitening, symmetric fixed-point iteration with tanh non-linearity), validation on synthetic mixtures with the Amari index, blink-component identification by frontal topography and kurtosis, reconstruction without the artefact, comparison with channel regression, preservation checks in the alpha band",
+  "summary": "Separate a 64-channel EEG recording into statistically independent sources, find the one that is the eye blink, remove it and rebuild the signals \u2014 after first proving on synthetic mixtures that the algorithm recovers known sources \u2014 and measure both what was removed and what was preserved.",
+  "problem": "An eye blink is 10 times larger than brain activity at the forehead and leaks into every electrode. How can it be subtracted without subtracting the brain?",
+  "theory": "Model $x=As$: sensors are linear mixtures of independent sources. After whitening, the unmixing is a rotation; FastICA finds it by maximising non-Gaussianity: $w\\leftarrow E[z\\,g(w^Tz)]-E[g'(w^Tz)]\\,w$ with g = tanh, followed by symmetric\ndecorrelation. ICA recovers sources up to order, sign and scale; quality on known mixtures is the Amari index of $WA$ (0 = perfect). A blink is a strongly non-Gaussian (high-kurtosis), frontally dominant source, nearly independent of cortical\nrhythms \u2014 an ideal ICA target. Removing it means zeroing its column before remixing. Regressing a frontal channel out of all others also removes blinks, but takes with it whatever brain activity that channel contains.",
+  "method": "Synthetic: 4 sources (sine, sawtooth, Laplacian noise, amplitude-modulated tone), random 4 \u00d7 4 mixing, 20 trials. Real: EEG Motor Movement/Imagery database, subject 1, run 1 (eyes open, 64 channels, 160 Hz, 61 s), band-pass 1\u201340 Hz, reduced to\n20 principal components, FastICA. Blinks located on Fpz (> 5 robust standard deviations of the low-passed signal). Blink component: largest |correlation| with the frontal-polar average.",
+  "data": "PhysioNet EEG Motor Movement/Imagery Dataset (Schalk et al. 2004).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Synthetic mixtures: Amari index of W\u00b7A (0 = perfect separation; mean of 20 trials)",
+   "predicted": 0.0,
+   "measured": 0.007506563850020081,
+   "unit": "",
+   "error": 0.007506563850020081,
+   "error_str": "+0.007507",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Synthetic mixtures: worst |correlation| between a true source and its estimate",
+   "predicted": 1.0,
+   "measured": 0.9985386804892101,
+   "unit": "",
+   "error": -0.14613195107898713,
+   "error_str": "-0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "The blink component is the most kurtotic one (rank of its kurtosis among 20; 1 = highest)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Its scalp map is frontal: weight at Fp1/Fpz/Fp2 relative to the average electrode (> 3; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Blink amplitude at Fpz after removal, relative to the blink-free background (\u2248 1 if the blink is gone)",
+   "predicted": 1.0,
+   "measured": 1.2611410323151107,
+   "unit": "",
+   "error": 26.114103231511066,
+   "error_str": "+26.11 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Occipital alpha power outside blinks: change caused by the removal",
+   "predicted": 0.0,
+   "measured": 0.009748055765279595,
+   "unit": "%",
+   "error": 0.009748055765279595,
+   "error_str": "+0.00975 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Blink-free frontal EEG retained (variance ratio): ICA keeps more than regression on the frontal-polar channel (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Blinks found on the frontal-polar channels",
+   "value": 12.0,
+   "unit": "",
+   "note": "in 61 s; 10 % of samples within \u00b10.25 s of a blink"
+  },
+  {
+   "quantity": "Blink component: correlation with frontal average / kurtosis / frontal weight ratio",
+   "value": "0.87 / 26 / 4.6",
+   "unit": "",
+   "note": "FastICA converged in 123 iterations"
+  },
+  {
+   "quantity": "Median blink peak-to-peak at Fpz: before / after / blink-free background",
+   "value": "405 / 145 / 115",
+   "unit": "\u00b5V",
+   "note": "reduction 90 % of the excess"
+  },
+  {
+   "quantity": "Variance of blink-free frontal EEG (AF/F electrodes) retained: ICA / regression",
+   "value": "88 % / 31 %",
+   "unit": "",
+   "note": "regression subtracts the brain activity seen by the reference channel too"
+  }
+ ],
+ "figures": [
+  "figures/ica.png"
+ ],
+ "runtime_s": 0.4,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM185-ica-artifact-removal"
+}

@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "SL-039",
+  "title": "Ripple-carry adder and its propagation delay",
+  "level": "E",
+  "tools": "Gate-level Verilog (unit delays), Icarus Verilog, Yosys",
+  "summary": "Chain full adders into 4-, 8-, 16- and 32-bit ripple-carry adders and measure how the worst-case delay grows with width.",
+  "problem": "A ripple-carry adder is simple, but every bit must wait for the carry from the bit below. How does the delay scale, and which input pair triggers the worst case?",
+  "theory": "Each stage adds 2 gate delays to the carry path (AND\u2192OR after the first XOR), so the worst case is\n$t_{RCA}(n) = 2n + 1$ gate delays (first XOR, then n carry stages; the final sum XOR overlaps). The worst\ncase is a carry generated at bit 0 that propagates through every bit: $A = 0111\\ldots1$, $B = 0\\ldots01$.",
+  "method": "Parameterised gate-level RCA (generate loop of the SL-038 full adder, 1 ns per gate). For each width the\ntestbench applies the worst-case transition 0+0 \u2192 (2\u207f\u207b\u00b9\u22121)+1 and measures when the last output bit\nsettles; 200 random transitions give the average. Yosys reports cell count and logic depth.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "4-bit worst-case delay",
+   "predicted": 7.0,
+   "measured": 7.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit worst-case delay",
+   "predicted": 15.0,
+   "measured": 15.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit worst-case delay",
+   "predicted": 31.0,
+   "measured": 31.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "32-bit worst-case delay",
+   "predicted": 63.0,
+   "measured": 63.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "16-bit RCA after synthesis",
+   "value": 77.0,
+   "unit": "cells",
+   "note": "logic depth 31"
+  },
+  {
+   "quantity": "Average random-input delay, 32-bit",
+   "value": 10.07,
+   "unit": "gate delays",
+   "note": "longest carry chain is only ~log\u2082n on average"
+  }
+ ],
+ "figures": [
+  "figures/delay_vs_width.png"
+ ],
+ "runtime_s": 1.18,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL039-4bit-ripple-carry-adder"
+}

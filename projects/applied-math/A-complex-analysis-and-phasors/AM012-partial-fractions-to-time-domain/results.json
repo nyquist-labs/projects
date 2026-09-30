@@ -1,0 +1,129 @@
+{
+ "meta": {
+  "id": "AM-012",
+  "title": "Residue calculus: from H(s) to the impulse response",
+  "level": "H",
+  "tools": "Own residue computation (limits and derivatives for repeated poles), analytic inverse Laplace, comparison with scipy.signal.residue and numerical impulse responses",
+  "summary": "Expand rational transfer functions into partial fractions by residue calculus \u2014 including repeated and complex poles \u2014 write the impulse response in closed form, and check it against SciPy's residue routine and a numerical simulation.",
+  "problem": "The inverse Laplace transform is a contour integral. In practice it reduces to summing residues \u2014 how, and how accurately?",
+  "theory": "For a proper rational H(s), $h(t)=\\sum_k \\mathrm{Res}_{s=p_k}\\,H(s)e^{st}$. A simple pole contributes $r_k e^{p_kt}$ with $r_k=\\lim_{s\\to p_k}(s-p_k)H(s)$; a pole of order m contributes\n$\\sum_{j=1}^{m} \\frac{c_j}{(j-1)!}t^{j-1}e^{p_kt}$ with $c_{m-i}=\\frac{1}{i!}\\frac{d^i}{ds^i}\\big[(s-p_k)^mH(s)\\big]_{s=p_k}$. Complex-conjugate residues combine into real damped sinusoids.",
+  "method": "Three systems: distinct real poles, a complex pair plus a real pole, and a triple pole with a zero. Residues computed symbolically-by-numerics (polynomial division and\nderivatives with numpy.polynomial), compared with scipy.signal.residue; h(t) evaluated on 0\u201310 s and compared with scipy.signal.impulse.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "distinct real poles: residues vs scipy.signal.residue (worst difference)",
+   "predicted": 0.0,
+   "measured": 4.996003610813204e-16,
+   "unit": "",
+   "error": 4.996003610813204e-16,
+   "error_str": "+4.9960e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "distinct real poles: closed-form h(t) vs numerical impulse response (worst)",
+   "predicted": 0.0,
+   "measured": 2.1649348980190553e-15,
+   "unit": "",
+   "error": 2.1649348980190553e-15,
+   "error_str": "+2.1649e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "distinct real poles: imaginary part of h(t) (conjugate residues cancel)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "complex pair + real pole: residues vs scipy.signal.residue (worst difference)",
+   "predicted": 0.0,
+   "measured": 6.661338147750939e-16,
+   "unit": "",
+   "error": 6.661338147750939e-16,
+   "error_str": "+6.6613e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "complex pair + real pole: closed-form h(t) vs numerical impulse response (worst)",
+   "predicted": 0.0,
+   "measured": 7.716050021144838e-15,
+   "unit": "",
+   "error": 7.716050021144838e-15,
+   "error_str": "+7.7161e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "complex pair + real pole: imaginary part of h(t) (conjugate residues cancel)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "triple pole with a zero: residues vs scipy.signal.residue (worst difference)",
+   "predicted": 0.0,
+   "measured": 3.289999999989135e-06,
+   "unit": "",
+   "error": 3.289999999989135e-06,
+   "error_str": "+3.2900e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "triple pole with a zero: closed-form h(t) vs numerical impulse response (worst)",
+   "predicted": 0.0,
+   "measured": 4.643817721694532e-06,
+   "unit": "",
+   "error": 4.643817721694532e-06,
+   "error_str": "+4.6438e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "triple pole with a zero: imaginary part of h(t) (conjugate residues cancel)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Complex pair residue r \u2192 2|r| e^{\u2212t} cos(3t + \u2220r)",
+   "value": "|r| = 0.3928, \u2220r = -135.00\u00b0",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/impulse.png"
+ ],
+ "runtime_s": 0.69,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM012-partial-fractions-to-time-domain"
+}

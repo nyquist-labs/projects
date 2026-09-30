@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "AM-209",
+  "title": "LZ77: universal compression by pointing into the past",
+  "level": "M",
+  "tools": "Own LZ77 encoder/decoder (hash-chain match search, sliding window, lengths/offsets/literals), fixed-width and entropy-estimated token costs, compression versus window size, universality demo on a Markov source of known entropy rate, comparison with zlib (LZ77 + Huffman)",
+  "summary": "Implement the dictionary compressor behind ZIP and PNG, prove it lossless, measure how its compression depends on the window, and demonstrate its defining property: without knowing anything about a source, its rate approaches the source's entropy rate as the data grow.",
+  "problem": "Arithmetic coding needs a probability model. How can a compressor that knows nothing about the data still approach the entropy?",
+  "theory": "LZ77 replaces a string that occurred before by a pointer (offset, length) into a window of recent history, otherwise emits a literal. Lempel\u2013Ziv codes are *universal*: for any stationary ergodic source the bits per symbol converge to the entropy rate as the window and data length grow \u2014\nbut slowly, roughly like $O(\\log\\log n/\\log n)$. Test source: a first-order Markov chain on 4 symbols with known entropy rate $\\bar H=-\\sum_i\u03c0_i\\sum_jP_{ij}\\log_2P_{ij}$; its single-symbol entropy is higher, so reaching below $H(X)$ proves the compressor learned the memory. zlib = LZ77 + Huffman coding of the tokens.",
+  "method": "Encoder: minimum match 3, maximum 258, window 2\u2078\u20262\u00b9\u2075, hash chains of depth 32. Token cost: 1 flag bit + 8 bits per literal, or 1 + \u2308log\u2082W\u2309 + 8 bits per match (fixed-width), plus an 'entropy-coded' cost from the empirical entropies of the token streams. Markov source: 4 symbols,\nlengths 10\u00b3\u202610\u2076.",
+  "data": "Project Gutenberg eBook #11 (public domain).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory"
+ },
+ "rows": [
+  {
+   "quantity": "Round trip of the whole book (bytes differing)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Larger window compresses better (fixed-width cost, 2\u2078 \u2192 2\u00b9\u2075; violations of monotonic decrease)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "32 kB window, entropy-coded tokens vs zlib -9 (same algorithm family), bits per character",
+   "predicted": 2.818748593590745,
+   "measured": 2.9635117759005385,
+   "unit": "bit",
+   "error": 5.135725216465045,
+   "error_str": "+5.14 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Universality: at 10\u2076 symbols LZ77 (entropy-coded tokens) codes below the single-symbol entropy H(X) \u2014 it learned the memory (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and its excess over the entropy rate shrinks with length (10\u00b3 \u2192 10\u2076; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Bits per character, 32 kB window: fixed-width tokens / entropy-coded estimate / zlib -9",
+   "value": "4.00 / 2.96 / 2.82",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Markov source: entropy rate / single-symbol entropy",
+   "value": "1.381 / 1.970 bit/symbol",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "LZ77 bits/symbol at 10\u00b3 / 10\u2074 / 10\u2075 / 10\u2076 symbols",
+   "value": "2.014 / 1.952 / 1.929 / 1.923",
+   "unit": "",
+   "note": "entropy rate 1.381: convergence is slow, as theory warns"
+  }
+ ],
+ "figures": [
+  "figures/lz77.png"
+ ],
+ "runtime_s": 6.66,
+ "folder": "projects/applied-math/L-information-theory/AM209-lz77-compression"
+}

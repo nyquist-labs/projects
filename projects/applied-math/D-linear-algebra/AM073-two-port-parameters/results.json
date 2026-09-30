@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-073",
+  "title": "Two-port parameters: Z, Y and S matrices",
+  "level": "M",
+  "tools": "Two-port extraction by AC simulation (test sources at each port), Z\u2194Y\u2194S conversions, reciprocity and losslessness checks",
+  "summary": "Extract the Z and Y matrices of a \u03c0-network and an LC filter by simulating test excitations, convert them to scattering parameters, and verify the identities that must hold: Y = Z\u207b\u00b9, reciprocity (S\u2081\u2082 = S\u2082\u2081) and, for lossless networks, S\u1d34S = I.",
+  "problem": "A two-port is fully described by a 2\u00d72 matrix \u2014 but which one, and how do they relate?",
+  "theory": "Z: v = Zi (open-circuit tests), Y = Z\u207b\u00b9 (short-circuit tests). With reference impedance Z0: $S=(Z-Z_0I)(Z+Z_0I)^{-1}$ (normalised). Reciprocal (passive, no ferrites) networks have Z\u2081\u2082 = Z\u2082\u2081 \u21d2 S\u2081\u2082 = S\u2082\u2081;\nlossless networks have unitary S: $|S_{11}|^2+|S_{21}|^2=1$ at every frequency. For a symmetric \u03c0-network the analytic Y is $[[Y_a+Y_c, -Y_c], [-Y_c, Y_b+Y_c]]$.",
+  "method": "\u03c0-network: shunt 100 \u03a9, series 50 \u03a9 + 1 \u00b5H, shunt 200 \u03a9 || 1 nF, at 1\u2013100 MHz. LC: 3rd-order Butterworth low-pass (50 \u03a9, 30 MHz), lossless. Z from two open-circuit simulations (1 A into each port),\nY from two short-circuit simulations (1 V at each port); S from Z.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03c0-network: Y from short-circuit tests = inverse of Z from open-circuit tests (worst relative)",
+   "predicted": 0.0,
+   "measured": 3.6808902871364335e-11,
+   "unit": "",
+   "error": 3.6808902871364335e-11,
+   "error_str": "+3.6809e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c0-network: simulated Y vs analytic [[Ya+Yc, \u2212Yc], [\u2212Yc, Yb+Yc]] (worst relative)",
+   "predicted": 0.0,
+   "measured": 8.856872190994741e-17,
+   "unit": "",
+   "error": 8.856872190994741e-17,
+   "error_str": "+8.8569e-17",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Reciprocity: max |S\u2081\u2082 \u2212 S\u2082\u2081|",
+   "predicted": 0.0,
+   "measured": 3.663841114510704e-16,
+   "unit": "",
+   "error": 3.663841114510704e-16,
+   "error_str": "+3.6638e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lossless LC filter: max |S\u1d34S \u2212 I| (unitary)",
+   "predicted": 0.0,
+   "measured": 1.5157342048155442e-10,
+   "unit": "",
+   "error": 1.5157342048155442e-10,
+   "error_str": "+1.5157e-10",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth LC at its cutoff: |S21| = \u22123 dB",
+   "predicted": -3.0103,
+   "measured": -3.018277669743625,
+   "unit": "dB",
+   "error": -0.007977669743624904,
+   "error_str": "-0.007978 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "\u03c0-network power absorbed (1 \u2212 |S11|\u00b2 \u2212 |S21|\u00b2) range",
+   "value": "0.816 \u2013 0.917",
+   "unit": "",
+   "note": "resistive: > 0"
+  }
+ ],
+ "figures": [
+  "figures/twoport.png"
+ ],
+ "runtime_s": 0.19,
+ "folder": "projects/applied-math/D-linear-algebra/AM073-two-port-parameters"
+}

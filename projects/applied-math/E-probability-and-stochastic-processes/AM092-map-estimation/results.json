@@ -1,0 +1,124 @@
+{
+ "meta": {
+  "id": "AM-092",
+  "title": "MAP vs ML: when prior knowledge helps",
+  "level": "H",
+  "tools": "Gaussian conjugate estimation of a sensor offset, MSE formulas for ML and MAP estimators, Monte-Carlo over the prior, MAP detection with unequal priors",
+  "summary": "Estimate a DC offset from a few noisy samples with and without a prior, derive the mean-squared error of both estimators, confirm by Monte Carlo that MAP wins when data are scarce and the prior is informative, and show the MAP threshold shift in detection.",
+  "problem": "A calibration has only five noisy readings, but you know roughly what the answer should be. How much should that knowledge count?",
+  "theory": "x ~ N(\u03bc_p, \u03c3_p\u00b2), y_i = x + n_i, n ~ N(0, \u03c3\u00b2). ML: sample mean, MSE \u03c3\u00b2/N. MAP (= posterior mean here): $\\hat x=\\frac{\u03c3_p^2\\bar y+ (\u03c3^2/N)\u03bc_p}{\u03c3_p^2+\u03c3^2/N}$, MSE $=\\left(\\frac{N}{\u03c3^2}+\\frac1{\u03c3_p^2}\\right)^{-1}$ \u2014 always \u2264 ML, and much smaller\nwhen N is small or \u03c3_p small. If the prior is wrong (mean off by b), MAP gains a bias and can lose. Detection with P(1) = 0.9: MAP threshold moves by $\\frac{\u03c3^2}{\u0394}\\ln\\frac{P_0}{P_1}$.",
+  "method": "\u03c3 = 1, \u03c3_p = 0.5, N = 1\u2026100; 20,000 Monte-Carlo trials per N with x drawn from the prior. Misspecified prior (mean off by 1\u03c3_p). Binary detection of \u00b11 in \u03c3 = 1 noise with P(+1) = 0.9: error rate vs threshold.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "N = 1: ML MSE = \u03c3\u00b2/N",
+   "predicted": 1.0,
+   "measured": 0.9973226803775415,
+   "unit": "",
+   "error": -0.26773196224585405,
+   "error_str": "-0.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 1: MAP MSE = (N/\u03c3\u00b2 + 1/\u03c3_p\u00b2)\u207b\u00b9",
+   "predicted": 0.2,
+   "measured": 0.20128153546664518,
+   "unit": "",
+   "error": 0.6407677333225836,
+   "error_str": "+0.64 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 5: ML MSE = \u03c3\u00b2/N",
+   "predicted": 0.2,
+   "measured": 0.1982648309126152,
+   "unit": "",
+   "error": -0.8675845436924012,
+   "error_str": "-0.87 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 5: MAP MSE = (N/\u03c3\u00b2 + 1/\u03c3_p\u00b2)\u207b\u00b9",
+   "predicted": 0.1111111111111111,
+   "measured": 0.11168896738298272,
+   "unit": "",
+   "error": 0.5200706446844492,
+   "error_str": "+0.52 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 100: ML MSE = \u03c3\u00b2/N",
+   "predicted": 0.01,
+   "measured": 0.009993734661795211,
+   "unit": "",
+   "error": -0.06265338204788917,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 100: MAP MSE = (N/\u03c3\u00b2 + 1/\u03c3_p\u00b2)\u207b\u00b9",
+   "predicted": 0.009615384615384616,
+   "measured": 0.009600672358593652,
+   "unit": "",
+   "error": -0.15300747062602094,
+   "error_str": "-0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Prior off by 1\u03c3_p: MAP MSE at N = 5 (= MSE + bias\u00b2; still below ML here)",
+   "predicted": 0.16049382716049382,
+   "measured": 0.1610941645179465,
+   "unit": "",
+   "error": 0.37405635348974986,
+   "error_str": "+0.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "MAP detection threshold with P(+1) = 0.9: (\u03c3\u00b2/2)\u00b7ln(P0/P1)",
+   "predicted": -1.0986122886681098,
+   "measured": -1.075,
+   "unit": "",
+   "error": 0.023612288668109827,
+   "error_str": "+0.02361",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "MSE gain of MAP over ML at N = 1 / 100",
+   "value": "5.0\u00d7 / 1.04\u00d7",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Error rate: ML threshold 0 vs MAP threshold",
+   "value": "15.87 % vs 7.01 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/map.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM092-map-estimation"
+}

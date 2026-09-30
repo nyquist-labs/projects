@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "AM-043",
+  "title": "The sampling theorem, constructively",
+  "level": "M",
+  "tools": "Band-limited random signals, Whittaker\u2013Shannon (sinc) interpolation, reconstruction error vs sampling rate, aliasing-frequency prediction",
+  "summary": "Reconstruct band-limited signals from their samples with sinc interpolation, measure the error as the sampling rate crosses 2B, and predict exactly where out-of-band tones alias.",
+  "problem": "Nyquist says 2B samples per second suffice. Can we watch perfect reconstruction happen \u2014 and watch it fail?",
+  "theory": "If X(f) = 0 for |f| \u2265 B and f_s > 2B, then $x(t)=\\sum_n x(nT)\\,\\mathrm{sinc}\\big((t-nT)/T\\big)$ exactly. Below 2B, spectral copies overlap and a tone at f appears at\n$f_a=|f-f_s\\,\\mathrm{round}(f/f_s)|$. With a finite number of samples the reconstruction is exact only far from the record edges (sinc tails decay as 1/t).",
+  "method": "Random band-limited signals (B = 100 Hz, built as sums of 400 random sinusoids below B), sampled at f_s from 150 to 400 Hz over 20 s; reconstruction on a fine grid in the central 10 s;\nRMS error relative to signal RMS. Tones at 30\u2026970 Hz sampled at 400 Hz: apparent frequency from an FFT vs the aliasing formula.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Relative RMS reconstruction error at f_s = 400 Hz (= 4B)",
+   "predicted": 0.0,
+   "measured": 4.220765134799468e-13,
+   "unit": "",
+   "error": 4.220765134799468e-13,
+   "error_str": "+4.2208e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Relative RMS error at f_s = 150 Hz (< 2B, aliasing)",
+   "predicted": 0.5,
+   "measured": 0.7505783562194212,
+   "unit": "",
+   "error": 0.25057835621942115,
+   "error_str": "+0.2506",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Aliased tone frequencies: FFT vs |f \u2212 f_s\u00b7round(f/f_s)| (worst, 20 tones)",
+   "predicted": 0.0,
+   "measured": 0.0029296875,
+   "unit": "Hz",
+   "error": 0.0029296875,
+   "error_str": "+2.93 mHz",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Error just above 2B (f_s = 205 Hz): limited by the finite 20 s sinc sum",
+   "value": 0.0001323687458042902,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/sampling.png"
+ ],
+ "runtime_s": 1.71,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM043-sampling-theorem-demonstration"
+}

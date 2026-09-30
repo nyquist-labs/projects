@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-129",
+  "title": "Skin effect in a round copper wire",
+  "level": "M",
+  "tools": "Finite-difference solution of the 1-D radial diffusion (eddy-current) equation, exact Bessel-function solution",
+  "summary": "Solve for the AC current density inside a 1 mm copper wire from 50 Hz to 10 MHz, compare with the exact Bessel solution, and track R_ac/R_dc against the high-frequency approximation r/(2\u03b4).",
+  "problem": "Why does a thick wire have more resistance at radio frequencies, and when does it start to matter?",
+  "theory": "Inside a conductor $\\nabla^2 J = j\\omega\\mu\\sigma J$; for a round wire $J(r)\\propto J_0(kr)$ with $k=(1-j)/\\delta$ and skin depth\n$\\delta=\\sqrt{2/(\\omega\\mu\\sigma)}$ (copper: 9.2 mm at 50 Hz, 66 \u00b5m at 1 MHz). At high frequency $R_{ac}/R_{dc}\\approx\\frac{a}{2\\delta}+\\frac14$.",
+  "method": "Wire radius a = 0.5 mm, \u03c3 = 5.8\u00d710\u2077 S/m. Radial finite differences (400 nodes, symmetric axis condition), complex linear solve per frequency,\nJ(a) fixed; total current integrated; R_ac = Re(E/I) per length. Compared with the exact J\u2080 solution and the asymptote.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Skin depth of copper at 1 MHz",
+   "predicted": 6.61e-05,
+   "measured": 6.608549310080563e-05,
+   "unit": "m",
+   "error": -0.021946897419609757,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_ac/R_dc at ~1 MHz: FD vs exact Bessel",
+   "predicted": 3.619157283558346,
+   "measured": 3.619391205949146,
+   "unit": "",
+   "error": 0.006463449153276315,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_ac/R_dc at 10 MHz vs a/(2\u03b4) + \u00bc",
+   "predicted": 12.212828420394388,
+   "measured": 12.227469306952122,
+   "unit": "",
+   "error": 0.11988121059070017,
+   "error_str": "+0.12 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Frequency where R_ac exceeds R_dc by 10 %",
+   "value": 61896.5818891261,
+   "unit": "Hz",
+   "note": "\u03b4 \u2248 a at this point"
+  }
+ ],
+ "figures": [
+  "figures/skin.png"
+ ],
+ "runtime_s": 0.22,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL129-skin-effect-visualiser"
+}

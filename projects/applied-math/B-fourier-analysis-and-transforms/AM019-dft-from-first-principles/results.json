@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "AM-019",
+  "title": "The DFT as a matrix-vector product",
+  "level": "M",
+  "tools": "Explicit DFT matrix W_N, unitary-matrix checks, comparison with numpy.fft, operation-count and timing scaling",
+  "summary": "Build the N\u00d7N DFT matrix, show its rows are sampled complex exponentials (the Fourier basis), verify orthogonality and Parseval, match numpy's FFT to rounding error, and measure the O(N\u00b2) cost that motivates the FFT.",
+  "problem": "What exactly does the DFT compute \u2014 and why is it a change of basis?",
+  "theory": "$X = W x$ with $W_{kn}=e^{-j2\u03c0kn/N}$. Rows are orthogonal: $W^HW = N I$, so $W/\\sqrt N$ is unitary \u2014 the DFT is a rotation of the coordinate system into the Fourier basis, and energy is\npreserved (Parseval: $\\sum|x|^2=\\frac1N\\sum|X|^2$). Inverse: $x = \\frac1N W^H X$. Cost: N\u00b2 complex multiply-adds, so doubling N quadruples the time.",
+  "method": "N = 8 \u2026 2048: W built explicitly; \u2016W^HW \u2212 NI\u2016, \u2016Wx \u2212 fft(x)\u2016, Parseval error; matrix-vector time vs N fitted on log-log axes.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Orthogonality: max |W\u1d34W \u2212 NI| / N over all N",
+   "predicted": 0.0,
+   "measured": 1.3545370408392267e-13,
+   "unit": "",
+   "error": 1.3545370408392267e-13,
+   "error_str": "+1.3545e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "W\u00b7x vs numpy.fft.fft, worst relative error",
+   "predicted": 0.0,
+   "measured": 4.4484338150106727e-13,
+   "unit": "",
+   "error": 4.4484338150106727e-13,
+   "error_str": "+4.4484e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Parseval's theorem, worst relative error",
+   "predicted": 0.0,
+   "measured": 1.1843087592118205e-14,
+   "unit": "",
+   "error": 1.1843087592118205e-14,
+   "error_str": "+1.1843e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Matrix-vector DFT time exponent (\u221d N^k)",
+   "predicted": 2.0,
+   "measured": 1.8717332586814284,
+   "unit": "",
+   "error": -0.12826674131857163,
+   "error_str": "-0.1283",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "DFT of a delayed impulse = row of W (|X| flat, phase slope \u22122\u03c0\u00b75/N)",
+   "predicted": -0.4908738521234052,
+   "measured": -0.4908738521234052,
+   "unit": "rad/bin",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/dft_matrix.png"
+ ],
+ "runtime_s": 0.55,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM019-dft-from-first-principles"
+}

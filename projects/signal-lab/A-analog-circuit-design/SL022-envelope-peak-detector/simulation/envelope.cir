@@ -1,0 +1,7 @@
+* envelope — exported by eelab.circuit
+Vam in 0 DC 0.0 AC 0.0  ; time-varying in eelab
+C1 out 0 1e-08
+R1 out 0 15000
+D1 in out D_1
+.model D_1 D(Is=1e-06 N=1.1)
+.end

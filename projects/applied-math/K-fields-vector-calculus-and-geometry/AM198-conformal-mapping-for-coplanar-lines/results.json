@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-198",
+  "title": "Conformal mapping for coplanar lines: exact answers from complex analysis",
+  "level": "H",
+  "tools": "Schwarz\u2013Christoffel mapping of the slotted plane onto a rectangle (complete elliptic integrals), closed-form capacitance and impedance of coplanar waveguide, the analytic slot field and its r^(\u2212\u00bd) edge singularity, partial-capacitance substrate correction, finite-difference field solver with Richardson extrapolation as the independent check",
+  "summary": "Use a conformal map to turn the awkward geometry of a coplanar waveguide into a parallel-plate capacitor, obtain its impedance, the field distribution in the slots and the edge singularity in closed form, and confirm all three with a finite-difference solver that knows nothing about complex analysis.",
+  "problem": "Why do so many transmission-line formulas contain elliptic integrals, and how exact are they?",
+  "theory": "Laplace's equation is invariant under analytic maps. The Schwarz\u2013Christoffel map $w(z)=\\int_0^z\\frac{dt}{\\sqrt{(t^2-a^2)(t^2-b^2)}}$ takes the upper half-plane with a centre strip |x| < a and grounds |x| > b onto a rectangle whose side ratio is K(k)/K(k\u2032), k = a/b:\nthe capacitance per length of CPW in air is $4\u03b5_0K(k)/K(k')$, so $Z_0=30\u03c0\\,K(k')/K(k)$. The same map gives the slot field $E_x(x)=\\frac{Vb}{K(k')\\sqrt{(x^2-a^2)(b^2-x^2)}}$ for a < x < b, which diverges as $d^{-1/2}$ at each edge (a 2\u03c0 corner). A substrate of thickness h adds a partial capacitance with\n$k_1=\\sinh(\u03c0a/2h)/\\sinh(\u03c0b/2h)$: $\u03b5_{eff}=1+\\frac{\u03b5_r-1}{2}\\frac{K(k_1)K(k_0')}{K(k_1')K(k_0)}$.",
+  "method": "Zero-thickness conductors: centre strip w = 1 mm (a = 0.5 mm), slots s = 0.5 mm (b = 1 mm), grounds to the walls of a 30 \u00d7 30 mm grounded box. Finite differences at 0.1, 0.05, 0.025 mm (grid-aligned with the slot edges) with Richardson extrapolation. Slot field from a potential solution at 0.01 mm in a 6 \u00d7 6 mm box.\nSubstrate case: FR-4 (\u03b5_r = 4.4), h = 0.8 mm, far from any ground plane.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "CPW in air: Z\u2080 = 30\u03c0\u00b7K(k\u2032)/K(k) vs extrapolated finite-difference solution",
+   "predicted": 120.56756262031708,
+   "measured": 120.28791032255539,
+   "unit": "\u03a9",
+   "error": -0.23194654655360947,
+   "error_str": "-0.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Slot field between the edges vs the conformal-mapping expression (median ratio in the middle 0.4 mm)",
+   "predicted": 1.0,
+   "measured": 1.0156240930532194,
+   "unit": "",
+   "error": 1.5624093053219434,
+   "error_str": "+1.56 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Edge singularity: E \u221d d^slope near the strip edge (theory \u2212\u00bd)",
+   "predicted": -0.5,
+   "measured": -0.5777165605396158,
+   "unit": "",
+   "error": -0.07771656053961584,
+   "error_str": "-0.07772",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "CPW on 0.8 mm FR-4: \u03b5_eff from the partial-capacitance mapping vs field solver",
+   "predicted": 2.382389082706961,
+   "measured": 2.418163563426783,
+   "unit": "",
+   "error": 1.501622089334517,
+   "error_str": "+1.50 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and Z\u2080 = 30\u03c0\u00b7K(k\u2032)/(\u221a\u03b5_eff\u00b7K(k))",
+   "predicted": 78.11314724018023,
+   "measured": 77.35335302799314,
+   "unit": "\u03a9",
+   "error": -0.9726841626940131,
+   "error_str": "-0.97 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Finite-difference Z\u2080 at 0.1 / 0.05 / 0.025 mm and observed order",
+   "value": "112.98 / 116.63 / 118.46 \u03a9, order 1.00",
+   "unit": "",
+   "note": "\u2248 1 rather than 2: the field is singular at the strip edges"
+  },
+  {
+   "quantity": "Simple estimate \u03b5_eff \u2248 (\u03b5_r + 1)/2 for an infinitely thick substrate",
+   "value": 2.7,
+   "unit": "",
+   "note": "the 0.8 mm substrate gives 2.38: part of the field is in the air below"
+  }
+ ],
+ "figures": [
+  "figures/conformal.png"
+ ],
+ "runtime_s": 35.78,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM198-conformal-mapping-for-coplanar-lines"
+}

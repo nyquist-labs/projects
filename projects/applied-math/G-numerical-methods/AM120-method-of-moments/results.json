@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-120",
+  "title": "Method of moments: charge on a conductor and current on a dipole",
+  "level": "H",
+  "tools": "Own electrostatic MoM with pulse basis and point matching (sphere and square plate capacitance), convergence study; thin-wire antenna MoM (Galerkin, repository solver) for input impedance vs length",
+  "summary": "Turn an integral equation into a matrix: compute the capacitance of an isolated sphere (known exactly) and of a square plate (a classic benchmark) from surface-charge patches, then use a wire-antenna MoM to find a dipole's input impedance and current distribution.",
+  "problem": "Field solvers that only discretise the conductors, not the space around them \u2014 how do they work and how accurate are they?",
+  "theory": "The potential of surface charge \u03c3 satisfies $V(r)=\\int\\frac{\u03c3(r')}{4\u03c0\u03b5|r-r'|}dS'$. With N patches of constant charge and V = 1 enforced at patch centres, Zq = v with $Z_{ij}=\\frac{A_j}{4\u03c0\u03b5|r_i-r_j|}$ (self term by integrating 1/r over the patch).\nC = \u03a3q. Sphere: C = 4\u03c0\u03b5a exactly (111.3 pF for a = 1 m). Unit square plate: C \u2248 40.8 pF (\u2248 0.3607\u00b74\u03c0\u03b5\u00b7... benchmark 40.8 pF per metre side). Half-wave dipole (thin): Z_in \u2248 73 + j42 \u03a9; resonance slightly shorter.",
+  "method": "Sphere a = 1 m: patches from a latitude\u2013longitude grid with near-equal areas, N = 50 \u2026 1600. Plate 1 m \u00d7 1 m: N\u00d7N square patches, N = 10\u202640, self term analytic for a square. Wire: repository PWS-Galerkin solver, L = 0.40\u20260.55 \u03bb, radius 10\u207b\u2075 \u03bb (and 10\u207b\u00b3 \u03bb for comparison).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Sphere a = 1 m: MoM capacitance (finest) vs 4\u03c0\u03b5\u2080a",
+   "predicted": 1.1126500554478704e-10,
+   "measured": 1.1147479772356942e-10,
+   "unit": "F",
+   "error": 0.18855180724178902,
+   "error_str": "+0.19 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Unit square plate: capacitance extrapolated in 1/N (benchmark \u2248 40.8 pF)",
+   "predicted": 4.08e-11,
+   "measured": 4.084495131630313e-11,
+   "unit": "F",
+   "error": 0.11017479486062401,
+   "error_str": "+0.11 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Half-wave dipole input resistance, radius 10\u207b\u2075 \u03bb (sinusoidal-current theory: 73.1 \u03a9)",
+   "predicted": 73.1,
+   "measured": 78.39608894484684,
+   "unit": "\u03a9",
+   "error": 7.24499171661675,
+   "error_str": "+7.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Half-wave dipole input reactance (\u2248 +42.5 \u03a9)",
+   "predicted": 42.5,
+   "measured": 44.3100382759039,
+   "unit": "\u03a9",
+   "error": 1.8100382759038993,
+   "error_str": "+1.81 \u03a9",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Sphere capacitance vs patches",
+   "value": "N = 36: 113.00 pF, N = 152: 112.01 pF, N = 622: 111.58 pF, N = 1224: 111.47 pF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Same dipole with radius 10\u207b\u00b3 \u03bb",
+   "value": "85.9 + j45.8 \u03a9",
+   "unit": "",
+   "note": "the 73 \u03a9 figure is the thin-wire limit; R at exactly \u03bb/2 rises with wire thickness"
+  }
+ ],
+ "figures": [
+  "figures/mom.png"
+ ],
+ "runtime_s": 0.78,
+ "folder": "projects/applied-math/G-numerical-methods/AM120-method-of-moments"
+}

@@ -1,0 +1,147 @@
+{
+ "meta": {
+  "id": "AM-174",
+  "title": "Linear discriminant analysis from scratch",
+  "level": "M",
+  "tools": "Own multi-class LDA (pooled covariance, shrinkage, priors), Bayes error for Gaussian classes in closed form, equivalence with least-squares regression for two classes, Fisher-criterion check against random directions, small-sample shrinkage study, real EMG gesture data",
+  "summary": "Derive LDA as the Bayes classifier for Gaussian classes with a common covariance, verify its error rate against the closed form, confirm it maximises the Fisher criterion and coincides with least squares for two classes, and study how shrinkage rescues it when training data are scarce \u2014 on synthetic data and on real EMG.",
+  "problem": "LDA is the default classifier for EMG and EEG interfaces. What does it assume, when is it optimal, and what breaks when there are few training windows?",
+  "theory": "For classes $\\mathcal N(\u03bc_k,\u03a3)$ the Bayes rule is linear: choose k maximising $x^T\u03a3^{-1}\u03bc_k-\\tfrac12\u03bc_k^T\u03a3^{-1}\u03bc_k+\\ln \u03c0_k$. Two classes with equal priors: error $=\u03a6(-\u0394/2)$, $\u0394^2=(\u03bc_1-\u03bc_0)^T\u03a3^{-1}(\u03bc_1-\u03bc_0)$ (Mahalanobis distance).\nThe direction $w=\u03a3^{-1}(\u03bc_1-\u03bc_0)$ maximises the Fisher ratio $\\frac{(w^T(\u03bc_1-\u03bc_0))^2}{w^T\u03a3w}$ and is proportional to the least-squares regression of the class label on x. With n training samples in d dimensions the estimated covariance\nis poorly conditioned when n \u2248 d; shrinking it toward a scaled identity trades bias for variance.",
+  "method": "Synthetic: d = 10, \u0394 = 1, 2, 3; 2000 training and 200 000 test samples. Fisher check: 2000 random directions. Small-sample study: d = 32 (the EMG feature dimension), 40 to 640 training windows per subject drawn from real data, shrinkage 0,\n0.01, 0.1, 0.3. Real data: six gestures, 36 subjects, train on one recording, test on the other.",
+  "data": "UCI 'EMG data for gestures' (Lobov et al. 2018).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Synthetic Gaussians, \u0394 = 1: test error vs Bayes error \u03a6(\u2212\u0394/2)",
+   "predicted": 30.853753872598688,
+   "measured": 30.994500000000002,
+   "unit": "%",
+   "error": 0.45617180970096316,
+   "error_str": "+0.46 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Synthetic Gaussians, \u0394 = 2: test error vs Bayes error \u03a6(\u2212\u0394/2)",
+   "predicted": 15.865525393145708,
+   "measured": 15.826,
+   "unit": "%",
+   "error": -0.24912754016191158,
+   "error_str": "-0.25 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Two classes: cosine between the LDA direction and the least-squares regression direction",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Fisher criterion: random directions (2000) that beat the LDA direction",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Fisher ratio at the LDA direction = estimated \u0394\u00b2",
+   "predicted": 3.9798905511726534,
+   "measured": 3.9798905511726543,
+   "unit": "",
+   "error": 2.2316654397403672e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Synthetic Gaussians, \u0394 = 3: test error vs Bayes error \u03a6(\u2212\u0394/2)",
+   "predicted": 6.680720126885806,
+   "measured": 6.686,
+   "unit": "%",
+   "error": 0.07903149681343234,
+   "error_str": "+0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Real EMG, six gestures, per-user LDA: mean accuracy (literature for this feature set: 90\u201395 %)",
+   "predicted": 92.0,
+   "measured": 94.74774618043446,
+   "unit": "%",
+   "error": 2.7477461804344614,
+   "error_str": "+2.75 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Few training windows (40, about the feature dimension): shrinkage 0.1 beats no shrinkage (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Plenty of training windows: the unshrunk estimate is as good or better than heavy shrinkage 0.3 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Subjects / accuracy range",
+   "value": "36 / 82\u2013100 %",
+   "unit": "",
+   "note": "chance 16.7 %"
+  },
+  {
+   "quantity": "Most frequent confusion",
+   "value": "radial dev. \u2192 extension",
+   "unit": "",
+   "note": "116 windows"
+  },
+  {
+   "quantity": "Accuracy with 40 training windows: shrinkage 0 / 0.01 / 0.1 / 0.3",
+   "value": "73.3 % / 89.7 % / 92.0 % / 91.2 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Accuracy with the largest training set: shrinkage 0 / 0.01 / 0.1 / 0.3",
+   "value": "95.0 % / 95.2 % / 95.3 % / 94.8 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/lda.png"
+ ],
+ "runtime_s": 0.85,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM174-lda-from-scratch"
+}

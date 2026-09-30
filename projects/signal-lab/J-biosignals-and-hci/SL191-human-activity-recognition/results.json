@@ -1,0 +1,52 @@
+{
+ "meta": {
+  "id": "SL-191",
+  "title": "Human-activity recognition from smartphone IMU data",
+  "level": "M",
+  "tools": "Multinomial logistic regression (softmax, gradient descent) from scratch on the 561 UCI-HAR features; subject-independent test split",
+  "summary": "Classify walking, stairs up/down, sitting, standing and lying from a waist-worn phone's accelerometer and gyroscope for 9 unseen test subjects, and compare with the dataset authors' published accuracy.",
+  "problem": "Phones know whether you are walking or sitting. How accurately, and which activities get confused?",
+  "theory": "Dynamic activities differ strongly in acceleration variance and periodicity; static postures differ mainly in the gravity vector's orientation, except\nsitting vs standing, which look almost identical at the waist. Anguita et al. (2013) reported 96 % with a multiclass SVM on these features; a linear\nsoftmax model should come close, with most errors between sitting and standing.",
+  "method": "Official split: 21 training subjects (7,352 windows) and 9 test subjects (2,947 windows), 2.56-s windows at 50 Hz. Standardised features, softmax\nregression with L2 (\u03bb = 1e-3), 800 full-batch gradient steps.",
+  "data": "Real: UCI Human Activity Recognition Using Smartphones (Anguita et al. 2013), CC BY 4.0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Test accuracy on 9 unseen subjects (published SVM: 96 %)",
+   "predicted": 96.0,
+   "measured": 94.50288428910757,
+   "unit": "%",
+   "error": -1.4971157108924302,
+   "error_str": "-1.5 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Share of all errors that are sitting\u2194standing",
+   "predicted": 70.0,
+   "measured": 52.46913580246913,
+   "unit": "%",
+   "error": -17.530864197530867,
+   "error_str": "-17.5 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Most common confusion",
+   "value": "sitting \u2192 standing (64 windows)",
+   "unit": "",
+   "note": "predicted: sitting \u2194 standing"
+  }
+ ],
+ "figures": [
+  "figures/har.png"
+ ],
+ "runtime_s": 4.65,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL191-human-activity-recognition"
+}

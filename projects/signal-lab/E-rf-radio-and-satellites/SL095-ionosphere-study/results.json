@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "SL-095",
+  "title": "Ionosphere from propagation data: day/night and seasonal behaviour",
+  "level": "H",
+  "tools": "wspr.live database (WSPRnet spots), NumPy",
+  "summary": "Infer ionospheric behaviour from millions of real beacon reports: how often long paths on 10, 20 and 40 m are open by local hour, and how the 10 m band changes between a summer and a winter month.",
+  "problem": "The ionosphere can't be seen, but every successful long-distance radio contact is a measurement of it. What do real propagation reports reveal about its daily and seasonal cycle?",
+  "theory": "The F2 critical frequency follows solar illumination: high by day, collapsing at night, so the maximum usable frequency\n(MUF \u2248 f_oF2\u00b7sec(angle of incidence), ~3\u20134 \u00d7 f_oF2 for long hops) rises after sunrise and falls after sunset. Prediction:\nlong-path (> 3,000 km) spot activity on 10 m peaks around local midday and nearly vanishes at night; 40 m does the\nopposite; 20 m is intermediate. Seasonally the F2 layer shows the 'winter anomaly' \u2014 daytime f_oF2 in the northern\nwinter exceeds summer \u2014 so 10 m long-path openings in December should exceed June at mid-day (for the northern\nmid-latitude receivers that dominate WSPR).",
+  "method": "Spots with distance > 3,000 km and receiver in Europe (lat 40\u201360\u00b0, lon \u221210\u202625\u00b0), 2025-06 and 2025-12; bands 7, 14, 28 MHz.\nAggregated per UTC hour \u2248 local solar hour (+1 h). Normalised to each band's hourly maximum.",
+  "data": "Real: WSPRnet spots via wspr.live.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "10 m: local hour of peak long-path activity (midday F2 maximum)",
+   "predicted": 13.0,
+   "measured": 15.0,
+   "unit": "h",
+   "error": 2.0,
+   "error_str": "+2 h",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "40 m: local hour of peak long-path activity (night)",
+   "predicted": 2.0,
+   "measured": 6.0,
+   "unit": "h",
+   "error": 4.0,
+   "error_str": "+4 h",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "10 m midday long-path spots, December / June (winter anomaly > 1)",
+   "predicted": 2.0,
+   "measured": 16.26758601949662,
+   "unit": "\u00d7",
+   "error": 14.267586019496619,
+   "error_str": "+14.27 \u00d7",
+   "kind": "abs",
+   "ok": null,
+   "note": "direction matters more than the exact value"
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/ionosphere.png"
+ ],
+ "runtime_s": 0.1,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL095-ionosphere-study"
+}

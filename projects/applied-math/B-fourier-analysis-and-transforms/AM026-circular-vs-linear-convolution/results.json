@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "AM-026",
+  "title": "Circular vs linear convolution: the wrap-around error",
+  "level": "M",
+  "tools": "DFT-domain multiplication without padding, time-domain aliasing analysis, padding sweep",
+  "summary": "Show that multiplying DFTs without enough padding computes a circular convolution, predict exactly which output samples are corrupted and by how much (the tail wraps onto the head), and find the minimum FFT size that eliminates the error.",
+  "problem": "An FFT-based filter output looks wrong at the start of each block. Why, and how much padding is enough?",
+  "theory": "With DFT size L, $\\mathrm{IDFT}(X_LH_L)[n]=\\sum_k y_{lin}[n+kL]$ \u2014 the linear result aliased in time with period L. For lengths N and M, samples $n < N+M-1-L$ receive the wrapped tail; the\nerror there equals exactly $y_{lin}[n+L]$. Error vanishes iff L \u2265 N+M\u22121.",
+  "method": "x = 64 random samples, h = 16-tap smoothing filter (N+M\u22121 = 79). L from 64 to 96. Error of the circular result vs the linear one, compared sample-by-sample with the predicted wrapped tail.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Error equals the wrapped tail y_lin[n+L], worst mismatch over all L",
+   "predicted": 0.0,
+   "measured": 4.996003610813204e-16,
+   "unit": "",
+   "error": 4.996003610813204e-16,
+   "error_str": "+4.9960e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Smallest L with zero wrap-around error = N+M\u22121",
+   "predicted": 79.0,
+   "measured": 79.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Corrupted samples at L = 64 (predicted: n < N+M\u22121\u2212L = 15)",
+   "predicted": 15.0,
+   "measured": 15.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/circular.png"
+ ],
+ "runtime_s": 0.19,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM026-circular-vs-linear-convolution"
+}

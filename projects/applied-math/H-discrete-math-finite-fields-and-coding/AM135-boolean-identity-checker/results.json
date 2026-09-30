@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-135",
+  "title": "Boolean identity checker",
+  "level": "M",
+  "tools": "Own recursive-descent parser for Boolean expressions (', +, \u00b7, ^, parentheses, implicit AND), canonical truth-table signature, counterexample generation, random expression fuzzing against Python evaluation",
+  "summary": "Decide whether two Boolean expressions are identical by comparing canonical truth-table signatures, returning a counterexample when they are not; verify a catalogue of textbook theorems (De Morgan, absorption, consensus, Shannon expansion) and fuzz the parser against Python's own evaluator.",
+  "problem": "Is (A+B)(A'+C) really equal to AC + A'B? A checker that answers with proof or counterexample.",
+  "theory": "Two expressions over n variables are equal iff their truth tables (2\u207f rows) coincide \u2014 a canonical form, so equality is decidable by comparing bit-vectors. A differing row is a counterexample. Theorems to check include consensus\n$AB+A'C+BC=AB+A'C$, absorption $A+AB=A$, De Morgan, and Shannon expansion $F = A\\,F|_{A=1}+A'F|_{A=0}$. The general problem is co-NP-complete (tautology), but 2\u207f is trivial for n \u2272 20.",
+  "method": "Grammar (precedence NOT > AND > XOR > OR): expr := xterm ('+' xterm)*; xterm := term ('^' term)*; term := factor (('\u00b7'|implicit) factor)*; factor := atom \"'\"*; atom := variable | 0 | 1 | '(' expr ')'. 14 true identities and 6 deliberately false ones; 3000 random expressions\n(\u2264 6 variables, depth \u2264 6) rendered both in this syntax and as Python, signatures compared.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Textbook identities confirmed",
+   "predicted": 14.0,
+   "measured": 14.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "False 'identities' rejected",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Counterexamples that really distinguish the two sides",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Parser/evaluator vs Python on 3000 random expressions (mismatches)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/consensus.png"
+ ],
+ "runtime_s": 1.63,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM135-boolean-identity-checker"
+}

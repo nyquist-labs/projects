@@ -1,0 +1,64 @@
+{
+ "meta": {
+  "id": "SL-044",
+  "title": "Vending machine FSM with change and error states",
+  "level": "E",
+  "tools": "Verilog Mealy/Moore FSM, Icarus Verilog, Python reference model",
+  "summary": "A 75-cent vending machine accepting nickels, dimes and quarters, returning change and handling a cancel button \u2014 checked against a Python model on 5,000 random coin sequences.",
+  "problem": "Turn a vending specification (price, coins, change, refunds, invalid coins) into a state machine and show it never keeps or invents money.",
+  "theory": "The state is the credit in 5-cent units (0\u202614 \u2192 15 states). A vend fires when credit \u2265 15 (75 \u00a2) and change\n= credit \u2212 15. Money conservation invariant: $\\sum \\text{coins in} = 75\\cdot\\#\\text{vends} + \\sum\\text{change} + \\sum\\text{refunds}\n+ \\text{credit held}$. Invalid coins are rejected (returned immediately) without changing state.",
+  "method": "Testbench streams random coin codes (nickel/dime/quarter/invalid/cancel), logs every vend, change and\nrefund event. Python replays the same sequence through an independent model and compares event-by-event,\nthen checks the conservation invariant.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Event mismatches hardware vs Python model",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Money conservation residual (\u00a2)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "\u00a2",
+   "error": 0.0,
+   "error_str": "+0 \u00a2",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Coins inserted",
+   "value": 4224.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Items vended",
+   "value": 625.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Invalid coins rejected",
+   "value": 297.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/change_hist.png"
+ ],
+ "runtime_s": 0.1,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL044-vending-machine-fsm"
+}

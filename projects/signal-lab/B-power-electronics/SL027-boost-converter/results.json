@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "SL-027",
+  "title": "Boost converter: continuous vs discontinuous conduction",
+  "level": "M",
+  "tools": "eelab mini-SPICE switch-level transient",
+  "summary": "5 V \u2192 1/(1\u2212D) boost: show continuous (CCM) and discontinuous (DCM) inductor current and predict each mode's conversion ratio, including the CCM/DCM boundary.",
+  "problem": "A boost converter's famous formula V_out = V_in/(1\u2212D) silently assumes the inductor current never reaches zero. What happens at light load?",
+  "theory": "CCM: $M = V_{out}/V_{in} = 1/(1-D)$. With $K=2L/(RT_{sw})$ the converter is in DCM when\n$K < D(1-D)^2$, and then\n$$M_{DCM}=\\frac{1+\\sqrt{1+4D^2/K}}{2}$$\n(Erickson & Maksimovi\u0107). The DCM ratio depends on load \u2014 the converter no longer behaves like an ideal\ntransformer.",
+  "method": "V_in = 5 V, L = 22 \u00b5H, C = 47 \u00b5F, f_sw = 100 kHz, D = 0.5, Schottky output diode. Loads 10 \u03a9 (K = 0.44,\nCCM) and 200 \u03a9 (K = 0.022, DCM), plus a load sweep to trace M vs K. Transients of 3\u20138 ms.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "R_L = 10 \u03a9 (CCM, K = 0.440): V_out",
+   "predicted": 9.65,
+   "measured": 9.541451033286581,
+   "unit": "V",
+   "error": -1.124859758688284,
+   "error_str": "-1.12 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_L = 20 \u03a9 (CCM, K = 0.220): V_out",
+   "predicted": 9.65,
+   "measured": 9.586825214868027,
+   "unit": "V",
+   "error": -0.6546609858235618,
+   "error_str": "-0.65 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_L = 50 \u03a9 (DCM, K = 0.088): V_out",
+   "predicted": 11.115490729915326,
+   "measured": 11.00874149013563,
+   "unit": "V",
+   "error": -0.9603646152337586,
+   "error_str": "-0.96 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_L = 100 \u03a9 (DCM, K = 0.044): V_out",
+   "predicted": 14.50266211328983,
+   "measured": 14.358844969018561,
+   "unit": "V",
+   "error": -0.9916603113815845,
+   "error_str": "-0.99 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_L = 200 \u03a9 (DCM, K = 0.022): V_out",
+   "predicted": 19.364392861569602,
+   "measured": 19.155160839275073,
+   "unit": "V",
+   "error": -1.0804987473155896,
+   "error_str": "-1.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_L = 400 \u03a9 (DCM, K = 0.011): V_out",
+   "predicted": 26.29230727849539,
+   "measured": 26.022644588858885,
+   "unit": "V",
+   "error": -1.0256334173344426,
+   "error_str": "-1.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "CCM/DCM boundary (D = 0.5)",
+   "value": 35.199999999999996,
+   "unit": "\u03a9",
+   "note": "loads above this R are DCM"
+  }
+ ],
+ "figures": [
+  "figures/ccm_dcm.png"
+ ],
+ "runtime_s": 40.17,
+ "folder": "projects/signal-lab/B-power-electronics/SL027-boost-converter"
+}

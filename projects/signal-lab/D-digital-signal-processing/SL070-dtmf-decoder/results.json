@@ -1,0 +1,46 @@
+{
+ "meta": {
+  "id": "SL-070",
+  "title": "DTMF decoder with the Goertzel algorithm",
+  "level": "M",
+  "tools": "Own Goertzel filter bank, ITU-T Q.24 test conditions, Monte Carlo SNR sweep",
+  "summary": "Decode telephone touch-tones with eight Goertzel filters, apply ITU twist and frequency-offset limits, and measure digit error rate vs SNR against a matched-filter prediction.",
+  "problem": "Recognise which of 16 keys was pressed from 40 ms of noisy audio, cheaply enough for a 1980s phone exchange.",
+  "theory": "Each key = one row tone (697/770/852/941 Hz) + one column tone (1209/1336/1477/1633 Hz). Goertzel computes a single\nDFT bin with one real multiply per sample: $s[n]=x[n]+2\\cos(\\omega)s[n-1]-s[n-2]$, power\n$=s[N-1]^2+s[N-2]^2-2\\cos\\omega\\,s[N-1]s[N-2]$. With N = 205 at 8 kHz (bin 39 Hz), choosing the maximum\nof 4 rows \u00d7 4 columns; the symbol error of a 4-ary non-coherent detection in AWGN is approximately\n$P_e\\approx 1-(1-\\tfrac{3}{2}e^{-E/2N_0})^2$ per digit (row and column decisions).",
+  "method": "8 kHz sampling, N = 205 samples (25.6 ms), tones at equal amplitude with \u00b11.5 % frequency offset and up to 4 dB\ntwist allowed. For SNR \u221210\u2026+10 dB (per-tone power / noise in the 4 kHz band), 2,000 random digits each.\nValidity checks: both tones > 6 dB above the other tones in their group; twist within limits.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Goertzel power vs |DFT bin|\u00b2 (697 Hz, bin-centred check)",
+   "predicted": 10529.045082124714,
+   "measured": 10529.045082124721,
+   "unit": "",
+   "error": 6.910367993898996e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SNR for 1 % digit error rate",
+   "predicted": -12.0,
+   "measured": -12.0,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/error_rate.png",
+  "figures/filter_bank.png"
+ ],
+ "runtime_s": 0.3,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL070-dtmf-decoder"
+}

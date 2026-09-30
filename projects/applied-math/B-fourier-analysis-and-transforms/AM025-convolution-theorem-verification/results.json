@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "AM-025",
+  "title": "The convolution theorem, verified numerically",
+  "level": "M",
+  "tools": "Direct O(NM) convolution, FFT-based convolution with sufficient zero-padding, error analysis, timing crossover",
+  "summary": "Prove numerically that linear convolution equals the inverse FFT of the product of zero-padded spectra, measure the rounding error of both methods against exact integer arithmetic, and find the length at which FFT convolution becomes faster.",
+  "problem": "'Convolution in time is multiplication in frequency' \u2014 how exactly, how accurately, and when is it worth it?",
+  "theory": "For sequences of length N and M, $y = x*h$ has length N+M\u22121 and $Y = XH$ for DFTs of any length L \u2265 N+M\u22121. Cost: direct NM multiply-adds vs \u2248 3\u00b7L log\u2082L for three FFTs, so FFT\nconvolution wins once M \u2273 a few \u00d7 log\u2082L (tens of taps). Error: with integer inputs the exact result is known; FFT round-off ~ \u03b5\u00b7\u2016x\u2016\u2016h\u2016\u00b7log L, direct summation is exact for small integers.",
+  "method": "Random integer sequences (|value| \u2264 100) so the exact convolution is known; lengths N = M from 8 to 16384; np.convolve (direct) vs rfft-based; max absolute error vs exact; timings.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "FFT convolution vs exact integer result, worst absolute error (N = M = 16384)",
+   "predicted": 0.0,
+   "measured": 6.984919309616089e-10,
+   "unit": "",
+   "error": 6.984919309616089e-10,
+   "error_str": "+6.9849e-10",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Crossover length where FFT convolution becomes faster (my guess: ~100 samples)",
+   "predicted": 100.0,
+   "measured": 512.0,
+   "unit": "samples",
+   "error": 412.0,
+   "error_str": "+412 samples",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Hand example [1,2,3]*[0,1,0.5] = [0,1,2.5,4,1.5]",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Speed-up at N = M = 16384",
+   "value": 119.82477916309371,
+   "unit": "\u00d7",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/convolution.png"
+ ],
+ "runtime_s": 0.79,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM025-convolution-theorem-verification"
+}

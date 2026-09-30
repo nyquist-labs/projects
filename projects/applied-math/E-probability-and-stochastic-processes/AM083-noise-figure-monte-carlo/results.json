@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "id": "AM-083",
+  "title": "Receiver noise figure: Friis formula and Monte-Carlo spread",
+  "level": "M",
+  "tools": "Friis cascade formula, sample-level noise simulation of a three-stage receiver (LNA, mixer, IF amplifier), Monte-Carlo over component tolerances",
+  "summary": "Predict a receiver's cascaded noise figure with the Friis formula, confirm it by passing sampled noise and signal through a simulated chain, and use Monte-Carlo over gain and noise-figure tolerances to find the spread and the probability of meeting a specification.",
+  "problem": "Why does the first amplifier dominate a receiver's noise \u2014 and how much margin do tolerances eat?",
+  "theory": "$F = F_1 + \\frac{F_2-1}{G_1} + \\frac{F_3-1}{G_1G_2}$ (linear ratios). With an LNA (G = 20 dB, NF = 1.5 dB), a lossy mixer (G = \u22127 dB, NF = 7 dB) and an IF amp (G = 30 dB, NF = 4 dB): F = 1.41 + 4.01/100 + 1.51/(100\u00b70.2) = 1.525 \u2192 NF = 1.83 dB.\nSwapping the LNA behind the mixer would give NF \u2248 8.5 dB. Tolerances (\u00b11 dB gain, \u00b10.3 dB NF, Gaussian 1\u03c3) spread the cascaded NF; the first stage's NF dominates the spread.",
+  "method": "Sample-level: input noise at kT0B (normalised to 1), a sine of known SNR; each stage adds its own input-referred noise (F_i \u2212 1)\u00b7kT0B then multiplies by \u221aG_i; output SNR measured by projecting on the\nsine \u2192 NF = SNR_in/SNR_out. 50,000 Monte-Carlo chains with Gaussian tolerances; yield for NF < 2.2 dB.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Friis cascade NF",
+   "predicted": 1.83,
+   "measured": 1.8424557780547643,
+   "unit": "dB",
+   "error": 0.012455778054764277,
+   "error_str": "+0.01246 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sample-level simulation: NF = SNR_in / SNR_out",
+   "predicted": 1.8424557780547643,
+   "measured": 1.8317009682167715,
+   "unit": "dB",
+   "error": -0.010754809837992818,
+   "error_str": "-0.01075 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Monte-Carlo std \u2248 LNA NF tolerance (first stage dominates; 0.3 dB \u00d7 \u2202NF/\u2202NF\u2081)",
+   "predicted": 0.27725263152250906,
+   "measured": 0.29503190396238893,
+   "unit": "dB",
+   "error": 0.017779272439879867,
+   "error_str": "+0.01778 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Same stages with the LNA moved after the mixer",
+   "value": 8.546236992769353,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "Monte-Carlo NF: mean \u00b1 std",
+   "value": "1.86 \u00b1 0.30 dB",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Yield for NF < 2.2 dB",
+   "value": 87.934,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/noise_figure.png"
+ ],
+ "runtime_s": 0.32,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM083-noise-figure-monte-carlo"
+}

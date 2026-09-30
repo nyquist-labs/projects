@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "SL-087",
+  "title": "Meteor-M LRPT receive chain: QPSK, Viterbi, sync and derandomising",
+  "level": "H",
+  "tools": "NumPy/SciPy: RRC pulse shaping, Costas carrier loop, Gardner timing, soft Viterbi (k=7, r=\u00bd), CCSDS ASM search",
+  "summary": "Build the digital chain that turns a Meteor-M LRPT QPSK signal into CCSDS frames: carrier and symbol recovery, the k = 7 rate-\u00bd convolutional decoder, the 0x1ACFFC1D sync marker and the CCSDS pseudo-random derandomiser \u2014 tested end-to-end on a standards-conformant synthetic signal with Doppler-like frequency offset and noise.",
+  "problem": "LRPT is the digital successor of APT: 72 ksym/s QPSK with forward error correction. What does each stage of the receiver contribute, and how much coding gain does the Viterbi decoder buy?",
+  "theory": "Rate-\u00bd, K = 7 convolutional code (polynomials 171/133 octal) with soft Viterbi decoding has free distance 10 and \u2248 5 dB\ncoding gain at BER 10\u207b\u2075 over uncoded QPSK. Uncoded QPSK: $BER=Q(\\sqrt{2E_b/N_0})$. Frames start with the 32-bit\nattached sync marker 0x1ACFFC1D; data are XOR-ed with the CCSDS PN sequence $h(x)=x^8+x^7+x^5+x^3+1$ (period 255),\nso derandomising a frame twice returns it unchanged.",
+  "method": "Transmitter: 40 random 1020-byte frames \u2192 CCSDS randomiser \u2192 ASM prepended \u2192 conv. encoder \u2192 QPSK \u2192 RRC (\u03b1 = 0.6, 8 samples/symbol)\n\u2192 +1.2 kHz carrier offset at 72 ksym/s, random phase \u2192 AWGN. Receiver: Costas loop, Gardner timing recovery, RRC\nmatched filter, soft Viterbi, ASM correlation search (with phase-ambiguity resolution), derandomise. BER measured\nvs E_b/N\u2080 for coded and uncoded paths.",
+  "data": "Synthetic signal built to the CCSDS/Meteor-M LRPT specifications (real Meteor IQ recordings are not archived by SatNOGS).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "PN sequence period (x\u2078+x\u2077+x\u2075+x\u00b3+1)",
+   "predicted": 255.0,
+   "measured": 255.0,
+   "unit": "bits",
+   "error": 0.0,
+   "error_str": "+0 bits",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Uncoded QPSK BER at 4 dB (Q(\u221a(2Eb/N0)))",
+   "predicted": 0.012500818040737566,
+   "measured": 0.0125,
+   "unit": "",
+   "error": -0.006543897646537418,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Coding gain at BER 10\u207b\u2074 (Eb/N0 uncoded \u2212 coded)",
+   "predicted": 5.0,
+   "measured": 5.185062052907272,
+   "unit": "dB",
+   "error": 0.18506205290727173,
+   "error_str": "+0.1851 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "textbook \u22485 dB at 10\u207b\u2075, a bit less at 10\u207b\u2074"
+  },
+  {
+   "quantity": "Carrier-loop frequency estimate",
+   "predicted": 0.10471975511965977,
+   "measured": 0.10216410582173506,
+   "unit": "rad/sym",
+   "error": -2.440465311444293,
+   "error_str": "-2.44 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Frames recovered after carrier lock (ASM found)",
+   "predicted": 5.0,
+   "measured": 5.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": "first frame is consumed by loop acquisition"
+  },
+  {
+   "quantity": "Bit errors in recovered frames",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/lrpt_chain.png"
+ ],
+ "runtime_s": 23.8,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL087-meteor-lrpt-chain"
+}

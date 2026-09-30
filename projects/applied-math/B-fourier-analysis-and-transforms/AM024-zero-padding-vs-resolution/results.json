@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-024",
+  "title": "Zero-padding vs resolution: what interpolation does not add",
+  "level": "E",
+  "tools": "FFT with and without zero-padding, two-tone resolution test, peak-dip criterion",
+  "summary": "Show that zero-padding interpolates the spectrum (sharper-looking peaks, better frequency *estimates*) but cannot separate two tones closer than about 1/T \u2014 only a longer record can. The resolvability threshold is predicted and measured.",
+  "problem": "Padding an FFT with zeros makes the spectrum look smoother. Does it improve resolution?",
+  "theory": "The spectrum of an N-sample record is the true spectrum convolved with the window's transform (mainlobe width \u221d 1/T). Zero-padding samples that same smooth function more\ndensely \u2014 it adds no information. Two equal tones produce two distinct peaks only when separated by more than \u2248 1/T (rectangular window) \u2014 and because coherent tones\ninterfere, whether a dip appears near that limit depends on their relative phase, so the test uses the median over phases. Frequency *estimation* of a single tone, however, improves with padding (peak-picking error \u2264 half a bin \u2192 shrinks).",
+  "method": "fs = 1 kHz, N = 100 (T = 0.1 s). Two unit tones at 100 Hz and 100 + \u0394f; \u0394f\u00b7T from 0.5 to 2.5; median dip depth over 24 relative phases, padding \u00d78 and \u00d764; also a record of N = 200.\nSingle-tone frequency estimate error vs padding.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Resolvable separation \u0394f\u00b7T with 64\u00d7 padding (median dip > 5 % over phases)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Same threshold with 8\u00d7 padding (padding level does not matter)",
+   "predicted": 1.0,
+   "measured": 1.1,
+   "unit": "",
+   "error": 0.10000000000000009,
+   "error_str": "+0.1",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Doubled record: threshold in units of its own T is unchanged, so \u0394f in Hz halves",
+   "predicted": 1.0,
+   "measured": 0.95,
+   "unit": "",
+   "error": -0.050000000000000044,
+   "error_str": "-0.05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Single-tone estimate RMS error without padding \u2248 bin/\u221a12",
+   "predicted": 2.886751345948129,
+   "measured": 2.934526677245717,
+   "unit": "Hz",
+   "error": 1.6549860231171487,
+   "error_str": "+1.65 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Single-tone RMS error with 64\u00d7 padding",
+   "value": 0.04591364070994681,
+   "unit": "Hz",
+   "note": "interpolation *does* help estimation"
+  }
+ ],
+ "figures": [
+  "figures/zeropad.png"
+ ],
+ "runtime_s": 0.38,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM024-zero-padding-vs-resolution"
+}

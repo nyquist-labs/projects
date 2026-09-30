@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Phone IMU Recorder</title>
+<style>:root{--bg:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--a:#2a78d6}@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--a:#3987e5}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}main{max-width:640px;margin:auto;padding:16px}
+button{font:inherit;padding:10px 16px;margin:4px 4px 4px 0;border-radius:8px;border:1px solid var(--ink2);background:transparent;color:var(--ink)}
+#n{font-variant-numeric:tabular-nums;color:var(--ink2)}canvas{width:100%;height:auto}</style></head><body><main>
+<h1>Phone IMU recorder</h1><p>Open this page on your phone, press Start, walk, press Stop, then Download. Data never leaves your device.</p>
+<button id="s">Start</button><button id="t">Stop</button><button id="d">Download CSV</button><p id="n">0 samples</p><canvas id="c" width="600" height="200"></canvas>
+</main><script>
+let rec=[],on=false;const c=document.getElementById('c').getContext('2d');
+function onm(e){if(!on)return;const a=e.accelerationIncludingGravity||{},g=e.rotationRate||{};rec.push([performance.now()/1000,a.x,a.y,a.z,g.alpha,g.beta,g.gamma]);
+document.getElementById('n').textContent=rec.length+' samples';if(rec.length%5==0)draw();}
+function draw(){const w=600,h=200,last=rec.slice(-300);c.clearRect(0,0,w,h);c.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--a');c.beginPath();
+last.forEach((r,i)=>{const m=Math.hypot(r[1]||0,r[2]||0,r[3]||0);const y=h-(m/20)*h;i?c.lineTo(i*2,y):c.moveTo(0,y);});c.stroke();}
+document.getElementById('s').onclick=async()=>{if(typeof DeviceMotionEvent!=='undefined'&&DeviceMotionEvent.requestPermission){await DeviceMotionEvent.requestPermission();}
+rec=[];on=true;window.addEventListener('devicemotion',onm);};
+document.getElementById('t').onclick=()=>{on=false;};
+document.getElementById('d').onclick=()=>{const csv='t_s,ax,ay,az,gyro_alpha,gyro_beta,gyro_gamma\n'+rec.map(r=>r.join(',')).join('\n');
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='imu.csv';a.click();};
+</script></body></html>

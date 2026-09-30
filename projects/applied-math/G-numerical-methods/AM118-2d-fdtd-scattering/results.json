@@ -1,0 +1,52 @@
+{
+ "meta": {
+  "id": "AM-118",
+  "title": "2-D FDTD: diffraction through a slit",
+  "level": "H",
+  "tools": "TMz Yee scheme (E_z, H_x, H_y), perfectly conducting screen with a slit, convolutional absorbing layer (graded-conductivity PML-like sponge), far-field angular pattern, single-slit diffraction formula",
+  "summary": "Extend FDTD to two dimensions, send a monochromatic plane wave through a slit in a metal screen, and compare the simulated angular intensity pattern and the first diffraction minimum with the single-slit prediction.",
+  "problem": "Can a direct simulation of Maxwell's equations reproduce the textbook diffraction pattern \u2014 and where does the textbook approximation fail?",
+  "theory": "Fraunhofer single slit of width a: $I(\u03b8)\u221d\\mathrm{sinc}^2\\!\\left(\\frac{a\\sin\u03b8}{\u03bb}\\right)$, minima at sin \u03b8 = m\u03bb/a. For a = 3\u03bb: first minimum at 19.5\u00b0. The Fraunhofer formula assumes the observation distance \u226b a\u00b2/\u03bb and a scalar, thin screen; FDTD solves the full vector problem, so small\ndifferences are expected near grazing angles. Stability in 2-D: S \u2264 1/\u221a2.",
+  "method": "Grid 600 \u00d7 400 cells, \u03bb = 20 cells (a = 60 cells), S = 0.5; soft line source generating a plane wave; PEC screen (E_z = 0) with slit; 30-cell graded-\u03c3 absorbing border; run to steady state (1600 steps);\ntime-averaged |E_z|\u00b2 on an arc of radius 250 cells beyond the slit vs sinc\u00b2.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "First diffraction minimum angle: arcsin(\u03bb/a) for a = 3\u03bb",
+   "predicted": 19.47122063449069,
+   "measured": 19.5,
+   "unit": "\u00b0",
+   "error": 0.028779365509308263,
+   "error_str": "+0.02878 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Central lobe shape: correlation of simulated and sinc\u00b2 intensity (|\u03b8| < 12\u00b0)",
+   "predicted": 1.0,
+   "measured": 0.9997809015892951,
+   "unit": "",
+   "error": -0.021909841070488767,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Observation radius vs Fraunhofer distance a\u00b2/\u03bb",
+   "value": "250 cells vs 180 cells",
+   "unit": "",
+   "note": "only moderately far-field"
+  }
+ ],
+ "figures": [
+  "figures/fdtd2d.png"
+ ],
+ "runtime_s": 3.09,
+ "folder": "projects/applied-math/G-numerical-methods/AM118-2d-fdtd-scattering"
+}

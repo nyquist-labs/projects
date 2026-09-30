@@ -1,0 +1,76 @@
+{
+ "meta": {
+  "id": "SL-020",
+  "title": "Class-D switching amplifier",
+  "level": "H",
+  "tools": "eelab mini-SPICE (switch-level half bridge + LC filter)",
+  "summary": "A 250 kHz PWM half-bridge with a 2nd-order LC output filter driving 8 \u03a9: predict output amplitude, carrier ripple and efficiency, then measure them.",
+  "problem": "A class-D amplifier only ever switches its transistors fully on or off. How does an LC filter turn that square wave back into audio, and what does the filter leave behind?",
+  "theory": "Natural-sampling PWM of $m\\sin(\\omega t)$ against a triangle gives a switch node whose *average* is\n$m V_S\\sin\\omega t$, so $\\hat V_{out}=mV_S\\,|H(j\\omega)|$. The LC filter ($L$ = 22 \u00b5H, $C$ = 680 nF,\n$f_c=1/(2\\pi\\sqrt{LC})$ = 41.1 kHz) passes audio and attenuates the carrier by \u2248 $(f_{sw}/f_c)^2$\n(40 dB/decade). For a switch node swinging $2V_S$ with duty D the output ripple is\n$\\Delta V_{pp}=\\frac{2V_S\\,D(1-D)}{8LCf_{sw}^2}$, largest ($D=\\tfrac12$) at the audio zero crossings: 1.34 V.\nEfficiency: only $I^2R_{on}$ conduction loss in this idealised model \u2192 \u03b7 \u2248 $R_L/(R_L+R_{on}+R_{DCR})$.",
+  "method": "Supplies \u00b120 V, switches with R_on = 0.1 \u03a9 (complementary, controlled by the PWM comparator), L with\n50 m\u03a9 DCR, 8 \u03a9 load, m = 0.6 at 1 kHz. 3 ms transient at 20 ns steps. Measured: 1 kHz amplitude by FFT,\ncarrier ripple, THD and efficiency from supply and load power.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "1 kHz output amplitude",
+   "predicted": 11.784148758760507,
+   "measured": 11.756181361477699,
+   "unit": "V",
+   "error": -0.23733065370561002,
+   "error_str": "-0.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Carrier ripple (pk-pk)",
+   "predicted": 1.3368983957219251,
+   "measured": 1.4095746439394872,
+   "unit": "V",
+   "error": 5.43618336667364,
+   "error_str": "+5.44 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Efficiency",
+   "predicted": 98.15950920245399,
+   "measured": 96.0978713121316,
+   "unit": "%",
+   "error": -2.0616378903223875,
+   "error_str": "-2.06 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "THD (harmonics 2\u20139)",
+   "value": 0.43670692385834536,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "LC filter corner frequency",
+   "value": 41148.530937338444,
+   "unit": "Hz",
+   "note": ""
+  },
+  {
+   "quantity": "Output power",
+   "value": 8.658908322224905,
+   "unit": "W",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/waveforms.png",
+  "figures/spectrum.png"
+ ],
+ "runtime_s": 2.11,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL020-class-d-amplifier"
+}

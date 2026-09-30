@@ -1,0 +1,8 @@
+.venv/
+.tools/
+data_cache/
+logs/
+__pycache__/
+*.pyc
+projects/**/hdl/build/
+.DS_Store

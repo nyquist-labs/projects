@@ -1,0 +1,8 @@
+metric,v1,v2
+decoupling loop +12V (mm),5.87717,3.71545
+decoupling loop -12V (mm),6.87717,3.71745
+"inverting-node copper, INA−+INB− (mm)",18.9779,6
+channel A ↔ B separation (mm),0.282107,3
+"input ↔ output spacing, worst channel (mm)",1.50492,1.94
+total track length (mm),176.263,110.206
+vias,13,8

@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-074",
+  "title": "Chaining filter stages with ABCD matrices",
+  "level": "M",
+  "tools": "ABCD (transmission) matrices for series/shunt elements and transmission-line sections, cascade by matrix multiplication, comparison with full-circuit AC simulation",
+  "summary": "Model a multi-section LC filter and a transmission-line matching section as products of 2\u00d72 ABCD matrices, compute their insertion loss by one matrix product per frequency, and verify against simulating the whole circuit.",
+  "problem": "Cascaded two-ports are easy to analyse if each is a matrix. Why does multiplication work, and how accurate is it?",
+  "theory": "$\\begin{bmatrix}V_1\\\\I_1\\end{bmatrix}=\\begin{bmatrix}A&B\\\\C&D\\end{bmatrix}\\begin{bmatrix}V_2\\\\I_2\\end{bmatrix}$ with output current leaving port 2, so cascades multiply. Series Z: [[1, Z],[0, 1]]; shunt Y: [[1, 0],[Y, 1]]; line of length \u2113:\n[[cos \u03b2\u2113, jZ0 sin \u03b2\u2113], [j sin \u03b2\u2113 / Z0, cos \u03b2\u2113]]. With source and load R0: $S_{21}=\\frac{2}{A+B/R_0+CR_0+D}$. Reciprocity \u21d4 AD \u2212 BC = 1. A quarter-wave line transforms R_L into Z0\u00b2/R_L.",
+  "method": "5th-order Chebyshev 0.5 dB low-pass (50 \u03a9, 100 MHz) as 5 ABCD factors; same circuit in the MNA simulator with 50 \u03a9 source/load; quarter-wave 70.7 \u03a9 line matching 100 \u03a9 to 50 \u03a9 (as an LC-ladder line\napproximation in the simulator with 50 sections).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Cascade of ABCD matrices vs full-circuit simulation, max |\u0394S21|",
+   "predicted": 0.0,
+   "measured": 7.791361360319882e-16,
+   "unit": "",
+   "error": 7.791361360319882e-16,
+   "error_str": "+7.7914e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Reciprocity: det(ABCD) = AD \u2212 BC = 1 (worst)",
+   "predicted": 0.0,
+   "measured": 1.3198331316743861e-11,
+   "unit": "",
+   "error": 1.3198331316743861e-11,
+   "error_str": "+1.3198e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Passband ripple of the 0.5 dB Chebyshev",
+   "predicted": 0.5,
+   "measured": 0.5000818648335598,
+   "unit": "dB",
+   "error": 8.186483355976382e-05,
+   "error_str": "+8.1865e-05 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Quarter-wave transformer (70.7 \u03a9 line): |\u0393| at 1 GHz",
+   "predicted": 0.0,
+   "measured": 0.0009743147381385018,
+   "unit": "",
+   "error": 0.0009743147381385018,
+   "error_str": "+9.7431e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Line built from 50 LC sections: |\u0393| vs ideal line (worst over 0.3\u20131.7 GHz)",
+   "predicted": 0.0,
+   "measured": 0.018701758634291188,
+   "unit": "",
+   "error": 0.018701758634291188,
+   "error_str": "+0.0187",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Quarter-wave match: bandwidth for |\u0393| < 0.1",
+   "value": 36.14035087719297,
+   "unit": "% of f0",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/abcd.png"
+ ],
+ "runtime_s": 0.17,
+ "folder": "projects/applied-math/D-linear-algebra/AM074-cascade-abcd-matrices"
+}

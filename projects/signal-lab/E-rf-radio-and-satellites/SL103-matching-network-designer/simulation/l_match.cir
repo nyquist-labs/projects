@@ -1,0 +1,8 @@
+* L-match — exported by eelab.circuit
+Vs src 0 DC 0.0 AC 1
+Rs src in 50
+Lx in mid 1.03451e-07
+Cb in 0 3.1831e-11
+Rl mid lc 25
+Cl lc 0 3.97887e-11
+.end

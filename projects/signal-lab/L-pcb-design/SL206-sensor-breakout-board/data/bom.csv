@@ -1,0 +1,6 @@
+refs,qty,value,footprint,mpn
+C1,1,100n,C_0603,
+J1,1,VCC/GND/SCL/SDA/OS,PinHeader_1x05_P2.54mm,
+"R1,R2",2,4.7k,C_0603,
+R3,1,10k,C_0603,
+U1,1,LM75-class,SOIC-8,I2C temperature sensor SOIC-8

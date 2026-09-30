@@ -1,0 +1,92 @@
+{
+ "meta": {
+  "id": "SL-075",
+  "title": "Quantisation noise and the 6 dB-per-bit rule",
+  "level": "M",
+  "tools": "NumPy uniform quantiser, SINAD measurement, noise-spectrum analysis",
+  "summary": "Quantise a full-scale sine at 2\u201320 bits, measure SNR, and verify SNR = 6.02\u00b7N + 1.76 dB, including where the rule breaks (low bits, and non-busy signals).",
+  "problem": "Where does the famous 6.02 N + 1.76 dB come from, and when is the 'quantisation noise is white and uniform' assumption wrong?",
+  "theory": "A uniform quantiser with step \u0394 makes an error uniformly distributed in \u00b1\u0394/2 (if the signal is 'busy'), so\nnoise power = \u0394\u00b2/12. A full-scale sine has power $(2^{N-1}\\Delta)^2/2$, giving\n$SNR = 10\\log_{10}\\frac{3}{2}2^{2N} = 6.02N+1.76$ dB. The assumption fails for very few bits (error correlated\nwith signal \u2192 harmonics) and for signals commensurate with the sample rate (periodic error).",
+  "method": "Sine at 997 Hz (prime relative to f_s = 48 kHz) with amplitude just under full scale, 2\u00b9\u2076 samples; SNR = signal\npower / (error power). Error spectrum and error histogram at 4 and 12 bits; a 1 kHz (commensurate) tone for\ncontrast.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "4-bit SNR",
+   "predicted": 25.831309764519645,
+   "measured": 23.276217819240852,
+   "unit": "dB",
+   "error": -2.555091945278793,
+   "error_str": "-2.555 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit SNR",
+   "predicted": 49.91130976451964,
+   "measured": 49.33928284560114,
+   "unit": "dB",
+   "error": -0.5720269189185032,
+   "error_str": "-0.572 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "12-bit SNR",
+   "predicted": 73.99130976451964,
+   "measured": 74.01472762565615,
+   "unit": "dB",
+   "error": 0.023417861136508122,
+   "error_str": "+0.02342 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit SNR",
+   "predicted": 98.07130976451964,
+   "measured": 98.116300899776,
+   "unit": "dB",
+   "error": 0.04499113525635323,
+   "error_str": "+0.04499 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Slope (dB per bit)",
+   "predicted": 6.02,
+   "measured": 6.089031399760618,
+   "unit": "dB/bit",
+   "error": 0.06903139976061823,
+   "error_str": "+0.06903 dB/bit",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Error power in the 60 strongest FFT bins, 997 Hz (busy)",
+   "value": 4.428308484249333,
+   "unit": "%",
+   "note": "white-like: spread over all bins"
+  },
+  {
+   "quantity": "Error power in the 60 strongest FFT bins, 1000 Hz (commensurate)",
+   "value": 99.99745772032492,
+   "unit": "%",
+   "note": "periodic error: a few harmonic lines"
+  }
+ ],
+ "figures": [
+  "figures/snr_bits.png",
+  "figures/error_spectrum.png"
+ ],
+ "runtime_s": 0.34,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL075-quantisation-noise-study"
+}

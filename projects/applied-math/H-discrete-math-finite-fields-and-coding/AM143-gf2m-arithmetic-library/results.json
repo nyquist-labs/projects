@@ -1,0 +1,188 @@
+{
+ "meta": {
+  "id": "AM-143",
+  "title": "A GF(2\u1d50) arithmetic library, verified against AES",
+  "level": "H",
+  "tools": "Own polynomial-basis field class (carry-less multiply with reduction, inversion by extended Euclid and by Fermat), exhaustive field-axiom checks, cross-check against an independent log/antilog implementation, FIPS-197 known answers (AES multiplication examples and S-box)",
+  "summary": "Build finite-field arithmetic from the definition \u2014 polynomials over GF(2) modulo an irreducible polynomial \u2014 and verify it exhaustively: field axioms, two independent inversion algorithms, agreement with a table-based implementation, and reproduction of the AES S-box from x \u21a6 x\u207b\u00b9.",
+  "problem": "Error-correcting codes and ciphers do arithmetic where 1 + 1 = 0 and every non-zero byte has a reciprocal. How is that built, and how do we know it is right?",
+  "theory": "GF(2\u1d50) = GF(2)[x]/(f), f irreducible of degree m. Addition is XOR; multiplication is polynomial multiplication reduced mod f. The non-zero elements form a cyclic group of order $2^m-1$, so $a^{2^m-1}=1$ and $a^{-1}=a^{2^m-2}$; the number of\ngenerators is $\\varphi(2^m-1)$. Squaring is linear (Frobenius): $(a+b)^2=a^2+b^2$. AES uses f = x\u2078+x\u2074+x\u00b3+x+1 (0x11B): FIPS-197 gives {57}\u00b7{83} = {C1}, {57}\u00b7{13} = {FE}, and the S-box is an affine map of the inverse (S(00) = 63, S(53) = ED).\nIn that field 0x03 is a generator but 0x02 has order 51.",
+  "method": "Exhaustive over all element pairs/triples for GF(16) and all pairs for GF(256) (vectorised where possible). Inverses by extended Euclid on polynomials and by exponentiation compared for every element. Cross-check with eelab.gf (log tables,\npolynomial 0x11D). S-box computed and compared with the first row and spot values of FIPS-197, plus bijectivity.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "GF(16): commutativity, associativity, distributivity violations (all triples)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "GF(256): non-zero rows of the multiplication table that are not permutations (no zero divisors)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Inverse by extended Euclid vs by a^(2\u2078\u22122), and a\u00b7a\u207b\u00b9 = 1 (failures over 255 elements)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "FIPS-197: {57}\u00b7{83}",
+   "predicted": 193.0,
+   "measured": 193.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "FIPS-197: {57}\u00b7{13}",
+   "predicted": 254.0,
+   "measured": 254.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "AES S-box first row (16 entries) reproduced from inverse + affine map (mismatches)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "S-box(0x53)",
+   "predicted": 237.0,
+   "measured": 237.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "S-box is a bijection with no fixed points (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Generators of GF(256)*: \u03c6(255)",
+   "predicted": 128.0,
+   "measured": 128.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Order of 0x02 under the AES polynomial",
+   "predicted": 51.0,
+   "measured": 51.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Order of 0x03 under the AES polynomial",
+   "predicted": 255.0,
+   "measured": 255.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Element orders that do not divide 255 (Lagrange)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Frobenius (a + b)\u00b2 = a\u00b2 + b\u00b2 violations",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Agreement with the independent log-table implementation (poly 0x11D; differences)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 where 0x02 is a generator (order)",
+   "predicted": 255.0,
+   "measured": 255.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/gf.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM143-gf2m-arithmetic-library"
+}

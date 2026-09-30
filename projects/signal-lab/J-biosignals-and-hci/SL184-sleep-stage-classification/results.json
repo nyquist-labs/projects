@@ -1,0 +1,76 @@
+{
+ "meta": {
+  "id": "SL-184",
+  "title": "Sleep-stage scoring from EEG (Sleep-EDF)",
+  "level": "H",
+  "tools": "30-s epoch spectral features (\u03b4, \u03b8, \u03b1, \u03c3, \u03b2 band powers, EOG & EMG power) + softmax classifier; Sleep-EDF Expanded cassette recordings",
+  "summary": "Score Wake, N1, N2, N3 and REM on whole-night recordings using band powers of the Fpz-Cz and Pz-Oz EEG, EOG and chin EMG; train on one night, test on a different subject's night, and compare with human inter-scorer agreement.",
+  "problem": "Sleep technicians label every 30 s of a night by eye. How far does a simple spectral classifier get toward that?",
+  "theory": "N3 = slow waves (\u03b4 0.5\u20134 Hz) dominate; N2 = spindles (\u03c3 12\u201315 Hz) and K-complexes; REM = mixed-frequency EEG with rapid eye movements and low chin EMG;\nWake = \u03b1/\u03b2 with high EMG; N1 = transitional (hardest). Human scorers agree on ~80 % of epochs (\u03ba \u2248 0.75); simple feature-based classifiers typically\nreach 70\u201380 % on unseen subjects, with N1 the worst class.",
+  "method": "Train: SC4001 night 1; test: SC4011 night 1 (different subject). Epochs from 30 min before sleep onset to 30 min after the last sleep epoch. Features: log relative\nband powers of both EEG channels (Welch, 4-s segments), EOG power 0.5\u20135 Hz, EMG (1 Hz envelope channel) mean; standardised; softmax regression with\nclass weighting. Accuracy, per-class recall and Cohen's \u03ba.",
+  "data": "Real: Sleep-EDF Database Expanded (Kemp et al. 2000, PhysioNet), ODC-By.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Accuracy on an unseen subject's night (simple classifiers: 70\u201380 %)",
+   "predicted": 75.0,
+   "measured": 70.14519056261344,
+   "unit": "%",
+   "error": -4.854809437386564,
+   "error_str": "-4.85 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Cohen's \u03ba (human inter-scorer \u2248 0.75)",
+   "predicted": 0.75,
+   "measured": 0.5872306755241333,
+   "unit": "",
+   "error": -0.16276932447586667,
+   "error_str": "-0.1628",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Recall W",
+   "value": 98.07692307692307,
+   "unit": "%",
+   "note": "156 epochs"
+  },
+  {
+   "quantity": "Recall N1",
+   "value": 55.96330275229357,
+   "unit": "%",
+   "note": "109 epochs"
+  },
+  {
+   "quantity": "Recall N2",
+   "value": 72.77580071174377,
+   "unit": "%",
+   "note": "562 epochs"
+  },
+  {
+   "quantity": "Recall N3",
+   "value": 91.42857142857143,
+   "unit": "%",
+   "note": "105 epochs"
+  },
+  {
+   "quantity": "Recall REM",
+   "value": 31.76470588235294,
+   "unit": "%",
+   "note": "170 epochs"
+  }
+ ],
+ "figures": [
+  "figures/hypnogram.png"
+ ],
+ "runtime_s": 2.16,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL184-sleep-stage-classification"
+}

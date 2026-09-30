@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-159",
+  "title": "Inverted pendulum on a cart: LQR stabilisation",
+  "level": "H",
+  "tools": "Nonlinear cart-pole equations (SciPy ODE), linearisation, LQR (continuous ARE), animation frames",
+  "summary": "Linearise the cart-pole, design an LQR controller, and test it on the full nonlinear model: verify the closed-loop eigenvalues, the predicted cost, and find the largest initial angle it can recover from.",
+  "problem": "Balancing a broomstick is the classic hard control problem. Does a controller designed on a linear model work on the real nonlinear dynamics, and how far can it be pushed?",
+  "theory": "Cart mass M = 1 kg, pole m = 0.2 kg (point mass at \u2113 = 0.5 m). Linearised about upright: $\\dot x=Ax+Bu$ with an unstable pole at $+\\sqrt{g(M+m)/(M\\ell)}$ \u2248 4.8 s\u207b\u00b9.\nLQR minimises $J=\\int x^TQx+u^TRu$: $K=R^{-1}B^TP$ where P solves the ARE; the optimal cost from $x_0$ is $x_0^TPx_0$.",
+  "method": "Q = diag(10, 1, 100, 1), R = 0.1. Nonlinear simulation (RK45, 5 s) from \u03b8\u2080 = 10\u00b0; cost integrated and compared with x\u2080\u1d40Px\u2080; recovery tested for \u03b8\u2080 up to\n60\u00b0 with the force saturated at \u00b140 N.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Unstable open-loop pole \u221a(g(M+m)/(M\u2113))",
+   "predicted": 4.852215988597375,
+   "measured": 4.852215988597375,
+   "unit": "1/s",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "All closed-loop poles in the left half-plane (max real part < 0)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Cost from \u03b8\u2080 = 10\u00b0 (nonlinear sim vs x\u2080\u1d40Px\u2080)",
+   "predicted": 1.7456109613231392,
+   "measured": 1.7961307763815393,
+   "unit": "",
+   "error": 2.8941050542044633,
+   "error_str": "+2.89 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "LQR gains K",
+   "value": "-10.00, -11.66, -73.54, -14.83",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Largest recoverable initial angle (|F| \u2264 40 N)",
+   "value": 55.0,
+   "unit": "\u00b0",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pendulum.png"
+ ],
+ "runtime_s": 2.39,
+ "folder": "projects/signal-lab/I-control-systems/SL159-inverted-pendulum"
+}

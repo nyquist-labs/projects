@@ -1,0 +1,87 @@
+{
+ "meta": {
+  "id": "SL-007",
+  "title": "Common-emitter BJT amplifier",
+  "level": "M",
+  "tools": "eelab mini-SPICE (Ebers-Moll BJT), FFT-based THD",
+  "summary": "Bias a 2N3904-like transistor with a divider, predict Q-point and mid-band gain, then find the input level where distortion reaches 1 % THD.",
+  "problem": "What gain does a textbook common-emitter stage really give, and at what input amplitude does the exponential transistor start to distort?",
+  "theory": "Divider bias: $V_B = 12\\cdot\\frac{10k}{57k}=2.105$ V (ignoring base current), $V_E=V_B-0.65$,\n$I_C\\approx V_E/R_E \\approx 1.45$ mA, $V_C = 12 - I_C R_C$.\nMid-band gain with $R_E$ bypassed: $A_v = -g_m (R_C\\parallel R_L)$, $g_m = I_C/V_T$.\nDistortion: $i_c \\propto e^{v_{be}/V_T}$; for input amplitude $\\hat v$ the 2nd-harmonic ratio is\n$HD_2 \\approx \\hat v/(4V_T)$, so 1 % distortion at $\\hat v \\approx 0.04V_T \\approx 1.03$ mV.",
+  "method": "Transistor: Is = 6.7 fA, \u03b2 = 150, VA = 75 V. R1 = 47 k, R2 = 10 k, RC = 4.7 k, RE = 1 k \u2016 100 \u00b5F,\n10 \u00b5F coupling caps, RL = 10 k. Operating point by Newton-Raphson, gain from AC analysis at 1 kHz,\ndistortion from 5 ms transients at 1 kHz for input amplitudes 0.25\u20138 mV (THD from an FFT over\nwhole cycles).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Base voltage V_B",
+   "predicted": 2.1052631578947367,
+   "measured": 2.034805362789281,
+   "unit": "V",
+   "error": -3.346745267509156,
+   "error_str": "-3.35 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Collector current I_C",
+   "predicted": 0.0014552631578947368,
+   "measured": 0.0013546998184003284,
+   "unit": "A",
+   "error": -6.91031989292499,
+   "error_str": "-6.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Collector voltage V_C",
+   "predicted": 5.160263157894737,
+   "measured": 5.632910853518457,
+   "unit": "V",
+   "error": 9.159371938243332,
+   "error_str": "+9.16 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Mid-band gain |A_v| at 1 kHz",
+   "predicted": 179.98151808424046,
+   "measured": 158.27127940909574,
+   "unit": "",
+   "error": -12.062482251640544,
+   "error_str": "-12.06 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Input amplitude for 1 % THD",
+   "predicted": 0.00103408,
+   "measured": 0.0011579032694447498,
+   "unit": "V",
+   "error": 11.974244685590074,
+   "error_str": "+11.97 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Gain with measured I_C and r_o",
+   "value": 158.86378479114828,
+   "unit": "",
+   "note": "refined prediction"
+  }
+ ],
+ "figures": [
+  "figures/thd.png",
+  "figures/bode.png",
+  "figures/waveform.png"
+ ],
+ "runtime_s": 1.69,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL007-common-emitter-amplifier"
+}

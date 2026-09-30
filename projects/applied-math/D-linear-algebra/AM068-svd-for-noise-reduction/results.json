@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "AM-068",
+  "title": "SVD denoising: low-rank Hankel approximation",
+  "level": "H",
+  "tools": "Hankel (trajectory) matrix, truncated SVD, Cadzow iterations (rank projection + Hankel averaging), singular-value spectrum, comparison with an ideal band-pass",
+  "summary": "Show that a sum of K sinusoids makes a Hankel matrix of rank 2K, recover the signal from heavy noise by truncating the SVD, and measure the SNR gain versus the chosen rank and against an oracle frequency-domain filter.",
+  "problem": "Noise spreads over every direction of a matrix; a few sinusoids occupy only a few. Can we exploit that?",
+  "theory": "For x[n] = \u03a3 A_k cos(\u03c9_k n + \u03c6_k), every length-L window lies in a 2K-dimensional space, so the L\u00d7(N\u2212L+1) Hankel matrix has rank 2K. White noise adds roughly equal energy to all singular\nvalues; keeping the top 2K removes most of it. With N samples and window L \u2248 N/2 the expected SNR gain is \u2248 10 log\u2081\u2080(N/(2\u00b72K))\u2026 capped by the rank-projection's bias; Cadzow's alternation restores\nHankel structure after truncation.",
+  "method": "N = 512, three sinusoids (K = 3, rank 6) with unequal amplitudes, SNR from \u22125 to 20 dB. L = 256. Rank r from 2 to 20; single truncation vs 10 Cadzow iterations; oracle comparison: FFT mask keeping \u00b12 bins\naround the true tones.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Noise-free Hankel matrix: numerical rank (3 sinusoids \u2192 6)",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "SNR gain of rank-6 truncation at 0 dB input (my estimate \u2248 10\u00b7log10(N/(4K)) \u2248 16 dB)",
+   "predicted": 16.300887149282058,
+   "measured": 14.27742814887078,
+   "unit": "dB",
+   "error": -2.023459000411279,
+   "error_str": "-2.023 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Best rank at 0 dB input (my guess: 2K = 6)",
+   "predicted": 6.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": -2.0,
+   "error_str": "-2",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Cadzow (10 iterations) vs single truncation at 0 dB",
+   "value": "14.2 vs 14.3 dB output SNR",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Oracle FFT mask (knows the frequencies) at 0 dB",
+   "value": 11.103964815588384,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/svd_denoise.png"
+ ],
+ "runtime_s": 5.21,
+ "folder": "projects/applied-math/D-linear-algebra/AM068-svd-for-noise-reduction"
+}

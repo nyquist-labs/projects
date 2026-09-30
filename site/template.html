@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nyquist Labs</title>
+<meta name="description" content="432 electrical-engineering projects, each with a prediction checked against a simulation or real data.">
+<style>
+:root{--bg:#fbfbfa;--panel:#ffffff;--ink:#141413;--ink2:#4d4c48;--muted:#86857f;--line:#e3e2dd;--acc:#2a78d6;--acc-soft:#e7f0fb;--ok:#2f8a4c;--warn:#b85c1c;--chip:#f1f0ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#181817;--panel:#212120;--ink:#f3f2ee;--ink2:#c4c3bb;--muted:#8d8c85;--line:#353532;--acc:#5a9ff0;--acc-soft:#1f2c3d;--ok:#5cc07a;--warn:#e59352;--chip:#2a2a28}}
+:root[data-theme="dark"]{--bg:#181817;--panel:#212120;--ink:#f3f2ee;--ink2:#c4c3bb;--muted:#8d8c85;--line:#353532;--acc:#5a9ff0;--acc-soft:#1f2c3d;--ok:#5cc07a;--warn:#e59352;--chip:#2a2a28}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1080px;margin:0 auto;padding:24px 16px 48px}
+header .by{margin:0 0 .4em;color:var(--ink2);font-size:1.05em}
+header h1{font-size:clamp(1.6em,4vw,2.3em);margin:.2em 0 .1em;letter-spacing:-.01em}
+header p{color:var(--ink2);max-width:760px;margin:.3em 0}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:120px}
+.stat b{display:block;font-size:1.5em;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:.85em}
+.controls{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+input[type=search],select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+input[type=search]{flex:1 1 240px;min-width:0}
+label.tog{display:flex;gap:6px;align-items:center;color:var(--ink2);font-size:.9em}
+button.theme{font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer}
+.count{color:var(--muted);font-size:.9em;margin:12px 0 4px}
+h2.cat{font-size:1.05em;margin:26px 0 8px;color:var(--ink2);font-weight:650}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.card a.t{color:var(--ink);text-decoration:none;font-weight:620}
+.card a.t:hover{color:var(--acc)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:.78em}
+.chip{background:var(--chip);color:var(--ink2);border-radius:999px;padding:1px 8px}
+.chip.id{background:var(--acc-soft);color:var(--acc);font-variant-numeric:tabular-nums}
+.chip.real{color:var(--ok)}
+.sum{color:var(--ink2);font-size:.9em;margin:0}
+.hl{font-size:.82em;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px;margin:0;overflow-wrap:anywhere}
+.toolbox{margin:6px 0 12px}.toolbox summary{cursor:pointer;padding:6px 0}.muted{color:var(--muted);font-weight:400}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+.tools a{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--acc);text-decoration:none;font-size:.9em}
+.note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:12px 14px;color:var(--ink2);font-size:.9em;margin-top:28px}
+footer{color:var(--muted);font-size:.85em;margin-top:28px}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Nyquist Labs</h1>
+  <p class="by">Created and maintained by <b>Anna Lin</b> · an independent project, not affiliated with any company of a similar name</p>
+  <p>Electrical-engineering projects built one way: <b>predict</b> the answer from theory, <b>measure</b> it with an independent simulation, a hardware-description-language simulator or a public real-world dataset, <b>compare</b> the two numbers, and <b>explain</b> any disagreement — including the predictions that turned out wrong.</p>
+  <div class="stats" id="stats"></div>
+  <details class="toolbox"><summary><b>Interactive browser tools</b> <span class="muted" id="ntools"></span></summary>
+  <div class="tools" id="tools"></div></details>
+</header>
+<div class="controls">
+  <input type="search" id="q" placeholder="Search titles, summaries, tools…" aria-label="Search projects">
+  <select id="track" aria-label="Track"><option value="">All tracks</option></select>
+  <select id="cat" aria-label="Category"><option value="">All categories</option></select>
+  <select id="lvl" aria-label="Level"><option value="">Any level</option><option value="E">Easy</option><option value="M">Medium</option><option value="H">Hard</option></select>
+  <label class="tog"><input type="checkbox" id="real"> real data only</label>
+  <button class="theme" id="theme" type="button" aria-label="Toggle colour theme">◐</button>
+</div>
+<div class="count" id="count"></div>
+<div id="list"></div>
+<div class="note"><b>How these projects were made.</b> The code, simulations and write-ups in this repository were produced with the help of an AI coding assistant. Every number in a results table is computed by code in the repository and can be regenerated with <code>python run_all.py</code>. If you reuse this work — for coursework, applications or a portfolio — say so, describe your own contribution truthfully, and do not present it as solely your own.</div>
+<footer>Each card links to a project folder containing <code>project.py</code>, a README with the prediction-versus-measurement table and discussion, figures, and data. Datasets are credited in each README and in the top-level README.</footer>
+</main>
+<script>
+const DATA=/*DATA*/;const TOOLS=/*TOOLS*/;
+const $=id=>document.getElementById(id);
+function repoBase(){const h=location.hostname.match(/^(.+)\.github\.io$/);if(h){const repo=location.pathname.split('/').filter(Boolean)[0];if(repo)return `https://github.com/${h[1]}/${repo}/tree/main/`;}return '../';}
+const BASE=repoBase();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function init(){
+  const tracks=[...new Set(DATA.map(d=>d.track))];tracks.forEach(t=>$('track').insertAdjacentHTML('beforeend',`<option>${esc(t)}</option>`));
+  fillCats();
+  const nReal=DATA.filter(d=>d.real).length;
+  $('stats').innerHTML=[[DATA.length,'projects'],[tracks.length,'tracks'],[new Set(DATA.map(d=>d.cat)).size,'categories'],[nReal,'use real or recorded data'],[TOOLS.length,'browser tools']].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+  $('ntools').textContent=`(${TOOLS.length}, JavaScript verified against Python references)`;$('tools').innerHTML=TOOLS.map(t=>`<a href="${esc(t.href)}">${esc(t.id)} · ${esc(t.title)}</a>`).join('');
+  ['q','track','cat','lvl','real'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='track')fillCats();render();}));
+  try{const th=localStorage.getItem('asl-theme');if(th)document.documentElement.dataset.theme=th;}catch(e){}
+  $('theme').onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=nx;try{localStorage.setItem('asl-theme',nx)}catch(e){}};
+  const u=new URLSearchParams(location.search);
+  if(u.get('track'))$('track').value=u.get('track');fillCats();
+  if(u.get('cat'))$('cat').value=u.get('cat');if(u.get('lvl'))$('lvl').value=u.get('lvl');
+  if(u.get('q'))$('q').value=u.get('q');if(u.get('real')==='1')$('real').checked=true;
+  render();
+}
+function syncUrl(){const u=new URLSearchParams();for(const k of ['q','track','cat','lvl'])if($(k).value)u.set(k,$(k).value);if($('real').checked)u.set('real','1');
+  const qs=u.toString();history.replaceState(null,'',qs?'?'+qs:location.pathname);}
+function fillCats(){const t=$('track').value,keep=$('cat').value;const cats=[...new Set(DATA.filter(d=>!t||d.track===t).map(d=>d.cat))];
+  $('cat').innerHTML='<option value="">All categories</option>'+cats.map(c=>`<option${c===keep?' selected':''}>${esc(c)}</option>`).join('');}
+function render(){
+  const q=$('q').value.trim().toLowerCase(),t=$('track').value,c=$('cat').value,l=$('lvl').value,real=$('real').checked;
+  const rows=DATA.filter(d=>(!t||d.track===t)&&(!c||d.cat===c)&&(!l||d.lvl===l)&&(!real||d.real)&&(!q||(d.id+' '+d.title+' '+d.sum+' '+d.hl).toLowerCase().includes(q)));
+  syncUrl();
+  $('count').textContent=`${rows.length} of ${DATA.length} projects`;
+  let html='',cur=null;
+  for(const d of rows){
+    const key=d.track+' — '+d.cat;
+    if(key!==cur){if(cur!==null)html+='</div>';html+=`<h2 class="cat">${esc(key)}</h2><div class="grid">`;cur=key;}
+    html+=`<article class="card"><div class="meta"><span class="chip id">${esc(d.id)}</span><span class="chip">${{E:'easy',M:'medium',H:'hard'}[d.lvl]||esc(d.lvl)}</span>${d.real?'<span class="chip real">real data</span>':''}</div>
+<a class="t" href="${BASE}${esc(d.folder)}">${esc(d.title)}</a><p class="sum">${esc(d.sum)}</p>${d.hl?`<p class="hl">${esc(d.hl)}</p>`:''}</article>`;
+  }
+  if(cur!==null)html+='</div>';
+  $('list').innerHTML=html||'<p class="count">No projects match.</p>';
+}
+init();
+</script>
+</body>
+</html>

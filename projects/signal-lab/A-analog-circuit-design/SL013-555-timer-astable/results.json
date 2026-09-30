@@ -1,0 +1,134 @@
+{
+ "meta": {
+  "id": "SL-013",
+  "title": "555 timer astable multivibrator",
+  "level": "E",
+  "tools": "Behavioural 555 model integrated numerically (NumPy)",
+  "summary": "Derive f = 1.44/((R_A+2R_B)C) and the duty cycle, then verify on a behavioural 555 with a non-ideal discharge transistor and comparator delay, across five designs.",
+  "problem": "Where do the 555's famous 0.693 and 1.44 constants come from, and how far do real internals (discharge on-resistance, comparator delay) move the frequency?",
+  "theory": "The capacitor charges through $R_A+R_B$ from $V_{CC}/3$ to $2V_{CC}/3$ and discharges through $R_B$\nfrom $2V_{CC}/3$ to $V_{CC}/3$. Each is an exponential segment that covers half the remaining distance:\n$t_H = \\ln 2\\,(R_A+R_B)C$, $t_L=\\ln2\\,R_BC$, so\n$$f=\\frac{1}{0.693(R_A+2R_B)C}=\\frac{1.443}{(R_A+2R_B)C},\\qquad D=\\frac{R_A+R_B}{R_A+2R_B}$$",
+  "method": "Behavioural model: capacitor ODE integrated with 10 ns steps (exact exponential update per step);\ncomparators at 2/3 and 1/3 V_CC with 100 ns propagation delay; SR flip-flop; discharge transistor\nwith 15 \u03a9 on-resistance. V_CC = 9 V. Frequency and duty measured over the last 10 cycles.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "R_A=1k R_B=10k C=10n: frequency",
+   "predicted": 6871.428571428572,
+   "measured": 6741.658516433198,
+   "unit": "Hz",
+   "error": -1.8885454988931671,
+   "error_str": "-1.89 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=1k R_B=10k C=10n: duty cycle",
+   "predicted": 52.38095238095239,
+   "measured": 51.532989943585974,
+   "unit": "%",
+   "error": -0.8479624373664123,
+   "error_str": "-0.848 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=10k R_B=10k C=10n: frequency",
+   "predicted": 4810.0,
+   "measured": 4792.03467995025,
+   "unit": "Hz",
+   "error": -0.37349937733367167,
+   "error_str": "-0.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=10k R_B=10k C=10n: duty cycle",
+   "predicted": 66.66666666666666,
+   "measured": 66.55043586550435,
+   "unit": "%",
+   "error": -0.11623080116230255,
+   "error_str": "-0.116 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=4.7k R_B=47k C=100n: frequency",
+   "predicted": 146.20060790273556,
+   "measured": 145.50958358146693,
+   "unit": "Hz",
+   "error": -0.47265488918373955,
+   "error_str": "-0.47 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=4.7k R_B=47k C=100n: duty cycle",
+   "predicted": 52.38095238095239,
+   "measured": 52.20204030853446,
+   "unit": "%",
+   "error": -0.17891207241792983,
+   "error_str": "-0.179 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=1k R_B=1k C=1000n: frequency",
+   "predicted": 481.0,
+   "measured": 472.7277454545762,
+   "unit": "Hz",
+   "error": -1.7198034397970432,
+   "error_str": "-1.72 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=1k R_B=1k C=1000n: duty cycle",
+   "predicted": 66.66666666666666,
+   "measured": 65.60196560196383,
+   "unit": "%",
+   "error": -1.064701064702831,
+   "error_str": "-1.06 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=100k R_B=1k C=1n: frequency",
+   "predicted": 14147.05882352941,
+   "measured": 13169.255732474798,
+   "unit": "Hz",
+   "error": -6.91170584113448,
+   "error_str": "-6.91 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "R_A=100k R_B=1k C=1n: duty cycle",
+   "predicted": 99.01960784313727,
+   "measured": 98.92948568768928,
+   "unit": "%",
+   "error": -0.09012215544798607,
+   "error_str": "-0.0901 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/waveforms.png",
+  "figures/pred_vs_meas.png"
+ ],
+ "runtime_s": 0.29,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL013-555-timer-astable"
+}

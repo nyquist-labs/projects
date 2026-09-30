@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-047",
+  "title": "Euler vs RK4 on a circuit ODE: measured orders of accuracy",
+  "level": "M",
+  "tools": "Own forward Euler, Heun (RK2) and classical RK4 integrators, series-RLC state equations, global error vs step size, cost-per-accuracy analysis",
+  "summary": "Integrate the series RLC state equations with three explicit methods, measure the global error against the exact solution as a function of step size, confirm the theoretical orders 1, 2 and 4, and compare the work needed to reach a given accuracy.",
+  "problem": "Why does every circuit simulator avoid forward Euler? What does 'fourth order' buy in practice?",
+  "theory": "Global error \u221d h^p with p = 1 (Euler), 2 (Heun), 4 (RK4). For a target error \u03b5 the number of function evaluations scales as s\u00b7T/h \u221d s\u00b7\u03b5^{\u22121/p} (s = stages per step: 1, 2, 4), so for\n\u03b5 = 10\u207b\u2076 RK4 needs orders of magnitude fewer evaluations. Forward Euler on an under-damped oscillator also *adds* energy: its amplification factor |1+h\u03bb| exceeds 1 for small damping.",
+  "method": "State x = [v_C, i_L]; R = 20 \u03a9, L = 10 mH, C = 1 \u00b5F, 1 V step, 0\u20135 ms. h from T/50 to T/10\u2075; error = max |v_C \u2212 exact|; slopes on log-log axes; evaluations to reach 1e-6.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Euler: observed order of accuracy",
+   "predicted": 1.0,
+   "measured": 1.0134768865364856,
+   "unit": "",
+   "error": 0.0134768865364856,
+   "error_str": "+0.01348",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Heun: observed order of accuracy",
+   "predicted": 2.0,
+   "measured": 2.0012243337602307,
+   "unit": "",
+   "error": 0.001224333760230678,
+   "error_str": "+0.001224",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RK4: observed order of accuracy",
+   "predicted": 4.0,
+   "measured": 4.001119703356744,
+   "unit": "",
+   "error": 0.0011197033567436065,
+   "error_str": "+0.00112",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Euler (h = 12.5 \u00b5s): ringing decay rate = ln|1+h\u03bb|/h (true rate \u22121000 s\u207b\u00b9)",
+   "predicted": -376.76887665965734,
+   "measured": -376.78504841698964,
+   "unit": "1/s",
+   "error": -0.00429222219087644,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Function evaluations to reach 1e-6 V: Euler / Heun / RK4",
+   "value": "> 4e5 / 100000 / 4000",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/orders.png"
+ ],
+ "runtime_s": 2.61,
+ "folder": "projects/applied-math/C-differential-equations/AM047-euler-vs-rk4-for-circuits"
+}

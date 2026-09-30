@@ -1,0 +1,82 @@
+{
+ "meta": {
+  "id": "SL-186",
+  "title": "Eye-movement analysis from the EOG: finding REM sleep",
+  "level": "M",
+  "tools": "Horizontal EOG, derivative-based saccade detection, per-stage rate statistics; Sleep-EDF Expanded",
+  "summary": "Detect rapid eye movements in a whole night of horizontal EOG with a velocity-threshold detector and show that they concentrate in REM sleep and wakefulness, as the name 'REM' says \u2014 then use the rate alone to spot REM epochs.",
+  "problem": "The electrooculogram measures the eye's corneo-retinal dipole. Can eye movements alone reveal dream sleep?",
+  "theory": "Horizontal eye rotation changes the EOG by roughly 10\u201320 \u00b5V per degree; saccades are fast (velocity \u226b slow drifts), so a threshold on |dV/dt| detects them.\nREM sleep is defined by bursts of such movements; N2/N3 contain almost none (slow rolling movements occur mainly in N1). Expected: REM-epoch saccade\nrate \u226b N2/N3 rate, making the rate a useful REM indicator (but also high during wake).",
+  "method": "SC4001 night: EOG horizontal (100 Hz), 0.3\u201315 Hz band-pass, velocity = derivative smoothed over 30 ms, saccade = |velocity| > 6 \u00d7 MAD with 200 ms refractory period. Rate per\n30-s epoch grouped by the expert's stage; REM detection by rate threshold restricted to sleep epochs (ROC area).",
+  "data": "Real: Sleep-EDF Database Expanded (PhysioNet).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "REM / N2 mean saccade-rate ratio (\u226b 1 expected)",
+   "predicted": 5.0,
+   "measured": 5.258426966292135,
+   "unit": "\u00d7",
+   "error": 0.25842696629213524,
+   "error_str": "+0.2584 \u00d7",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "ROC area for REM vs other sleep epochs from saccade rate alone",
+   "predicted": 0.8,
+   "measured": 0.6438636363636363,
+   "unit": "",
+   "error": -0.15613636363636374,
+   "error_str": "-0.1561",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Mean saccade rate in W",
+   "value": 43.56149732620321,
+   "unit": "per min",
+   "note": "187 epochs"
+  },
+  {
+   "quantity": "Mean saccade rate in N1",
+   "value": 6.655172413793103,
+   "unit": "per min",
+   "note": "58 epochs"
+  },
+  {
+   "quantity": "Mean saccade rate in N2",
+   "value": 0.712,
+   "unit": "per min",
+   "note": "250 epochs"
+  },
+  {
+   "quantity": "Mean saccade rate in N3",
+   "value": 1.2454545454545454,
+   "unit": "per min",
+   "note": "220 epochs"
+  },
+  {
+   "quantity": "Mean saccade rate in REM",
+   "value": 3.744,
+   "unit": "per min",
+   "note": "125 epochs"
+  },
+  {
+   "quantity": "Detection threshold (6 \u00d7 robust \u03c3 of velocity)",
+   "value": 1077.8519924443933,
+   "unit": "\u00b5V/s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/eog.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL186-eog-eye-movement-analysis"
+}

@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "AM-076",
+  "title": "Beamforming as matrix algebra: delay-and-sum vs MVDR",
+  "level": "H",
+  "tools": "Uniform linear array steering vectors, sample covariance, delay-and-sum and minimum-variance distortionless-response (MVDR/Capon) weights, SINR and pattern measurements",
+  "summary": "Form beams with an 8-element array by choosing weight vectors: delay-and-sum gains N in SNR, MVDR solves a constrained quadratic optimisation that places nulls on interferers. Predicted SINR gains are compared with Monte-Carlo measurements.",
+  "problem": "Eight antennas, one wanted signal and a strong jammer. What weights maximise signal quality \u2014 and why is it a linear-algebra problem?",
+  "theory": "Steering vector $a(\u03b8)_m=e^{j\u03c0m\\sin \u03b8}$ (half-wavelength spacing). Delay-and-sum w = a(\u03b8_s)/N: array gain N (9.0 dB) against white noise, but only sidelobe-level rejection of interference. MVDR:\nminimise w\u1d34Rw subject to w\u1d34a(\u03b8_s) = 1 \u21d2 $w=\\frac{R^{-1}a}{a^HR^{-1}a}$; with a strong interferer it puts a deep null on it, achieving SINR \u2248 N\u00b7SNR (the interference-free optimum) when the jammer is outside the mainlobe.",
+  "method": "N = 8, desired at 0\u00b0, SNR 0 dB per element; jammer at 20\u00b0, INR 30 dB (a first choice of 30\u00b0 landed exactly on a null of the uniform 8-element pattern, sin 30\u00b0 = 4/8, which made delay-and-sum look perfect); noise white. Covariance estimated from 1000 snapshots (and exact). Output SINR computed from the weights and true covariances;\nMonte-Carlo check from simulated snapshots. Patterns |w\u1d34a(\u03b8)|\u00b2.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Delay-and-sum, noise only: array gain = N",
+   "predicted": 9.030899869919436,
+   "measured": 9.030899869919436,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "MVDR with jammer: output SINR = a_s\u1d34R\u207b\u00b9a_s (optimum)",
+   "predicted": 8.808233989426675,
+   "measured": 8.808233989426487,
+   "unit": "dB",
+   "error": -1.8829382497642655e-13,
+   "error_str": "-1.8829e-13 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "MVDR distortionless constraint w\u1d34a(0\u00b0) = 1",
+   "predicted": 1.0,
+   "measured": 1.0000000000000002,
+   "unit": "",
+   "error": 2.220446049250313e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "MVDR null toward the jammer deeper than \u221260 dB (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Sample-matrix MVDR (K = 1000 snapshots, includes the signal): SINR loss vs ideal (Reed\u2013Mallett\u2013Brennan: ~(N\u22121)/K \u2192 small)",
+   "predicted": 0.0,
+   "measured": 0.3603646101739919,
+   "unit": "dB",
+   "error": 0.3603646101739919,
+   "error_str": "+0.3604 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Monte-Carlo output interference+noise power vs w\u1d34Rw",
+   "predicted": 0.13157597626072853,
+   "measured": 0.12485949045576332,
+   "unit": "",
+   "error": -5.104644476781954,
+   "error_str": "-5.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "\u2026 which is below the interference-free N by",
+   "value": 0.2226658804927606,
+   "unit": "dB",
+   "note": "the price of a null 20\u00b0 from the look direction"
+  },
+  {
+   "quantity": "Delay-and-sum with the same jammer: output SINR",
+   "value": -16.99922629824506,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/beamforming.png"
+ ],
+ "runtime_s": 0.09,
+ "folder": "projects/applied-math/D-linear-algebra/AM076-beamforming-as-matrix-algebra"
+}

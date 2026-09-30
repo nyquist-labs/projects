@@ -1,0 +1,113 @@
+{
+ "meta": {
+  "id": "AM-141",
+  "title": "Gray codes: one bit at a time",
+  "level": "E",
+  "tools": "Binary\u2194Gray conversion by XOR and prefix-XOR, reflected construction, exhaustive property checks up to 16 bits, Monte-Carlo model of sampling a counter whose bits switch with random skew (asynchronous FIFO pointer / rotary encoder)",
+  "summary": "Generate n-bit Gray codes three ways, prove the single-bit-change property exhaustively, and quantify why it matters: sampling a binary counter mid-transition can return a wildly wrong value, while a Gray counter is never off by more than one count.",
+  "problem": "An encoder disc or a clock-domain-crossing pointer is read while it changes. How do we make a half-changed value harmless?",
+  "theory": "$g=b\\oplus(b\\gg1)$; inverse $b_i=\\bigoplus_{j\\ge i}g_j$ (prefix XOR). Successive codes differ in exactly one bit, including wrap-around (cyclic). Average bit flips per increment: Gray = 1; binary = $2-2^{1-n}$.\nIf bits change at slightly different instants, a binary transition k\u2192k+1 that flips m bits can be read as any of $2^m$ mixtures \u2014 worst case 0111\u21921000 reads anything from 0 to 15 \u2014 whereas Gray can only read k or k+1: error \u2264 1 count.",
+  "method": "Exhaustive checks for n = 1\u202616. Skew model: each changing bit switches at an independent random time inside the transition window; the counter is sampled at a uniformly random instant (10\u2076 samples, n = 10).\nError = |decoded value \u2212 nearest true value|.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Adjacent codes (incl. wrap-around) not differing in exactly one bit, n = 1\u202616",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Round-trip binary \u2192 Gray \u2192 binary failures",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "XOR formula vs reflect-and-prefix construction (differences)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Mean bit flips per increment, binary (n = 10): 2 \u2212 2^(1\u2212n)",
+   "predicted": 1.998046875,
+   "measured": 1.998046875,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Mean bit flips per increment, Gray",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gray counter sampled mid-transition: worst error",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "counts",
+   "error": 0.0,
+   "error_str": "+0 counts",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Binary counter sampled mid-transition: worst error (2^(n\u22121) \u2212 1 at the MSB carry, n = 10)",
+   "predicted": 511.0,
+   "measured": 511.0,
+   "unit": "counts",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Binary: fraction of samples that are wrong (neither k nor k+1)",
+   "value": 22.6395,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Binary: RMS error when sampled mid-transition",
+   "value": 10.399800094232582,
+   "unit": "counts",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/gray.png"
+ ],
+ "runtime_s": 0.39,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM141-gray-code-generator"
+}

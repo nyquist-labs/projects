@@ -1,0 +1,210 @@
+{
+ "meta": {
+  "id": "AM-142",
+  "title": "LFSRs and primitive polynomials",
+  "level": "M",
+  "tools": "Polynomial arithmetic over GF(2) with Python integers, exhaustive primitivity testing of every polynomial of degree 2\u201316, direct period measurement of simulated LFSRs, Berlekamp\u2013Massey linear complexity, m-sequence balance/run/autocorrelation checks, Fibonacci vs Galois forms",
+  "summary": "Find every primitive polynomial up to degree 16 by computing the multiplicative order of x, check the count against Euler's totient formula, and verify on simulated shift registers that primitive feedback gives the maximal period 2\u207f \u2212 1 with the classical pseudo-noise properties.",
+  "problem": "Which feedback taps make a shift register cycle through every non-zero state \u2014 and why does the answer come from field theory?",
+  "theory": "An LFSR with characteristic polynomial f(x) of degree n steps its state by multiplication by x in GF(2)[x]/f. The period is the order of x, which is maximal ($2^n-1$) iff f is primitive. There are $\\varphi(2^n-1)/n$ primitive polynomials of degree n.\nAn m-sequence has $2^{n-1}$ ones and $2^{n-1}-1$ zeros, half its runs have length 1, a quarter length 2, \u2026; its \u00b11 autocorrelation is N at lag 0 and \u22121 elsewhere; its linear complexity is n; shift-and-add gives another shift of itself.",
+  "method": "For n = 2\u202616 and every f with f(0) = 1: order of x from modular exponentiation and the prime factorisation of 2\u207f \u2212 1. Periods of simulated Galois LFSRs measured by stepping (n \u2264 12). Properties on the n = 10 sequence from x\u00b9\u2070 + x\u00b3 + 1.\nFibonacci and Galois registers compared for cyclic equivalence.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Degrees 2\u201316 where the count of primitive polynomials \u2260 \u03c6(2\u207f \u2212 1)/n",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Primitive polynomials of degree 8",
+   "predicted": 16.0,
+   "measured": 16.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Primitive polynomials of degree 16",
+   "predicted": 2048.0,
+   "measured": 2048.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Simulated LFSRs with primitive feedback whose period \u2260 2\u207f \u2212 1",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "x\u2074+x\u00b3+x\u00b2+x+1 (irreducible, not primitive): period",
+   "predicted": 5.0,
+   "measured": 5.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "x\u2074+x\u00b2+1 = (x\u00b2+x+1)\u00b2  (reducible): period",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "x\u00b9\u2070 + x\u00b3 + 1 is primitive (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "m-sequence (N = 1023): number of ones",
+   "predicted": 512.0,
+   "measured": 512.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Total number of runs: 2^(n\u22121)",
+   "predicted": 512.0,
+   "measured": 512.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Runs of length 1: 2^(n\u22121\u22121)",
+   "predicted": 256.0,
+   "measured": 256.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Runs of length 2: 2^(n\u22121\u22122)",
+   "predicted": 128.0,
+   "measured": 128.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Runs of length 3: 2^(n\u22121\u22123)",
+   "predicted": 64.0,
+   "measured": 64.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Off-peak periodic autocorrelation (every lag): \u22121",
+   "predicted": -1.0,
+   "measured": -0.9999999999999649,
+   "unit": "",
+   "error": 3.5083047578154947e-14,
+   "error_str": "+3.5083e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and minimum",
+   "predicted": -1.0,
+   "measured": -1.0000000000000253,
+   "unit": "",
+   "error": -2.531308496145357e-14,
+   "error_str": "-2.5313e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Linear complexity (Berlekamp\u2013Massey on 60 bits)",
+   "predicted": 10.0,
+   "measured": 10.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Shift-and-add: seq \u2295 (seq shifted by 7) is itself a shift of seq (matches found)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Galois and Fibonacci registers generate the same sequence up to a shift (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/lfsr.png"
+ ],
+ "runtime_s": 2.83,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM142-lfsr-and-primitive-polynomials"
+}

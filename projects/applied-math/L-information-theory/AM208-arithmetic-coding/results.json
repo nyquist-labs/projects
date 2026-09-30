@@ -1,0 +1,118 @@
+{
+ "meta": {
+  "id": "AM-208",
+  "title": "Arithmetic coding: reaching the entropy bit by bit",
+  "level": "H",
+  "tools": "Own 32-bit integer arithmetic coder (interval renormalisation with pending-bit carry handling) and decoder, static and adaptive frequency models, order-0/1/2 context models on real text, comparison with ideal code length \u2212\u03a3log\u2082p, Huffman and zlib",
+  "summary": "Build a working arithmetic coder, prove it lossless on a whole book, show that its output is within a couple of bits of the model's ideal code length, beat Huffman where Huffman is weakest (skewed sources), and use context models to compress English far below its single-letter entropy.",
+  "problem": "Huffman coding wastes up to one bit per symbol. How can a code spend fractional bits \u2014 and how close does it get to the entropy?",
+  "theory": "Arithmetic coding narrows an interval by each symbol's probability; the final interval has width $\\prod p_i$, so about $-\\sum\\log_2p_i+2$ bits identify it. With finite-precision integers the interval is renormalised by shifting out settled bits, and 'underflow' (straddling the midpoint) is handled\nby pending bits. The code length therefore equals the model's log-loss plus a constant, whatever the probabilities \u2014 including p = 0.99, where Huffman needs 1 bit/symbol against H = 0.081. Compression = modelling: an adaptive order-k context\nmodel predicts each letter from the previous k and pays its conditional log-loss, approaching the conditional entropies of AM-204.",
+  "method": "Coder: 32-bit range, frequencies up to 2\u00b9\u2076. Tests: round trip on the whole book for every model; code length vs \u03a3\u2212log\u2082p of the model's own predictions; Bernoulli(0.01) source (10\u2075 symbols) vs Huffman (1 bit/symbol) and H\u2082(0.01); adaptive order-0, 1, 2 models\n(Laplace-smoothed counts, 256-symbol alphabet) on 'Alice'; zlib level 9 for reference.",
+  "data": "Project Gutenberg eBook #11 (public domain).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory"
+ },
+ "rows": [
+  {
+   "quantity": "Bernoulli(0.01), 10\u2075 symbols: code length vs the model's ideal \u2212\u03a3log\u2082p",
+   "predicted": 8258.306218354606,
+   "measured": 8260.0,
+   "unit": "bit",
+   "error": 1.6937816453937558,
+   "error_str": "+1.694 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 bits per symbol vs the entropy H\u2082(0.01) = 0.081 (Huffman: 1.000)",
+   "predicted": 0.0808,
+   "measured": 0.0826,
+   "unit": "bit",
+   "error": 2.22772277227724,
+   "error_str": "+2.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 decodes back exactly (symbol errors)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Order-0 adaptive model on the book: lossless round trip (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Order-1 adaptive model on the book: lossless round trip (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Order-2 adaptive model on the book: lossless round trip (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Order-2 model: arithmetic-code length vs the model's log-loss (bits per character)",
+   "predicted": 2.8949434831959,
+   "measured": 2.8949528108329914,
+   "unit": "bit",
+   "error": 0.00032220446256545846,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "My expectation: the order-2 context model beats zlib -9 on English text (1 = yes)",
+   "predicted": 1.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": -1.0,
+   "error_str": "-1",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Bits per character: order-0 / order-1 / order-2 arithmetic coding / zlib -9",
+   "value": "4.669 / 3.424 / 2.895 / 2.819",
+   "unit": "",
+   "note": "151094 bytes; Huffman on single characters (AM-151): 4.60"
+  }
+ ],
+ "figures": [
+  "figures/arithmetic.png"
+ ],
+ "runtime_s": 5.65,
+ "folder": "projects/applied-math/L-information-theory/AM208-arithmetic-coding"
+}

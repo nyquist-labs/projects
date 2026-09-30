@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-014",
+  "title": "Group delay: numerical differentiation and pulse distortion",
+  "level": "M",
+  "tools": "Analytic group delay of Butterworth, Chebyshev and Bessel filters, numerical differentiation of unwrapped phase, time-domain pulse tests",
+  "summary": "Compute group delay by differentiating phase numerically, check it against the analytic value, and show what non-flat delay does to a pulse by passing the same pulse through Bessel, Butterworth and Chebyshev filters of equal order.",
+  "problem": "Two filters with the same magnitude cutoff can mangle pulses very differently. Why?",
+  "theory": "\u03c4(\u03c9) = \u2212d\u03c6/d\u03c9. For H = \u220f 1/(s\u2212p_k), each pole contributes $\\frac{-\\mathrm{Re}\\,p_k}{(\\mathrm{Re}\\,p_k)^2+(\u03c9-\\mathrm{Im}\\,p_k)^2}$, so \u03c4 can be computed exactly from the poles. A Bessel filter maximises\nflatness of \u03c4 at DC, so all frequencies of a pulse are delayed equally and the pulse keeps its shape (\u2248 no overshoot); Chebyshev's delay peaks near cutoff, so\ncomponents there arrive late and ring. Central differences on phase have error O(\u0394\u03c9\u00b2) \u2014 but amplify phase noise by 1/\u0394\u03c9.",
+  "method": "5th-order analog Bessel (norm = 'delay' rescaled), Butterworth and Chebyshev-I (1 dB), all with \u22123 dB at 1 rad/s. \u03c4 from the pole formula vs central differences on 2000 points;\nstep and 3-s rectangular pulse responses; overshoot and delay spread measured. Noise sensitivity: 0.001 rad phase noise added before differentiation.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Bessel: numerical vs analytic group delay (worst relative error, \u0394\u03c9 = 1.5 mrad/s)",
+   "predicted": 0.0,
+   "measured": 3.333586391374155e-07,
+   "unit": "",
+   "error": 3.333586391374155e-07,
+   "error_str": "+3.3336e-07",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth: numerical vs analytic group delay (worst relative error, \u0394\u03c9 = 1.5 mrad/s)",
+   "predicted": 0.0,
+   "measured": 4.936275807332358e-06,
+   "unit": "",
+   "error": 4.936275807332358e-06,
+   "error_str": "+4.9363e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB: numerical vs analytic group delay (worst relative error, \u0394\u03c9 = 1.5 mrad/s)",
+   "predicted": 0.0,
+   "measured": 8.71010097442948e-05,
+   "unit": "",
+   "error": 8.71010097442948e-05,
+   "error_str": "+8.7101e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Bessel step overshoot (my guess: \u2248 0.1 %)",
+   "predicted": 0.1,
+   "measured": 0.7726834954509876,
+   "unit": "%",
+   "error": 0.6726834954509876,
+   "error_str": "+0.673 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Noise in numerically differentiated delay \u2248 \u03c3_\u03c6/(\u221a2\u00b7\u0394\u03c9)",
+   "predicted": 0.4713259271730271,
+   "measured": 0.46248318946141764,
+   "unit": "s",
+   "error": -1.8761407344271241,
+   "error_str": "-1.88 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Step overshoot Butterworth / Chebyshev",
+   "value": "12.8 % / 11.5 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Bessel delay flatness: 1 \u2212 \u03c4(0.5)/\u03c4(0)",
+   "value": 6.655908557751111e-06,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/group_delay.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM014-group-delay-computation"
+}

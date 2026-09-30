@@ -1,0 +1,47 @@
+{
+ "meta": {
+  "id": "AM-040",
+  "title": "Cepstral analysis: separating pitch from the vocal tract",
+  "level": "H",
+  "tools": "Real cepstrum (IFFT of log magnitude spectrum), liftering, cepstral pitch detection vs autocorrelation pitch; Free Spoken Digit Dataset (real speech)",
+  "summary": "Use the cepstrum to separate the fast spectral ripple of the voice's pitch harmonics from the slow envelope of the vocal tract, estimate pitch on 3,000 real recordings from six speakers, and cross-check against an independent autocorrelation pitch estimator.",
+  "problem": "Speech = glottal pulse train convolved with the vocal-tract filter. How can a convolution be undone without knowing either?",
+  "theory": "Log turns the convolution's product of spectra into a sum: $\\log|S| = \\log|E| + \\log|H|$. The pitch harmonics make log|S| ripple with period F0 in frequency, i.e. a peak at quefrency\n1/F0 in the cepstrum $c=\\mathrm{IFFT}(\\log|S|)$; the vocal-tract envelope lives at low quefrency. Low-time liftering (keep c below ~2 ms) recovers the smooth envelope (formants); the peak in\n2.5\u201312.5 ms gives F0 (80\u2013400 Hz). Two independent estimators (cepstrum, autocorrelation) should agree on voiced frames to within a few percent.",
+  "method": "FSDD: 6 speakers \u00d7 10 digits \u00d7 50 recordings, 8 kHz. 40 ms Hann frames, energy-voiced frames only; cepstral pitch from the peak in 2.5\u201312.5 ms; autocorrelation pitch from the first\nmajor peak of the normalised autocorrelation in the same lag range. Agreement = |\u0394| < 5 %; octave errors counted separately.",
+  "data": "Real: Free Spoken Digit Dataset (CC BY-SA 4.0).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms"
+ },
+ "rows": [
+  {
+   "quantity": "Voiced frames where cepstral and autocorrelation pitch agree within 5 %",
+   "predicted": 90.0,
+   "measured": 92.41516966067864,
+   "unit": "%",
+   "error": 2.415169660678643,
+   "error_str": "+2.42 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Octave errors (ratio \u2248 2 or \u00bd)",
+   "value": 2.122071646181322,
+   "unit": "%",
+   "note": "19038 voiced frames"
+  },
+  {
+   "quantity": "Median pitch per speaker (autocorrelation)",
+   "value": "george: 157 Hz, jackson: 114 Hz, lucas: 116 Hz, nicolas: 127 Hz, theo: 140 Hz, yweweler: 129 Hz",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/cepstrum.png"
+ ],
+ "runtime_s": 1.8,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM040-cepstral-analysis"
+}

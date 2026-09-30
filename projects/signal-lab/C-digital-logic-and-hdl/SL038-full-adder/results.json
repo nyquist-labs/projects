@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-038",
+  "title": "Full adder from gates",
+  "level": "E",
+  "tools": "Verilog gate primitives, Icarus Verilog (exhaustive testbench), Yosys synthesis",
+  "summary": "Build a 1-bit full adder from XOR/AND/OR primitives with unit gate delays, verify all 8 input combinations, measure its worst-case delay, then chain four into a 4-bit adder.",
+  "problem": "What is the smallest gate network that adds three bits, and how long does its slowest output take to settle?",
+  "theory": "$S = A\\oplus B\\oplus C_{in}$, $C_{out}=AB + C_{in}(A\\oplus B)$: two XOR, two AND, one OR (5 gates).\nWith one time unit per gate: $S$ settles after 2 XOR levels (2 units) and $C_{out}$ after XOR\u2192AND\u2192OR\n(3 units) \u2014 the carry path is the critical one.",
+  "method": "Gate-level Verilog with #1 delay per gate. Testbench applies all 8 vectors, checks S and C_out against\nthe integer sum, and measures settling time for every one of the 64 input *transitions*. Yosys synthesises\nto a generic gate library to count cells and logic depth.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Truth-table errors (8 vectors)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Worst-case settling delay (gate delays)",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gate count after synthesis",
+   "predicted": 5.0,
+   "measured": 5.0,
+   "unit": "cells",
+   "error": 0.0,
+   "error_str": "+0 cells",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Logic depth (longest path)",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "levels",
+   "error": 0.0,
+   "error_str": "+0 levels",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/timing.png"
+ ],
+ "runtime_s": 1.16,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL038-full-adder"
+}

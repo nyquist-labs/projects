@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-113",
+  "title": "Hamming (7,4) code: encode, corrupt, correct",
+  "level": "M",
+  "tools": "NumPy matrix encoder/syndrome decoder over GF(2), Monte Carlo on a binary symmetric channel",
+  "summary": "Implement the (7,4) Hamming code with generator and parity-check matrices, verify it corrects every single-bit error, and compare block and bit error rates with the binomial prediction on a BSC.",
+  "problem": "How can three parity bits locate and fix any single flipped bit in a 7-bit word?",
+  "theory": "Parity-check matrix H has the binary numbers 1\u20267 as columns, so a single error at position i gives syndrome = i. Block\nerror after decoding (BSC, crossover p): $P_{block}=1-(1-p)^7-7p(1-p)^6\\approx21p^2$. Code rate 4/7.",
+  "method": "G and H in systematic form; all 7 single-error patterns tested exhaustively; Monte Carlo 10\u2076 blocks for p from 10\u207b\u00b3 to 10\u207b\u00b9.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "G\u00b7H\u1d40 = 0 (valid code)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Single-error patterns corrected (16 messages \u00d7 7 positions)",
+   "predicted": 112.0,
+   "measured": 112.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Block error rate after decoding, p = 0.01",
+   "predicted": 0.002031041634940084,
+   "measured": 0.002062,
+   "unit": "",
+   "error": 1.52426048424307,
+   "error_str": "+1.52 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Block error rate at p = 0.01 vs 21p\u00b2 approximation",
+   "predicted": 0.0021000000000000003,
+   "measured": 0.002062,
+   "unit": "",
+   "error": -1.8095238095238224,
+   "error_str": "-1.81 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/hamming.png"
+ ],
+ "runtime_s": 1.21,
+ "folder": "projects/signal-lab/F-communication-systems/SL113-hamming-code"
+}

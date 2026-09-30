@@ -1,0 +1,177 @@
+{
+ "meta": {
+  "id": "AM-035",
+  "title": "IIR filters from analog prototypes (Butterworth, Chebyshev)",
+  "level": "M",
+  "tools": "Own analog prototype pole formulas (Butterworth circle, Chebyshev ellipse), pre-warped bilinear transform, comparison with scipy.signal.butter / cheby1",
+  "summary": "Derive the poles of Butterworth and Chebyshev-I prototypes from their defining equations, convert them to digital filters with the pre-warped bilinear transform, and verify cutoff, ripple and agreement with SciPy's designs.",
+  "problem": "Classical digital IIR filters are analog designs in disguise. Can they be rebuilt from the formulas alone?",
+  "theory": "Butterworth: $|H|^2=1/(1+(\u03a9/\u03a9_c)^{2N})$, poles equally spaced on a circle, $p_k=\u03a9_ce^{j\u03c0(2k+N-1)/(2N)}$. Chebyshev I with ripple R dB: \u03b5\u00b2 = 10^{R/10}\u22121, poles on an ellipse,\n$p_k=-\u03a9_c\\sinh(a)\\sin \u03b8_k + j\u03a9_c\\cosh(a)\\cos \u03b8_k$ with $a=\\frac1N\\operatorname{asinh}(1/\u03b5)$, $\u03b8_k=\\frac{(2k-1)\u03c0}{2N}$; DC gain $1/\\sqrt{1+\u03b5^2}$ for even N. After pre-warping, the digital filter has\nexactly the specified edge and ripple.",
+  "method": "N = 4 and 5, f_c = 1 kHz at f_s = 8 kHz, ripple 1 dB. Pole sets vs scipy's analog prototypes; digital responses vs scipy.signal.butter/cheby1(\u2026, fs=8000); \u22123 dB (Butterworth) and ripple-edge\n(Chebyshev) frequency and passband ripple measured.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Butterworth N = 4: prototype poles vs SciPy (relative)",
+   "predicted": 0.0,
+   "measured": 4.995325761645835e-16,
+   "unit": "",
+   "error": 4.995325761645835e-16,
+   "error_str": "+4.9953e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth N = 4: digital response vs SciPy design (max |\u0394H|)",
+   "predicted": 0.0,
+   "measured": 1.2325475812854657e-15,
+   "unit": "",
+   "error": 1.2325475812854657e-15,
+   "error_str": "+1.2325e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth N = 4: \u22123 dB frequency",
+   "predicted": 1000.0,
+   "measured": 1000.0610351562501,
+   "unit": "Hz",
+   "error": 0.006103515625011369,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 4: prototype poles vs SciPy (relative)",
+   "predicted": 0.0,
+   "measured": 1.383001233484288e-16,
+   "unit": "",
+   "error": 1.383001233484288e-16,
+   "error_str": "+1.3830e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 4: digital response vs SciPy design (max |\u0394H|)",
+   "predicted": 0.0,
+   "measured": 1.4602703977091184e-15,
+   "unit": "",
+   "error": 1.4602703977091184e-15,
+   "error_str": "+1.4603e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 4: ripple-edge frequency",
+   "predicted": 1000.0,
+   "measured": 1000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 4: passband ripple",
+   "predicted": 1.0,
+   "measured": 0.9999999975652406,
+   "unit": "dB",
+   "error": -2.434759394098762e-09,
+   "error_str": "-2.4348e-09 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth N = 5: prototype poles vs SciPy (relative)",
+   "predicted": 0.0,
+   "measured": 1.715401909317716e-16,
+   "unit": "",
+   "error": 1.715401909317716e-16,
+   "error_str": "+1.7154e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth N = 5: digital response vs SciPy design (max |\u0394H|)",
+   "predicted": 0.0,
+   "measured": 1.4043333874306805e-15,
+   "unit": "",
+   "error": 1.4043333874306805e-15,
+   "error_str": "+1.4043e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth N = 5: \u22123 dB frequency",
+   "predicted": 1000.0,
+   "measured": 1000.0610351562501,
+   "unit": "Hz",
+   "error": 0.006103515625011369,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 5: prototype poles vs SciPy (relative)",
+   "predicted": 0.0,
+   "measured": 1.715401909317716e-16,
+   "unit": "",
+   "error": 1.715401909317716e-16,
+   "error_str": "+1.7154e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 5: digital response vs SciPy design (max |\u0394H|)",
+   "predicted": 0.0,
+   "measured": 2.167779754565684e-15,
+   "unit": "",
+   "error": 2.167779754565684e-15,
+   "error_str": "+2.1678e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 5: ripple-edge frequency",
+   "predicted": 1000.0,
+   "measured": 1000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB N = 5: passband ripple",
+   "predicted": 1.0,
+   "measured": 0.999999999999977,
+   "unit": "dB",
+   "error": -2.298161660974074e-14,
+   "error_str": "-2.2982e-14 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/iir_proto.png"
+ ],
+ "runtime_s": 0.15,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM035-iir-from-analog-prototype"
+}

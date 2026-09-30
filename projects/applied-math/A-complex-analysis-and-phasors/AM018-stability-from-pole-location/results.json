@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "AM-018",
+  "title": "Stability from pole location, demonstrated",
+  "level": "M",
+  "tools": "Impulse responses of systems with poles left of, on and right of the j\u03c9 axis, growth-rate fitting, BIBO test with a bounded input",
+  "summary": "Show with worked examples that an LTI system is BIBO-stable exactly when all poles have negative real part: measure the growth rate of impulse responses (it equals the pole's real part), the integrability of |h|, and the response to a bounded input for marginal cases.",
+  "problem": "Why is the left half-plane the stable one \u2014 and what happens exactly on the boundary?",
+  "theory": "$h(t)=\\sum r_ke^{p_kt}$ (simple poles), so |h| grows or decays like $e^{\\max\\mathrm{Re}\\,p\\;t}$: \u222b|h| < \u221e iff all Re p < 0, which is exactly BIBO stability. On the axis, a simple pole gives a\nbounded but non-decaying h (\u222b|h| diverges), and a bounded input at the pole's frequency drives an unbounded output (resonance: t\u00b7sin \u03c9t); a double pole on the axis gives\npolynomial growth t^{m\u22121}.",
+  "method": "Pole pairs at \u03c3 \u00b1 2j for \u03c3 \u2208 {\u22120.5, \u22120.1, 0, +0.1}; plus s = 0 simple and double. Impulse responses on 0\u201360 s; growth rate from a line fit of log of the local peak envelope;\n\u222b\u2080\u1d40|h| as T grows; bounded input sin(2t) to the \u03c3 = 0 system.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Impulse-response growth rate for poles at -0.5 \u00b1 2j (= \u03c3)",
+   "predicted": -0.5,
+   "measured": -0.5000002657270181,
+   "unit": "1/s",
+   "error": -2.6572701805616106e-07,
+   "error_str": "-2.6573e-07 1/s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Impulse-response growth rate for poles at -0.1 \u00b1 2j (= \u03c3)",
+   "predicted": -0.1,
+   "measured": -0.09999992757871658,
+   "unit": "1/s",
+   "error": 7.242128342854759e-08,
+   "error_str": "+7.2421e-08 1/s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Impulse-response growth rate for poles at +0 \u00b1 2j (= \u03c3)",
+   "predicted": 0.0,
+   "measured": 1.4913165783723996e-10,
+   "unit": "1/s",
+   "error": 1.4913165783723996e-10,
+   "error_str": "+1.4913e-10 1/s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Impulse-response growth rate for poles at +0.1 \u00b1 2j (= \u03c3)",
+   "predicted": 0.1,
+   "measured": 0.10000015089525256,
+   "unit": "1/s",
+   "error": 1.5089525255695957e-07,
+   "error_str": "+1.5090e-07 1/s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Marginal pole pair \u00b12j driven by sin(2t): output envelope grows linearly with slope 1/4",
+   "predicted": 0.25,
+   "measured": 0.24961726004531076,
+   "unit": "1/s",
+   "error": -0.15309598187569495,
+   "error_str": "-0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Double pole at 0: impulse response = t",
+   "predicted": 0.0,
+   "measured": 4.913403017781093e-11,
+   "unit": "",
+   "error": 4.913403017781093e-11,
+   "error_str": "+4.9134e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/stability.png"
+ ],
+ "runtime_s": 0.97,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM018-stability-from-pole-location"
+}

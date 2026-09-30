@@ -1,0 +1,146 @@
+{
+ "meta": {
+  "id": "AM-183",
+  "title": "Forecasting battery ageing: ARIMA and state-space models with honest intervals",
+  "level": "H",
+  "tools": "Own AR fitting (Yule\u2013Walker and least squares), random walk with drift, ARIMA(p,1,0), local-linear-trend Kalman filter with maximum-likelihood noise variances, rolling-origin evaluation, prediction-interval coverage, Ljung\u2013Box residual test, remaining-useful-life forecasts on four real cells",
+  "summary": "Forecast the capacity fade of NASA lithium-ion cells many cycles ahead, and evaluate the forecasts the way forecasts should be evaluated: out of sample from rolling origins, against a naive baseline, and by checking whether the '95 %' intervals actually contain the future 95 % of the time.",
+  "problem": "A fitted curve through past capacity looks convincing. How good are forecasts made *before* the data existed, and can their uncertainty be trusted?",
+  "theory": "Random walk with drift: $c_t=c_{t-1}+\u03b4+\u03b5_t$; the h-step forecast is $c_t+h\u03b4$ with variance $h\u03c3^2$ (plus drift uncertainty $h^2\u03c3^2/n$): intervals widen as \u221ah. ARIMA(p,1,0) models the differences as AR(p): $\u0394c_t=\u03b4+\\sum \u03c6_i\u0394c_{t-i}+\u03b5_t$.\nLocal linear trend (state space): level and slope follow random walks, observed with noise; the Kalman filter gives forecasts and variances, and the likelihood for estimating the three noise variances. Scaled error: MASE = MAE / MAE of the\nnaive (last-value) forecast; < 1 beats naive. A well-specified model has white one-step residuals (Ljung\u2013Box) and nominal interval coverage. Capacity data are not so polite: rest periods cause 'regeneration' jumps.",
+  "method": "Capacity per discharge cycle of cells B0005, B0006, B0007, B0018 (NASA Ames). Rolling origins from cycle 40 onwards, horizons 1, 10, 30 cycles; parameters re-estimated at each origin on past data only. Coverage of nominal 95 % intervals pooled over\norigins and cells. Remaining useful life: first cycle below 1.4 Ah (B0005). AR estimators validated on a synthetic AR(2) series.",
+  "data": "NASA Ames Prognostics Center of Excellence Li-ion Battery Aging Datasets (Saha & Goebel), fetched on first run.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Synthetic AR(2), \u03c6\u2081 = 1.2: least-squares estimate",
+   "predicted": 1.2,
+   "measured": 1.1997881437562103,
+   "unit": "",
+   "error": -0.017654686982467492,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Synthetic AR(2), \u03c6\u2082 = \u22120.5: Yule\u2013Walker estimate",
+   "predicted": -0.5,
+   "measured": -0.4951471501750999,
+   "unit": "",
+   "error": 0.970569964980017,
+   "error_str": "+0.97 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Synthetic random walk with drift: coverage of the 95 % interval at h = 30 (validates the formula)",
+   "predicted": 95.0,
+   "measured": 94.825,
+   "unit": "%",
+   "error": -0.17499999999999716,
+   "error_str": "-0.175 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Drift model beats the naive forecast 30 cycles ahead (MASE < 1; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "At one step ahead no model beats 'tomorrow = today' by much: best MASE at h = 1 (my expectation \u2248 1)",
+   "predicted": 1.0,
+   "measured": 0.7584837176531334,
+   "unit": "",
+   "error": -24.15162823468666,
+   "error_str": "-24.15 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Coverage of nominal 95 % intervals on real capacity data, drift model, h = 30",
+   "predicted": 95.0,
+   "measured": 100.0,
+   "unit": "%",
+   "error": 5.0,
+   "error_str": "+5 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Coverage of nominal 50 % intervals, drift model, h = 10 (a sharper test of calibration)",
+   "predicted": 50.0,
+   "measured": 81.08108108108108,
+   "unit": "%",
+   "error": 31.08108108108108,
+   "error_str": "+31.1 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Coverage of nominal 50 % intervals, local linear trend, h = 10",
+   "predicted": 50.0,
+   "measured": 71.62162162162163,
+   "unit": "%",
+   "error": 21.621621621621628,
+   "error_str": "+21.6 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "End-of-life of B0005 lies inside the 95 % interval of every forecast (count)",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Forecast error shrinks as the origin approaches end of life: |error| at the last origin < at the first (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Ljung\u2013Box p-value of one-step residuals: drift model / ARIMA(2,1,0)",
+   "value": "0.77 / 0.96",
+   "unit": "",
+   "note": "p > 0.05: no linear autocorrelation left \u2014 the residuals are 'white' but, as the kurtosis shows, far from Gaussian"
+  },
+  {
+   "quantity": "Kurtosis of the capacity increments (Gaussian = 3)",
+   "value": 22.124822983878047,
+   "unit": "",
+   "note": "regeneration jumps after rest periods \u2014 heavy tails"
+  }
+ ],
+ "figures": [
+  "figures/forecast.png"
+ ],
+ "runtime_s": 3.56,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM183-time-series-forecasting"
+}

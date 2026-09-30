@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-126",
+  "title": "Coaxial cable: fields, capacitance and impedance",
+  "level": "M",
+  "tools": "2-D finite-difference Laplace solver (eelab.laplace), energy method, analytic coax formulas",
+  "summary": "Solve the electrostatic field of RG-58 and RG-6 geometries on a square grid, extract capacitance per metre from the stored energy and compare Z\u2080 with (60/\u221a\u03b5_r)\u00b7ln(b/a); plot E and the (TEM) B-field lines.",
+  "problem": "Why is coaxial cable 50 or 75 \u03a9? Derive the impedance from the geometry and confirm it with a field solver.",
+  "theory": "Between conductors of radii a < b: $E_r=\\frac{V}{r\\ln(b/a)}$, $C'=\\frac{2\\pi\\varepsilon}{\\ln(b/a)}$, $L'=\\frac{\\mu}{2\\pi}\\ln\\frac ba$ and\n$Z_0=\\sqrt{L'/C'}=\\frac{60}{\\sqrt{\\varepsilon_r}}\\ln\\frac ba$. RG-58: a = 0.45 mm, b = 1.47 mm, \u03b5_r = 2.25 (PE) \u2192 47.3 \u03a9 nominal 50;\nRG-6: a = 0.51 mm, b = 2.34 mm, foam \u03b5_r = 1.5 \u2192 74.6 \u03a9.",
+  "method": "Square grid (\u0394 = b/60), inner conductor at 1 V, outer at 0 V (staircase circles). C\u2032 = 2W/V\u00b2 from the field energy. Two grid sizes\nshow the staircasing error trend.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "RG-58: capacitance per metre",
+   "predicted": 1.0573883933485452e-10,
+   "measured": 1.056470106329504e-10,
+   "unit": "F",
+   "error": -0.08684481736490679,
+   "error_str": "-0.09 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RG-58: Z\u2080 = (60/\u221a\u03b5_r)\u00b7ln(b/a)",
+   "predicted": 47.35080388033666,
+   "measured": 47.360179885787936,
+   "unit": "\u03a9",
+   "error": 0.019801153693118998,
+   "error_str": "+0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RG-6: capacitance per metre",
+   "predicted": 5.477337151037246e-11,
+   "measured": 5.488602219290768e-11,
+   "unit": "F",
+   "error": 0.2056668768580148,
+   "error_str": "+0.21 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RG-6: Z\u2080 = (60/\u221a\u03b5_r)\u00b7ln(b/a)",
+   "predicted": 74.63573115773923,
+   "measured": 74.43259659780963,
+   "unit": "\u03a9",
+   "error": -0.2721679774266282,
+   "error_str": "-0.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/coax.png"
+ ],
+ "runtime_s": 0.92,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL126-coaxial-cable-field-plot"
+}

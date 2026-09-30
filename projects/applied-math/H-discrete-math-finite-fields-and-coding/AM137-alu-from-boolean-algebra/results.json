@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "AM-137",
+  "title": "An ALU derived from Boolean algebra, gate by gate",
+  "level": "M",
+  "tools": "Hand-derived Boolean equations turned into a purely structural Verilog netlist (2-input AND/OR/XOR and NOT only), exhaustive simulation in Icarus Verilog against a behavioural model, Yosys gate counts and logic depth versus the hand count",
+  "summary": "Derive every output of an n-bit ALU (AND, OR, NOR, NAND, ADD, SUB, signed SLT, with zero and overflow flags) as Boolean equations, build it from two-input gates only, prove it correct for all 458,752 input combinations at 8 bits, and check that the gate count and depth match the algebra.",
+  "problem": "Can an arithmetic unit be built from nothing but the equations \u2014 and does the gate count predicted on paper survive contact with a synthesis tool?",
+  "theory": "One-bit slice with inputs a, b, carry c: $a'=a\\oplus A_{inv}$, $b'=b\\oplus B_{inv}$; $g=a'b'$, $o=a'+b'$, $x=a'\\oplus b'$, $s=x\\oplus c$, $c_{out}=g+xc$ (the AND output g is shared between the logic function and the adder).\nSubtraction is $a+\\bar b+1$ (B_inv also feeds the first carry); NOR and NAND follow from De Morgan with both inputs inverted. Overflow $V=c_{n-1}\\oplus c_n$; signed less-than is $s_{n-1}\\oplus V$. A 4:1 AND-OR multiplexer selects the result.\nHand count: 8 gates + 7 (mux) per bit, 6 for select decoding, 2 for V and SLT, n for the zero flag (an OR tree and an inverter) \u2192 **16n + 8** gates; critical path **2n + 8 + log\u2082n** gate delays\n(carry ripple 2n + 2 \u2192 overflow \u2192 SLT \u2192 mux \u2192 zero tree).",
+  "method": "Structural Verilog generated for a parameter N. Testbench: every (a, b) pair for N = 8 under all seven operations, checking result, zero flag and overflow. Yosys (structure-preserving mapping) for N = 4\u202632: cell count and longest path;\nABC-optimised count for comparison.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Test vectors applied (7 operations \u00d7 2\u2078 \u00d7 2\u2078)",
+   "predicted": 458752.0,
+   "measured": 458752.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Mismatches against the behavioural model (result, zero, overflow)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gate count, N = 8: 16n + 8",
+   "predicted": 136.0,
+   "measured": 136.0,
+   "unit": "gates",
+   "error": 0.0,
+   "error_str": "+0 gates",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Critical path, N = 8: 2n + 8 + log\u2082n gate delays",
+   "predicted": 27.0,
+   "measured": 27.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gate count, N = 32: 16n + 8",
+   "predicted": 520.0,
+   "measured": 520.0,
+   "unit": "gates",
+   "error": 0.0,
+   "error_str": "+0 gates",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Critical path, N = 32: 2n + 8 + log\u2082n gate delays",
+   "predicted": 77.0,
+   "measured": 77.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "After ABC optimisation (N = 8)",
+   "value": 120.0,
+   "unit": "gates",
+   "note": "vs 136 as derived by hand"
+  }
+ ],
+ "figures": [
+  "figures/alu.png"
+ ],
+ "runtime_s": 8.52,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM137-alu-from-boolean-algebra"
+}

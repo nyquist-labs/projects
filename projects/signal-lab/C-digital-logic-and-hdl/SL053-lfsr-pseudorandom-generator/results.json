@@ -1,0 +1,155 @@
+{
+ "meta": {
+  "id": "SL-053",
+  "title": "LFSR pseudorandom generator and its statistics",
+  "level": "M",
+  "tools": "Verilog Fibonacci LFSRs, Icarus Verilog, NumPy statistics",
+  "summary": "Build 8-, 12- and 16-bit maximal-length LFSRs, measure their periods (2\u207f\u22121), and test the output bitstream for balance, run lengths and autocorrelation.",
+  "problem": "An LFSR is a few flip-flops and XORs, yet its output looks random. Which properties are guaranteed, and where does the illusion break?",
+  "theory": "With a primitive feedback polynomial the state visits every non-zero n-bit value: period $2^n-1$.\nOver one period the output has exactly $2^{n-1}$ ones and $2^{n-1}-1$ zeros; runs of length k occur\n$2^{n-k-1}$ times (for k < n\u22121); the periodic autocorrelation is 1 at lag 0 and exactly $-1/(2^n-1)$ at\nevery other lag \u2014 ideal for spread spectrum. But it is linear: 2n consecutive bits reveal the whole\nsequence (Berlekamp\u2013Massey), so it is useless for cryptography.",
+  "method": "Taps: x\u2078+x\u2076+x\u2075+x\u2074+1, x\u00b9\u00b2+x\u00b9\u00b9+x\u00b9\u2070+x\u2074+1, x\u00b9\u2076+x\u00b9\u2075+x\u00b9\u00b3+x\u2074+1. Testbench runs each until the seed state repeats and\ndumps the full output sequence; Python checks balance, run-length distribution and autocorrelation, and\nruns Berlekamp\u2013Massey to recover the polynomial from 32 bits.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "8-bit period",
+   "predicted": 255.0,
+   "measured": 255.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit ones per period",
+   "predicted": 128.0,
+   "measured": 128.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit off-peak autocorrelation",
+   "predicted": -0.00392156862745098,
+   "measured": -0.003921568627451011,
+   "unit": "",
+   "error": -3.0357660829594124e-17,
+   "error_str": "-3.0358e-17",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit linear complexity (Berlekamp\u2013Massey)",
+   "predicted": 8.0,
+   "measured": 8.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "12-bit period",
+   "predicted": 4095.0,
+   "measured": 4095.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "12-bit ones per period",
+   "predicted": 2048.0,
+   "measured": 2048.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "12-bit off-peak autocorrelation",
+   "predicted": -0.0002442002442002442,
+   "measured": -0.00024420024420029977,
+   "unit": "",
+   "error": -5.55653613398821e-17,
+   "error_str": "-5.5565e-17",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "12-bit linear complexity (Berlekamp\u2013Massey)",
+   "predicted": 12.0,
+   "measured": 12.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit period",
+   "predicted": 65535.0,
+   "measured": 65535.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit ones per period",
+   "predicted": 32768.0,
+   "measured": 32768.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit off-peak autocorrelation",
+   "predicted": -1.5259021896696422e-05,
+   "measured": -1.525902189674936e-05,
+   "unit": "",
+   "error": -5.293955920339377e-17,
+   "error_str": "-5.2940e-17",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit linear complexity (Berlekamp\u2013Massey)",
+   "predicted": 16.0,
+   "measured": 16.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/statistics.png"
+ ],
+ "runtime_s": 0.32,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL053-lfsr-pseudorandom-generator"
+}

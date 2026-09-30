@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Active filter designer</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>Active filter designer</h1><p class="lead">Unity-gain Sallen-Key stages with standard parts: E12 capacitors, E96 resistors.</p>
+<div class="card"><div class="row"><label style="flex:1">Type<select id="k"><option value="lowpass">low-pass</option><option value="highpass">high-pass</option></select></label>
+<label style="flex:1">Response<select id="fam"><option value="butterworth">Butterworth</option><option value="bessel">Bessel</option><option value="cheby1dB">Chebyshev 1 dB</option></select></label>
+<label style="flex:1">Order<select id="o"><option>2</option><option selected>4</option></select></label><label style="flex:1">Cutoff (Hz)<input id="fc" type="number" value="1000"></label></div></div>
+<div class="card"><table id="t"></table></div><div class="card"><svg id="plot" viewBox="0 0 640 300"></svg><p class="muted">Magnitude of the cascade using the rounded parts (ideal op-amps).</p></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);const eng=(v,u)=>{const p=[[1e-12,'p'],[1e-9,'n'],[1e-6,'µ'],[1e-3,'m'],[1,''],[1e3,'k'],[1e6,'M']];let s=p[0];for(const q of p)if(v>=q[0]*0.999)s=q;return +(v/s[0]).toPrecision(3)+' '+s[1]+u;};
+function upd(){const fc=+$('fc').value,st=design($('k').value,$('fam').value,+$('o').value,fc);
+$('t').innerHTML='<tr><th>stage</th><th class="n">R1</th><th class="n">R2</th><th class="n">C1</th><th class="n">C2</th><th class="n">f0 / Q</th></tr>'+st.map((s,i)=>{const q=stageParams(s);
+return `<tr><td>${i+1}</td><td class="n">${eng(s.R1,'Ω')}</td><td class="n">${eng(s.R2,'Ω')}</td><td class="n">${eng(s.C1,'F')}</td><td class="n">${eng(s.C2,'F')}</td><td class="n">${eng(q.f0,'Hz')} / ${q.Q.toFixed(3)}</td></tr>`}).join('');
+const f=[...Array(300)].map((_,i)=>fc*Math.pow(10,-2+4*i/299)),H=response(st,f);const X=i=>40+i*2,Y=d=>20+(-d)*3;
+let s=`<g stroke="var(--line)">`;for(let d=0;d>=-80;d-=20)s+=`<line x1="40" x2="640" y1="${Y(d)}" y2="${Y(d)}"/><text x="4" y="${Y(d)+4}" fill="var(--muted)" font-size="11">${d} dB</text>`;
+s+=`</g><polyline fill="none" stroke="var(--acc)" stroke-width="2" points="${H.map((h,i)=>X(i)+','+Y(Math.max(-85,20*Math.log10(h)))).join(' ')}"/>`;
+s+=`<line x1="${X(150)}" x2="${X(150)}" y1="20" y2="280" stroke="var(--acc2)" stroke-dasharray="4"/><text x="${X(150)+4}" y="275" fill="var(--acc2)" font-size="11">fc</text>`;$('plot').innerHTML=s;}
+document.querySelectorAll('input,select').forEach(e=>e.oninput=upd);upd();</script></body></html>

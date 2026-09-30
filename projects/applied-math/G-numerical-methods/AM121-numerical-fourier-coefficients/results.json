@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-121",
+  "title": "Computing Fourier coefficients accurately",
+  "level": "M",
+  "tools": "Trapezoidal (rectangle) rule, Simpson's rule and adaptive quadrature for Fourier integrals, spectral accuracy for smooth periodic integrands, aliasing of coefficients, error bounds",
+  "summary": "Compute Fourier coefficients of periodic waveforms numerically and show a surprising fact: for smooth periodic functions the humble trapezoidal rule converges exponentially and beats Simpson's rule, while for a waveform with a corner both converge only algebraically \u2014 plus the aliasing error that bounds everything.",
+  "problem": "Fourier coefficients are integrals. Which quadrature rule should compute them, and how accurate can the result be?",
+  "theory": "For a periodic analytic f, the N-point trapezoidal rule for $c_k=\\frac1T\\int f e^{-2\u03c0ikt/T}$ equals the DFT and its error is the aliased sum $\\sum_{m\u22600}c_{k+mN}$ \u2014 exponentially small when c_k decays exponentially. Simpson (non-uniform\nweights) destroys this and is only O(h\u2074). For f with a kink (|sin t|, c_k \u221d 1/k\u00b2) the aliasing error is O(N\u207b\u00b2) for both. Example: f = e^{cos t} has $c_k = I_k(1)$ (modified Bessel).",
+  "method": "f\u2081 = e^{cos t} (analytic, exact c_k = I_k(1)); f\u2082 = |sin t| (kink, exact c_{2m} = \u22122/(\u03c0(4m\u00b2\u22121))). N = 4\u2026256 samples: trapezoid (= FFT), composite Simpson, error in c\u2081/c\u2082 vs exact; adaptive quad as a reference cost.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Smooth periodic f = e^{cos t}: trapezoid error for c\u2081 with N = 16 (spectral: \u2248 I\u2081\u2085(1) \u2248 1e-19 \u2192 machine \u03b5)",
+   "predicted": 0.0,
+   "measured": 1.1102230246251565e-16,
+   "unit": "",
+   "error": 1.1102230246251565e-16,
+   "error_str": "+1.1102e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 Simpson with N = 16 is far worse (ratio Simpson / trapezoid error \u226b 1)",
+   "predicted": 1000000.0,
+   "measured": 4818060821.0,
+   "unit": "\u00d7",
+   "error": 4817060821.0,
+   "error_str": "+4.8171e+09 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Kinked f = |sin t|: trapezoid error for c\u2082 decays as N^slope (\u22122)",
+   "predicted": -2.0,
+   "measured": -2.0102163116918677,
+   "unit": "",
+   "error": -0.010216311691867652,
+   "error_str": "-0.01022",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 16 error for |sin t| equals the aliased sum \u03a3 c_{2+16j}",
+   "predicted": -0.008464018628696958,
+   "measured": -0.00846426730207861,
+   "unit": "",
+   "error": -2.4867338165208974e-07,
+   "error_str": "-2.4867e-07",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Adaptive quadrature (quad) for c\u2081 of e^{cos t}: error",
+   "value": 0.0,
+   "unit": "",
+   "note": "many more function evaluations than N = 16"
+  }
+ ],
+ "figures": [
+  "figures/fourier_quadrature.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/applied-math/G-numerical-methods/AM121-numerical-fourier-coefficients"
+}

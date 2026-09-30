@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-127",
+  "title": "Monte Carlo integration where quadrature fails",
+  "level": "M",
+  "tools": "Tensor-product Gauss\u2013Legendre quadrature vs plain Monte Carlo vs quasi-Monte Carlo (scrambled Sobol) for integrals in 1\u201320 dimensions, error scaling, a circuit-yield integral as application",
+  "summary": "Integrate smooth functions in increasing dimension with three methods and measure where each breaks down: tensor quadrature's cost explodes (curse of dimensionality), Monte Carlo's error stays \u221d N^{\u22121/2} in any dimension, and quasi-Monte Carlo approaches N^{\u22121}.",
+  "problem": "A yield integral over 10 toleranced components is a 10-dimensional integral. Why is Monte Carlo the standard tool?",
+  "theory": "With n points per axis, a d-dimensional tensor rule costs n^d evaluations and its error for smooth f decays like n^{\u22122m}; for fixed budget N the effective n = N^{1/d} collapses as d grows. Monte Carlo: error \u03c3_f/\u221aN, independent of d.\nQuasi-MC (low-discrepancy points): error ~ (log N)^d/N \u2014 better for smooth, effectively low-dimensional integrands. Test: $\\int_{[0,1]^d}\\prod_i\\frac{\u03c0}{2}\\sin(\u03c0x_i)\\,dx = 1$.",
+  "method": "d = 1, 2, 5, 10, 20; budgets 10\u00b2\u201310\u2076. Gauss\u2013Legendre tensor rule with n = min(64, \u230aN^{1/d}\u230b) per axis, plain MC (20 repeats \u2192 RMS error), scrambled Sobol QMC (20 scrambles). Application: yield of a 10-component circuit whose output is a smooth function of\nthe tolerances, vs a 10\u2077-sample reference.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "d = 1: Monte Carlo RMS error \u221d N^slope (\u2212\u00bd, independent of d)",
+   "predicted": -0.5,
+   "measured": -0.5322586554275637,
+   "unit": "",
+   "error": -0.032258655427563676,
+   "error_str": "-0.03226",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "d = 10: Monte Carlo RMS error \u221d N^slope (\u2212\u00bd, independent of d)",
+   "predicted": -0.5,
+   "measured": -0.4883225230298585,
+   "unit": "",
+   "error": 0.011677476970141487,
+   "error_str": "+0.01168",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "d = 5: quasi-Monte Carlo error slope (\u2248 \u22121 for smooth integrands)",
+   "predicted": -1.0,
+   "measured": -0.8962868183362904,
+   "unit": "",
+   "error": 0.10371318166370957,
+   "error_str": "+0.1037",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "d = 1: Gauss quadrature is vastly better than MC at equal N (error ratio MC/GL)",
+   "predicted": 1000000.0,
+   "measured": 1442800737464023.5,
+   "unit": "\u00d7",
+   "error": 1442800736464023.5,
+   "error_str": "+1.4428e+15 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "10-component yield: MC with 10\u2074 samples vs 10\u2077 reference (within 3\u03c3)",
+   "predicted": 0.911313,
+   "measured": 0.9146,
+   "unit": "",
+   "error": 0.003286999999999929,
+   "error_str": "+0.003287",
+   "kind": "abs",
+   "ok": 1.0,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Error with N = 10\u2075 in d = 10: tensor Gauss (2 points/axis) / MC / QMC",
+   "value": "7.0e-03 / 8.8e-03 / 2.1e-03",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/monte_carlo.png"
+ ],
+ "runtime_s": 3.47,
+ "folder": "projects/applied-math/G-numerical-methods/AM127-monte-carlo-integration"
+}

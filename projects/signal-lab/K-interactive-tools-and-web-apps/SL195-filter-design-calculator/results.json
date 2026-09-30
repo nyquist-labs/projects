@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-195",
+  "title": "Active filter design calculator (Sallen-Key)",
+  "level": "M",
+  "tools": "HTML/JS designer (E12 capacitors, E96 resistors) + Node test harness; verification with the MNA circuit simulator (op-amp macromodel with finite GBW) and SciPy prototypes",
+  "summary": "Enter a cutoff, response family and order; get unity-gain Sallen-Key stages with standard component values and a response plot. Every design is built in the circuit simulator and its measured \u22123 dB frequency compared with the spec.",
+  "problem": "Textbook filter formulas give 12.37 k\u03a9 and 3.183 nF. What happens to the cutoff once real E-series parts are used, and when does the op-amp start to matter?",
+  "theory": "Unity-gain Sallen-Key low-pass: $f_0=1/(2\u03c0\\sqrt{R_1R_2C_1C_2})$, $Q=\\sqrt{R_1R_2C_1C_2}/(C_2(R_1+R_2))$; choose C's from E12 (with $C_1 \u2265 4Q^2C_2$) and solve R exactly, then round\nR to E96 (\u00b11 % steps \u2192 each R off by \u2264 \u00b11.2 %). Since $f_0 \u221d (R_1R_2)^{-1/2}$ the cutoff error is \u2272 \u00b11.2 %. A finite gain-bandwidth GBW adds error that grows\nwith $f_c\u00b7Q/\\text{GBW}$; with a 1 MHz op-amp I expect < 2 % shift up to ~10 kHz but a visible Q boost at 100 kHz.",
+  "method": "60 random designs (low-/high-pass \u00d7 Butterworth/Bessel/Chebyshev 1 dB \u00d7 order 2/4, fc 20 Hz\u201320 kHz): calc.js values \u2192 netlist \u2192 AC analysis with an op-amp of A0 = 10\u2075,\nGBW = 10 MHz; measured \u22123 dB point (Chebyshev: ripple edge, where the response returns to its passband-edge level) vs the spec. Then fc swept 1 kHz\u2013200 kHz with GBW = 1 MHz. Prototype Q/f0 tables checked against SciPy.",
+  "data": "Generated designs.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Prototype table in calc.js vs SciPy poles (worst relative error in f0 or Q)",
+   "predicted": 0.0,
+   "measured": 0.00861362902697671,
+   "unit": "%",
+   "error": 0.00861362902697671,
+   "error_str": "+0.00861 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Worst |cutoff error| over 60 simulated designs (E-series rounding, \u2272 1.2 % expected)",
+   "predicted": 1.2,
+   "measured": 2.0538070810286024,
+   "unit": "%",
+   "error": 0.8538070810286025,
+   "error_str": "+0.854 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "GBW = 1 MHz: cutoff shift vs ideal-op-amp design at fc = 10 kHz",
+   "predicted": 2.0,
+   "measured": -0.03325673253724564,
+   "unit": "%",
+   "error": -2.0332567325372457,
+   "error_str": "-2.03 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "RMS cutoff error",
+   "value": 0.6138696076103721,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "GBW = 1 MHz: cutoff shift at fc = 100 kHz",
+   "value": -2.443384689171309,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/filters.png"
+ ],
+ "runtime_s": 3.72,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL195-filter-design-calculator"
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Browser Spectrum Analyser</title>
+<style>
+:root{--bg:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--line:#2a78d6;--peak:#eb6834}
+@media (prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--grid:#383835;--line:#3987e5;--peak:#d95926}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,sans-serif}
+main{max-width:900px;margin:auto;padding:16px}
+canvas{width:100%;height:auto;border:1px solid var(--grid);border-radius:6px;display:block;margin:8px 0}
+button,input{font:inherit}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#readout{font-variant-numeric:tabular-nums;color:var(--ink2)}
+</style></head><body><main>
+<h1>Spectrum analyser</h1>
+<p>Hann-windowed 2048-point FFT, dBFS scale (a full-scale sine reads 0 dBFS). The maths is verified against NumPy — see the project README.</p>
+<div class="row"><button id="mic">Use microphone</button><button id="tone">Test tone</button>
+<input id="freq" type="range" min="50" max="12000" value="1000"><span id="fl">1000 Hz</span></div>
+<p id="readout">Press a button to start.</p>
+<canvas id="spec" width="880" height="300"></canvas>
+<canvas id="gram" width="880" height="220"></canvas>
+</main>
+<script src="fft.js"></script>
+<script>
+const N = 2048; let ctx, proc, osc;
+const spec = document.getElementById('spec').getContext('2d'), gram = document.getElementById('gram').getContext('2d');
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n);
+function draw(db, fs) {
+  const W = 880, H = 300; spec.fillStyle = css('--bg'); spec.fillRect(0, 0, W, H);
+  spec.strokeStyle = css('--grid'); for (let d = 0; d >= -120; d -= 20) { const y = -d / 120 * H; spec.beginPath(); spec.moveTo(0, y); spec.lineTo(W, y); spec.stroke(); }
+  spec.strokeStyle = css('--line'); spec.lineWidth = 2; spec.beginPath();
+  for (let k = 1; k < db.length; k++) { const x = Math.log10(k * fs / N / 20) / Math.log10(fs / 2 / 20) * W, y = Math.min(H, -db[k] / 120 * H); k === 1 ? spec.moveTo(x, y) : spec.lineTo(x, y); }
+  spec.stroke();
+  const p = peak(db, fs, N); document.getElementById('readout').textContent = `Peak ${p.freq.toFixed(1)} Hz at ${p.level.toFixed(1)} dBFS`;
+  const img = gram.getImageData(1, 0, 879, 220); gram.putImageData(img, 0, 0);
+  for (let y = 0; y < 220; y++) { const k = Math.floor((1 - y / 220) * db.length); const v = Math.max(0, Math.min(1, (db[k] + 110) / 110)); gram.fillStyle = `hsl(${220 - 200 * v},70%,${20 + 50 * v}%)`; gram.fillRect(879, y, 1, 1); }
+}
+async function start(useMic) {
+  ctx = ctx || new AudioContext(); let src;
+  if (useMic) src = ctx.createMediaStreamSource(await navigator.mediaDevices.getUserMedia({ audio: true }));
+  else { osc = ctx.createOscillator(); osc.frequency.value = +document.getElementById('freq').value; osc.start(); src = osc; }
+  proc = ctx.createScriptProcessor(N, 1, 1); const buf = new Float32Array(N);
+  proc.onaudioprocess = e => { buf.set(e.inputBuffer.getChannelData(0)); draw(spectrumDb(buf), ctx.sampleRate); };
+  src.connect(proc); proc.connect(ctx.destination);
+}
+document.getElementById('mic').onclick = () => start(true);
+document.getElementById('tone').onclick = () => start(false);
+document.getElementById('freq').oninput = e => { document.getElementById('fl').textContent = e.target.value + ' Hz'; if (osc) osc.frequency.value = +e.target.value; };
+</script></body></html>

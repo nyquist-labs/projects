@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-038",
+  "title": "Chirp-Z transform: zooming into a spectral band",
+  "level": "H",
+  "tools": "Own Bluestein chirp-Z transform (three FFTs), direct evaluation on the z-plane arc, zero-padded FFT comparison, timing",
+  "summary": "Implement the chirp-Z transform with Bluestein's identity to evaluate the spectrum on an arbitrary fine grid inside a narrow band, verify it against direct evaluation and a huge zero-padded FFT, and measure the cost advantage \u2014 while showing that zooming, like padding, adds no resolution.",
+  "problem": "You need the spectrum between 1000 and 1010 Hz on a 0.01 Hz grid. Is there a cheaper way than an enormous FFT?",
+  "theory": "$X_k=\\sum_n x_nA^{-n}W^{nk}$ on the spiral $z_k=AW^{-k}$. Using $nk=\\tfrac12[n^2+k^2-(k-n)^2]$ turns the sum into a convolution with a chirp, computable with FFTs of length \u2265 N+M\u22121:\ncost O((N+M)log(N+M)) regardless of how fine the grid is. A zero-padded FFT reaching the same spacing needs length fs/\u0394f. The values are identical to the DTFT, so resolution is still\nlimited to \u2248 1/T.",
+  "method": "x: N = 8192 samples at fs = 8 kHz containing tones at 1003.2 and 1004.9 Hz plus noise; zoom band 1000\u20131010 Hz with M = 1001 points (\u0394f = 0.01 Hz). Compare with the direct DTFT and a\nzero-padded FFT of length 800,000; time both.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "CZT vs direct DTFT evaluation (max relative error)",
+   "predicted": 0.0,
+   "measured": 4.60506994424376e-11,
+   "unit": "",
+   "error": 4.60506994424376e-11,
+   "error_str": "+4.6051e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "CZT vs zero-padded FFT (length 800,000) at the same frequencies",
+   "predicted": 0.0,
+   "measured": 4.604988448305313e-11,
+   "unit": "",
+   "error": 4.604988448305313e-11,
+   "error_str": "+4.6050e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Operation-count ratio \u2248 Lz\u00b7log Lz / (3\u00b7L\u00b7log L), L = next pow2(N+M)",
+   "predicted": 22.797666102163333,
+   "measured": 7.114436828893567,
+   "unit": "\u00d7",
+   "error": -68.79313524019699,
+   "error_str": "-68.79 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Tone at 1003.2 Hz located by the zoomed spectrum",
+   "predicted": 1003.2,
+   "measured": 1003.15,
+   "unit": "Hz",
+   "error": -0.05000000000006821,
+   "error_str": "-50 mHz",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Time: CZT (M = 1001) vs zero-padded FFT",
+   "value": "1.60 ms vs 11.3 ms (7\u00d7 faster)",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/czt.png"
+ ],
+ "runtime_s": 0.27,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM038-chirp-z-transform"
+}

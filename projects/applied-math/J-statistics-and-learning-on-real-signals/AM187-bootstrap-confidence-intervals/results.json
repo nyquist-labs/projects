@@ -1,0 +1,114 @@
+{
+ "meta": {
+  "id": "AM-187",
+  "title": "Bootstrap confidence intervals \u2014 and when they fail",
+  "level": "M",
+  "tools": "Own percentile and BCa bootstrap, coverage experiments by simulation, Wilson binomial interval, cluster (patient-level) bootstrap versus beat-level bootstrap on real ECG detections, design-effect prediction from the intraclass correlation, the known failure for the sample maximum",
+  "summary": "Put error bars on statistics by resampling: check that bootstrap intervals cover the truth at the advertised rate where the truth is known, show that they agree with the textbook binomial interval for independent data, that they are far too narrow when resampling ignores clustering, and one statistic for which the bootstrap is simply wrong.",
+  "problem": "A detector found 96 % of 391 abnormal beats. How uncertain is that number \u2014 and does it matter that all those beats came from only a handful of people?",
+  "theory": "The bootstrap replaces the unknown population by the sample: the spread of a statistic over resamples estimates its sampling spread. For the mean, the bootstrap SE equals $s\\sqrt{(n-1)/n}/\\sqrt n$. Percentile intervals are\nfirst-order accurate; BCa corrects bias and skewness. Resampling must copy the dependence structure: with m correlated observations per cluster, the variance of a proportion is inflated by the design effect $1+(m-1)\u03c1_{ICC}$, so an\nobservation-level bootstrap is too narrow by about $\\sqrt{\\mathrm{deff}}$. The bootstrap fails for statistics that depend on the extreme order statistics (e.g. the maximum of a uniform), where the resampling distribution has an atom at the sample maximum.",
+  "method": "Coverage: 2000 simulated samples each (n = 40 lognormal medians, n = 30 uniform maxima), 2000 resamples per interval. Real data: sensitivity of the PVC detector of AM-172 (logistic regression, train on 10 patients, test on 10 others)\n\u2014 Wilson interval, beat-level bootstrap and patient-level (cluster) bootstrap; ICC of detection within patient from a one-way ANOVA estimator.",
+  "data": "PhysioNet MIT-BIH Arrhythmia Database.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Bootstrap SE of the mean vs s\u00b7\u221a((n\u22121)/n)/\u221an",
+   "predicted": 0.4036668287340681,
+   "measured": 0.4039287821913421,
+   "unit": "",
+   "error": 0.06489348111547466,
+   "error_str": "+0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Coverage of the 95 % percentile interval for the median of a lognormal sample (n = 40)",
+   "predicted": 95.0,
+   "measured": 94.83333333333334,
+   "unit": "%",
+   "error": -0.1666666666666572,
+   "error_str": "-0.167 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 BCa interval",
+   "predicted": 95.0,
+   "measured": 94.33333333333334,
+   "unit": "%",
+   "error": -0.6666666666666572,
+   "error_str": "-0.667 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Known failure: percentile interval for the maximum of Uniform(0, 1) \u2014 coverage is far below 95 % (< 20 %; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Sensitivity: beat-level bootstrap interval width vs Wilson interval width (independent-beats assumption)",
+   "predicted": 0.038941371468057984,
+   "measured": 0.038363171355498715,
+   "unit": "",
+   "error": -1.4847964793267292,
+   "error_str": "-1.48 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Resampling patients instead of beats widens the interval (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Coverage for the uniform maximum",
+   "value": 0.0,
+   "unit": "%",
+   "note": "the bootstrap never produces a value above the sample maximum, the truth is always above it"
+  },
+  {
+   "quantity": "Width ratio patient-level / beat-level interval vs \u221a(design effect) from the ANOVA ICC",
+   "value": "1.41 vs 1.00",
+   "unit": "",
+   "note": "the ICC estimate from so few clusters is unreliable (it truncates at 0 here)"
+  },
+  {
+   "quantity": "Sensitivity with 95 % intervals: Wilson / beat bootstrap / patient bootstrap",
+   "value": "96.2 % [93.8, 97.7] / [94.1, 98.0] / [94.6, 100.0]",
+   "unit": "",
+   "note": "391 PVCs from 5 patients"
+  },
+  {
+   "quantity": "Intraclass correlation of detections within a patient / design effect",
+   "value": "0.000 / 1.0",
+   "unit": "",
+   "note": "effective number of independent PVCs \u2248 391"
+  }
+ ],
+ "figures": [
+  "figures/bootstrap.png"
+ ],
+ "runtime_s": 9.18,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM187-bootstrap-confidence-intervals"
+}

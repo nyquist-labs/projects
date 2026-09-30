@@ -1,0 +1,112 @@
+{
+ "meta": {
+  "id": "AM-109",
+  "title": "MPPT as online optimisation: perturb-and-observe vs incremental conductance",
+  "level": "M",
+  "tools": "Single-diode photovoltaic model, perturb-and-observe hill climbing and incremental-conductance tracking, time-varying irradiance, tracking efficiency vs step size",
+  "summary": "Track the maximum power point of a solar panel whose irradiance changes with passing clouds, using two classic online optimisers, and measure the trade-off between step size, steady-state oscillation and tracking speed \u2014 including P&O's known confusion during irradiance ramps.",
+  "problem": "The optimum moves while you search for it. How should an optimiser that can only measure P and V behave?",
+  "theory": "PV current $I=I_{ph}-I_0(e^{(V+IR_s)/(nN_sV_T)}-1)-\\frac{V+IR_s}{R_{sh}}$. P&O: step V by \u00b1\u0394V, keep the direction if P rose \u2014 oscillates \u00b1\u0394V around the optimum (loss \u221d \u0394V\u00b2 near the peak, since P is quadratic there) but a bigger \u0394V follows\nramps faster. Incremental conductance uses dI/dV = \u2212I/V at the peak, so it stops moving at the optimum and is not fooled by ramps. Expected: tracking efficiency \u2265 99 % at the best \u0394V; P&O errors during rising irradiance.",
+  "method": "60-cell panel (I_ph \u221d irradiance, 8.5 A at 1000 W/m\u00b2). Irradiance profile: steps and 20 % ramps over 60 s, controller running at 20 Hz. True MPP computed at every step for reference; efficiency = \u222bP/\u222bP_mpp. \u0394V = 0.1 \u2026 2 V.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Best tracking efficiency, P&O (my guess \u2265 99 %)",
+   "predicted": 99.0,
+   "measured": 99.94506761961688,
+   "unit": "%",
+   "error": 0.9450676196168786,
+   "error_str": "+0.945 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Best tracking efficiency, incremental conductance",
+   "predicted": 99.0,
+   "measured": 99.94509117936745,
+   "unit": "%",
+   "error": 0.9450911793674521,
+   "error_str": "+0.945 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "MPP at 1000 W/m\u00b2",
+   "value": "30.37 V, 237.9 W",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "P&O, \u0394V = 0.1 V: efficiency",
+   "value": 99.8826001602526,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "IncCond, \u0394V = 0.1 V: efficiency",
+   "value": 99.89120660817463,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "P&O, \u0394V = 0.3 V: efficiency",
+   "value": 99.94506761961688,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "IncCond, \u0394V = 0.3 V: efficiency",
+   "value": 99.94509117936745,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "P&O, \u0394V = 0.6 V: efficiency",
+   "value": 99.81212055789423,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "IncCond, \u0394V = 0.6 V: efficiency",
+   "value": 99.83907524792166,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "P&O, \u0394V = 1.0 V: efficiency",
+   "value": 99.55473767652167,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "IncCond, \u0394V = 1.0 V: efficiency",
+   "value": 99.58279594828929,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "P&O, \u0394V = 2.0 V: efficiency",
+   "value": 98.47216502914073,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "IncCond, \u0394V = 2.0 V: efficiency",
+   "value": 98.47216502914073,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/mppt.png"
+ ],
+ "runtime_s": 2.84,
+ "folder": "projects/applied-math/F-optimisation/AM109-mppt-as-hill-climbing"
+}

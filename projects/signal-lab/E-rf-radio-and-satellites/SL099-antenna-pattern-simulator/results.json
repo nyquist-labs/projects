@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "SL-099",
+  "title": "Wire-antenna simulator by the method of moments",
+  "level": "H",
+  "tools": "Own thin-wire method-of-moments solver (piecewise-sinusoidal Galerkin, closed-form near fields)",
+  "summary": "Solve for the current on a dipole numerically, then compute input impedance vs length, resonance, directivity and pattern, and compare with the classical induced-EMF and sinusoidal-current results.",
+  "problem": "An antenna's pattern and impedance come from the current flowing on it, which nobody knows in advance. Find it numerically and check it against the few cases with textbook answers.",
+  "theory": "Galerkin MoM: expand the current in piecewise-sinusoidal 'V' functions, enforce the boundary condition in a weighted\nsense, solve $\\mathbf Z\\mathbf I=\\mathbf V$ with a delta-gap source. Induced-EMF theory (infinitely thin wire, assumed sinusoidal\ncurrent) gives $Z_{in}=73.1+j42.5\\,\\Omega$ at L = \u03bb/2; finite radius a raises R and X and moves resonance to \u2248 0.47\u20130.48 \u03bb.\nThe far-field pattern is \u2248 $\\cos(\\frac\\pi2\\cos\\theta)/\\sin\\theta$ with directivity 2.15 dBi and 78\u00b0 beamwidth.",
+  "method": "40 segments per wire; radius \u03bb/1000 (and \u03bb/10\u2075 for the thin-wire limit); length sweep 0.40\u20130.55 \u03bb; directivity by\nintegrating |E|\u00b2 over the sphere.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03bb/2 input resistance (a = \u03bb/1000) vs induced-EMF 73.1 \u03a9",
+   "predicted": 73.1,
+   "measured": 85.77929603880162,
+   "unit": "\u03a9",
+   "error": 17.345138219974864,
+   "error_str": "+17.35 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bb/2 input resistance, thin-wire limit (a = \u03bb/10\u2075)",
+   "predicted": 73.1,
+   "measured": 78.2864789240713,
+   "unit": "\u03a9",
+   "error": 7.09504640775829,
+   "error_str": "+7.10 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bb/2 input reactance (a = \u03bb/1000)",
+   "predicted": 42.5,
+   "measured": 45.681309809119476,
+   "unit": "\u03a9",
+   "error": 3.181309809119476,
+   "error_str": "+3.181 \u03a9",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Resonant length (X = 0)",
+   "predicted": 0.475,
+   "measured": 0.4756694764426395,
+   "unit": "\u03bb",
+   "error": 0.14094240897674493,
+   "error_str": "+0.14 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bb/2 dipole directivity",
+   "predicted": 2.15,
+   "measured": 2.180228483231293,
+   "unit": "dBi",
+   "error": 0.030228483231292902,
+   "error_str": "+0.03023 dBi",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "E-plane half-power beamwidth",
+   "predicted": 78.0,
+   "measured": 75.95161689730006,
+   "unit": "\u00b0",
+   "error": -2.626132182948646,
+   "error_str": "-2.63 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Resistance at resonance",
+   "value": 72.05433458886189,
+   "unit": "\u03a9",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/dipole.png",
+  "figures/current.png"
+ ],
+ "runtime_s": 0.78,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL099-antenna-pattern-simulator"
+}

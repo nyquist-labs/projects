@@ -1,0 +1,186 @@
+{
+ "meta": {
+  "id": "SL-214",
+  "title": "Design review: critiquing and re-laying-out the preamp board",
+  "level": "M",
+  "tools": "Geometric review metrics computed from the routed boards (decoupling-loop length, feedback-node length, channel separation, input/output spacing), eelab.pcb re-layout, DRC/exports",
+  "summary": "Review the SL-205 stereo preamp layout the way a senior engineer would, turn each criticism into a number measured on the routed copper, then re-place the board (v2) and measure whether the fixes actually worked.",
+  "problem": "'Put decoupling caps close to the pins' and 'keep channels apart' are easy advice. How much did the first layout violate them, and did the revision fix it?",
+  "theory": "Review criteria and why they matter: (1) decoupling loop \u2014 cap \u2192 supply pin \u2192 ground via; its inductance (~0.8 nH/mm for a 0.25 mm trace 1.6 mm above the plane, see\nSL-210) limits how well the cap supplies fast current; (2) the inverting-input node is high-impedance: its copper length adds capacitance and picks up noise;\n(3) crosstalk between channels falls roughly as 1/(1+(D/h)\u00b2) with separation D; (4) a channel's input copper near its own output copper creates a feedback path.\nPrediction for v2 (per-channel connectors, each channel kept on its own side of the dual op-amp, parts hugging their pins): decoupling loops \u2265 2\u00d7 shorter,\nchannel separation \u2265 3\u00d7 larger, shorter feedback nodes.",
+  "method": "v1 = SL-205 exactly as routed. v2 = same schematic, but split connectors (IN/OUT per channel on each side), R_f/R_g placed at pins 1\u20132 / 6\u20137, 100 nF caps within ~2.5 mm of\npins 4 and 8. Metrics measured on routed copper (tracks + pads, excluding the ground pour).",
+  "data": "Design (SL-205 v1 and this project's v2).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "DRC violations (clearance, widths, drills, annular rings, edge, courtyards, connectivity)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Drill hits in the Excellon file (re-read with gerbonara) = holes in the design",
+   "predicted": 23.0,
+   "measured": 23.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Board outline from the Gerber profile (re-read with gerbonara)",
+   "predicted": 50.0,
+   "measured": 49.99999999999999,
+   "unit": "mm",
+   "error": -1.4210854715202004e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pads in the KiCad file (re-read with kiutils) = pads in the design",
+   "predicted": 51.0,
+   "measured": 51.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Decoupling loop +12V: v1/v2 length ratio (\u2265 2 predicted)",
+   "predicted": 2.0,
+   "measured": 1.581817062996168,
+   "unit": "\u00d7",
+   "error": -0.4181829370038319,
+   "error_str": "-0.4182 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Decoupling loop -12V: v1/v2 length ratio (\u2265 2 predicted)",
+   "predicted": 2.0,
+   "measured": 1.849968682497449,
+   "unit": "\u00d7",
+   "error": -0.15003131750255094,
+   "error_str": "-0.15 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Channel separation v2/v1 (\u2265 3 predicted)",
+   "predicted": 3.0,
+   "measured": 10.634271134433328,
+   "unit": "\u00d7",
+   "error": 7.6342711344333285,
+   "error_str": "+7.634 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "v2 unrouted connections",
+   "value": 0.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Board",
+   "value": "50 \u00d7 36 mm, 2 layers, 1.6 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Components / nets / pads",
+   "value": "24 / 13 / 51",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Routed track length",
+   "value": 110.2058441227157,
+   "unit": "mm",
+   "note": "51 segments, 8 vias"
+  },
+  {
+   "quantity": "decoupling loop +12V (mm): v1 \u2192 v2",
+   "value": "5.9 \u2192 3.7",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "decoupling loop -12V (mm): v1 \u2192 v2",
+   "value": "6.9 \u2192 3.7",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "inverting-node copper, INA\u2212+INB\u2212 (mm): v1 \u2192 v2",
+   "value": "19.0 \u2192 6.0",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "channel A \u2194 B separation (mm): v1 \u2192 v2",
+   "value": "0.3 \u2192 3.0",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "input \u2194 output spacing, worst channel (mm): v1 \u2192 v2",
+   "value": "1.5 \u2192 1.9",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "total track length (mm): v1 \u2192 v2",
+   "value": "176.3 \u2192 110.2",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "vias: v1 \u2192 v2",
+   "value": "13.0 \u2192 8.0",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "v1 also has channel A and B tracks crossing on opposite layers (broadside coupling through 1.6 mm FR-4)",
+   "value": 1.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Estimated worst-case inter-channel coupling reduction, (1+(D2/h)\u00b2)/(1+(D1/h)\u00b2)",
+   "value": 4.615499396616715,
+   "unit": "\u00d7",
+   "note": ""
+  },
+  {
+   "quantity": "Decoupling-loop inductance estimate v1 \u2192 v2 (+12 V rail, 0.8 nH/mm)",
+   "value": "5 \u2192 3 nH",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/board.png",
+  "figures/review.png"
+ ],
+ "runtime_s": 3.11,
+ "folder": "projects/signal-lab/L-pcb-design/SL214-design-review-write-up"
+}

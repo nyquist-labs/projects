@@ -1,0 +1,47 @@
+{
+ "meta": {
+  "id": "SL-187",
+  "title": "Muscle fatigue: the EMG median-frequency shift",
+  "level": "M",
+  "tools": "Physiological surface-EMG synthesis (motor-unit action potentials with slowing conduction velocity), median/mean frequency estimation",
+  "summary": "Show how slowing muscle-fibre conduction velocity during a sustained contraction compresses the EMG spectrum, predict the median-frequency decline from the velocity change, and measure the estimator's accuracy and variance on a synthetic 60-s contraction.",
+  "problem": "Why does the EMG spectrum shift to lower frequencies as a muscle tires, and how precisely can the shift be tracked?",
+  "theory": "A motor-unit action potential travelling at conduction velocity v has a spectrum that scales with v: $S_v(f)=\\frac{1}{v^2}\\,S_1\\!\\left(\\frac{f}{v}\\right)$ (Lindstr\u00f6m & Magnusson 1977).\nHence the median frequency is proportional to v: a 20 % fall in conduction velocity (typical over a fatiguing isometric contraction) lowers the median\nfrequency by 20 %. Spectral estimates from 1-s windows scatter by several percent.",
+  "method": "Synthetic surface EMG (clearly labelled synthetic: no public dataset with ground-truth conduction velocity was available): 50 motor units, Poisson firing ~15 Hz,\ntripolar MUAP shape whose time scale \u221d 1/v; v falls linearly from 4.5 to 3.6 m/s over 60 s; noise 20 dB below. Median frequency from Welch spectra in 1-s\nwindows (50 % overlap); linear regression of MDF(t).",
+  "data": "Synthetic (physiologically parameterised) \u2014 the ground-truth conduction velocity is known exactly.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Relative median-frequency decline over 60 s (= relative velocity decline 20 %)",
+   "predicted": -20.0,
+   "measured": -18.23446332029692,
+   "unit": "%",
+   "error": 1.7655366797030787,
+   "error_str": "+1.77 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Initial median frequency",
+   "value": 170.91003911342895,
+   "unit": "Hz",
+   "note": ""
+  },
+  {
+   "quantity": "Scatter of 1-s MDF estimates about the trend",
+   "value": 4.093797043840013,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/fatigue.png"
+ ],
+ "runtime_s": 0.36,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL187-muscle-fatigue-analysis"
+}

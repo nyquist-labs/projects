@@ -1,0 +1,92 @@
+{
+ "meta": {
+  "id": "AM-097",
+  "title": "LMS adaptive filters: step size, stability and misadjustment",
+  "level": "H",
+  "tools": "LMS system identification, eigenvalue spread of the input correlation matrix, convergence time constants, misadjustment formula M \u2248 \u03bc\u00b7tr(R)/2, stability bound",
+  "summary": "Identify an unknown FIR system with the LMS algorithm, predict its stability limit, learning-curve time constants and steady-state misadjustment from the input statistics, and check each prediction with ensemble-averaged learning curves for white and coloured inputs.",
+  "problem": "The LMS step size trades speed against accuracy. Can both be predicted before running it?",
+  "theory": "With input correlation R (eigenvalues \u03bb_i), mean weights converge with modes $(1-2\u03bc\u03bb_i)^k$ \u2014 time constants $\u03c4_i \u2248 1/(2\u03bc\u03bb_i)$ samples, so eigenvalue spread slows convergence. Mean-square stability requires roughly\n\u03bc < 1/tr(R) (the textbook 2/\u03bb_max only guarantees the mean). Excess MSE: misadjustment $M = \\frac{J_{ex}}{J_{min}}\u2248\\frac{\u03bc\\,\\mathrm{tr}(R)}{1-\u03bc\\,\\mathrm{tr}(R)}$ \u2248 \u03bc\u00b7tr(R) for small \u03bc (update w \u2190 w + 2\u03bceu convention, e = d \u2212 w\u1d40u).",
+  "method": "Unknown 16-tap system, measurement noise \u03c3\u00b2 = 10\u207b\u00b3. Inputs: white (\u03bb spread 1) and AR(1) with a = 0.9 (spread \u2248 360). Ensemble of 200 runs \u00d7 20,000 samples; misadjustment from the last 5000 samples; learning-curve\ntime constant from an exponential fit; divergence test for \u03bc around 1/tr(R).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "white: misadjustment \u2248 \u03bc\u00b7tr(R)/(1 \u2212 \u03bc\u00b7tr(R))",
+   "predicted": 0.052631578947368425,
+   "measured": 0.05196066776622229,
+   "unit": "",
+   "error": -1.2747312441776582,
+   "error_str": "-1.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "AR(1), a = 0.9: misadjustment \u2248 \u03bc\u00b7tr(R)/(1 \u2212 \u03bc\u00b7tr(R))",
+   "predicted": 0.052631578947368425,
+   "measured": 0.054958038983914756,
+   "unit": "",
+   "error": 4.420274069438029,
+   "error_str": "+4.42 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "White input: learning-curve time constant \u2248 1/(4\u03bc\u03bb) (MSE decays twice as fast as weights)",
+   "predicted": 80.0,
+   "measured": 83.41322114991783,
+   "unit": "samples",
+   "error": 4.266526437397289,
+   "error_str": "+4.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Empirical stability edge (first \u03bc\u00b7tr(R) where < 50 % of 10 runs stay bounded) vs Feuer\u2013Weinstein 0.889",
+   "predicted": 0.8888888888888888,
+   "measured": 0.9,
+   "unit": "",
+   "error": 0.011111111111111183,
+   "error_str": "+0.01111",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Eigenvalue spread \u03bbmax/\u03bbmin: white / AR(1)",
+   "value": "1 / 187",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Samples to reach 2\u00d7 final MSE: white / coloured",
+   "value": "692 / 4350",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Exact mean-square stability limit for white Gaussian input (Feuer\u2013Weinstein), \u03bc\u00b7tr(R)",
+   "value": 0.8888888888888888,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Fraction of 10 runs that stay bounded, by \u03bc\u00b7tr(R)",
+   "value": "0.3: 100 %, 0.6: 100 %, 0.7: 100 %, 0.8: 90 %, 0.85: 60 %, 0.9: 10 %, 1.0: 0 %, 1.1: 0 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/lms.png"
+ ],
+ "runtime_s": 41.21,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM097-lms-convergence-analysis"
+}

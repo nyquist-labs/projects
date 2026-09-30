@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-091",
+  "title": "FM demodulation from IQ (phase differentiator) and the FM threshold",
+  "level": "M",
+  "tools": "NumPy/SciPy complex-baseband FM modem, SNR vs CNR measurement",
+  "summary": "Build an FM discriminator from IQ samples (angle of r[n]\u00b7r*[n\u22121]), measure output SNR vs CNR for deviation ratios \u03b2 = 1 and 5, and compare with the 3\u03b2\u00b2(\u03b2+1) FM improvement and the ~10 dB threshold.",
+  "problem": "FM trades bandwidth for noise immunity. Verify the trade quantitatively \u2014 and find where it breaks.",
+  "theory": "Above threshold, with a sinusoidal message and noise in the Carson bandwidth $B_T=2(\\beta+1)W$:\n$SNR_{out} = \\tfrac32\\beta^2\\left(\\frac{f_m}{W}\\right)^2\\frac{A^2/2}{N_0W} = 3\\beta^2(\\beta+1)\\left(\\frac{f_m}{W}\\right)^2 CNR_{B_T}$ \u2014\nthe textbook $3\\beta^2(\\beta+1)$ assumes the tone sits at the top of the message band (f_m = W); with a 1 kHz tone in a\n3 kHz audio filter the parabolic noise below 3 kHz costs $(f_m/W)^2$ = \u22129.5 dB. Below CNR \u2248 10 dB 'clicks' (2\u03c0 phase slips) appear and SNR collapses.",
+  "method": "Message 1 kHz sine (W = 3 kHz), \u03b2 = 1 and 5, 240 kS/s complex baseband. AWGN scaled to CNR in B_T. IF filter: 6th-order low-pass at 0.75\u00b7B_T (a filter\nexactly B_T wide distorts wideband FM). Demodulator: y[n] = arg(r[n]r*[n\u22121]), 3 kHz low-pass, SNR = power at 1 kHz vs everything else in 0\u20133 kHz.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03b2 = 1: output SNR at CNR 20 dB",
+   "predicted": 18.239087409443187,
+   "measured": 18.740405510786452,
+   "unit": "dB",
+   "error": 0.5013181013432657,
+   "error_str": "+0.5013 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 1: threshold CNR (within 1 dB of theory)",
+   "predicted": 10.0,
+   "measured": 10.0,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 5: output SNR at CNR 20 dB",
+   "predicted": 36.98970004336019,
+   "measured": 37.45341418040359,
+   "unit": "dB",
+   "error": 0.4637141370434037,
+   "error_str": "+0.4637 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 5: threshold CNR (within 1 dB of theory)",
+   "predicted": 10.0,
+   "measured": 10.0,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/fm_snr.png"
+ ],
+ "runtime_s": 0.48,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL091-fm-demodulation-from-iq"
+}

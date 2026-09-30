@@ -1,0 +1,22 @@
+* Gilbert — exported by eelab.circuit
+Vcc vcc 0 DC 12 AC 0.0
+Vu1 up 0 DC 6.0 AC 0.0
+Vu2 un 0 DC 6.0 AC 0.0
+Vl1 lp 0 DC 3.0 AC 0.0
+Vl2 ln 0 DC 3.0 AC 0.0
+Rc1 vcc o1 2000
+Rc2 vcc o2 2000
+Iee t 0 DC 0.001 AC 0.0
+Q1 o1 up e1 Q_1
+Q2 o2 un e1 Q_2
+Q3 o2 up e2 Q_3
+Q4 o1 un e2 Q_4
+Q5 e1 lp t Q_5
+Q6 e2 ln t Q_6
+.model Q_1 NPN(Is=1e-15 BF=200 BR=1)
+.model Q_2 NPN(Is=1e-15 BF=200 BR=1)
+.model Q_3 NPN(Is=1e-15 BF=200 BR=1)
+.model Q_4 NPN(Is=1e-15 BF=200 BR=1)
+.model Q_5 NPN(Is=1e-15 BF=200 BR=1)
+.model Q_6 NPN(Is=1e-15 BF=200 BR=1)
+.end

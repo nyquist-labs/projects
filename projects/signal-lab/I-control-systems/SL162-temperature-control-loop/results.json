@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "SL-162",
+  "title": "Temperature control with dead time: why lag causes oscillation",
+  "level": "M",
+  "tools": "First-order-plus-dead-time (FOPDT) oven model, delay-line simulation, Nyquist/phase-crossover analysis",
+  "summary": "Control an oven whose heater acts through a 20 s transport delay; predict the proportional gain at which the loop oscillates and the oscillation period from the phase-crossover condition, and find both by simulation.",
+  "problem": "Why does turning up the gain on a slow thermal system make it oscillate, and how high can it go?",
+  "theory": "$G(s)=\\frac{K e^{-\\theta s}}{\\tau s+1}$ with K = 2 \u00b0C/%, \u03c4 = 200 s, \u03b8 = 20 s. Phase crossover: $-\\arctan(\\omega\\tau)-\\omega\\theta=-\\pi$ \u2192 \u03c9_u; ultimate gain\n$K_u=\\frac{\\sqrt{1+(\\omega_u\\tau)^2}}{K}$, oscillation period $2\\pi/\\omega_u$. The delay's phase \u2212\u03c9\u03b8 grows without bound, so every such loop has a finite K_u.",
+  "method": "Delay implemented as a sample FIFO (0.1 s steps). P gains swept; K_u found as the gain where the oscillation neither grows nor decays (log-decrement\n= 0, bisection).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Ultimate gain K_u (phase-crossover prediction)",
+   "predicted": 8.175276962982895,
+   "measured": 8.155675335696685,
+   "unit": "%/\u00b0C",
+   "error": -0.23976713418964443,
+   "error_str": "-0.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Oscillation period 2\u03c0/\u03c9_u",
+   "predicted": 77.00007815470443,
+   "measured": 77.18552631578947,
+   "unit": "s",
+   "error": 0.24084152318969856,
+   "error_str": "+0.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Steady-state error with K_p = 0.5\u00b7K_u: 1/(1+K\u00b7K_p)",
+   "predicted": 0.10898853560872768,
+   "measured": 0.10898853560872324,
+   "unit": "",
+   "error": -4.074641496646556e-12,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/deadtime.png"
+ ],
+ "runtime_s": 0.47,
+ "folder": "projects/signal-lab/I-control-systems/SL162-temperature-control-loop"
+}

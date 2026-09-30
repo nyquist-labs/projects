@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resistor colour code</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>Resistor colour code</h1><p class="lead">Click the bands, or type a value. Warns when a code can also be read backwards.</p>
+<div class="card"><svg id="res" viewBox="0 0 420 110" width="420" height="110"></svg>
+<div class="row"><button id="b4" class="on">4 bands</button><button id="b5">5 bands</button></div><div id="pick" class="row" style="margin-top:8px"></div>
+<p>Value: <span class="big" id="val"></span> <span id="tol" class="muted"></span> <span id="warn" class="muted"></span></p></div>
+<div class="card"><label>Resistance (Ω) → colours<input id="in" type="text" value="4700"></label><label>Tolerance (%)<select id="t">
+<option>5</option><option>1</option><option>2</option><option>10</option><option>0.5</option></select></label><p id="enc"></p></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);let bands=["yellow","violet","red","gold"];
+const opts=(i,n)=>i<n-2?COLS_:i==n-2?Object.keys(M_):Object.keys(T_);const {COLS:COLS_,MULT:M_,TOL:T_,HEX:H_}={COLS,MULT,TOL,HEX};
+const fmt=v=>v>=1e6?+(v/1e6).toPrecision(4)+' MΩ':v>=1e3?+(v/1e3).toPrecision(4)+' kΩ':+v.toPrecision(4)+' Ω';
+function draw(){const n=bands.length;let s=`<rect x="10" y="50" width="400" height="8" fill="#999"/><rect x="90" y="20" width="240" height="70" rx="28" fill="#d9c7a3"/>`;
+bands.forEach((c,i)=>{const x=i<n-1?120+i*36:290;s+=`<rect x="${x}" y="20" width="16" height="70" fill="${H_[c]}" stroke="#0003"><title>${c}</title></rect>`;});$('res').innerHTML=s;
+$('pick').innerHTML=bands.map((c,i)=>`<select data-i="${i}" style="width:auto">${opts(i,n).map(o=>`<option ${o==c?'selected':''}>${o}</option>`).join('')}</select>`).join('');
+document.querySelectorAll('#pick select').forEach(e=>e.onchange=()=>{bands[+e.dataset.i]=e.value;draw();});
+try{const d=decode(bands);$('val').textContent=fmt(d.value);$('tol').textContent='±'+d.tol+' %';}catch(e){$('val').textContent='—';$('tol').textContent=e.message;}
+$('warn').textContent=reversible(bands)?'⚠ also decodes when read backwards: '+fmt(decode(bands.slice().reverse()).value):'';}
+function enc(){try{const v=parseFloat($('in').value.replace(/k/i,'e3').replace(/M/,'e6'));const t=+$('t').value;const c=encode(v,t>=5?4:5,t);
+$('enc').innerHTML=c.map(x=>`<span style="display:inline-block;width:14px;height:14px;background:${H_[x]};border:1px solid #0004;vertical-align:middle"></span> ${x}`).join(' &nbsp; ');bands=c;draw();}
+catch(e){$('enc').textContent=e.message;}}
+$('b4').onclick=()=>{bands=encode(decode(bands).value,4,5);$('b4').classList.add('on');$('b5').classList.remove('on');draw();};
+$('b5').onclick=()=>{bands=encode(decode(bands).value,5,1);$('b5').classList.add('on');$('b4').classList.remove('on');draw();};
+$('in').oninput=enc;$('t').onchange=enc;draw();</script></body></html>

@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "SL-074",
+  "title": "Aliasing demonstrator (Nyquist in action)",
+  "level": "E",
+  "tools": "NumPy sampling + FFT peak finding",
+  "summary": "Sample sinusoids from 0 to 3\u00b7f_s and measure the apparent frequency, reproducing the folding saw-tooth predicted by f_alias = |f \u2212 k\u00b7f_s|; show a wagon-wheel style visual example.",
+  "problem": "What frequency do you *see* when you sample a signal faster than half your sampling rate?",
+  "theory": "Samples of $\\cos(2\\pi f n/f_s)$ are identical for $f$ and $f \\pm kf_s$ and for $-f$. The apparent frequency is\n$f_a = |f - f_s\\,\\mathrm{round}(f/f_s)|$ \u2208 [0, f_s/2] \u2014 a triangle wave in f with period f_s. Nyquist: frequencies\nbelow f_s/2 are recovered exactly.",
+  "method": "f_s = 1000 Hz, 1-s records, 301 test frequencies from 0 to 3000 Hz; apparent frequency from the FFT peak with\nparabolic interpolation. Visual: a 1030 Hz sine sampled at 1 kHz looks like a 30 Hz sine.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Max |apparent \u2212 predicted| over 301 tones (away from 0 and f_s/2)",
+   "predicted": 0.0,
+   "measured": 8.250766069295423e-05,
+   "unit": "Hz",
+   "error": 8.250766069295423e-05,
+   "error_str": "+82.51 \u00b5Hz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Apparent frequency of 300 Hz",
+   "predicted": 300.0,
+   "measured": 299.9999999992483,
+   "unit": "Hz",
+   "error": -7.516973710153252e-10,
+   "error_str": "-751.7 pHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Apparent frequency of 700 Hz",
+   "predicted": 300.0,
+   "measured": 300.0000000021115,
+   "unit": "Hz",
+   "error": 2.1115056370035745e-09,
+   "error_str": "+2.112 nHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Apparent frequency of 2480 Hz",
+   "predicted": 480.0,
+   "measured": 480.0000089080633,
+   "unit": "Hz",
+   "error": 8.908063307444536e-06,
+   "error_str": "+8.908 \u00b5Hz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Apparent frequency of 1030 Hz",
+   "predicted": 30.0,
+   "measured": 30.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0 Hz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/aliasing.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL074-aliasing-demonstrator"
+}

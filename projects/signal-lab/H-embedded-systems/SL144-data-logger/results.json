@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "SL-144",
+  "title": "Timestamped data logger with flash wear levelling",
+  "level": "M",
+  "tools": "C firmware (record packing, CRC-16, page buffer, circular log over a simulated NOR flash with erase counters)",
+  "summary": "Log 10-byte timestamped sensor records to a simulated 64 KiB flash (256-byte pages, 4 KiB sectors) for a simulated 30 days at 1 record/s; verify every record by CRC after readback and predict flash lifetime from the measured erase counts.",
+  "problem": "Flash can only be erased ~100,000 times per sector. How long will a data logger last, and how do you make sure no record is silently corrupted?",
+  "theory": "Record = 4-byte time + 4-byte value + 2-byte CRC-16 = 10 B \u2192 25 records per 256-B page, 400 per 4 KiB sector. At 1 record/s a sector fills\nevery 400 s; a circular log over 16 sectors erases each sector once per 6,400 s \u2192 100,000 cycles last 6.4\u00d710\u2078 s \u2248 20 years. Writing each\nrecord directly (erase-per-record) would wear out a sector in 28 hours.",
+  "method": "Simulated flash enforces NOR semantics (writes can only clear bits; erase sets a 4 KiB sector to 0xFF and increments its counter). 30 days \u00d7\n86,400 records; power-fail test: a random page write is torn (half written) and readback must detect it by CRC.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Erases per sector after 30 days (N / 400 / 16)",
+   "predicted": 405.0,
+   "measured": 405.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Erase-count spread across sectors (wear levelling)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Records in the ring that pass CRC (capacity = 16 \u00d7 400)",
+   "predicted": 6400.0,
+   "measured": 6400.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Records failing CRC in normal operation",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Predicted flash life at 1 record/s (100k cycles)",
+   "value": 20.294266869609338,
+   "unit": "years",
+   "note": ""
+  },
+  {
+   "quantity": "Torn-page test: intact records / records flagged by CRC",
+   "value": "13 / 1",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/lifetime.png"
+ ],
+ "runtime_s": 0.45,
+ "folder": "projects/signal-lab/H-embedded-systems/SL144-data-logger"
+}

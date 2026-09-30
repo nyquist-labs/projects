@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-093",
+  "title": "Recursive Bayesian filtering on a grid",
+  "level": "H",
+  "tools": "Histogram (grid) Bayes filter: predict by convolving with the motion model, update by multiplying with the measurement likelihood; Gaussian case compared with the Kalman filter; non-Gaussian (bimodal) likelihood",
+  "summary": "Track a drifting quantity by propagating a full probability distribution on a grid, show that in the linear-Gaussian case the grid filter reproduces the Kalman filter exactly, and then use it where Kalman cannot: a sensor with an ambiguous (two-peaked) likelihood.",
+  "problem": "A belief about a hidden state should be updated every time a noisy measurement arrives. What does 'recursive belief updating' actually compute?",
+  "theory": "Predict: $p(x_k|y_{1:k-1})=\\int p(x_k|x_{k-1})p(x_{k-1}|y_{1:k-1})dx_{k-1}$ (a convolution for random-walk motion). Update: $p(x_k|y_{1:k})\\propto p(y_k|x_k)\\,p(x_k|y_{1:k-1})$. With Gaussian motion and likelihood,\nevery distribution stays Gaussian and the recursion is exactly the Kalman filter (mean and variance). A sensor that cannot tell x from \u2212x (e.g. |phase|, a symmetric magnetometer) gives a bimodal\nlikelihood; the grid filter keeps both hypotheses until motion breaks the symmetry.",
+  "method": "Random walk x_k = x_{k\u22121} + w, \u03c3_w = 0.1; measurements y = x + v, \u03c3_v = 0.5; grid of 2001 points on [\u221210, 10]; 200 steps. Compare posterior mean/variance with a scalar Kalman filter. Ambiguous sensor:\ny = |x| + v with a drift of +0.05/step starting at x = \u22122; posterior mode and probability mass on x > 0 over time.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Linear-Gaussian case: grid posterior mean vs Kalman filter (max difference / \u03c3)",
+   "predicted": 0.0,
+   "measured": 7.873755045263006e-08,
+   "unit": "",
+   "error": 7.873755045263006e-08,
+   "error_str": "+7.8738e-08",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 posterior variance vs Kalman (max relative)",
+   "predicted": 0.0,
+   "measured": 1.1182930159669979e-07,
+   "unit": "",
+   "error": 1.1182930159669979e-07,
+   "error_str": "+1.1183e-07",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Steady-state variance vs Riccati solution",
+   "predicted": 0.04524937810560445,
+   "measured": 0.04524937810560446,
+   "unit": "",
+   "error": 3.066956583453154e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ambiguous sensor, early (k = 5): posterior probability that x > 0 stays \u2248 \u00bd? No \u2014 the drift model already favours the true side; mass on x < 0",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "After the true state crosses 0 and moves on (k = 150): posterior mass on the correct side (x > 0)",
+   "predicted": 1.0,
+   "measured": 0.9999999999999999,
+   "unit": "",
+   "error": -1.1102230246251565e-16,
+   "error_str": "-1.1102e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Step at which the true state crosses zero",
+   "value": 38.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/bayes_filter.png"
+ ],
+ "runtime_s": 0.17,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM093-bayesian-filtering"
+}

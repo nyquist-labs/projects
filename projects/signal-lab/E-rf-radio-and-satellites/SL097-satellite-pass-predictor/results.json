@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-097",
+  "title": "Satellite pass predictor: two-body + J2 vs SGP4",
+  "level": "M",
+  "tools": "Own Keplerian propagator with J2 secular drift, SGP4 (reference), live CelesTrak TLEs",
+  "summary": "Predict when a satellite rises over a location using my own orbit propagator (Kepler + J2 secular precession), compare its position and pass times with SGP4 over 3 days, and list the next passes.",
+  "problem": "Which parts of orbital physics matter for predicting a pass to within a minute: Kepler's laws alone, Earth's oblateness (J2), or drag?",
+  "theory": "Two-body motion keeps the orbit plane fixed, but Earth's equatorial bulge (J2 = 1.0826\u00d710\u207b\u00b3) precesses the node:\n$\\dot\\Omega=-\\tfrac32 n J_2\\left(\\frac{R_E}{p}\\right)^2\\cos i$ (\u2248 \u22125\u00b0/day for the ISS) and rotates perigee. Ignoring it moves the ground\ntrack ~5\u00b0 west per day \u2014 tens of minutes of pass-time error after a day. Adding J2 secular terms should keep errors to\na few km per day; the remainder is drag and higher harmonics that SGP4 includes.",
+  "method": "NOAA-19 and ISS TLEs from CelesTrak. Mean elements from the TLE with the Kozai mean motion converted to Brouwer's (as SGP4 does), propagated (a) as pure Kepler, (b) Kepler + J2\nsecular \u03a9\u0307, \u03c9\u0307, \u1e40; SGP4 as reference. Position error sampled every 5 min for 72 h; pass start times (elevation > 0\u00b0)\nfor a station at 42.36\u00b0 N 71.09\u00b0 W compared over the same window.",
+  "data": "Real: current CelesTrak TLEs.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "NOAA 19: Kepler-only position error after 24 h (J2 secular drift \u00d7 a)",
+   "predicted": 759.0244800313892,
+   "measured": 766.2493874013236,
+   "unit": "km",
+   "error": 0.95186750361933,
+   "error_str": "+0.95 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "NOAA-19: pass-start timing error, Kepler+J2 vs SGP4 (median over 3 days)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0 s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "ISS (ZARYA): Kepler-only position error after 24 h (J2 secular drift \u00d7 a)",
+   "predicted": 357.13762163748356,
+   "measured": 486.5250240557625,
+   "unit": "km",
+   "error": 36.22900377312112,
+   "error_str": "+36.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "NOAA 19: Kepler + J2 position error after 24 h / 72 h",
+   "value": "8.6 km / 13.6 km",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "ISS (ZARYA): Kepler + J2 position error after 24 h / 72 h",
+   "value": "13.5 km / 33.8 km",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/propagator_error.png"
+ ],
+ "runtime_s": 0.74,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL097-satellite-pass-predictor"
+}

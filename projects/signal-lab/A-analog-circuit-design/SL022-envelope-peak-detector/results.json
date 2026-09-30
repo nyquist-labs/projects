@@ -1,0 +1,88 @@
+{
+ "meta": {
+  "id": "SL-022",
+  "title": "Envelope (AM peak) detector",
+  "level": "E",
+  "tools": "eelab mini-SPICE transient, FFT distortion measurement",
+  "summary": "Recover a 1 kHz tone from a 50 kHz AM carrier with a diode + RC; tune the time constant between ripple (too small) and diagonal clipping (too large).",
+  "problem": "An AM radio's detector is one diode and one RC. How do you choose RC so the output follows the envelope without carrier ripple and without missing the falling edges?",
+  "theory": "Need $1/f_c \\ll RC$ (smooth carrier) but the capacitor must discharge as fast as the envelope falls.\nFor modulation index m and modulating frequency $\\omega_m$ the no-diagonal-clipping condition is\n$$RC\\le\\frac{\\sqrt{1-m^2}}{\\omega_m m}$$\nFor m = 0.5, f_m = 1 kHz: RC \u2264 276 \u00b5s. Carrier period is 20 \u00b5s.",
+  "method": "AM source 2(1 + 0.5\u00b7sin 2\u03c0\u00b71kHz\u00b7t)\u00b7sin 2\u03c0\u00b750kHz\u00b7t, germanium-like diode (Is = 1 \u00b5A), C = 10 nF, R chosen for\nRC = 30 \u00b5s, 150 \u00b5s and 1 ms. 6 ms transients; output distortion measured by fitting the ideal\nenvelope shape; audio THD by FFT after removing the carrier.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Best RC is within the no-clipping bound",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Recovered audio amplitude (RC=150 \u00b5s)",
+   "predicted": 0.93,
+   "measured": 0.9334027057813504,
+   "unit": "V",
+   "error": 0.36588234208068593,
+   "error_str": "+0.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": "\u2248 m\u00b7A\u00b7(detector efficiency ~0.93)"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Maximum RC for no diagonal clipping",
+   "value": 0.00027566444771089603,
+   "unit": "s",
+   "note": "\u221a(1\u2212m\u00b2)/(\u03c9_m\u00b7m)"
+  },
+  {
+   "quantity": "RC = 30 \u00b5s: audio THD",
+   "value": 0.13527589078011773,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "RC = 30 \u00b5s: 50 kHz ripple amplitude",
+   "value": 0.29036524675877884,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "RC = 150 \u00b5s: audio THD",
+   "value": 0.1584706336159936,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "RC = 150 \u00b5s: 50 kHz ripple amplitude",
+   "value": 0.07303262569022576,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "RC = 1000 \u00b5s: audio THD",
+   "value": 28.578148679708082,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "RC = 1000 \u00b5s: 50 kHz ripple amplitude",
+   "value": 0.014253395740663146,
+   "unit": "V",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/envelopes.png"
+ ],
+ "runtime_s": 3.92,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL022-envelope-peak-detector"
+}

@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-158",
+  "title": "PID auto-tuning: relay feedback + Ziegler\u2013Nichols",
+  "level": "H",
+  "tools": "Relay (\u00c5str\u00f6m\u2013H\u00e4gglund) experiment in simulation, describing-function estimate of K_u and T_u, Ziegler\u2013Nichols and manual tuning",
+  "summary": "Find the ultimate gain and period of a three-lag process automatically with a relay experiment, compare with the exact values from the Nyquist crossing, then tune PID by Ziegler\u2013Nichols and compare its step response with a hand-tuned controller.",
+  "problem": "How does an industrial controller tune itself at the push of a button, and how good are the classic tuning rules?",
+  "theory": "A relay of amplitude d drives a stable process into a limit cycle at the phase-crossover frequency; the describing function gives\n$K_u\\approx\\frac{4d}{\\pi a}$ from the oscillation amplitude a, and $T_u$ = the oscillation period. For $G=1/(s+1)^3$ the exact values are\n$\\omega_u=\\sqrt3$ (T_u = 3.628 s) and $K_u=8$. ZN PID: K_p = 0.6K_u, T_i = T_u/2, T_d = T_u/8 \u2014 known to give ~50 % overshoot (quarter-decay).",
+  "method": "Plant (s+1)\u207b\u00b3 as a state-space model, exact ZOH at 10 ms. Relay d = 1 with small hysteresis, 60 s; amplitude and period from the last 5 cycles. ZN PID and a\nmanually tuned PID (K_p = 2.2, T_i = 2.4, T_d = 0.6) compared on setpoint steps.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Ultimate period T_u (relay vs exact 2\u03c0/\u221a3)",
+   "predicted": 3.6275987284684357,
+   "measured": 3.8600000000000008,
+   "unit": "s",
+   "error": 6.406476816405887,
+   "error_str": "+6.41 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Ultimate gain K_u (describing function vs exact 8)",
+   "predicted": 8.0,
+   "measured": 7.011706488865796,
+   "unit": "",
+   "error": -12.353668889177548,
+   "error_str": "-12.35 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Ziegler\u2013Nichols PID overshoot (classic \u2248 50 %)",
+   "predicted": 50.0,
+   "measured": 36.45495090983373,
+   "unit": "%",
+   "error": -13.545049090166273,
+   "error_str": "-13.5 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Manual PID: overshoot / settling",
+   "value": "8.4 % / 4.6 s",
+   "unit": "",
+   "note": "ZN settling 7.6 s"
+  }
+ ],
+ "figures": [
+  "figures/autotune.png"
+ ],
+ "runtime_s": 0.16,
+ "folder": "projects/signal-lab/I-control-systems/SL158-pid-auto-tuning"
+}

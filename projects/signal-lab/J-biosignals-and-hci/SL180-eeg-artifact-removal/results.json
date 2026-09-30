@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-180",
+  "title": "Removing eye-blink artefacts from EEG with ICA",
+  "level": "H",
+  "tools": "Own FastICA (symmetric, tanh non-linearity, whitening), blink-component identification by frontal topography, EEG Motor Movement/Imagery DB",
+  "summary": "Decompose 64-channel real EEG into independent components, identify the eye-blink component from its frontal dominance and spike shape, remove it, and measure how much blink energy disappears from Fp1/Fp2 while occipital EEG is left untouched.",
+  "problem": "Every blink produces a potential 10\u00d7 larger than the brain signals near the forehead. Can it be subtracted without damaging the EEG underneath?",
+  "theory": "Blinks are a spatially fixed source mixed linearly into all electrodes (strongest frontally), statistically independent of cortical sources and highly\nnon-Gaussian (spiky) \u2014 exactly the assumptions of ICA. Projecting out that one component should remove most of the blink variance at Fp1/Fp2\n(> 80 %) while changing posterior channels by only a few percent.",
+  "method": "Subject 1, eyes-open baseline R01 (61 s, 160 Hz, 64 channels), 1 Hz high-pass. Whitening via PCA to 30 components, FastICA (symmetric, tanh, 200 iterations).\nBlink component = largest |kurtosis| \u00d7 frontal/posterior weight ratio. Blink epochs detected on Fp1+Fp2 (threshold 5 \u00d7 MAD); metrics inside \u00b10.3 s of blinks.",
+  "data": "Real: EEG Motor Movement/Imagery Database (PhysioNet).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Blink variance removed at Fp1/Fpz/Fp2 (inside blink windows)",
+   "predicted": 80.0,
+   "measured": 86.1243483969864,
+   "unit": "%",
+   "error": 6.124348396986406,
+   "error_str": "+6.12 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": "> 80 % expected"
+  },
+  {
+   "quantity": "Occipital variance changed outside blinks",
+   "predicted": 0.0,
+   "measured": -0.02992375784443002,
+   "unit": "%",
+   "error": -0.02992375784443002,
+   "error_str": "-0.0299 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Blinks detected in 61 s",
+   "value": 14.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Blink component kurtosis",
+   "value": 24.207689153737473,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ica.png"
+ ],
+ "runtime_s": 0.55,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL180-eeg-artifact-removal"
+}

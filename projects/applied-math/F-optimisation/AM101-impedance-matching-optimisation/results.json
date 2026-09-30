@@ -1,0 +1,93 @@
+{
+ "meta": {
+  "id": "AM-101",
+  "title": "Broadband impedance matching by optimisation, against the Bode\u2013Fano limit",
+  "level": "H",
+  "tools": "Ladder matching networks (1\u20134 elements) optimised for minimax reflection over a band (differential evolution + Nelder\u2013Mead), ABCD evaluation, Bode\u2013Fano integral bound",
+  "summary": "Match a parallel RC load (an antenna/photodiode-like load) to 50 \u03a9 over an octave, minimising the worst reflection with 1\u20134 element ladders, and compare the achieved in-band |\u0393| with the Bode\u2013Fano limit that no lossless network can beat.",
+  "problem": "How good can a match be over a wide band \u2014 and is the limit set by cleverness or by physics?",
+  "theory": "For a load R\u2016C, any lossless matching network obeys the Bode\u2013Fano bound $\\int_0^\u221e\\ln\\frac1{|\u0393(\u03c9)|}d\u03c9 \\le \\frac{\u03c0}{RC}$. With |\u0393| constant = \u0393_m over a band \u0394\u03c9 and 1 elsewhere, the best possible is\n$\u0393_m = e^{-\u03c0/(RC\\,\u0394\u03c9)}$. Real ladders approach this as the number of elements grows (an infinite network would reach it). Here R = 100 \u03a9, C = 3.2 pF, band 0.5\u20131 GHz: RC\u0394\u03c9 = 1.005 \u21d2 \u0393_m \u2265 0.044.",
+  "method": "Load 100 \u03a9 \u2016 3.2 pF; source 50 \u03a9. Ladders alternating series L / shunt C from the load side, 1\u20134 elements, values on a log scale; objective max |\u0393_in| over 201 frequencies in 0.5\u20131 GHz; global search (differential evolution) then Nelder\u2013Mead polish.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Every optimised design respects Bode\u2013Fano (worst |\u0393| \u2265 limit; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Improvement is monotone in the number of elements (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Bode\u2013Fano integral of the 4-element design \u2264 \u03c0/(RC)",
+   "predicted": 9817477042.468103,
+   "measured": 9472465582.157654,
+   "unit": "rad/s",
+   "error": -345011460.3104496,
+   "error_str": "-3.4501e+08 rad/s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Bode\u2013Fano limit on the in-band |\u0393| (flat over 0.5\u20131 GHz)",
+   "value": 0.043936933623407434,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Unmatched load: worst |\u0393| in band",
+   "value": 0.6217916806031225,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "1-element ladder: worst in-band |\u0393|",
+   "value": 0.43202713473406434,
+   "unit": "",
+   "note": "6.35 nH"
+  },
+  {
+   "quantity": "2-element ladder: worst in-band |\u0393|",
+   "value": 0.3025844531348889,
+   "unit": "",
+   "note": "11.4 nH, 2.19 pF"
+  },
+  {
+   "quantity": "3-element ladder: worst in-band |\u0393|",
+   "value": 0.24932239356918007,
+   "unit": "",
+   "note": "13.8 nH, 4.22 pF, 6.15 nH"
+  },
+  {
+   "quantity": "4-element ladder: worst in-band |\u0393|",
+   "value": 0.217170289807605,
+   "unit": "",
+   "note": "14.9 nH, 5.19 pF, 11.8 nH, 2.62 pF"
+  }
+ ],
+ "figures": [
+  "figures/matching.png"
+ ],
+ "runtime_s": 6.25,
+ "folder": "projects/applied-math/F-optimisation/AM101-impedance-matching-optimisation"
+}

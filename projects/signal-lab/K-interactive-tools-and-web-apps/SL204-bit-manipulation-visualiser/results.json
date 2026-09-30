@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-204",
+  "title": "Bit manipulation visualiser (shifts, masks, two's complement)",
+  "level": "E",
+  "tools": "HTML/JS visualiser (clickable bits, 8/16/32/64-bit, signed/unsigned views) built on exact BigInt arithmetic; Node harness vs Python and the RV32I instruction-set simulator",
+  "summary": "Toggle bits and watch the unsigned, signed (two's complement) and hex views update; apply shifts, rotates, masks and sign extension and see each result bit by bit. The library is checked on 24,000 random operations against Python and a RISC-V ISS, and the classic JavaScript pitfalls are quantified.",
+  "problem": "JavaScript numbers are 64-bit floats and its bit operators are 32-bit signed. How often does naive code get bit manipulation wrong?",
+  "theory": "Two's complement: an n-bit pattern x means $x - 2^n$ when its top bit is set; negation is $\\sim x + 1$; arithmetic right shift copies the sign bit, logical shift\ninserts zeros. Pitfalls: a Number holds integers exactly only up to $2^{53}$, so for uniformly random 64-bit patterns a Number-based shift is wrong with\nprobability \u2248 $1 - 2^{53}/2^{64}$ \u2248 99.95 %; and `x >> n` is an *arithmetic* shift of a 32-bit signed value, so for random unsigned 32-bit x it differs\nfrom a logical shift whenever the top bit is set (50 %) and n > 0.",
+  "method": "24,000 random (operation, operands, width \u2208 {8,16,32,64}) cases: calc.js (BigInt) vs Python integers. 500 random operand pairs through an RV32I program (sll, srl, xor, and,\nor, add, sub, slt) on the ISS vs calc.js at width 32. Naive Number implementations measured on 5000 random 64-bit and 32-bit cases.",
+  "data": "Generated test vectors.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "BigInt library vs Python integers (24000 random ops, widths 8\u201364)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RV32I ISS vs calc.js: mismatching results (500 pairs \u00d7 8 instructions)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Naive Number-based 64-bit shift: wrong results",
+   "predicted": 99.951171875,
+   "measured": 99.78,
+   "unit": "%",
+   "error": -0.17117187499999886,
+   "error_str": "-0.171 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "JS `x >> n` used as an unsigned 32-bit shift: wrong results",
+   "predicted": 50.0,
+   "measured": 50.88,
+   "unit": "%",
+   "error": 0.8800000000000026,
+   "error_str": "+0.88 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/pitfalls.png"
+ ],
+ "runtime_s": 16.3,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL204-bit-manipulation-visualiser"
+}

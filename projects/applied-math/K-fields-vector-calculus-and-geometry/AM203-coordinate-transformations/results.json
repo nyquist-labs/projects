@@ -1,0 +1,133 @@
+{
+ "meta": {
+  "id": "AM-203",
+  "title": "Cylindrical and spherical coordinates: operators, Jacobians and a solved problem",
+  "level": "M",
+  "tools": "Gradient, divergence, curl and Laplacian in cylindrical and spherical coordinates evaluated by finite differences in the curvilinear variables and compared with Cartesian results, rotation matrices between unit-vector bases, the Jacobian as volume element, separation of variables for a dielectric cylinder in a uniform field checked against a Cartesian finite-volume solve",
+  "summary": "Put the curvilinear operator formulas to a numerical test on random points and fields, verify that the basis transformations are orthogonal and that r\u00b2 sin \u03b8 is the right volume element, then solve a problem that is easy in polar coordinates and awkward in Cartesian ones \u2014 a dielectric rod in a uniform field \u2014 both ways.",
+  "problem": "The \u2207 formulas in cylindrical and spherical coordinates look arbitrary. Where do the extra factors come from, and how can the formulas be checked rather than memorised?",
+  "theory": "With scale factors $(h_1,h_2,h_3)$ = (1, \u03c1, 1) for cylindrical and (1, r, r sin \u03b8) for spherical coordinates, $\\nabla\\cdot A=\\frac{1}{h_1h_2h_3}\\sum_i\\partial_i\\left(\\frac{h_1h_2h_3}{h_i}A_i\\right)$ and $\\nabla^2f=\\frac{1}{h_1h_2h_3}\\sum_i\\partial_i\\left(\\frac{h_1h_2h_3}{h_i^2}\\partial_if\\right)$; the volume element is $h_1h_2h_3$ (\u03c1, r\u00b2 sin \u03b8).\nUnit-vector bases are related by rotation matrices R with $RR^T=I$. Dielectric cylinder (\u03b5_r) in a uniform field E\u2080: separation of variables in polar coordinates gives a uniform interior field $E_{in}=\\frac{2}{\u03b5_r+1}E_0$ and an exterior line-dipole perturbation.",
+  "method": "Test functions: f = x\u00b2y + z\u00b3 + e^{x/2} sin y (scalar), A = (yz, x\u00b2z, xy\u00b2) (vector); 300 random points; curvilinear derivatives by central differences (step 10\u207b\u2075). Volume of a sphere and of a cone section by integrating the Jacobian. Cylinder: radius 20 mm, \u03b5_r = 4, between plates 400 mm apart\nat \u00b1200 V (a 200 mm box gave 2 % too much interior field: the plates' images); Cartesian finite-volume solution at 0.4 mm.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Cylindrical Laplacian \u2202\u03c1\u03c1 + \u2202\u03c1/\u03c1 + \u2202\u03c6\u03c6/\u03c1\u00b2 + \u2202zz vs Cartesian (worst relative error, 300 points)",
+   "predicted": 0.0,
+   "measured": 3.2884727652400576e-07,
+   "unit": "",
+   "error": 3.2884727652400576e-07,
+   "error_str": "+3.2885e-07",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Spherical Laplacian vs Cartesian (worst relative error)",
+   "predicted": 0.0,
+   "measured": 3.2693914299471595e-07,
+   "unit": "",
+   "error": 3.2693914299471595e-07,
+   "error_str": "+3.2694e-07",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Spherical divergence of A = (yz, x\u00b2z, xy\u00b2) (Cartesian divergence is 0): worst |value|",
+   "predicted": 0.0,
+   "measured": 1.7903742932645628e-07,
+   "unit": "",
+   "error": 1.7903742932645628e-07,
+   "error_str": "+1.7904e-07",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Cylindrical curl, z and \u03c1 components vs the Cartesian curl (worst abs. error)",
+   "predicted": 0.0,
+   "measured": 6.3484768331179e-08,
+   "unit": "",
+   "error": 6.3484768331179e-08,
+   "error_str": "+6.3485e-08",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Cartesian \u2192 spherical unit-vector matrix is orthogonal: max |RR\u1d40 \u2212 I|",
+   "predicted": 0.0,
+   "measured": 3.3306690738754696e-16,
+   "unit": "",
+   "error": 3.3306690738754696e-16,
+   "error_str": "+3.3307e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u222d r\u00b2 sin \u03b8 dr d\u03b8 d\u03c6 over a sphere of radius 1.3 = 4\u03c0R\u00b3/3",
+   "predicted": 9.202772079915702,
+   "measured": 9.202772079915695,
+   "unit": "",
+   "error": -7.720964178943447e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Spherical cone of half-angle 30\u00b0: volume 2\u03c0R\u00b3(1 \u2212 cos 30\u00b0)/3",
+   "predicted": 0.6164688367352736,
+   "measured": 0.616468836735274,
+   "unit": "",
+   "error": 5.4028182373568026e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Dielectric rod (\u03b5_r = 4): interior field / applied field = 2/(\u03b5_r + 1) (separation of variables)",
+   "predicted": 0.4,
+   "measured": 0.402793750897731,
+   "unit": "",
+   "error": 0.6984377244327461,
+   "error_str": "+0.70 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and it is uniform inside (std/mean of E_y within r < 12 mm)",
+   "predicted": 0.0,
+   "measured": 0.00028800430704944724,
+   "unit": "",
+   "error": 0.00028800430704944724,
+   "error_str": "+2.8800e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Outside, r = 40 mm: potential vs \u2212E\u2080(r \u2212 a\u00b2(\u03b5_r\u22121)/((\u03b5_r+1)r)) sin \u03c6 (worst error / E\u2080a)",
+   "predicted": 0.0,
+   "measured": 0.008996424720859864,
+   "unit": "",
+   "error": 0.008996424720859864,
+   "error_str": "+0.008996",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/coordinates.png"
+ ],
+ "runtime_s": 7.59,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM203-coordinate-transformations"
+}

@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-042",
+  "title": "Multi-port register file",
+  "level": "M",
+  "tools": "Verilog RTL (2 read / 1 write ports), Icarus Verilog, Yosys",
+  "summary": "A 32\u00d732 register file with two asynchronous read ports, one synchronous write port, a hard-wired zero register and write-through bypass, verified against a software model.",
+  "problem": "A CPU reads two operands and writes one result every cycle. Build the storage that allows it and check the tricky case: reading a register in the same cycle it is written.",
+  "theory": "Storage: 32\u00d732 = 1024 flip-flops. Each read port is a 32:1 multiplexer per bit (\u2248 31 two-input muxes\n\u00d7 32 bits \u2248 992 MUX2 per port), so a 2R1W file needs ~2,000 muxes plus write-decode logic \u2014 area grows\nwith ports \u00d7 registers \u00d7 width. Register x0 must always read 0. With bypass, a read of the register\nbeing written returns the *new* value in the same cycle.",
+  "method": "Testbench runs 20,000 random cycles (random write enable, addresses, data; random read addresses) against\na Verilog array model of the expected contents, including same-cycle read-after-write. Yosys counts\nflip-flops and multiplexers.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Read mismatches in 20,000 random cycles",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Flip-flops (31 \u00d7 32, x0 hard-wired)",
+   "predicted": 992.0,
+   "measured": 992.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "2:1 multiplexers (\u2248 2 ports \u00d7 31 \u00d7 32)",
+   "predicted": 1984.0,
+   "measured": 1408.0,
+   "unit": "",
+   "error": -29.03225806451613,
+   "error_str": "-29.03 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Same-cycle read-after-write cases exercised",
+   "value": 1949.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Total synthesised cells",
+   "value": 4045.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/area_breakdown.png"
+ ],
+ "runtime_s": 1.88,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL042-register-file"
+}

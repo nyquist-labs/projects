@@ -1,0 +1,16 @@
+* Colpitts L=1e-05 — exported by eelab.circuit
+Vcc vcc 0 DC 9 AC 0.0
+Rb1 vcc b 20000
+Rb2 b 0 10000
+Cb b 0 1e-07
+Lt vcc lr 1e-05
+Rloss lr c 2
+C1_cbe b e 5e-12
+C1_cbc b c 2e-12
+C1 c e 1e-09
+C2 e 0 4.7e-09
+Re e 0 2200
+Ikick c 0 DC 0.0 AC 0.0
+Q1 c b e Q_1
+.model Q_1 NPN(Is=1e-14 BF=150 BR=1 VAF=100)
+.end

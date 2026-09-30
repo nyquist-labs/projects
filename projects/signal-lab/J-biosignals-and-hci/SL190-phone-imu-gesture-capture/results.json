@@ -1,0 +1,52 @@
+{
+ "meta": {
+  "id": "SL-190",
+  "title": "Your phone as a free sensor: IMU capture page + cadence analysis",
+  "level": "M",
+  "tools": "HTML/JS DeviceMotion capture page (records and downloads CSV from your own phone) + NumPy analysis validated on UCI-HAR raw smartphone signals",
+  "summary": "A browser page that records your phone's accelerometer and gyroscope to CSV, plus an analysis that estimates walking cadence from the dominant acceleration frequency \u2014 validated on the raw 50 Hz signals of 30 people in the UCI-HAR dataset.",
+  "problem": "Every phone contains a lab-grade IMU. How do you record it without an app, and what can one sensor tell you about how someone walks?",
+  "theory": "Walking produces vertical acceleration at the step frequency (typically 1.6\u20132.0 Hz, i.e. 95\u2013120 steps/min for adults) with a weaker component at the stride\nfrequency (half of it). The acceleration magnitude's spectral peak in 1\u20133 Hz therefore estimates cadence; stair descent is usually faster than ascent.",
+  "method": "UCI-HAR raw total acceleration (50 Hz, 2.56-s windows) for walking, upstairs, downstairs; windows concatenated per subject and activity; Welch spectrum of |a|;\ncadence = 60 \u00d7 peak frequency. The capture page uses the DeviceMotionEvent API (iOS asks for permission) and saves CSV at the device rate.",
+  "data": "Real: UCI-HAR raw inertial signals (Samsung Galaxy S II at the waist).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Median walking cadence (adult norm \u2248 100\u2013120 steps/min)",
+   "predicted": 110.0,
+   "measured": 105.46875,
+   "unit": "steps/min",
+   "error": -4.53125,
+   "error_str": "-4.531 steps/min",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Stairs down faster than stairs up (median difference > 0)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Median cadence: upstairs / downstairs",
+   "value": "100 / 105 steps/min",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/cadence.png"
+ ],
+ "runtime_s": 0.97,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL190-phone-imu-gesture-capture"
+}

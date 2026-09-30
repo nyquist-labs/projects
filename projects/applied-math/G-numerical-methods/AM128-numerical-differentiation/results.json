@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-128",
+  "title": "Numerical differentiation: step size, round-off and noise",
+  "level": "M",
+  "tools": "Forward/central differences, the truncation\u2013round-off trade-off and optimal step, the complex-step derivative, Richardson extrapolation, group delay from noisy measured phase with smoothing",
+  "summary": "Differentiate a circuit's phase response numerically, find the optimal step where truncation and round-off errors balance, show the complex-step method's immunity to cancellation, and quantify the noise amplification that makes group delay from measured phase so hard.",
+  "problem": "Group delay is a derivative of measured phase. Why is it always noisy \u2014 and how small should the frequency step be?",
+  "theory": "Central difference error \u2248 h\u00b2f\u2034/6 + \u03b5|f|/h \u21d2 optimal h ~ (3\u03b5|f|/|f\u2034|)^{1/3} \u2248 \u03b5^{1/3} (\u2248 6\u00d710\u207b\u2076 relative), best error ~ \u03b5^{2/3}. Forward difference: h ~ \u03b5^{1/2}, error ~ \u03b5^{1/2}. Complex step $f'(x)\u2248\\mathrm{Im}f(x+ih)/h$ has no subtraction, so h can be 10\u207b\u00b2\u2070\u2070 and the result is exact to\nmachine precision (for analytic f). Measured phase noise \u03c3_\u03c6 gives group-delay noise \u03c3_\u03c6\u221a2/(\u0394\u03c9) (central): halving the step doubles the noise.",
+  "method": "f(\u03c9) = phase of a 4th-order Bessel low-pass; exact derivative from the pole formula. Steps h = 10\u207b\u00b9\u2074\u202610\u207b\u00b9 (relative). Complex-step on the phase via log H. Measured-phase case: \u03c3_\u03c6 = 0.1\u00b0, steps 0.1\u201310 % of the band; smoothing by\nfitting a local quadratic.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Central difference: log\u2081\u2080 of the optimal step, from (3\u03b5_f/|\u03c6\u2034|)^(1/3)",
+   "predicted": -4.823752417751513,
+   "measured": -5.333333333333334,
+   "unit": "",
+   "error": -0.5095809155818207,
+   "error_str": "-0.5096",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Central difference: log\u2081\u2080 of the best error, 1.5\u00b7\u03b5_f/h*",
+   "predicted": -10.483607380214636,
+   "measured": -10.762122678907955,
+   "unit": "",
+   "error": -0.2785152986933195,
+   "error_str": "-0.2785",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Forward difference: log\u2081\u2080 of the best error, 2\u221a(\u03b5_f\u00b7|\u03c6\u2033|)",
+   "predicted": -8.179185584946682,
+   "measured": -9.178416451204367,
+   "unit": "",
+   "error": -0.999230866257685,
+   "error_str": "-0.9992",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Complex-step derivative (h = 1e-200): error at machine precision",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0 s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Noisy phase (0.1\u00b0): group-delay noise = \u03c3_\u03c6/(\u221a2\u00b7\u0394\u03c9) (worst ratio over steps)",
+   "predicted": 1.0,
+   "measured": 1.032018090802339,
+   "unit": "",
+   "error": 3.2018090802339083,
+   "error_str": "+3.20 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Generic rule of thumb \u03b5^(2/3) / \u03b5^(1/2) vs the actual best errors",
+   "value": "3.7e-11 / 1.5e-08 vs 1.7e-11 / 6.6e-10",
+   "unit": "",
+   "note": "the best error on a grid of steps is the luckiest sample \u2014 truncation and round-off partly cancel there \u2014 so it sits below the envelope estimates"
+  }
+ ],
+ "figures": [
+  "figures/numdiff.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/applied-math/G-numerical-methods/AM128-numerical-differentiation"
+}

@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-004",
+  "title": "Pole-zero plotter and geometric frequency response",
+  "level": "M",
+  "tools": "Polynomial roots, the vector (geometric) evaluation of |H(j\u03c9)|, SciPy LTI step responses, dominant-pole approximation",
+  "summary": "Enter a transfer function, get its pole-zero map, and compute the frequency response two ways \u2014 directly and as products of distances from j\u03c9 to the zeros over distances to the poles \u2014 then test the dominant-pole rule for settling time.",
+  "problem": "A pole-zero map is a complete description of a rational H(s). How do you read the response off the picture?",
+  "theory": "$H(s)=K\\frac{\\prod(s-z_i)}{\\prod(s-p_k)}$ so $|H(j\u03c9)|=K\\frac{\\prod|j\u03c9-z_i|}{\\prod|j\u03c9-p_k|}$ and $\u2220H=\\sum\u2220(j\u03c9-z_i)-\\sum\u2220(j\u03c9-p_k)$: the response is geometry. A pole pair much closer to the\naxis than the rest dominates the transient: 2 % settling \u2248 4/\u03c3_d where \u03c3_d = \u2212Re of the dominant pole.",
+  "method": "Four transfer functions (a 3rd-order low-pass with a far pole, a notch, a band-pass, a non-minimum-phase system). |H| and \u2220H evaluated both ways on 2000 frequencies;\nstep responses with scipy.signal.step; settling time measured to \u00b12 %.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Geometric |H| vs direct evaluation, worst relative error (4 systems)",
+   "predicted": 0.0,
+   "measured": 6.306066779870889e-14,
+   "unit": "",
+   "error": 6.306066779870889e-14,
+   "error_str": "+6.3061e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Geometric \u2220H vs direct, worst error",
+   "predicted": 0.0,
+   "measured": 8.774433120976278e-14,
+   "unit": "\u00b0",
+   "error": 8.774433120976278e-14,
+   "error_str": "+8.7744e-14 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Settling time (2 %) of the dominant-pair system \u2248 4/\u03c3 with \u03c3 = 1",
+   "predicted": 4.0,
+   "measured": 3.48,
+   "unit": "s",
+   "error": -13.0,
+   "error_str": "-13.00 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Non-minimum-phase zero: initial step response goes the wrong way (sign of min / final)",
+   "predicted": -1.0,
+   "measured": -1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/pz_maps.png"
+ ],
+ "runtime_s": 1.24,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM004-pole-zero-plotter"
+}

@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-136",
+  "title": "Binary decision diagrams: compressing truth tables",
+  "level": "H",
+  "tools": "Own reduced ordered BDD package (unique table, memoised ITE/apply), node counts vs truth-table size, variable-ordering experiments on an n-bit comparator and adder, the hidden-weighted-bit and multiplier hard cases",
+  "summary": "Build ROBDDs from scratch and measure how compactly they represent useful functions: linear size for adders and comparators with a good variable order, exponential with a bad one, and exponential regardless of order for multiplication \u2014 the facts that shaped formal verification.",
+  "problem": "A 64-input function has 2\u2076\u2074 truth-table rows. How can a verification tool still reason about it exactly?",
+  "theory": "An ROBDD (fixed variable order, merged isomorphic subgraphs, no redundant tests) is canonical: two functions are equal iff their BDDs are identical nodes. Size depends dramatically on order: for the comparator $\\bigwedge(a_i = b_i)$ the interleaved order\na\u2081b\u2081a\u2082b\u2082\u2026 needs 3n + 2 nodes, the separated order a\u2081\u2026a_nb\u2081\u2026b_n needs 3\u00b72\u207f \u2212 1. The carry-out of an n-bit adder is linear when interleaved. Multiplier outputs need exponential BDDs for *every* order (Bryant 1991).",
+  "method": "Node counts (including the two terminals) for n = 2\u202610: equality comparator under both orders, adder carry-out (interleaved), middle output bit of an n\u00d7n multiplier (n \u2264 7, interleaved). Canonicity test: two structurally different expressions of the\nsame function must return the identical node.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Canonicity: AB + A'C and AB + A'C + BC reduce to the identical node (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Comparator, interleaved order: nodes = 3n + 2 (n = 10)",
+   "predicted": 32.0,
+   "measured": 32.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Comparator, separated order: nodes = 3\u00b72\u207f \u2212 1 (n = 10)",
+   "predicted": 3071.0,
+   "measured": 3071.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Adder carry-out, interleaved: linear growth (nodes per extra bit)",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Multiplier middle bit: node count grows exponentially (log\u2082 growth per bit > 0.5)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Multiplier middle-bit BDD nodes, n = 2\u20267",
+   "value": "9, 16, 36, 73, 169, 381",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Compression, 10-bit comparator: truth-table rows / BDD nodes (good order)",
+   "value": 32768.0,
+   "unit": "\u00d7",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/bdd.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM136-binary-decision-diagrams"
+}

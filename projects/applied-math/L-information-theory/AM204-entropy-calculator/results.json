@@ -1,0 +1,114 @@
+{
+ "meta": {
+  "id": "AM-204",
+  "title": "Entropy calculator (interactive, verified on real text)",
+  "level": "E",
+  "tools": "Browser tool (HTML + JavaScript): entropy of typed probabilities, and for pasted text the block entropies H_k, conditional entropies H(X\u2099|previous k\u22121), Miller\u2013Madow correction and Huffman code length; the JavaScript is verified under Node against independent Python computations on a full book",
+  "summary": "A calculator that turns probabilities or text into bits, with the estimation pitfalls made visible: conditional entropy of English falls as more context is used, but with a finite text the estimates keep falling for the wrong reason \u2014 too few samples. The engine is checked against Python before publication.",
+  "problem": "'English has about 1 bit per letter' \u2014 how is such a number measured, and why does a naive measurement on one book give the wrong answer?",
+  "theory": "$H(p)=-\\sum p_i\\log_2p_i$, maximal ($\\log_2 K$) for a uniform distribution. For a text, the order-k block entropy $H_k$ of k-letter strings gives the conditional entropy $h_k=H_k-H_{k-1}$, which decreases with k toward the entropy rate (Shannon estimated \u2248 1 bit/letter for English\nusing human predictions). A plug-in estimate from N samples is biased low by \u2248 (number of occupied cells \u2212 1)/(2N ln 2) (Miller\u2013Madow); once $K^k$ approaches N almost every block is unique and $h_k$ collapses toward 0 \u2014 an artefact, not information. The optimal prefix code length L satisfies H \u2264 L < H + 1.",
+  "method": "calc.js tested under Node: entropy and Huffman length on 300 random distributions vs Python; block and conditional entropies of 'Alice's Adventures in Wonderland' (144 k characters) for k = 1\u20268 vs Python counters. Shuffled-text control: the same letters in random order\n(true conditional entropy = H\u2081 at every order) to expose the finite-sample bias.",
+  "data": "Project Gutenberg eBook #11 (public domain).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory"
+ },
+ "rows": [
+  {
+   "quantity": "Entropy of 300 random distributions: JavaScript vs Python (max difference)",
+   "predicted": 0.0,
+   "measured": 1.7763568394002505e-15,
+   "unit": "bit",
+   "error": 1.7763568394002505e-15,
+   "error_str": "+1.7764e-15 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Huffman average length within [H, H + 1) for all 300 (violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Block entropies H\u2081\u2026H\u2088 of the book: JavaScript vs Python (max difference)",
+   "predicted": 0.0,
+   "measured": 1.553779327423399e-11,
+   "unit": "bit",
+   "error": 1.553779327423399e-11,
+   "error_str": "+1.5538e-11 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Order-0 entropy of English letters + space (literature \u2248 4.1 bits)",
+   "predicted": 4.1,
+   "measured": 4.0459100034574496,
+   "unit": "bit",
+   "error": -1.3192682083548803,
+   "error_str": "-1.32 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Shuffled text (true h_k = h\u2081 for every k): apparent drop h\u2081 \u2212 h\u2082 from finite sample size vs Miller\u2013Madow prediction",
+   "predicted": 0.0035612504791368714,
+   "measured": 0.0036091318255575544,
+   "unit": "bit",
+   "error": 1.3445093711096625,
+   "error_str": "+1.34 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Real text keeps more structure than its shuffled version at order 3 (h\u2083 real < h\u2083 shuffled \u2212 1 bit; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Letters+space alphabet / N",
+   "value": "28 symbols / 135509 characters",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Conditional entropy h_k for k = 1\u20268",
+   "value": "4.05 / 3.21 / 2.44 / 1.82 / 1.42 / 1.09 / 0.84 / 0.61",
+   "unit": "bit/letter",
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 apparent drop h\u2081 \u2212 h\u2084: measured / Miller\u2013Madow",
+   "value": "0.833 / 0.334 bit",
+   "unit": "",
+   "note": "the first-order correction fails once the number of possible blocks (28\u2074 \u2248 600 000) exceeds the sample size"
+  },
+  {
+   "quantity": "Shuffled text: apparent h\u2088",
+   "value": 0.0036369787999994685,
+   "unit": "bit/letter",
+   "note": "against the true 4.05 \u2014 a book is far too short for 8-letter statistics"
+  }
+ ],
+ "figures": [
+  "figures/entropy.png"
+ ],
+ "runtime_s": 1.5,
+ "folder": "projects/applied-math/L-information-theory/AM204-entropy-calculator"
+}

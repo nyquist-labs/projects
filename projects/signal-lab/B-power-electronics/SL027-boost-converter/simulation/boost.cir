@@ -1,0 +1,9 @@
+* boost — exported by eelab.circuit
+Vin vin 0 DC 5.0 AC 0.0
+Lb vin sw 2.2e-05
+* switch q between sw and 0 (Ron=0.03, Roff=1000000.0)
+Co out 0 4.7e-05
+RL out 0 10
+Dd sw out D_d
+.model D_d D(Is=1e-06 N=1.02)
+.end

@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-063",
+  "title": "Sparse solvers on large resistor networks",
+  "level": "H",
+  "tools": "2-D resistor-grid Laplacians up to 250,000 nodes, dense LU (LAPACK) vs sparse direct LU (SuperLU with fill-reducing ordering) vs conjugate gradients; effective-resistance results as analytic checks",
+  "summary": "Assemble the nodal matrix of an N\u00d7N resistor mesh, solve it with dense and sparse methods, measure how time scales with problem size, and verify the physics against the known effective resistances of the infinite square grid (\u00bd \u03a9 to a neighbour, 2/\u03c0 \u03a9 diagonally).",
+  "problem": "Nodal matrices of real circuits are huge but almost empty. How much does exploiting that sparsity buy?",
+  "theory": "An n-node 2-D grid has ~5n non-zeros. Dense LU costs ~n\u00b3 (exponent 3); sparse LU with nested-dissection ordering costs ~n^{1.5}; CG costs ~n^{1.5} too (\u221an iterations of O(n) work, since the\ncondition number grows \u221d n). Physics check: on an infinite grid of 1 \u03a9 resistors the effective resistance between adjacent nodes is exactly \u00bd \u03a9 and between diagonal\nneighbours 2/\u03c0 \u03a9 (lattice Green's function) \u2014 a large finite grid should approach these.",
+  "method": "Unit resistors on an N\u00d7N grid, the boundary tied to ground through 1 \u03a9 (a well-posed Dirichlet-like problem). Dense solve up to n = 3,600; sparse LU and CG (tolerance 1e-10) up to n = 250,000. Effective\nresistance at the grid centre: inject +1 A and \u22121 A at the two nodes, R = \u0394v.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Effective resistance to a neighbour, 500\u00d7500 grid (infinite grid: \u00bd \u03a9)",
+   "predicted": 0.5,
+   "measured": 0.49999782018004446,
+   "unit": "\u03a9",
+   "error": -0.0004359639911077906,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Effective resistance to a diagonal node (infinite grid: 2/\u03c0 \u03a9)",
+   "predicted": 0.6366197723675814,
+   "measured": 0.6366154128112494,
+   "unit": "\u03a9",
+   "error": -0.0006847975072657831,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "CG vs sparse LU solution (worst over sizes)",
+   "predicted": 0.0,
+   "measured": 7.391846349965626e-11,
+   "unit": "V",
+   "error": 7.391846349965626e-11,
+   "error_str": "+73.92 pV",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Dense LU time exponent (\u221d n^k)",
+   "predicted": 3.0,
+   "measured": 2.7411178976528396,
+   "unit": "",
+   "error": -0.25888210234716036,
+   "error_str": "-0.2589",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sparse LU time exponent (nested dissection \u2248 1.5)",
+   "predicted": 1.5,
+   "measured": 1.252880021889295,
+   "unit": "",
+   "error": -0.24711997811070496,
+   "error_str": "-0.2471",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Speed-up of sparse LU over dense at n = 3,600",
+   "value": 46.541056319169684,
+   "unit": "\u00d7",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/sparse.png"
+ ],
+ "runtime_s": 6.01,
+ "folder": "projects/applied-math/D-linear-algebra/AM063-sparse-matrix-solvers"
+}

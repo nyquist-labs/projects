@@ -1,0 +1,79 @@
+{
+ "meta": {
+  "id": "SL-072",
+  "title": "Echo and Schroeder reverb from delay lines",
+  "level": "E",
+  "tools": "Own comb/all-pass delay-line network, impulse-response RT60 measurement (Schroeder integration)",
+  "summary": "Build a single echo and a Schroeder reverberator (4 parallel combs + 2 series all-passes), predict the reverberation time from the loop gains and measure RT60 from the impulse response.",
+  "problem": "How do a few delay lines make a dry recording sound like a hall, and can the hall's decay time be designed exactly?",
+  "theory": "Feedback comb with delay D samples and gain g: each round trip multiplies by g, so the level falls by 60 dB after\n$n=-3/\\log_{10}g$ trips: $RT_{60}=\\frac{-3D}{f_s\\log_{10}g}$. Choosing $g_i=10^{-3D_i/(f_sRT_{60})}$ makes all combs decay\ntogether. All-passes (|H| = 1) add echo density without colouring the spectrum. A single echo\n$y=x+a\\,x[n-D]$ has a comb-shaped magnitude response with notches every $f_s/D$.",
+  "method": "f_s of the speech file. Combs 29.7, 37.1, 41.1, 43.7 ms; all-passes 5.0 ms (g = 0.7) and 1.7 ms (g = 0.7). Target\nRT60 = 0.8, 1.5, 2.5 s. RT60 measured from the Schroeder backward-integrated energy decay curve (fit between \u22125 and\n\u221235 dB, extrapolated to \u221260 dB). Applied to the real 'hello' recording.",
+  "data": "Real public-domain speech for the audio demo; impulse responses computed exactly.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "RT60 (design 0.8 s)",
+   "predicted": 0.8,
+   "measured": 0.80116690657208,
+   "unit": "s",
+   "error": 0.14586332150999526,
+   "error_str": "+0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RT60 (design 1.5 s)",
+   "predicted": 1.5,
+   "measured": 1.500023669791806,
+   "unit": "s",
+   "error": 0.0015779861203935042,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RT60 (design 2.5 s)",
+   "predicted": 2.5,
+   "measured": 2.500117492237837,
+   "unit": "s",
+   "error": 0.004699689513483207,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Single echo: comb peak (1+a)",
+   "predicted": 3.5218251811136247,
+   "measured": 3.5218251811136247,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Single echo: comb notch (1\u2212a)",
+   "predicted": -6.020599913279624,
+   "measured": -6.0205948035947,
+   "unit": "dB",
+   "error": 5.10968492406505e-06,
+   "error_str": "+5.1097e-06 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/edc.png",
+  "figures/speech_reverb.png"
+ ],
+ "runtime_s": 0.8,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL072-echo-and-reverb"
+}

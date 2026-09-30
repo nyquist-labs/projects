@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-197",
+  "title": "Logic gate playground with live truth tables",
+  "level": "M",
+  "tools": "SVG drag-and-drop editor (HTML/JS), JavaScript netlist engine with loop detection and Verilog export; Node test harness, Python reference evaluator, Icarus Verilog",
+  "summary": "Drag gates onto a board, wire them, toggle inputs and watch the truth table update; export the design as Verilog. The engine is tested on 300 random circuits against an independent Python evaluator and, via its Verilog export, against Icarus Verilog.",
+  "problem": "A teaching tool is only useful if it is right. Can we prove the playground's truth tables are correct \u2014 including for circuits nobody would draw by hand?",
+  "theory": "A combinational circuit is a directed acyclic graph; evaluating gates in topological order gives each output as a Boolean function of the inputs, so the\ntruth table has $2^n$ rows. Three independent implementations (JS engine, Python evaluator, Verilog semantics in Icarus) must agree on every row of every\ncircuit \u2014 any mismatch is a bug. A graph with a cycle has no topological order and must be rejected (a combinational loop can oscillate or latch).",
+  "method": "300 random DAG netlists (2\u20136 inputs, 3\u201330 gates of all 8 types, fan-in 1\u20133) + the four presets. JS `truthTable` vs a Python evaluator written separately;\n40 of them exported with `toVerilog` and simulated exhaustively in Icarus. 100 netlists with an injected back-edge must raise 'combinational loop'.\nGate depth reported by the engine vs Python longest-path.",
+  "data": "Generated circuits.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Truth-table rows where JS \u2260 Python (304 circuits, 6888 rows)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gate-depth disagreements (JS vs Python longest path)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Exported-Verilog rows where Icarus \u2260 Python (40 circuits, 836 rows)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Loop detection agreement (42 of 100 mutated circuits truly cyclic)",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/tests.png"
+ ],
+ "runtime_s": 2.11,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL197-logic-gate-playground"
+}

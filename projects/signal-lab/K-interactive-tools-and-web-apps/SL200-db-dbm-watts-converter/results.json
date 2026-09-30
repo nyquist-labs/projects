@@ -1,0 +1,122 @@
+{
+ "meta": {
+  "id": "SL-200",
+  "title": "dB / dBm / watts / volts converter",
+  "level": "E",
+  "tools": "HTML/JS converter (W, mW, dBW, dBm, Vrms, Vpk, Vpp, dBV, dBu, dB\u00b5V at any impedance, thermal noise floor) + Node harness vs Python",
+  "summary": "Type a level in any unit and see all the others, at 50 \u03a9, 75 \u03a9 or 600 \u03a9; includes the kTB noise floor. Verified by round-trips over the whole 10-unit \u00d7 10-unit matrix and against textbook anchor values.",
+  "problem": "0 dBm is how many volts? The conversion every RF engineer needs daily \u2014 and one where 10\u00b7log vs 20\u00b7log mistakes are common.",
+  "theory": "Power: dBm = 10\u00b7log\u2081\u2080(P / 1 mW). Voltage in impedance Z: P = V\u00b2_rms/Z, so dB\u00b5V = dBm + 90 + 10\u00b7log\u2081\u2080(Z) (107 dB\u00b5V = 0 dBm at 50 \u03a9). dBu is referenced to\n0.7746 V (1 mW in 600 \u03a9). Sine: V_pk = \u221a2\u00b7V_rms, V_pp = 2\u221a2\u00b7V_rms. Thermal noise: P = kTB \u2192 \u2212174 dBm/Hz at 290 K. A voltage ratio in dB uses 20\u00b7log (power \u221d V\u00b2);\nusing 10\u00b7log for a voltage ratio halves the dB value.",
+  "method": "All 90 ordered unit pairs \u00d7 200 random levels round-tripped through calc.js; anchors: 0 dBm \u2194 223.6 mV rms \u2194 107 dB\u00b5V (50 \u03a9), 0 dBu \u2194 0.7746 V, +30 dBm = 1 W,\nthermal noise \u2212173.98 dBm/Hz and \u2212113.9 dBm in 1 MHz; JS vs independent Python formulas.",
+  "data": "Generated test values.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Worst relative round-trip error over 1800 conversions (90 unit pairs)",
+   "predicted": 0.0,
+   "measured": 4.104511828015733e-14,
+   "unit": "",
+   "error": 4.104511828015733e-14,
+   "error_str": "+4.1045e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Worst disagreement with independent Python formulas (as power ratio)",
+   "predicted": 0.0,
+   "measured": 7.941815383105677e-08,
+   "unit": "",
+   "error": 7.941815383105677e-08,
+   "error_str": "+7.9418e-08",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0 dBm in 50 \u03a9",
+   "predicted": 0.2236,
+   "measured": 0.22360679774997896,
+   "unit": "V rms",
+   "error": 0.0030401386310244397,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0 dBm in 50 \u03a9",
+   "predicted": 107.0,
+   "measured": 106.98970004336019,
+   "unit": "dB\u00b5V",
+   "error": -0.010299956639812535,
+   "error_str": "-0.0103 dB\u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0 dBm in 75 \u03a9 (= 90 + 10\u00b7log 75)",
+   "predicted": 108.750612633917,
+   "measured": 108.750612633917,
+   "unit": "dB\u00b5V",
+   "error": 0.0,
+   "error_str": "+0 dB\u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0 dBu",
+   "predicted": 0.7746,
+   "measured": 0.7745967,
+   "unit": "V rms",
+   "error": -0.0004260263361642603,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "+30 dBm",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "W",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "kT at 290 K",
+   "predicted": -174.0,
+   "measured": -173.97518719422808,
+   "unit": "dBm/Hz",
+   "error": 0.02481280577191569,
+   "error_str": "+0.02481 dBm/Hz",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "kTB, B = 1 MHz",
+   "predicted": -114.0,
+   "measured": -113.97518719422811,
+   "unit": "dBm",
+   "error": 0.02481280577188727,
+   "error_str": "+0.02481 dBm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/levels.png"
+ ],
+ "runtime_s": 0.39,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL200-db-dbm-watts-converter"
+}

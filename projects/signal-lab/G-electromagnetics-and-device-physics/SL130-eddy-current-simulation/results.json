@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-130",
+  "title": "Eddy-current loss in solid vs laminated cores",
+  "level": "H",
+  "tools": "1-D magnetic diffusion in a conducting sheet (finite differences, complex phasors), classical loss formula",
+  "summary": "Compute the eddy-current loss in a steel core sheet driven by an AC field, compare with the low-frequency formula P = \u03c3\u03c9\u00b2B\u00b2t\u00b2/24, and show why transformer cores are laminated.",
+  "problem": "A solid iron core in a transformer gets hot. How much does slicing it into thin laminations help, and why?",
+  "theory": "For a sheet of thickness t in a uniform AC field of peak B (thin-sheet limit, t \u226a \u03b4): induced E grows linearly from the\nmid-plane, giving loss per volume $P_v=\\frac{\\sigma\\omega^2B^2t^2}{24}$ (average over a cycle, B peak). Loss \u221d t\u00b2, so N laminations of\nthickness t/N reduce it N\u00b2-fold. When t \u2273 \u03b4 the field no longer penetrates (skin effect) and the formula overestimates.",
+  "method": "Electrical steel \u03c3 = 2\u00d710\u2076 S/m, \u03bc_r = 1,000, B surface amplitude 1.0 T, 50 Hz (\u03b4 \u2248 0.5 mm). 1-D diffusion $\\partial^2H/\\partial x^2=j\\omega\\mu\\sigma H$\nsolved for thickness 0.1\u20135 mm; loss = \u222b|J|\u00b2/(2\u03c3) dx per unit area. Fixed flux comparison: solid 5 mm vs 10 \u00d7 0.5 mm and 50 \u00d7 0.1 mm.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Loss density, 0.10 mm sheet (thin-sheet formula)",
+   "predicted": 82.2466535279867,
+   "measured": 82.24459914626794,
+   "unit": "W/m\u00b3",
+   "error": -0.0024978301616260952,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Loss density, 0.35 mm sheet (thin-sheet formula)",
+   "predicted": 1007.4305524262012,
+   "measured": 1007.4016077726584,
+   "unit": "W/m\u00b3",
+   "error": -0.002873116511414767,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Loss reduction from 10\u00d7 thinner laminations at equal B (\u221d t\u00b2)",
+   "predicted": 100.0,
+   "measured": 99.96059163631017,
+   "unit": "\u00d7",
+   "error": -0.03940836368983014,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "5 mm sheet: FD loss / thin-sheet formula",
+   "value": 0.8738426594966427,
+   "unit": "",
+   "note": "formula overestimates once t > \u03b4"
+  },
+  {
+   "quantity": "Skin depth in the steel at 50 Hz",
+   "value": 0.0015915494309189533,
+   "unit": "m",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/eddy.png"
+ ],
+ "runtime_s": 0.16,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL130-eddy-current-simulation"
+}

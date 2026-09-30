@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "AM-011",
+  "title": "Three-phase systems with the rotation operator a = e^{j2\u03c0/3}",
+  "level": "M",
+  "tools": "Complex rotation operator, symmetrical components (Fortescue transform), nodal analysis of an unbalanced star load, time-domain verification",
+  "summary": "Analyse balanced and unbalanced star loads with phasors and the operator a, decompose the unbalanced currents into zero-, positive- and negative-sequence parts, and confirm the neutral current and line voltages with a transient simulation.",
+  "problem": "Why does a balanced three-phase system need no neutral wire \u2014 and what flows in it when the load is unbalanced?",
+  "theory": "Phase voltages $V, a^2V, aV$ with $a=e^{j2\u03c0/3}$, $1+a+a^2=0$. Line-to-line voltage $V_{ab}=V(1-a^2)=\\sqrt3 V\u222030\u00b0$. With a neutral wire, $I_N=I_a+I_b+I_c$ vanishes for a balanced load\nand equals 3\u00d7 the zero-sequence current $I_0=(I_a+I_b+I_c)/3$ otherwise. Fortescue: $[I_0,I_1,I_2]^T=\\tfrac13[[1,1,1],[1,a,a^2],[1,a^2,a]]\\,[I_a,I_b,I_c]^T$.",
+  "method": "230 V rms phase voltage, 50 Hz. Balanced load 10 + j5 \u03a9 per phase; unbalanced 10 \u03a9, 20 + j10 \u03a9, 5 \u2212 j8 \u03a9. Phasor predictions vs transient simulation (0.3 s, last 0.1 s used);\nrms and phase of the neutral current and a line-to-line voltage measured from waveforms.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "1 + a + a\u00b2 (should vanish)",
+   "predicted": 0.0,
+   "measured": 3.3306690738754696e-16,
+   "unit": "",
+   "error": 3.3306690738754696e-16,
+   "error_str": "+3.3307e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Balanced: neutral current rms (predicted 0)",
+   "predicted": 0.0,
+   "measured": 4.4775075881245793e-13,
+   "unit": "A",
+   "error": 4.4775075881245793e-13,
+   "error_str": "+447.8 fA",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Line-to-line voltage magnitude = \u221a3 \u00d7 230 V",
+   "predicted": 398.37168574084177,
+   "measured": 398.4712661914057,
+   "unit": "V",
+   "error": 0.024996869538737046,
+   "error_str": "+0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Line-to-line voltage V_ab leads phase a by 30\u00b0",
+   "predicted": 30.0,
+   "measured": 29.975208794658382,
+   "unit": "\u00b0",
+   "error": -0.02479120534161794,
+   "error_str": "-0.02479 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Unbalanced: neutral current rms, phasor sum vs simulation",
+   "predicted": 11.052366593905193,
+   "measured": 11.053812274694339,
+   "unit": "A",
+   "error": 0.013080282642303294,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Neutral current = 3 \u00d7 zero-sequence current",
+   "predicted": 11.05236659390519,
+   "measured": 11.052366593905193,
+   "unit": "A",
+   "error": 3.214437060710273e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Sequence currents |I0| / |I1| / |I2|",
+   "value": "3.68 / 15.97 / 11.88 A",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/three_phase.png"
+ ],
+ "runtime_s": 0.26,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM011-three-phase-phasor-analysis"
+}

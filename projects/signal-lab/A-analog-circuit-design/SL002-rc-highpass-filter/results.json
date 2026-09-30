@@ -1,0 +1,79 @@
+{
+ "meta": {
+  "id": "SL-002",
+  "title": "RC high-pass filter",
+  "level": "E",
+  "tools": "eelab mini-SPICE (AC + transient)",
+  "summary": "Swap R and C of the low-pass: predict the cutoff and the +45\u00b0 phase lead, then measure both, plus the edge-differentiating step response.",
+  "problem": "A CR network blocks DC and passes high frequencies. Where is its corner, and why does the output *lead* the input by 45\u00b0 there?",
+  "theory": "$$H(j\\omega)=\\frac{j\\omega RC}{1+j\\omega RC},\\qquad f_c=\\frac1{2\\pi RC}$$\nWith R = 1.6 k\u03a9, C = 100 nF: $f_c$ = 994.7 Hz. Phase $=90^\\circ-\\arctan(\\omega RC)$, i.e. +90\u00b0 at DC falling to\n+45\u00b0 at $f_c$ and 0\u00b0 at high frequency: the capacitor current (and so the voltage across R) leads the\nvoltage. Step response: $v_{out}=e^{-t/RC}$ \u2014 the circuit passes the edge and forgets the level.",
+  "method": "50 \u03a9 generator \u2192 C = 100 nF \u2192 node `out` \u2192 R = 1.6 k\u03a9 to ground, 10 M\u03a9 \u2016 12 pF probe.\nAC sweep 10 Hz \u2013 100 kHz, then a 1 V step transient to measure the decay constant.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u22123 dB cutoff frequency",
+   "predicted": 994.718394324346,
+   "measured": 964.5417276968394,
+   "unit": "Hz",
+   "error": -3.0336894139776978,
+   "error_str": "-3.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Phase at cutoff",
+   "predicted": 45.0,
+   "measured": 45.00200739667439,
+   "unit": "\u00b0",
+   "error": 0.0020073966743865412,
+   "error_str": "+0.002007 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Low-frequency slope (10\u2192100 Hz)",
+   "predicted": 20.0,
+   "measured": 19.95360249640284,
+   "unit": "dB/dec",
+   "error": -0.04639750359715933,
+   "error_str": "-0.0464 dB/dec",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Decay time constant",
+   "predicted": 0.00015999999999999999,
+   "measured": 0.00016531665628690743,
+   "unit": "s",
+   "error": 3.322910179317152,
+   "error_str": "+3.32 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Step peak (divider R/(R+Rs))",
+   "predicted": 0.9696969696969697,
+   "measured": 0.9655300929177888,
+   "unit": "V",
+   "error": -0.4297091678530332,
+   "error_str": "-0.43 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/bode.png",
+  "figures/step.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL002-rc-highpass-filter"
+}

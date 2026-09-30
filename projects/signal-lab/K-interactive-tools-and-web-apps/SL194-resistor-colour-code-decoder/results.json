@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "SL-194",
+  "title": "Resistor colour-code decoder and encoder",
+  "level": "E",
+  "tools": "HTML/SVG/JavaScript two-way tool with a clickable band picker; Node test harness vs an independent Python implementation and textbook examples",
+  "summary": "Two-way conversion between resistance and 4-/5-band colour codes with a visual resistor; verified by round-tripping every E24 and E96 value over nine to ten decades and by counting how many real codes can be misread backwards.",
+  "problem": "Colour codes are easy to misread \u2014 especially backwards. Build a converter you can trust and quantify the ambiguity.",
+  "theory": "IEC 60062: digit bands (black 0 \u2026 white 9), multiplier band (10^k, gold 0.1, silver 0.01), tolerance band (brown 1 %, red 2 %, gold 5 %, silver 10 % \u2026).\nTwo significant digits (4-band) represent every E24 value exactly; three digits (5-band) represent E96. Round-trip value \u2192 colours \u2192 value must be\nexact. Reading backwards: a 4-band code with a gold/silver tolerance band can never be read backwards (gold is not a digit), but 5-band 1 % codes\nend in brown, which *is* a digit \u2014 so I expect many 5-band codes to also decode (wrongly) when reversed.",
+  "method": "calc.js `encode`/`decode` run under Node for all E24 values (4-band, 5 %) and E96 values (5-band, 1 %) over decades 0.1 \u03a9\u20131 G\u03a9; decoded values compared with the inputs;\ncolours compared with an independent Python encoder; five textbook examples; reverse-readability counted.",
+  "data": "Generated from the IEC 60063 E-series tables.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Round-trip failures over 240 E24 + 864 E96 values (E24 0.1 \u03a9\u2013910 M\u03a9, E96 1 \u03a9\u2013976 M\u03a9)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Colour mismatches vs independent Python encoder",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Textbook examples decoded correctly",
+   "predicted": 5.0,
+   "measured": 5.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "4-band 5 % codes readable backwards (gold is not a digit \u2192 0 %)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "5-band 1 % codes that also decode when read backwards",
+   "predicted": 56.71296296296296,
+   "measured": 56.71296296296296,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "E96 values below 1 \u03a9 that 5 bands cannot encode (smallest multiplier is silver \u00d70.01)",
+   "value": 96.0,
+   "unit": "of 96",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/reversible.png"
+ ],
+ "runtime_s": 0.42,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL194-resistor-colour-code-decoder"
+}

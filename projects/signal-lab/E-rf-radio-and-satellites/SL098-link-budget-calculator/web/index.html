@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Link Budget Calculator</title><style>
+:root{--bg:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--line:#e4e3df;--acc:#2a78d6}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--line:#383835;--acc:#3987e5}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,sans-serif}main{max-width:720px;margin:auto;padding:16px}
+label{display:grid;grid-template-columns:1fr 120px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+input{font:inherit;width:100%;box-sizing:border-box}table{width:100%;border-collapse:collapse;margin-top:16px}
+td{padding:6px;border-bottom:1px solid var(--line)}td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.big{font-size:1.4em;color:var(--acc);font-weight:600}</style></head><body><main>
+<h1>Link budget</h1><p style="color:var(--ink2)">Defaults: NOAA-18 APT downlink to a simple ground station at 30° elevation.</p>
+<div id="f"></div><table id="t"></table></main><script>
+const F=[["f","Frequency (MHz)",137.9125],["p","Transmit power (W)",5],["gt","Tx antenna gain (dBi)",0],["r","Slant range (km)",1500],
+["lm","Misc. losses: polarisation, pointing, cable (dB)",3],["gr","Rx antenna gain (dBi)",2],["t","System noise temperature (K)",1000],
+["b","Receiver bandwidth (kHz)",34],["need","Required C/N (dB)",10]];
+const f=document.getElementById('f');F.forEach(([k,l,v])=>f.insertAdjacentHTML('beforeend',`<label>${l}<input id="${k}" type="number" step="any" value="${v}"></label>`));
+function calc(){const g=k=>+document.getElementById(k).value;const eirp=10*Math.log10(g('p'))+30+g('gt');
+const fspl=20*Math.log10(4*Math.PI*g('r')*1e3*g('f')*1e6/299792458);const gt=g('gr')-10*Math.log10(g('t'));
+const cn0=eirp-30-fspl-g('lm')+gt+228.6;const cn=cn0-10*Math.log10(g('b')*1e3);const rows=[["EIRP",eirp.toFixed(1)+" dBm"],["Free-space path loss",fspl.toFixed(1)+" dB"],
+["G/T",gt.toFixed(1)+" dB/K"],["C/N₀",cn0.toFixed(1)+" dBHz"],["C/N in bandwidth",cn.toFixed(1)+" dB"],["Margin",`<span class="big">${(cn-g('need')).toFixed(1)} dB</span>`]];
+document.getElementById('t').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');}
+document.querySelectorAll('input').forEach(i=>i.oninput=calc);calc();</script></body></html>

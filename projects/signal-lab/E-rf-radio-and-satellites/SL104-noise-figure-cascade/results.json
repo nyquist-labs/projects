@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-104",
+  "title": "Noise-figure cascade (Friis) vs Monte Carlo",
+  "level": "M",
+  "tools": "Friis formula + sample-level noise simulation of a 4-stage receiver chain (NumPy)",
+  "summary": "Compute the noise figure of a receiver chain (antenna cable, LNA, mixer, IF amp) with the Friis formula and confirm it by pushing actual noise samples through the chain; show why the LNA must come first.",
+  "problem": "Why does a 1 dB-noise-figure preamp at the antenna beat a much better receiver at the end of a lossy cable?",
+  "theory": "Friis: $F_{tot}=F_1+\\frac{F_2-1}{G_1}+\\frac{F_3-1}{G_1G_2}+\\cdots$ (linear). A passive loss L at T\u2080 has F = L. Each stage adds\ninput-referred noise $(F_i-1)kT_0B$ at its own input; referring everything to the chain input and comparing output SNR\nwith input SNR gives the same F.",
+  "method": "Stages: cable (loss 3 dB), LNA (G = 20 dB, NF = 1 dB), mixer (G = \u22127 dB, NF = 8 dB), IF amp (G = 30 dB, NF = 4 dB). Two orderings:\ncable \u2192 LNA \u2192 \u2026 (preamp at the receiver) and LNA \u2192 cable \u2192 \u2026 (preamp at the antenna). Simulation: Gaussian noise at kT\u2080B\n(normalised) plus a test tone, each stage multiplies by \u221aG and adds independent noise of power (F\u22121)kT\u2080B\u00b7G; SNR ratio\nfrom 10\u2076 samples.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "cable \u2192 LNA \u2192 mixer \u2192 IF: noise figure",
+   "predicted": 4.423253072172336,
+   "measured": 4.4203286466180085,
+   "unit": "dB",
+   "error": -0.002924425554327925,
+   "error_str": "-0.002924 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "LNA \u2192 cable \u2192 mixer \u2192 IF: noise figure",
+   "predicted": 1.835564108497262,
+   "measured": 1.8340296851202282,
+   "unit": "dB",
+   "error": -0.0015344233770338,
+   "error_str": "-0.001534 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "no LNA: cable \u2192 mixer \u2192 IF: noise figure",
+   "predicted": 14.426070352772282,
+   "measured": 14.421758651120058,
+   "unit": "dB",
+   "error": -0.004311701652223832,
+   "error_str": "-0.004312 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Noise temperature, LNA at antenna",
+   "value": 152.54191287611715,
+   "unit": "K",
+   "note": ""
+  },
+  {
+   "quantity": "Noise temperature, LNA after cable",
+   "value": 513.0143478801772,
+   "unit": "K",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/cascade.png"
+ ],
+ "runtime_s": 0.19,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL104-noise-figure-cascade"
+}

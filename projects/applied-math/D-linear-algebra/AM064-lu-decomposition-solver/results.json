@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-064",
+  "title": "LU decomposition with partial pivoting, from scratch",
+  "level": "M",
+  "tools": "Own Doolittle LU (vectorised row operations) with and without partial pivoting, forward/back substitution, backward-error and growth-factor analysis, comparison with LAPACK",
+  "summary": "Implement LU factorisation, show that without pivoting a tiny pivot destroys the answer while partial pivoting makes it backward stable, measure the backward error and growth factor on random and nodal matrices, and compare with LAPACK.",
+  "problem": "Gaussian elimination is taught without row swaps. Why does every real solver swap rows?",
+  "theory": "PA = LU. Without pivoting, a small pivot \u03b5 creates multipliers ~1/\u03b5, entries grow by ~1/\u03b5 and rounding errors of size \u03b5_mach\u00b7(1/\u03b5) swamp the solution. With partial pivoting multipliers are \u2264 1 and the computed\nsolution is backward stable: $\\frac{\\|Ax\u0302-b\\|}{\\|A\\|\\|x\u0302\\|}$ \u2248 \u03b5_mach\u00b7(growth factor), growth typically small (\u2264 ~n^{2/3} for random matrices, though 2^{n\u22121} is possible). Cost (2/3)n\u00b3 flops.",
+  "method": "(i) The 2\u00d72 example [[\u03b5, 1], [1, 1]] for \u03b5 = 10\u207b\u00b9\u2076\u202610\u207b\u2074. (ii) 100 random 200\u00d7200 matrices and nodal matrices of random resistor networks: backward error and growth factor, with/without pivoting,\nvs scipy.linalg.lu_factor. (iii) Wilkinson's matrix where growth is 2^{n\u22121}. (iv) Time vs n.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "[[\u03b5,1],[1,1]] with \u03b5 = 1e-16: error without pivoting (\u2248 1 \u2014 the answer is wrong)",
+   "predicted": 1.0,
+   "measured": 1.2204460492503129,
+   "unit": "",
+   "error": 0.22044604925031286,
+   "error_str": "+0.2204",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 with partial pivoting",
+   "predicted": 0.0,
+   "measured": 2.220446049250313e-16,
+   "unit": "",
+   "error": 2.220446049250313e-16,
+   "error_str": "+2.2204e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Random 200\u00d7200: median backward error (\u2248 \u03b5_mach = 2.2e-16 scale)",
+   "predicted": 2.2e-16,
+   "measured": 1.5945910558032175e-16,
+   "unit": "",
+   "error": -6.054089441967825e-17,
+   "error_str": "-6.0541e-17",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Own LU vs LAPACK solution, worst relative difference",
+   "predicted": 0.0,
+   "measured": 8.001883482089041e-13,
+   "unit": "",
+   "error": 8.001883482089041e-13,
+   "error_str": "+8.0019e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Wilkinson's matrix: growth factor = 2^(n\u22121)",
+   "predicted": 562949953421312.0,
+   "measured": 562949953421312.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Growth factor, random matrices (median / max)",
+   "value": "7.7 / 11.0",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Own LU time exponent (vectorised rank-1 updates)",
+   "value": 2.2144178716996525,
+   "unit": "",
+   "note": "\u221d n\u00b3 flops but memory-bound in NumPy"
+  }
+ ],
+ "figures": [
+  "figures/lu.png"
+ ],
+ "runtime_s": 1.55,
+ "folder": "projects/applied-math/D-linear-algebra/AM064-lu-decomposition-solver"
+}

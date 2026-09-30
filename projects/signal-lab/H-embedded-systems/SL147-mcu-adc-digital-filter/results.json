@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-147",
+  "title": "MCU ADC sampling with a fixed-point digital filter",
+  "level": "M",
+  "tools": "C firmware (10-bit ADC model, Q15 one-pole IIR and 16-sample moving average) on the simulated MCU",
+  "summary": "Sample a noisy 5 Hz sensor signal with a 10-bit ADC at 1 kHz and clean it with integer-only filters; predict the SNR improvement from each filter's noise bandwidth and measure it, including fixed-point rounding.",
+  "problem": "Microcontrollers often lack floating point. How much noise can a cheap integer filter remove, and what does fixed-point arithmetic cost?",
+  "theory": "White noise through a filter is reduced by its noise-equivalent bandwidth: moving average of M \u2192 variance \u00d71/M (\u221212 dB for M = 16); one-pole\nIIR y += \u03b1(x \u2212 y) \u2192 variance \u00d7 \u03b1/(2 \u2212 \u03b1) (\u03b1 = 1/16 \u2192 \u221214.9 dB). The signal (5 Hz) passes with gain \u2248 1 (MA: sinc, \u22120.03 dB; IIR corner 10.3 Hz \u2192 \u22120.9 dB).\nQ15 rounding adds noise of LSB\u00b2/12 at the output (negligible vs ADC noise here).",
+  "method": "Signal 1.65 V + 0.5 V\u00b7sin(2\u03c0\u00b75 t) + Gaussian noise \u03c3 = 40 mV, ADC 10-bit (3.3 V/1024 = 3.2 mV LSB) at 1 kHz for 10 s. Filters in integer arithmetic;\nSNR = signal power at 5 Hz vs residual after removing the fitted sine, compared with float references.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Moving average (M = 16): SNR gain",
+   "predicted": 12.041199826559248,
+   "measured": 11.908272342446896,
+   "unit": "dB",
+   "error": -0.13292748411235245,
+   "error_str": "-0.1329 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "One-pole IIR (\u03b1 = 1/16): SNR gain",
+   "predicted": 14.913616938342727,
+   "measured": 14.042636565439935,
+   "unit": "dB",
+   "error": -0.8709803729027925,
+   "error_str": "-0.871 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "IIR corner frequency",
+   "predicted": 9.94718394324346,
+   "measured": 10.271624658885226,
+   "unit": "Hz",
+   "error": 3.2616338201138912,
+   "error_str": "+3.26 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Raw ADC SNR",
+   "value": 18.84110203044966,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/adc_filter.png"
+ ],
+ "runtime_s": 0.39,
+ "folder": "projects/signal-lab/H-embedded-systems/SL147-mcu-adc-digital-filter"
+}

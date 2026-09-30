@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "SL-106",
+  "title": "Pulse-compression radar: range resolution and processing gain",
+  "level": "H",
+  "tools": "NumPy/SciPy: linear-FM chirp, matched filter, windowing, CFAR detection",
+  "summary": "Simulate a chirp radar with two closely spaced targets in noise: measure range resolution, compression ratio, processing gain and sidelobes of the matched filter and compare with c/(2B), TB and the sinc/Taylor theory.",
+  "problem": "Radars need long pulses for energy but short pulses for resolution. How does a chirp give both?",
+  "theory": "A linear-FM pulse of length T and bandwidth B compressed by its matched filter behaves like a pulse of width \u2248 1/B:\nrange resolution $\\Delta R=c/(2B)$, compression ratio = TB, SNR gain = TB (energy E = PT collected into one sample).\nUnweighted compressed response has \u221213.3 dB range sidelobes; a Hamming weighting lowers them to \u2248 \u221242 dB at the cost\nof ~1.4\u00d7 wider main lobe.",
+  "method": "B = 50 MHz, T = 20 \u00b5s (TB = 1000), sampled at 100 MS/s complex. Targets at 3,000 m and 3,000 m + 3.5 m (just beyond \u0394R = 3 m) and a\nweak target (\u221215 dB) at 3,200 m; per-sample input SNR 0 dB for the strong targets (\u221215 dB for the weak one). Measured: \u22123 dB compressed width, SNR before/after,\nseparation of the close pair, peak sidelobe with and without Hamming weighting, and a cell-averaging CFAR detection.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Compressed \u22123 dB width (\u2248 0.886/B)",
+   "predicted": 1.772e-08,
+   "measured": 1.8125e-08,
+   "unit": "s",
+   "error": 2.2855530474040595,
+   "error_str": "+2.29 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Range resolution c/(2B)",
+   "predicted": 3.0,
+   "measured": 3.068566591422121,
+   "unit": "m",
+   "error": 2.285553047404039,
+   "error_str": "+2.29 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Processing gain vs per-sample SNR = 10\u00b7log\u2081\u2080(T\u00b7f_s)",
+   "predicted": 33.01029995663981,
+   "measured": 32.98702671316002,
+   "unit": "dB",
+   "error": -0.023273243479792427,
+   "error_str": "-0.02327 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Peak range sidelobe, unweighted",
+   "predicted": -13.3,
+   "measured": -13.275800007466316,
+   "unit": "dB",
+   "error": 0.024199992533684878,
+   "error_str": "+0.0242 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Peak range sidelobe, Hamming-weighted",
+   "predicted": -42.0,
+   "measured": -42.66395952573469,
+   "unit": "dB",
+   "error": -0.6639595257346897,
+   "error_str": "-0.664 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Weak (\u221215 dB) target detected by CA-CFAR",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Processing gain referred to the signal bandwidth B",
+   "value": 29.976726756520208,
+   "unit": "dB",
+   "note": "TB = 1000 \u2192 30.0 dB"
+  },
+  {
+   "quantity": "Dip between the two targets 3.5 m apart",
+   "value": -3.8715824279557625,
+   "unit": "dB",
+   "note": "resolved if a clear dip exists"
+  }
+ ],
+ "figures": [
+  "figures/radar.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL106-radar-range-simulation"
+}

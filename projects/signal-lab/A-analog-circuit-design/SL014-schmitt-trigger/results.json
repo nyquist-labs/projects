@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-014",
+  "title": "Schmitt trigger (comparator with hysteresis)",
+  "level": "E",
+  "tools": "eelab mini-SPICE transient, noisy slow ramp input",
+  "summary": "Feed a slow, noisy ramp into a plain comparator and a Schmitt trigger: predict the hysteresis thresholds and count false transitions in each.",
+  "problem": "A slowly changing noisy signal makes a comparator chatter as it crosses the threshold. How much hysteresis stops it, and where exactly do the thresholds land?",
+  "theory": "Inverting Schmitt trigger: input to (\u2212), positive feedback R\u2081 (to ground) / R\u2082 (to output) on (+).\nWith output saturation $\\pm V_{sat}$:\n$$V_{T\\pm}=\\pm V_{sat}\\frac{R_1}{R_1+R_2}$$\nR\u2081 = 1 k\u03a9, R\u2082 = 47 k\u03a9, V_sat = 12 V \u2192 \u00b1250 mV (500 mV window). Noise of amplitude below half the\nwindow cannot cause a second transition.",
+  "method": "Input: triangle \u00b12 V at 10 Hz plus Gaussian noise (\u03c3 = 60 mV, 20 kHz bandwidth). Op-amp macromodel with\nV_sat = 12 V, GBW 10 MHz, SR 10 V/\u00b5s. Compare a plain comparator (no feedback) and the Schmitt trigger;\ncount output transitions and read the input value at each Schmitt transition.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Upper threshold V_T+",
+   "predicted": 0.25,
+   "measured": 0.26480281760207736,
+   "unit": "V",
+   "error": 5.921127040830942,
+   "error_str": "+5.92 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lower threshold V_T\u2212",
+   "predicted": -0.25,
+   "measured": -0.2699206726855593,
+   "unit": "V",
+   "error": -7.968269074223722,
+   "error_str": "-7.97 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Transitions, Schmitt trigger",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": "ideal: 2 per triangle period"
+  },
+  {
+   "quantity": "Transitions, plain comparator",
+   "predicted": 4.0,
+   "measured": 90.0,
+   "unit": "",
+   "error": 2150.0,
+   "error_str": "+2150.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/chatter.png"
+ ],
+ "runtime_s": 8.98,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL014-schmitt-trigger"
+}

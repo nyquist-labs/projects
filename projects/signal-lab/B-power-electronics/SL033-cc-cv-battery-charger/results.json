@@ -1,0 +1,114 @@
+{
+ "meta": {
+  "id": "SL-033",
+  "title": "CC-CV lithium-ion charger",
+  "level": "M",
+  "tools": "Equivalent-circuit Li-ion cell (OCV(SOC) + R\u2080 + R\u2081C\u2081) integrated with SciPy",
+  "summary": "Simulate the constant-current / constant-voltage charge profile of a 3 Ah 18650 cell and predict when CC ends, how much charge CV adds and the total charge time.",
+  "problem": "Why does a phone reach 80 % quickly and then crawl to 100 %? Model the CC-CV algorithm and the cell's internal resistance that causes it.",
+  "theory": "During CC at current $I$: terminal $V_t = OCV(SOC) + IR_0 + v_1$ rises until it hits $V_{max}$ = 4.2 V.\nCC ends when $OCV(SOC_{cc}) \\approx 4.2 - I(R_0+R_1)$ (steady-state polarization), so higher current or\nresistance means *lower* SOC at the CC\u2192CV transition. In CV the current decays roughly exponentially\nwith time constant $\\tau\\approx Q\\,(R_0+R_1)/(dOCV/dSOC)$ until the cut-off $I_{term}=C/20$.",
+  "method": "Cell: Q = 3.0 Ah, R\u2080 = 35 m\u03a9, R\u2081 = 20 m\u03a9, C\u2081 = 1500 F (\u03c4\u2081 = 30 s), OCV curve fitted to typical NMC data.\nCharge from 5 % SOC at 1C (3 A) and 0.5C; CV at 4.2 V until I < 150 mA. ODE solved with RK45 (CC) and an\nalgebraic current solve each step (CV).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "1.0C: SOC at CC\u2192CV transition",
+   "predicted": 85.00000000000001,
+   "measured": 85.00000000000388,
+   "unit": "%",
+   "error": 3.865352482534945e-12,
+   "error_str": "+3.87e-12 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "1.0C: CC duration",
+   "predicted": 2880.0000000000005,
+   "measured": 2880.0,
+   "unit": "s",
+   "error": -1.5789838572446668e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1.0C: CV duration (exponential-decay model)",
+   "predicted": 1271.0464074937622,
+   "measured": 1416.0,
+   "unit": "s",
+   "error": 11.404272232046662,
+   "error_str": "+11.40 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0.5C: SOC at CC\u2192CV transition",
+   "predicted": 93.12,
+   "measured": 93.12500000000983,
+   "unit": "%",
+   "error": 0.005000000009829364,
+   "error_str": "+0.005 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "0.5C: CC duration",
+   "predicted": 6344.64,
+   "measured": 6345.0,
+   "unit": "s",
+   "error": 0.0056740807989054155,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0.5C: CV duration (exponential-decay model)",
+   "predicted": 976.9539608847244,
+   "measured": 1013.0,
+   "unit": "s",
+   "error": 3.6896353931184698,
+   "error_str": "+3.69 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "1.0C: total charge time",
+   "value": 71.6,
+   "unit": "min",
+   "note": ""
+  },
+  {
+   "quantity": "1.0C: final SOC",
+   "value": 98.68109105863284,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "0.5C: total charge time",
+   "value": 122.63333333333334,
+   "unit": "min",
+   "note": ""
+  },
+  {
+   "quantity": "0.5C: final SOC",
+   "value": 98.68127525276812,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/cccv_profile.png"
+ ],
+ "runtime_s": 0.14,
+ "folder": "projects/signal-lab/B-power-electronics/SL033-cc-cv-battery-charger"
+}

@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "SL-150",
+  "title": "MQTT publisher: packet encoding and a round-trip test",
+  "level": "M",
+  "tools": "C firmware (MQTT 3.1.1 CONNECT/PUBLISH/PINGREQ encoder over TCP sockets) + a minimal local broker in Python",
+  "summary": "Implement the MQTT 3.1.1 packets an IoT sensor needs in C, publish 100 sensor readings over TCP to a tiny local broker, and verify packet layout (remaining-length varint, topic, QoS 0/1 PUBACK) and end-to-end delivery.",
+  "problem": "IoT devices speak MQTT. What exactly is inside those packets, and can a hand-written client interoperate with a broker?",
+  "theory": "Fixed header: type/flags byte + 'remaining length' as a base-128 varint (1 byte up to 127, 2 bytes up to 16,383). PUBLISH (QoS 0) = 2 + topic\nlength + payload; QoS 1 adds a 2-byte packet id and the broker answers PUBACK. For topic 'lab/temp' (8 B) and a 5-B payload, a QoS-0\nPUBLISH is 2 + 2 + 8 + 5 = 17 bytes.",
+  "method": "The C client connects to 127.0.0.1 (no external network), sends CONNECT (keep-alive 60 s), 50 QoS-0 and 50 QoS-1 PUBLISH messages and a\nPINGREQ, then DISCONNECT. The Python broker parses every packet, records sizes, acknowledges QoS-1 publishes and the ping. A Wokwi ESP32\nsketch using PubSubClient is included for running against a public broker in the browser.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "CONNACK return code (0 = accepted)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Messages received by the broker",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "QoS-1 PUBACKs matched to packet IDs",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "PINGRESP received",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "QoS-0 PUBLISH size for 'lab/temp' + 5-byte payload",
+   "predicted": 17.0,
+   "measured": 17.0,
+   "unit": "bytes",
+   "error": 0.0,
+   "error_str": "+0 bytes",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Payloads delivered intact and in order",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/mqtt.png"
+ ],
+ "runtime_s": 0.36,
+ "folder": "projects/signal-lab/H-embedded-systems/SL150-mqtt-publisher"
+}

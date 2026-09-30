@@ -1,0 +1,107 @@
+{
+ "meta": {
+  "id": "AM-156",
+  "title": "Gain and phase margins \u2014 and what they actually guarantee",
+  "level": "M",
+  "tools": "Margins by root finding on the loop frequency response, closed-loop pole computation, time-domain simulation with a true transport delay, phase-margin/overshoot rule of thumb across a gain sweep",
+  "summary": "Compute gain and phase margins of a loop, then test their literal meaning: multiplying the gain by the gain margin puts closed-loop poles exactly on the j\u03c9 axis, and adding a delay of PM/\u03c9_gc makes a simulated loop with a real time delay oscillate indefinitely.",
+  "problem": "A Bode plot says 'gain margin 15.6 dB, phase margin 48\u00b0'. What can actually be added to the loop before it breaks?",
+  "theory": "$L(s)=\\frac{K}{s(s+1)(s+5)}$. Phase crossover where $\\arctan \u03c9+\\arctan\\frac\u03c95=90\u00b0$ \u21d2 $\u03c9_{pc}=\\sqrt5$, $|L|=K/30$ \u21d2 GM = 30/K. At gain K\u00b7GM the closed loop has poles at \u00b1j\u221a5. The phase margin PM at the gain crossover $\u03c9_{gc}$ is the extra\nphase lag tolerated; a pure delay \u03c4 contributes $-\u03c9\u03c4$, so the **delay margin** is $\u03c4_d=\\mathrm{PM}/\u03c9_{gc}$ (PM in radians). Rule of thumb for second-order-like loops: \u03b6 \u2248 PM/100, overshoot \u2248 $e^{-\u03c0\u03b6/\\sqrt{1-\u03b6^2}}$.",
+  "method": "K = 5. Margins by bracketing and Brent root finding. Closed-loop poles at K\u00b7GM from the characteristic polynomial. Delay test: unity-feedback simulation (exact ZOH plant stepping, 1 ms) with the error delayed by \u03c4; critical \u03c4 found by bisection on\nwhether the oscillation grows. Overshoot rule checked for K = 1\u202615.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Phase-crossover frequency \u221a5",
+   "predicted": 2.23606797749979,
+   "measured": 2.23606797749979,
+   "unit": "rad/s",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Gain margin 30/K",
+   "predicted": 6.0,
+   "measured": 6.000000000000002,
+   "unit": "\u00d7",
+   "error": 2.9605947323337504e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Gain raised by exactly the gain margin: largest real part of the closed-loop poles",
+   "predicted": 0.0,
+   "measured": -3.268737988810757e-17,
+   "unit": "1/s",
+   "error": -3.268737988810757e-17,
+   "error_str": "-3.2687e-17 1/s",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and those poles sit at \u00b1j\u221a5",
+   "predicted": 2.23606797749979,
+   "measured": 2.2360679774997902,
+   "unit": "rad/s",
+   "error": 1.9860273225978185e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Delay margin PM/\u03c9_gc vs critical delay found by time-domain simulation",
+   "predicted": 0.9676790270070093,
+   "measured": 0.9674427772445564,
+   "unit": "s",
+   "error": -0.02441406249999604,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Oscillation frequency at the critical delay = \u03c9_gc",
+   "predicted": 0.779343200424216,
+   "measured": 0.7791648446403256,
+   "unit": "rad/s",
+   "error": -0.02288539680506315,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rule of thumb \u03b6 \u2248 PM/100: worst overshoot error over K = 1\u202615 (expected: good to ~10 pp)",
+   "predicted": 0.0,
+   "measured": 4.737229038580594,
+   "unit": "pp",
+   "error": 4.737229038580594,
+   "error_str": "+4.737 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Gain crossover / phase margin",
+   "value": "0.7793 rad/s / 43.21\u00b0",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/margins.png"
+ ],
+ "runtime_s": 3.19,
+ "folder": "projects/applied-math/I-control-theory/AM156-gain-and-phase-margins"
+}

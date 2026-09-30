@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "AM-200",
+  "title": "Spherical harmonics: radiation patterns as sums of modes",
+  "level": "H",
+  "tools": "Spherical harmonics Y_lm (SciPy), Gauss\u2013Legendre \u00d7 uniform quadrature on the sphere, orthonormality check, expansion of radiated-power patterns, directivity from the l = 0 coefficient, band-limit of an array pattern predicted from its size, rotation invariance of the per-degree power spectrum",
+  "summary": "Decompose antenna radiation patterns into spherical harmonics: verify orthonormality numerically, recover the directivity from a single coefficient, predict from the antenna's physical size how many degrees are needed, and show that the energy per degree is unchanged when the antenna is rotated.",
+  "problem": "A 3-D radiation pattern is a function on a sphere. What is its natural 'Fourier series', and what does the number of terms say about the antenna?",
+  "theory": "Any square-integrable function on the sphere is $U(\u03b8,\u03c6)=\\sum_{l,m}c_{lm}Y_l^m(\u03b8,\u03c6)$ with $c_{lm}=\\oint UY_l^{m*}d\u03a9$. Since $Y_0^0=1/\\sqrt{4\u03c0}$, total radiated power \u221d $\\oint U\\,d\u03a9=\\sqrt{4\u03c0}\\,c_{00}$ and directivity $D=\\sqrt{4\u03c0}\\,U_{max}/c_{00}$. A source inside a sphere of radius R radiates fields with\nnegligible content above degree \u2248 kR; the power pattern $|E|^2$ is band-limited to about 2kR. Rotations mix m within each l but leave $\\sum_m|c_{lm}|^2$ unchanged. Half-wave dipole: $U\u221d\\cos^2(\\tfrac \u03c02\\cos\u03b8)/\\sin^2\u03b8$, D = 1.641.",
+  "method": "Quadrature: 120 Gauss\u2013Legendre nodes in cos \u03b8 \u00d7 240 uniform \u03c6 (exact for band-limited functions up to high degree). Patterns: half-wave dipole; 8-element broadside array of isotropic sources along z (d = \u03bb/2, length 3.5\u03bb, so 2kR \u2248 22), and the same array tilted by 30\u00b0.\nCoefficients up to l = 40.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Orthonormality \u27e8Y_lm, Y_l\u2032m\u2032\u27e9 = \u03b4 (l \u2264 10; worst deviation)",
+   "predicted": 0.0,
+   "measured": 1.247890679678676e-13,
+   "unit": "",
+   "error": 1.247890679678676e-13,
+   "error_str": "+1.2479e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Half-wave dipole: directivity from the l = 0 coefficient, \u221a(4\u03c0)\u00b7U_max/c\u2080\u2080",
+   "predicted": 1.641,
+   "measured": 1.640513265000634,
+   "unit": "",
+   "error": -0.029660877475077577,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Dipole pattern is axially symmetric and even: coefficients with m \u2260 0 or odd l (count above 10\u207b\u00b9\u2070)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8-element array (length 3.5\u03bb): degree containing all but 10\u207b\u2076 of the pattern energy vs 2kR",
+   "predicted": 21.991148575128552,
+   "measured": 26.0,
+   "unit": "",
+   "error": 18.229386296836537,
+   "error_str": "+18.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rotating the array by 30\u00b0: per-degree power \u03a3\u2098|c_lm|\u00b2 unchanged (worst relative change, significant degrees)",
+   "predicted": 0.0,
+   "measured": 9.109231000071753e-12,
+   "unit": "",
+   "error": 9.109231000071753e-12,
+   "error_str": "+9.1092e-12",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "\u2026 and all but 10\u207b\u00b9\u00b2",
+   "value": 34.0,
+   "unit": "",
+   "note": "beyond 2kR the spectrum falls super-exponentially, so the band edge depends on the accuracy demanded"
+  },
+  {
+   "quantity": "Non-zero coefficients: upright array / tilted array (|c| > 10\u207b\u2078)",
+   "value": "20 / 594",
+   "unit": "",
+   "note": "rotation spreads energy over m, not over l"
+  },
+  {
+   "quantity": "Relative reconstruction error of the array pattern truncated at L = 4 / 8 / 12 / 16 / 20 / 24",
+   "value": "6.9e-01 / 4.9e-01 / 3.1e-01 / 1.6e-01 / 3.9e-02 / 3.7e-03",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/harmonics.png"
+ ],
+ "runtime_s": 132.21,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM200-spherical-harmonics-in-radiation"
+}

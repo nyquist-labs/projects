@@ -1,0 +1,141 @@
+{
+ "meta": {
+  "id": "AM-186",
+  "title": "Feature selection with mutual information",
+  "level": "H",
+  "tools": "Plug-in mutual-information estimator on quantile-binned features with Miller\u2013Madow bias correction, validation on distributions with known MI and on shuffled labels, Fano and Hellman\u2013Raviv bounds checked feature by feature, max-relevance vs minimum-redundancy (mRMR) selection, LDA accuracy versus number of features",
+  "summary": "Estimate how many bits each of 561 sensor features carries about the activity being performed, validate the estimator where the answer is known, confirm the information-theoretic bounds on classification error, and show why the 20 individually best features are a worse set than 20 chosen to avoid redundancy.",
+  "problem": "Out of hundreds of candidate features, which few should a wearable device compute \u2014 and what does 'informative' mean quantitatively?",
+  "theory": "$I(X;Y)=\\sum p(x,y)\\log_2\\frac{p(x,y)}{p(x)p(y)}$ bits; 0 iff independent, at most H(Y). The plug-in estimate from a table with $B_x\\times B_y$ cells is biased upward by \u2248 $\\frac{(B_x-1)(B_y-1)}{2N\\ln2}$ (Miller\u2013Madow). Known cases: binary\nsymmetric channel $1-H_2(\u03b5)$; jointly Gaussian $-\\tfrac12\\log_2(1-\u03c1^2)$. Any classifier using X obeys Fano's bound $P_e\\ge\\frac{H(Y|X)-1}{\\log_2(K-1)}$; the Bayes classifier obeys $P_e\\le\\tfrac12H(Y|X)$ (Hellman\u2013Raviv).\nSelecting the top-k features by MI ignores that they may all carry the *same* bits; mRMR adds features greedily by relevance minus mean MI with those already chosen.",
+  "method": "UCI HAR training set (7352 windows, 561 features, 6 classes), features binned into 10 equal-count bins. Bias check: labels shuffled. Bounds: in-sample Bayes error of each binned feature, 1 \u2212 \u03a3\u2093 max_y p(x, y). Selection from the 150 most relevant\nfeatures: top-k by MI, mRMR, and random; LDA trained on the training subjects and tested on the 9 test subjects for k = 3\u202640.",
+  "data": "UCI Human Activity Recognition Using Smartphones.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Estimator check, binary symmetric channel \u03b5 = 0.1: I = 1 \u2212 H\u2082(\u03b5)",
+   "predicted": 0.5310044064107188,
+   "measured": 0.5330569221204777,
+   "unit": "bit",
+   "error": 0.38653459085825004,
+   "error_str": "+0.39 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Estimator check, Gaussian pair \u03c1 = 0.8, 30 \u00d7 30 bins: I = \u2212\u00bd log\u2082(1 \u2212 \u03c1\u00b2) (binning loses a little)",
+   "predicted": 0.7369655941662064,
+   "measured": 0.7158477707541101,
+   "unit": "bit",
+   "error": -2.865510083410173,
+   "error_str": "-2.87 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Shuffled labels: raw plug-in MI equals the Miller\u2013Madow bias (B_x\u22121)(B_y\u22121)/(2N ln 2)",
+   "predicted": 0.004415211972252676,
+   "measured": 0.004157977350462775,
+   "unit": "bit",
+   "error": -5.826099027781399,
+   "error_str": "-5.83 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Shuffled labels: bias-corrected MI",
+   "predicted": 0.0,
+   "measured": -0.00021816194946908045,
+   "unit": "bit",
+   "error": -0.00021816194946908045,
+   "error_str": "-2.1816e-04 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Fano lower bound violated by a feature's Bayes error (of 561)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Hellman\u2013Raviv upper bound P\u2091 \u2264 \u00bdH(Y|X) violated (of 561)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Redundancy (mean pairwise MI) among the first 20 mRMR features is lower than among the top-20 by relevance (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "With 10 features, mRMR beats top-MI selection on unseen subjects (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "My expectation: the 10 most informative features beat 10 random ones (1 = yes)",
+   "predicted": 1.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": -1.0,
+   "error_str": "-1",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Class entropy H(Y) / most informative single feature",
+   "value": "2.57 bit / 1.17 bit",
+   "unit": "",
+   "note": "its single-feature Bayes error: 48 %"
+  },
+  {
+   "quantity": "Mean pairwise MI among 20 selected features: top-MI / mRMR",
+   "value": "1.84 / 0.95",
+   "unit": "bit",
+   "note": "the top-ranked features are near-copies of one another"
+  },
+  {
+   "quantity": "LDA on all 561 features",
+   "value": 96.43705463182897,
+   "unit": "%",
+   "note": "mRMR with 40 features: 82.9 %"
+  }
+ ],
+ "figures": [
+  "figures/mi_selection.png"
+ ],
+ "runtime_s": 4.56,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM186-information-theoretic-feature-selection"
+}

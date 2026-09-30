@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fourier drawing machine</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>Fourier drawing machine</h1><p class="lead">Rotating circles, largest first, tracing any closed shape you draw.</p>
+<div class="card"><p class="muted">Draw a closed shape with your mouse or finger in the box (or keep the default), then press play.</p>
+<canvas id="c" width="640" height="420" style="border:1px solid var(--line);border-radius:8px;touch-action:none;width:100%"></canvas>
+<div class="row" style="margin-top:8px"><button id="play">▶ play</button><button id="clear">clear</button>
+<label style="flex:1;min-width:260px">circles: <b id="nv">64</b><input id="n" type="range" min="1" max="256" value="64"></label></div></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const cv=document.getElementById('c'),ctx=cv.getContext('2d');let raw=[],coeffs=null,t=0,trace=[],playing=false,drawing=false;
+const col=()=>getComputedStyle(document.documentElement);
+function heart(){raw=[];for(let i=0;i<300;i++){const a=2*Math.PI*i/300;raw.push([320+160*Math.pow(Math.sin(a),3),200-(130*Math.cos(a)-50*Math.cos(2*a)-20*Math.cos(3*a)-10*Math.cos(4*a))]);}}
+function prep(){coeffs=dft(resample(raw,512));trace=[];t=0;}
+function pos(e){const r=cv.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return[(p.clientX-r.left)*cv.width/r.width,(p.clientY-r.top)*cv.height/r.height];}
+cv.onpointerdown=e=>{drawing=true;playing=false;raw=[pos(e)];};cv.onpointermove=e=>{if(drawing){raw.push(pos(e));frame();}};
+cv.onpointerup=()=>{drawing=false;if(raw.length>10){prep();playing=true;}};
+document.getElementById('play').onclick=()=>{if(raw.length>10){prep();playing=true;}};document.getElementById('clear').onclick=()=>{raw=[];coeffs=null;playing=false;frame();};
+document.getElementById('n').oninput=e=>{document.getElementById('nv').textContent=e.target.value;trace=[];t=0;};
+function frame(){ctx.clearRect(0,0,cv.width,cv.height);ctx.strokeStyle=col().getPropertyValue('--line');ctx.lineWidth=1;ctx.beginPath();raw.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();
+if(playing&&coeffs){const n=+document.getElementById('n').value;let x=0,y=0;ctx.strokeStyle=col().getPropertyValue('--muted');
+for(const c of coeffs.slice(0,n)){const a=2*Math.PI*c.f*t,nx=x+c.re*Math.cos(a)-c.im*Math.sin(a),ny=y+c.re*Math.sin(a)+c.im*Math.cos(a);
+ctx.beginPath();ctx.arc(x,y,c.amp,0,7);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(nx,ny);ctx.stroke();x=nx;y=ny;}
+trace.push([x,y]);if(trace.length>512)trace.shift();ctx.strokeStyle=col().getPropertyValue('--acc');ctx.lineWidth=2.5;ctx.beginPath();trace.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();t=(t+1/512)%1;}}
+(function loop(){if(playing)frame();requestAnimationFrame(loop);})();heart();prep();playing=true;</script></body></html>

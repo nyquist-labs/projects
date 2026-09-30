@@ -1,0 +1,9 @@
+G04 Nyquist Labs eelab.pcb*
+%TF.FileFunction,Legend,Bot*%
+%TF.FilePolarity,Positive*%
+%FSLAX46Y46*%
+%MOMM*%
+%LPD*%
+%ADD10C,0.1500*%
+G01*
+M02*

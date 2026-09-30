@@ -1,0 +1,86 @@
+{
+ "meta": {
+  "id": "SL-068",
+  "title": "Pitch detection: autocorrelation vs cepstrum",
+  "level": "M",
+  "tools": "NumPy implementations of both estimators, synthetic ground-truth notes + real speech",
+  "summary": "Implement autocorrelation and cepstral pitch detectors, test them on 200 synthetic notes with known f\u2080 (including a missing fundamental and noise), report accuracy in cents, then track the pitch of a real spoken 'hello'.",
+  "problem": "How do you find the pitch of a sound whose fundamental may be weak or missing, and which method fails first in noise?",
+  "theory": "Autocorrelation peaks at lag $T_0 = f_s/f_0$ because the waveform repeats every period \u2014 even when the\nfundamental itself is absent. The real cepstrum $c=\\mathcal F^{-1}\\log|X|$ turns the harmonic comb (spacing $f_0$) into a\npeak at quefrency $T_0$. Parabolic interpolation around the peak gives sub-sample lag resolution; the error in\ncents is $1200\\log_2(\\hat f/f)$. Octave errors (\u00d72 or \u00d7\u00bd) are the typical failure.",
+  "method": "Ground truth: 200 notes, f\u2080 uniform on a log scale 80\u2013800 Hz, 8 harmonics with random 1/k-ish amplitudes, 40 ms\nframes at 16 kHz, SNR 20 dB; subset with the fundamental removed; SNR sweep 30\u2192\u22125 dB for 100-note sets.\nAccuracy = % within 50 cents; median |cents| error. Real speech: 30 ms frames, 10 ms hop.",
+  "data": "Synthetic notes with exact ground truth; real public-domain speech for the pitch track.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "Autocorrelation accuracy, full harmonics (\u00b150 cents)",
+   "predicted": 100.0,
+   "measured": 99.0,
+   "unit": "%",
+   "error": -1.0,
+   "error_str": "-1 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Cepstrum accuracy, full harmonics (\u00b150 cents)",
+   "predicted": 100.0,
+   "measured": 92.0,
+   "unit": "%",
+   "error": -8.0,
+   "error_str": "-8 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Autocorrelation accuracy, missing fundamental (\u00b150 cents)",
+   "predicted": 100.0,
+   "measured": 94.5,
+   "unit": "%",
+   "error": -5.5,
+   "error_str": "-5.5 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Cepstrum accuracy, missing fundamental (\u00b150 cents)",
+   "predicted": 100.0,
+   "measured": 84.5,
+   "unit": "%",
+   "error": -15.5,
+   "error_str": "-15.5 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Median |error|, full harmonics: ACF / cepstrum",
+   "value": "0.75 / 10.73 cents",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Median |error|, missing fundamental: ACF / cepstrum",
+   "value": "0.52 / 9.05 cents",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Speech: median ACF\u2013cepstrum disagreement",
+   "value": 22.87058741333211,
+   "unit": "cents",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pitch.png"
+ ],
+ "runtime_s": 0.29,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL068-pitch-detection"
+}

@@ -1,0 +1,86 @@
+{
+ "meta": {
+  "id": "SL-001",
+  "title": "RC low-pass filter",
+  "level": "E",
+  "tools": "eelab mini-SPICE (AC + transient), NumPy",
+  "summary": "First-order RC low-pass: predict the \u22123 dB cutoff with 1/(2\u03c0RC), then sweep it in simulation with a realistic 50 \u03a9 source and 10 M\u03a9 probe load.",
+  "problem": "Where exactly does a 1.6 k\u03a9 / 100 nF RC network stop passing signals, and how much do the source and the measuring instrument shift that point?",
+  "theory": "Voltage divider with $Z_C = 1/(j\\omega C)$:\n\n$$H(j\\omega)=\\frac{1}{1+j\\omega RC},\\qquad f_c=\\frac{1}{2\\pi RC}=\\frac{1}{2\\pi(1600)(100\\,\\text{nF})}\\approx 994.7\\ \\text{Hz}$$\n\nAt $f_c$: $|H| = 1/\\sqrt2$ (\u22123.01 dB) and phase \u221245\u00b0. Above $f_c$ the slope is \u221220 dB/decade.\nStep response: $v(t)=1-e^{-t/\\tau}$ with $\\tau = RC = 160\\ \\mu s$, 10\u201390 % rise time $2.2\\tau$.",
+  "method": "Netlist: 50 \u03a9 generator \u2192 R = 1.6 k\u03a9 \u2192 node `out` \u2192 C = 100 nF to ground, with a 10 M\u03a9\n\u2016 12 pF oscilloscope-probe load on `out`. AC analysis over 10 Hz\u2013100 kHz (400 log points),\nthe \u22123 dB point found by interpolation. A transient step (trapezoidal, 1 \u00b5s step) gives \u03c4 and rise time.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u22123 dB cutoff frequency",
+   "predicted": 994.718394324346,
+   "measured": 964.7087918932028,
+   "unit": "Hz",
+   "error": -3.016894289114556,
+   "error_str": "-3.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Phase at cutoff",
+   "predicted": -45.0,
+   "measured": -45.00185875076211,
+   "unit": "\u00b0",
+   "error": -0.001858750762110617,
+   "error_str": "-0.001859 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "High-frequency slope (10k\u2192100k)",
+   "predicted": -20.0,
+   "measured": -19.960601542760198,
+   "unit": "dB/dec",
+   "error": 0.03939845723980184,
+   "error_str": "+0.0394 dB/dec",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Time constant \u03c4",
+   "predicted": 0.00015999999999999999,
+   "measured": 0.00016549075035570646,
+   "unit": "s",
+   "error": 3.4317189723165464,
+   "error_str": "+3.43 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "10\u201390 % rise time",
+   "predicted": 0.00035152,
+   "measured": 0.00036251037859981943,
+   "unit": "s",
+   "error": 3.126530097809345,
+   "error_str": "+3.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "DC gain (probe loading)",
+   "value": -0.0018997661599817167,
+   "unit": "dB",
+   "note": "10 M\u03a9 probe vs 1.65 k\u03a9 source path"
+  }
+ ],
+ "figures": [
+  "figures/bode.png",
+  "figures/step.png"
+ ],
+ "runtime_s": 0.26,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL001-rc-lowpass-filter"
+}

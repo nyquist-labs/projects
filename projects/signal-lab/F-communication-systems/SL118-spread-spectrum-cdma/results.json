@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "SL-118",
+  "title": "Spread spectrum and CDMA with Walsh and Gold-like codes",
+  "level": "H",
+  "tools": "NumPy DS-CDMA simulator, Walsh\u2013Hadamard and random spreading codes, Gaussian-approximation theory",
+  "summary": "Put K users on the same band with direct-sequence spreading: orthogonal Walsh codes (synchronous) give single-user BER; random codes (asynchronous-like) suffer multiple-access interference that follows the standard Gaussian approximation.",
+  "problem": "How can many users transmit on the same frequency at the same time, and what limits how many?",
+  "theory": "Spreading factor N: each bit becomes N chips. With orthogonal codes (synchronous) cross-correlation is zero \u2192 BER = single-user\n$Q(\\sqrt{2E_b/N_0})$. With random codes, each interferer adds variance \u2248 E_b/N per bit, so (standard Gaussian approximation)\n$P_b\\approx Q\\!\\left(\\left[\\frac{K-1}{N}+\\frac{N_0}{2E_b}\\right]^{-1/2}\\right)$ \u2014 capacity is interference-limited.",
+  "method": "N = 32 chips/bit, K = 1\u202624 users, equal power, E_b/N\u2080 = 8 dB, 20,000 bits per user per point. Walsh rows of a 32\u00d732 Hadamard matrix vs\nindependent random \u00b11 sequences (redrawn each bit).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Walsh codes: BER pooled over all K (should equal single-user BER)",
+   "predicted": 0.00019090777407599314,
+   "measured": 0.00017857142857142857,
+   "unit": "",
+   "error": -6.4619398367999095,
+   "error_str": "-6.46 %",
+   "kind": "rel",
+   "ok": true,
+   "note": "140,000 bits pooled; each K alone has only ~4 expected errors"
+  },
+  {
+   "quantity": "Random codes, 8 users (Gaussian approximation)",
+   "predicted": 0.033485046988129666,
+   "measured": 0.03465,
+   "unit": "",
+   "error": 3.4790245696334434,
+   "error_str": "+3.48 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Random codes, 24 users (Gaussian approximation)",
+   "predicted": 0.13147668430202508,
+   "measured": 0.13485,
+   "unit": "",
+   "error": 2.565714001598805,
+   "error_str": "+2.57 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/cdma.png"
+ ],
+ "runtime_s": 0.47,
+ "folder": "projects/signal-lab/F-communication-systems/SL118-spread-spectrum-cdma"
+}

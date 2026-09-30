@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-136",
+  "title": "MOSFET I\u2013V families and threshold-voltage extraction",
+  "level": "H",
+  "tools": "Physics-based long-channel MOSFET model (EKV-style charge interpolation, mobility degradation, CLM) + standard extraction methods",
+  "summary": "Generate I_D\u2013V_GS and I_D\u2013V_DS families from a physics-based model with known parameters, then extract the threshold voltage by linear extrapolation, constant-current and gm-maximum methods \u2014 and see how each method's answer differs from the true V_T0.",
+  "problem": "Datasheets quote 'the' threshold voltage, but there are several ways to extract it. How do they compare when the true value is known?",
+  "theory": "Square-law: $I_D=\\frac{\\mu C_{ox}W}{2L}(V_{GS}-V_T)^2$ (saturation), $I_D=\\mu C_{ox}\\frac WL(V_{GS}-V_T)V_{DS}$ (linear, small V_DS). Linear-extrapolation (ELR):\nextrapolate I_D(V_GS) at small V_DS from its max-slope point \u2192 V_T + V_DS/2. Mobility degradation $\\mu=\\mu_0/(1+\\theta(V_{GS}-V_T))$ bends the curve and\nbiases ELR. Subthreshold slope $S=nV_T\\ln10$ \u2248 60n mV/decade.",
+  "method": "Model: EKV interpolation $I=I_s[\\ln^2(1+e^{(V_P-V_S)/2V_t})-\\ln^2(1+e^{(V_P-V_D)/2V_t})]$, V_P = (V_G \u2212 V_T0)/n, n = 1.3, \u03b8 = 0.2 V\u207b\u00b9, \u03bb = 0.05 V\u207b\u00b9, V_T0 = 0.7 V,\n\u03bcC_ox W/L = 200 \u00b5A/V\u00b2. V_GS sweep 0\u20133 V at V_DS = 50 mV; families at V_GS = 1\u20133 V. Extractions: ELR, constant current (100 nA\u00b7W/L), \u221aI_D in saturation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Threshold by linear extrapolation (ELR)",
+   "predicted": 0.7,
+   "measured": 0.7155740226133399,
+   "unit": "V",
+   "error": 0.015574022613339955,
+   "error_str": "+15.57 mV",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Threshold by constant current (100 nA \u00d7 W/L)",
+   "predicted": 0.7,
+   "measured": 0.6869455535611012,
+   "unit": "V",
+   "error": -0.013054446438898748,
+   "error_str": "-13.05 mV",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Threshold by \u221aI_D extrapolation in saturation",
+   "predicted": 0.7,
+   "measured": 0.686777731866388,
+   "unit": "V",
+   "error": -0.013222268133611936,
+   "error_str": "-13.22 mV",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Subthreshold slope n\u00b7V_T\u00b7ln10",
+   "predicted": 0.0773843587713067,
+   "measured": 0.07774920911293048,
+   "unit": "V/dec",
+   "error": 0.47147814806093263,
+   "error_str": "+0.47 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/mosfet.png"
+ ],
+ "runtime_s": 0.17,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL136-mosfet-characteristics"
+}

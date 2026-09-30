@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-132",
+  "title": "Mini SPICE, full version: MNA + Newton + transient",
+  "level": "H",
+  "tools": "Self-contained simulator (~120 lines): MNA stamps, Newton\u2013Raphson with diode junction limiting and companion models, trapezoidal/backward-Euler capacitor companions, fixed-step transient; cross-checked against the repository's simulator and analytic ripple formulas",
+  "summary": "Combine modified nodal analysis, Newton iteration and implicit integration into a working transient simulator, run a half-wave rectifier with a smoothing capacitor and a diode clamp, and verify waveforms against an independent simulator and the ripple \u2248 I/(fC) estimate.",
+  "problem": "What is the smallest piece of code that simulates a nonlinear circuit over time the way SPICE does?",
+  "theory": "At each time step, capacitors become companion models (trapezoidal: conductance 2C/h in parallel with a history current source), diodes become linearised conductances g_d = I_s/V_T\u00b7e^{V/V_T} with an equivalent current; Newton iterates the linear MNA solve until\nthe node voltages converge. Rectifier: peak \u2248 V_p \u2212 V_D; ripple \u2248 I_load/(f\u00b7C) (\u2248 1 V for 10 mA, 50 Hz, 200 \u00b5F); conduction angle small.",
+  "method": "Own engine (independent of eelab.circuit): V source 10 V peak 50 Hz \u2192 diode (I_s = 1e-14 A, n = 1.5) \u2192 200 \u00b5F \u2225 1 k\u03a9; h = 20 \u00b5s, 200 ms. Same netlist in eelab.circuit (trap). Ripple, peak and diode peak current compared; Newton iterations per step reported.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Mini SPICE vs repository simulator: max |\u0394v_out| after start-up",
+   "predicted": 0.0,
+   "measured": 9.053735539055197e-11,
+   "unit": "V",
+   "error": 9.053735539055197e-11,
+   "error_str": "+90.54 pV",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ripple \u2248 I_load/(f\u00b7C)",
+   "predicted": 0.8511525468054464,
+   "measured": 0.7770344487346801,
+   "unit": "V",
+   "error": -8.707968782910541,
+   "error_str": "-8.71 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Peak output \u2248 10 V \u2212 diode drop at the charging-current peak (\u2248 0.8\u20131.0 V for n = 1.5)",
+   "predicted": 9.1,
+   "measured": 8.894976908906342,
+   "unit": "V",
+   "error": -0.20502309109365768,
+   "error_str": "-205 mV",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Backward Euler vs trapezoidal ripple (both accurate at h = 20 \u00b5s; ratio)",
+   "predicted": 1.0,
+   "measured": 0.9995233350164086,
+   "unit": "",
+   "error": -0.047666498359144605,
+   "error_str": "-0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Newton iterations per step: median / max",
+   "value": "2 / 4",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/mini_spice_full.png"
+ ],
+ "runtime_s": 1.11,
+ "folder": "projects/applied-math/G-numerical-methods/AM132-mini-spice-full-version"
+}

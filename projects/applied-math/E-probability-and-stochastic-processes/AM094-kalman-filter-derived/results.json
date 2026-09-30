@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "AM-094",
+  "title": "The Kalman filter, derived and tested for consistency",
+  "level": "H",
+  "tools": "Kalman filter as the linear minimum-variance estimator (own implementation), tracking an RC circuit's state and an unknown drifting input, NEES/NIS consistency tests, innovation whiteness, steady-state Riccati gain",
+  "summary": "Estimate the hidden states of a noisy second-order RC network from a single noisy voltage measurement, check that the filter's reported uncertainty is honest (normalised estimation error follows a \u03c7\u00b2 distribution), that innovations are white, and that the gain converges to the algebraic Riccati solution.",
+  "problem": "A filter that outputs a number and an error bar is only useful if the error bar is right. How do you prove a Kalman filter is consistent?",
+  "theory": "For x_{k+1} = Ax_k + w, y_k = Cx_k + v: predict $P^- = APA^T + Q$, gain $K = P^-C^T(CP^-C^T+R)^{-1}$, update $P = (I-KC)P^-$ \u2014 derived by minimising E\u2016x \u2212 x\u0302\u2016\u00b2 over linear estimators. Consistency: normalised estimation error\nsquared $\u03b5 = (x-\\hat x)^TP^{-1}(x-\\hat x)$ ~ \u03c7\u00b2(n), innovations \u03bd = y \u2212 Cx\u0302\u207b are white with variance CP\u207bC\u1d40 + R. P converges to the DARE solution regardless of initial P.",
+  "method": "Two-node RC ladder (\u03c4 \u2248 1 ms, sampled at 10 kHz) plus a third state: the unknown input voltage modelled as a random walk. Process noise on all states, measurement noise \u03c3 = 20 mV on the output node.\n100 Monte-Carlo runs \u00d7 2000 steps: average NEES vs \u03c7\u00b2 95 % bounds, innovation autocorrelation, gain vs DARE.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Average NEES inside the 95 % \u03c7\u00b2 band (fraction of steps after convergence)",
+   "predicted": 0.95,
+   "measured": 0.9627777777777777,
+   "unit": "",
+   "error": 0.012777777777777777,
+   "error_str": "+0.01278",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Mean NEES \u2248 state dimension n = 3",
+   "predicted": 3.0,
+   "measured": 2.9634516191087976,
+   "unit": "",
+   "error": -1.2182793630400792,
+   "error_str": "-1.22 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Normalised innovation variance = 1",
+   "predicted": 1.0,
+   "measured": 0.9962851396205556,
+   "unit": "",
+   "error": -0.37148603794443513,
+   "error_str": "-0.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Innovation autocorrelation at lags 1, 2, 5 (white \u2192 0)",
+   "predicted": 0.0,
+   "measured": 0.0031688549765646243,
+   "unit": "",
+   "error": 0.0031688549765646243,
+   "error_str": "+0.003169",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Converged gain vs steady-state DARE gain (max relative)",
+   "predicted": 0.0,
+   "measured": 2.0852825824106315e-14,
+   "unit": "",
+   "error": 2.0852825824106315e-14,
+   "error_str": "+2.0853e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/kalman.png"
+ ],
+ "runtime_s": 9.66,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM094-kalman-filter-derived"
+}

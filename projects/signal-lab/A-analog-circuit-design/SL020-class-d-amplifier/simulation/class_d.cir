@@ -1,0 +1,10 @@
+* class D — exported by eelab.circuit
+Vp vp 0 DC 20.0 AC 0.0
+Vn vn 0 DC -20.0 AC 0.0
+* switch hi between vp and sw (Ron=0.1, Roff=1000000.0)
+* switch lo between sw and vn (Ron=0.1, Roff=1000000.0)
+Lf sw lx 2.2e-05
+Rdcr lx out 0.05
+Cf out 0 6.8e-07
+RL out 0 8
+.end

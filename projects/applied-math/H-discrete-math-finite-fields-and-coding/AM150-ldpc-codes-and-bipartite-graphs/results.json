@@ -1,0 +1,125 @@
+{
+ "meta": {
+  "id": "AM-150",
+  "title": "LDPC codes: decoding by passing messages on a bipartite graph",
+  "level": "H",
+  "tools": "Random regular (3,6) Tanner-graph construction with 4-cycle removal, girth by breadth-first search (checked with networkx), GF(2) Gaussian elimination for an encoder, vectorised sum-product (belief-propagation) decoder, density evolution by population dynamics, Monte-Carlo BER",
+  "summary": "Build a rate-\u00bd LDPC code as a sparse bipartite graph, decode it by iterative message passing, predict its noise threshold with density evolution, and compare the simulated waterfall of a 2000-bit code with that threshold and with the Shannon limit.",
+  "problem": "How can a code defined by a random sparse graph get within a decibel of the Shannon limit \u2014 with a decoder that only passes local messages?",
+  "theory": "Tanner graph: variable nodes (bits) and check nodes (parity equations). Sum-product: variable\u2192check message = channel LLR + other incoming checks; check\u2192variable: $2\\tanh^{-1}\\prod\\tanh(m/2)$ over the other edges. On a cycle-free graph this is exact\nbit-wise MAP; short cycles (girth 4) hurt. Density evolution tracks the message distribution for infinite length: the regular (3,6) ensemble has a BI-AWGN threshold of **1.11 dB** (Richardson\u2013Urbanke), against the rate-\u00bd Shannon limit of 0.19 dB. A finite code's\nwaterfall sits a few tenths of a dB above the threshold and sharpens with length.",
+  "method": "n = 2000, m = 1000, column weight 3, row weight 6: random socket permutation, then edge swaps until no double edges or 4-cycles remain. Encoder from Gaussian elimination (H\u00b7c = 0 verified). BP: up to 60 iterations, 200 blocks per Eb/N0 (all-zero\ncodeword by symmetry, plus random codewords at one point as a check). Density evolution: 50 000 sampled messages, 400 iterations, bisection on Eb/N0.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Column weight / row weight of H (regular: 3 and 6; number of violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Girth of the Tanner graph after removing 4-cycles",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 confirmed by networkx.girth",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Encoder: H\u00b7c\u1d40 = 0 for 50 random codewords (non-zero syndromes)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Density-evolution threshold of the (3,6) ensemble (literature: 1.11 dB)",
+   "predicted": 1.11,
+   "measured": 1.1015625,
+   "unit": "dB",
+   "error": -0.008437500000000098,
+   "error_str": "-0.008438 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Waterfall (BER = 10\u207b\u00b3) of the n = 2000 code vs the infinite-length threshold (finite-length gap < 0.7 dB)",
+   "predicted": 1.11,
+   "measured": 1.5491556082989921,
+   "unit": "dB",
+   "error": 0.43915560829899203,
+   "error_str": "+0.4392 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Random (non-zero) codewords at 2 dB: blocks decoded correctly",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "of 100",
+   "error": 0.0,
+   "error_str": "+0 of 100",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Rank of H / code dimension k",
+   "value": "1000 / 1000",
+   "unit": "",
+   "note": "rate 0.5000 (H has 0 redundant rows)"
+  },
+  {
+   "quantity": "Gap to the rate-\u00bd BI-AWGN Shannon limit (0.19 dB) at BER 10\u207b\u00b3",
+   "value": 1.362155608298992,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "Uncoded BPSK BER at 2 dB (for scale)",
+   "value": 0.03750612835892598,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "BER / FER at 1.5 dB and 2.0 dB",
+   "value": "9.5e-03 / 0.14   and   1.3e-04 / 0.003",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ldpc.png"
+ ],
+ "runtime_s": 26.6,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM150-ldpc-codes-and-bipartite-graphs"
+}

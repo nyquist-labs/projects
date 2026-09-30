@@ -1,0 +1,64 @@
+{
+ "meta": {
+  "id": "SL-067",
+  "title": "Spectrogram tool and the time-frequency trade-off",
+  "level": "E",
+  "tools": "Own STFT implementation (checked against SciPy), real speech + real satellite audio",
+  "summary": "Build an STFT spectrogram from scratch, verify it against SciPy, and use it on two real recordings: spoken 'hello' (formants, pitch harmonics) and a NOAA-18 weather-satellite pass (the 2.4 kHz APT subcarrier and its Doppler-free structure).",
+  "problem": "What does a sound look like in time and frequency at once, and why can't both be sharp?",
+  "theory": "STFT with window length L at rate $f_s$: frequency resolution $\\Delta f \\approx k_w f_s/L$ (Hann: $k_w$ = 1.44 bins at \u22123 dB),\ntime resolution \u2248 L/f_s. Their product is fixed \u2014 the Gabor limit. For speech (pitch \u2248 100\u2013200 Hz) a 30 ms\nwindow resolves individual harmonics; a 5 ms window resolves glottal pulses instead. NOAA APT: AM subcarrier at\n2400 Hz with a 2 lines/s sync structure, so a narrow window should show a line at 2.4 kHz.",
+  "method": "Own STFT (Hann, hop L/4) vs scipy.signal.stft: max difference. Speech at L = 5 ms and 40 ms. Satellite: SatNOGS\nobservation 11229309 (NOAA-18, 2025-03-14, public data) at 48 kHz; 60 s excerpt; carrier frequency measured\nfrom the long-time average spectrum.",
+  "data": "Real: public-domain speech (Wikimedia Commons) and SatNOGS observation 11229309 (CC-BY-SA, SatNOGS Network).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "Own STFT vs scipy.signal.stft (max relative difference)",
+   "predicted": 0.0,
+   "measured": 9.619754613453909e-08,
+   "unit": "",
+   "error": 9.619754613453909e-08,
+   "error_str": "+9.6198e-08",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Frequency resolution of 40 ms Hann window",
+   "predicted": 36.0,
+   "measured": 36.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0 Hz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "NOAA APT subcarrier frequency",
+   "predicted": 2400.0,
+   "measured": 2402.34375,
+   "unit": "Hz",
+   "error": 0.09765625,
+   "error_str": "+0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Pitch (first harmonic) in loudest frame",
+   "value": 250.0,
+   "unit": "Hz",
+   "note": "adult voice range 85\u2013255 Hz"
+  }
+ ],
+ "figures": [
+  "figures/speech_tradeoff.png",
+  "figures/satellite.png"
+ ],
+ "runtime_s": 0.82,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL067-spectrogram-tool"
+}

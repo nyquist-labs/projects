@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-046",
+  "title": "UART receiver with 16\u00d7 oversampling",
+  "level": "M",
+  "tools": "Verilog RTL, Icarus Verilog (baud-mismatch sweep), Python",
+  "summary": "A 16\u00d7-oversampling 8N1 receiver with majority voting and framing-error detection; sweep the transmitter's baud-rate error and find the tolerance limit.",
+  "problem": "Transmitter and receiver clocks never match exactly. How large a baud-rate mismatch can the receiver absorb before bytes corrupt?",
+  "theory": "The receiver starts its bit timer on the (synchronised) start edge, then takes three samples at the ends of\nticks 7, 8, 9 of each 16-tick bit and majority-votes them. The middle sample of data bit k therefore lands at\n$k+1.5$ bit times after the edge (receiver clock). A transmitter whose bit period is $(1+\\varepsilon)$ times\nnominal puts bit k in $[(k+1)(1+\\varepsilon),\\,(k+2)(1+\\varepsilon))$. The byte is decoded correctly while the\nmiddle sample of the *last* data bit (k = 7, at 8.5) stays inside its cell:\n$$8(1+\\varepsilon)\\le 8.5\\Rightarrow\\varepsilon\\le +6.25\\,\\%,\\qquad 9(1+\\varepsilon)>8.5\\Rightarrow\\varepsilon>-5.56\\,\\%$$\nThe stop bit is sampled at 9.5, so framing errors start earlier: $\\varepsilon > +5.56\\,\\%$ or $\\varepsilon<-5.0\\,\\%$.\n(The common rule of thumb \u00b14\u20135 % is this analysis plus margin for edge-detection jitter and noise.)",
+  "method": "Receiver clocked at 16 \u00d7 115,200 Hz equivalent (CLKS_PER_SAMPLE = 27 at 50 MHz). The testbench's behavioural\ntransmitter sends 200 random bytes at a bit period scaled by (1+\u03b5) for \u03b5 from \u22127 % to +7 %; the count of\nwrong bytes and framing errors is recorded at each \u03b5.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Data-error-free limit, fast TX (|\u03b5|)",
+   "predicted": 0.0556,
+   "measured": 0.055,
+   "unit": "",
+   "error": -0.0005999999999999964,
+   "error_str": "-6.0000e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": "sweep step 0.5 %"
+  },
+  {
+   "quantity": "Data-error-free limit, slow TX (\u03b5)",
+   "predicted": 0.0625,
+   "measured": 0.06,
+   "unit": "",
+   "error": -0.0025000000000000022,
+   "error_str": "-0.0025",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Framing-error-free limit, slow TX (\u03b5)",
+   "predicted": 0.0556,
+   "measured": 0.055,
+   "unit": "",
+   "error": -0.0005999999999999964,
+   "error_str": "-6.0000e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Byte errors at \u03b5 = 0 (200 bytes)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Framing-error-free limit, fast TX (|\u03b5|)",
+   "value": 0.065,
+   "unit": "",
+   "note": "beyond the data limit; the 0.3-bit idle gap between test frames delays framing failures"
+  }
+ ],
+ "figures": [
+  "figures/tolerance.png"
+ ],
+ "runtime_s": 26.34,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL046-uart-receiver"
+}

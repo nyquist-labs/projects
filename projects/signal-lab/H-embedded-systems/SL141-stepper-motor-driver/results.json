@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-141",
+  "title": "Stepper-motor driver with trapezoidal acceleration",
+  "level": "M",
+  "tools": "C firmware (full/half-step sequencing, Austin's real-time ramp algorithm) on the simulated MCU",
+  "summary": "Drive a 200-step/rev stepper through a 3-revolution move with a trapezoidal speed profile computed in real time (David Austin's c_n recurrence); decode step timing from the pin log and compare the velocity profile and move time with kinematics.",
+  "problem": "Steppers stall if you ask them to start at full speed. How does firmware generate an accurate acceleration ramp using only integer-friendly arithmetic?",
+  "theory": "For acceleration \u03b1 (steps/s\u00b2) the first step delay is $c_0=\\sqrt{2/\\alpha}$ and subsequent delays follow $c_n=c_{n-1}-\\frac{2c_{n-1}}{4n+1}$ (Austin 2005),\napproximating the exact $c_n = \\sqrt{2/\\alpha}(\\sqrt{n+1}-\\sqrt n)$. Trapezoid: accelerate to v_max over $v_{max}^2/(2\\alpha)$ steps, cruise, decelerate\nsymmetrically. Move time = $\\frac{S}{v_{max}}+\\frac{v_{max}}{\\alpha}$ when the cruise phase exists. Half-stepping doubles resolution (400 steps/rev).",
+  "method": "S = 1,200 half-steps (3 rev), \u03b1 = 4,000 steps/s\u00b2, v_max = 2,000 steps/s. Coil outputs A, B, A\u0305, B\u0305 on 4 pins with the 8-state half-step table;\nfirmware schedules each step at the computed delay (1 \u00b5s resolution).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Move time (S/v_max + v_max/\u03b1)",
+   "predicted": 1.1,
+   "measured": 1.0554139999999999,
+   "unit": "s",
+   "error": -4.0532727272727485,
+   "error_str": "-4.05 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Cruise speed reached",
+   "predicted": 2000.0,
+   "measured": 1999.9999999999982,
+   "unit": "steps/s",
+   "error": -9.094947017729283e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Acceleration during the ramp",
+   "predicted": 4000.0,
+   "measured": 3991.236203457055,
+   "unit": "steps/s\u00b2",
+   "error": -0.21909491357362185,
+   "error_str": "-0.22 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Coil pins used",
+   "value": 4.0,
+   "unit": "",
+   "note": "half-step table: A, AB, B, B\u0100, \u0100, \u0100B\u0304, B\u0304, B\u0304A"
+  }
+ ],
+ "figures": [
+  "figures/profile.png"
+ ],
+ "runtime_s": 0.35,
+ "folder": "projects/signal-lab/H-embedded-systems/SL141-stepper-motor-driver"
+}

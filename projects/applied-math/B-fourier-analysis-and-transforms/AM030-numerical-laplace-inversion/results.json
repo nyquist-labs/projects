@@ -1,0 +1,81 @@
+{
+ "meta": {
+  "id": "AM-030",
+  "title": "Numerical Laplace inversion: Stehfest vs Talbot",
+  "level": "H",
+  "tools": "Own Gaver\u2013Stehfest and fixed-Talbot inversion algorithms, test transforms with known inverses (including non-rational e^{\u2212\u221as}/s), multiprecision-free error study",
+  "summary": "Recover time responses from F(s) numerically with two classic algorithms, test them on smooth, oscillatory and non-rational transforms with known inverses, and measure where each breaks down.",
+  "problem": "Many circuit and diffusion problems give F(s) in closed form but no neat inverse. How reliable are numerical inversions?",
+  "theory": "Gaver\u2013Stehfest uses only real s: $f(t)\u2248\\frac{\\ln2}{t}\\sum_{k=1}^{N}V_kF(k\\ln2/t)$ with alternating combinatorial weights $V_k$ \u2014 excellent for smooth, non-oscillating f, but it cannot\nrepresent oscillations (all samples on the real axis) and needs high precision as N grows (weights ~10^{N/2}). Fixed Talbot deforms the Bromwich contour into the left half-plane, where\n$e^{st}$ decays, giving near-exponential convergence even for oscillatory f. Predictions: Stehfest ~1e-6 on e^{\u2212t}, poor on sin t; Talbot ~1e-10 on all.",
+  "method": "Test pairs: 1/(s+1) \u2192 e^{\u2212t}; 1/(s\u00b2+1) \u2192 sin t; e^{\u2212\u221as}/s \u2192 erfc(1/(2\u221at)) (diffusion into a half-space, an RC transmission line); t \u2208 [0.1, 10]. Stehfest N = 14 (double precision), Talbot M = 32.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "1/(s+1) \u2192 e^(\u2212t): Talbot worst error",
+   "predicted": 0.0,
+   "measured": 2.4162727374488213e-11,
+   "unit": "",
+   "error": 2.4162727374488213e-11,
+   "error_str": "+2.4163e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1/(s\u00b2+1) \u2192 sin t: Talbot worst error",
+   "predicted": 0.0,
+   "measured": 1.506550439955845e-11,
+   "unit": "",
+   "error": 1.506550439955845e-11,
+   "error_str": "+1.5066e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "e^(\u2212\u221as)/s \u2192 erfc(1/(2\u221at)): Talbot worst error",
+   "predicted": 0.0,
+   "measured": 9.62929735948137e-12,
+   "unit": "",
+   "error": 9.62929735948137e-12,
+   "error_str": "+9.6293e-12",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "1/(s+1) \u2192 e^(\u2212t): Stehfest (N = 14) worst error",
+   "value": 5.219265075848568e-05,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "1/(s\u00b2+1) \u2192 sin t: Stehfest (N = 14) worst error",
+   "value": 0.6630446543003836,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "e^(\u2212\u221as)/s \u2192 erfc(1/(2\u221at)): Stehfest (N = 14) worst error",
+   "value": 1.2905024090171385e-05,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Stehfest on e^(\u2212t): best N and error (then round-off takes over)",
+   "value": "N = 18, 6.4e-06",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/laplace_inversion.png"
+ ],
+ "runtime_s": 0.14,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM030-numerical-laplace-inversion"
+}

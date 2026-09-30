@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-155",
+  "title": "A custom Wokwi chip: I\u00b2C 12-bit DAC written with the Chips API",
+  "level": "H",
+  "tools": "C chip model in the style of the Wokwi Chips API (chip.c + chip.json) with a host-side mock of the API for testing",
+  "summary": "Write a simulated I\u00b2C 12-bit DAC (MCP4725-like) as a Wokwi custom chip, then test it on the PC by mocking the Chips API: the harness plays an I\u00b2C master, sends 4,096 codes and checks the analog output voltage and the fast-write command format.",
+  "problem": "Simulators only ship common parts. How do you add your own component \u2014 and test its model before trusting it?",
+  "theory": "MCP4725 fast-write: two bytes [0 0 PD1 PD0 D11 D10 D9 D8][D7\u2026D0]; V_out = V_DD\u00b7code/4096. Resolution = 3.3 V/4096 = 0.806 mV; the model must reproduce\nevery code exactly, ignore bytes for other addresses and answer ACK only for its own address (0x60).",
+  "method": "chip.c implements the Wokwi callbacks (`chip_init`, `on_i2c_connect`, `on_i2c_write`, `on_i2c_disconnect`) and drives an analog pin. A host mock\n(`wokwi-api-mock.h`) implements `i2c_init`, `pin_dac_write` and friends so the same chip.c compiles on the PC; the harness writes all codes.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Addresses other than 0x60 that ACK (of 127)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Max |V_out \u2212 3.3\u00b7code/4096| over all 4,096 codes",
+   "predicted": 0.0,
+   "measured": 1.921874996924089e-07,
+   "unit": "V",
+   "error": 1.921874996924089e-07,
+   "error_str": "+192.2 nV",
+   "kind": "abs",
+   "ok": null,
+   "note": "float32 rounding only"
+  },
+  {
+   "quantity": "LSB size",
+   "predicted": 0.0008056640625,
+   "measured": 0.0008056000000000729,
+   "unit": "V",
+   "error": -0.007951515142458301,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Monotonic (all steps > 0)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/dac.png"
+ ],
+ "runtime_s": 0.42,
+ "folder": "projects/signal-lab/H-embedded-systems/SL155-custom-wokwi-chip"
+}

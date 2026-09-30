@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-216",
+  "title": "How close do real codes get to the Shannon limit?",
+  "level": "H",
+  "tools": "Simulated bit-error curves of uncoded BPSK, the K = 7 convolutional code with soft Viterbi decoding, and the (3,6) LDPC code of AM-150 with belief propagation, all rate \u2264 \u00bd on the AWGN channel; the Shannon limit for binary inputs from the constellation-constrained capacity; required E_b/N\u2080 at BER 10\u207b\u2075 and the resulting gaps",
+  "summary": "Put three generations of coding on one plot: measure the energy per bit each needs for a bit error rate of 10\u207b\u2075 and compare with the theoretical minimum for their rate and modulation, turning the history of channel coding (9.6 dB \u2192 4.4 dB \u2192 \u2248 2 dB against 0.2 dB) into numbers.",
+  "problem": "Capacity is a limit nobody reaches exactly. How far away are the codes actually used, and where did the decibels come from?",
+  "theory": "Uncoded BPSK: $P_b=Q(\\sqrt{2E_b/N_0})$, 10\u207b\u2075 at 9.59 dB. For rate R with binary inputs, reliable transmission requires $R<C_{BPSK}(E_s/N_0)$, $E_s=RE_b$; at R = \u00bd this gives E_b/N\u2080 \u2265 0.187 dB (and 0 dB without the binary restriction). Allowing a residual bit error $P_b$ relaxes the limit slightly (rate\u2013distortion:\nR(1 \u2212 H\u2082(P_b)) < C), negligible at 10\u207b\u2075. Classic benchmarks at 10\u207b\u2075: K = 7, rate-\u00bd convolutional code \u2248 4.4 dB (gap \u2248 4.2 dB); rate-\u00bd LDPC codes of a few thousand bits: \u2248 1.5\u20132 dB; the gap shrinks further with length.",
+  "method": "BPSK over AWGN. Convolutional code (171,133)\u2088, terminated 1000-bit blocks, soft Viterbi, up to 10\u2077 bits per point. LDPC: the (3,6) code of length 2000 from AM-150 with sum-product decoding (60 iterations), all-zero codeword, up to 400 blocks per point (a point with no bit errors is entered as \u00bd error / bits simulated). E_b/N\u2080 at BER 10\u207b\u2075\nby log-linear interpolation between simulated points. Binary-input Shannon limit by Monte-Carlo mutual information and root finding.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Shannon limit for rate \u00bd with binary inputs (E_b/N\u2080)",
+   "predicted": 0.187,
+   "measured": 0.17840716328853468,
+   "unit": "dB",
+   "error": -0.008592836711465324,
+   "error_str": "-0.008593 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Uncoded BPSK: E_b/N\u2080 for BER 10\u207b\u2075",
+   "predicted": 9.59,
+   "measured": 9.587858346847607,
+   "unit": "dB",
+   "error": -0.002141653152392564,
+   "error_str": "-0.002142 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 7 convolutional code, soft Viterbi: E_b/N\u2080 for BER 10\u207b\u2075 (textbook \u2248 4.4 dB)",
+   "predicted": 4.4,
+   "measured": 4.1709190424606986,
+   "unit": "dB",
+   "error": -0.2290809575393018,
+   "error_str": "-0.2291 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "(3,6) LDPC, n = 2000, belief propagation: E_b/N\u2080 for BER 10\u207b\u2075 (between the ensemble threshold 1.11 dB and \u2248 2.5 dB)",
+   "predicted": 1.8,
+   "measured": 1.9020798844715503,
+   "unit": "dB",
+   "error": 0.10207988447155025,
+   "error_str": "+0.1021 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Gap to the rate-\u00bd binary Shannon limit at BER 10\u207b\u2075: uncoded (rate 1 limit differs) / convolutional / LDPC",
+   "value": "9.4 / 4.0 / 1.7 dB",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Coding gain over uncoded BPSK at BER 10\u207b\u2075: convolutional / LDPC",
+   "value": "5.4 / 7.7 dB",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/gap_to_shannon.png"
+ ],
+ "runtime_s": 17.35,
+ "folder": "projects/applied-math/L-information-theory/AM216-gap-to-shannon-limit"
+}

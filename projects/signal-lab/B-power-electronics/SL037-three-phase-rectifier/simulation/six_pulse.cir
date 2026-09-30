@@ -1,0 +1,19 @@
+* 6-pulse — exported by eelab.circuit
+Va a 0 DC 0.0 AC 0.0  ; time-varying in eelab
+Vb b 0 DC 0.0 AC 0.0  ; time-varying in eelab
+Vc c 0 DC 0.0 AC 0.0  ; time-varying in eelab
+RL pos m 20
+LL m neg 0.2
+Dap a pos D_ap
+Dan neg a D_an
+Dbp b pos D_bp
+Dbn neg b D_bn
+Dcp c pos D_cp
+Dcn neg c D_cn
+.model D_an D(Is=1e-09 N=1.5)
+.model D_ap D(Is=1e-09 N=1.5)
+.model D_bn D(Is=1e-09 N=1.5)
+.model D_bp D(Is=1e-09 N=1.5)
+.model D_cn D(Is=1e-09 N=1.5)
+.model D_cp D(Is=1e-09 N=1.5)
+.end

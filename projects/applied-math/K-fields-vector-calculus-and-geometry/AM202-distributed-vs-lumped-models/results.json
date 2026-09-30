@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "AM-202",
+  "title": "Distributed vs lumped: exactly when the lumped model fails",
+  "level": "M",
+  "tools": "Exact transmission-line input impedance, single- and multi-section LC ladder models (ABCD matrices), error versus electrical length, convergence of n-section ladders, the quarter-wave resonance versus the lumped LC resonance, the \u03bb/10 rule of thumb quantified",
+  "summary": "Compare a transmission line with its lumped-element approximations frequency by frequency: map how the error grows with electrical length, show that n-section ladders converge as 1/n\u00b2, and pin down the classic failure \u2014 a single LC section puts the open line's first resonance 36 % too low.",
+  "problem": "'Treat it as a lumped circuit if it is shorter than \u03bb/10' \u2014 how wrong is the lumped model at \u03bb/10, at \u03bb/4, and how many sections fix it?",
+  "theory": "Line of length \u2113, $Z_0=\\sqrt{L'/C'}$, phase constant \u03b2: $Z_{in}=Z_0\\frac{Z_L+jZ_0\\tan\u03b2\u2113}{Z_0+jZ_L\\tan\u03b2\u2113}$. A symmetric \u03c0 section (series $L'\u2113/n$, half the shunt capacitance at each end) reproduces the line's ABCD matrix with errors of third order in its electrical length \u03b2\u2113/n, so the impedance error\nof one section grows as $(\u03b2\u2113)^3$ and that of n sections as $(\u03b2\u2113)^3/n^2$. Open-circuited line: first resonance (Z_in \u2192 0) at \u2113 = \u03bb/4, $f=v/(4\u2113)$. One \u03c0 section resonates when its series L meets the far half-capacitance: $f=\\frac{\\sqrt2\\,v}{2\u03c0\u2113}$ = 0.90 of the true value;\nputting all the capacitance at the far end (an L section) gives $v/(2\u03c0\u2113)$, a factor 2/\u03c0 = 0.64 low. With n sections the lowest mode approaches v/(4\u2113) with a 1/n\u00b2 error.",
+  "method": "Z\u2080 = 50 \u03a9, v = 2\u00d710\u2078 m/s, \u2113 = 1 m, load 100 \u03a9 and open circuit; electrical length swept 0.001 to 0.5 \u03bb. Symmetric \u03c0 sections. Error = |Z_lumped \u2212 Z_exact|/|Z_exact|. Resonances found by root finding on Im Z_in.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Error of one \u03c0 section grows as (\u03b2\u2113)\u00b3: log-log slope at small electrical length (I first expected 2)",
+   "predicted": 3.0,
+   "measured": 2.9855264648237956,
+   "unit": "",
+   "error": -0.014473535176204422,
+   "error_str": "-0.01447",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "n-section ladder: error \u221d 1/n\u00b2 (ratio 4 \u2192 8 sections at \u2113 = 0.2\u03bb)",
+   "predicted": 4.0,
+   "measured": 4.076252976920386,
+   "unit": "\u00d7",
+   "error": 1.906324423009642,
+   "error_str": "+1.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rule of thumb \u03bb/10: single-section error there is a few percent (< 10 %; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Open line, one \u03c0 section: first resonance \u221a2\u00b7v/(2\u03c0\u2113) = 0.90 \u00d7 the quarter-wave frequency",
+   "predicted": 45015815.80785531,
+   "measured": 45015815.80785531,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "One L section (all capacitance at the far end): resonance v/(2\u03c0\u2113) = 2/\u03c0 \u00d7 the quarter-wave frequency",
+   "predicted": 31830988.618379068,
+   "measured": 31830988.618379068,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ladder resonance error \u221d 1/n\u00b2 (ratio of errors, 16 \u2192 32 sections)",
+   "predicted": 4.0,
+   "measured": 3.999638579328616,
+   "unit": "\u00d7",
+   "error": -0.009035516784594577,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Single \u03c0 section, 100 \u03a9 load: impedance error at \u2113 = \u03bb/100 / \u03bb/20 / \u03bb/10 / \u03bb/4",
+   "value": "0.01 % / 0.70 % / 4.88 % / 168.28 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Exact quarter-wave resonance / one section / 4 / 32 sections",
+   "value": "50.0 / 45.0 / 49.68 / 49.995 MHz",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/lumped.png"
+ ],
+ "runtime_s": 1.46,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM202-distributed-vs-lumped-models"
+}

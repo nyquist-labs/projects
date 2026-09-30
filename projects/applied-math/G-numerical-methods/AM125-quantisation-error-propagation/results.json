@@ -1,0 +1,81 @@
+{
+ "meta": {
+  "id": "AM-125",
+  "title": "Quantisation noise through a filter cascade: ordering matters",
+  "level": "H",
+  "tools": "Bit-true direct-form-I biquad cascade with the accumulator rounded to Q15 inside each recursion, L\u221e scaling between sections for every ordering, noise-gain prediction from each rounding point to the output, all 24 orderings of four sections simulated in parallel",
+  "summary": "Implement an 8th-order narrow band-pass as four fixed-point biquads, scale each ordering so that no internal node can overflow on a sine wave, predict the output round-off noise from the noise gains, verify all 24 section orderings against a bit-true simulation, and measure how much the ordering alone changes the noise.",
+  "problem": "Same filter, same word length \u2014 why does re-ordering the sections change the output noise?",
+  "theory": "Rounding the accumulator of section k injects white noise of variance q\u00b2/12 *inside* its recursion, so it reaches the output through $1/A_k(z)$ and all later (scaled) sections: $\u03c3^2=\\frac{q^2}{12}\\sum_k\\|\\,\\tfrac{1}{A_k}\\prod_{j>k}s_jH_j\\|_2^2$.\nThe scale factors $s_j$ are forced by overflow: the response from the input to every section output must not exceed 1 (L\u221e scaling). Ordering changes both the scale factors and what each noise source sees downstream, so the output noise depends on the order\neven though the overall transfer function does not. Rule of thumb (Jackson): order sections by increasing pole radius \u2014 the peakiest section last.",
+  "method": "8th-order elliptic band-pass (0.19\u20130.21 fs) \u2192 4 SOS. For each of the 24 orderings: L\u221e scaling of the partial cascades, then a bit-true simulation (rounding to 2\u207b\u00b9\u2075 in every recursion) of 2\u00b9\u2077 samples of white noise at \u221226 dBFS against the same scaled\ncascade in float64. Predicted \u03c3\u00b2 from 60 000-sample impulse responses.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Predicted vs measured output noise, worst ratio over all 24 orderings",
+   "predicted": 1.0,
+   "measured": 1.0550059669190683,
+   "unit": "",
+   "error": 5.500596691906834,
+   "error_str": "+5.50 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Spread between best and worst ordering: bit-true simulation vs noise-gain model",
+   "predicted": 3.987817684507548,
+   "measured": 4.262020790751279,
+   "unit": "dB",
+   "error": 0.2742031062437311,
+   "error_str": "+0.2742 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "The model picks the same best ordering as the simulation (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Section pole radii (sections 0\u20263)",
+   "value": "0.9729, 0.9734, 0.9897, 0.9901",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Best / worst ordering (section indices)",
+   "value": "(1, 2, 3, 0) / (2, 0, 1, 3)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Rule of thumb 'increasing pole radius' ordering: noise relative to the best",
+   "value": 0.4889966225023781,
+   "unit": "dB",
+   "note": "ordering (0, 1, 2, 3)"
+  },
+  {
+   "quantity": "Output noise of the best ordering, in units of q\u00b2/12",
+   "value": 84.94420853613619,
+   "unit": "",
+   "note": "i.e. the noise gain of the whole structure"
+  }
+ ],
+ "figures": [
+  "figures/cascade_noise.png"
+ ],
+ "runtime_s": 3.75,
+ "folder": "projects/applied-math/G-numerical-methods/AM125-quantisation-error-propagation"
+}

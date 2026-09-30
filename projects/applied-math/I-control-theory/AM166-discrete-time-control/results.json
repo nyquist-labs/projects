@@ -1,0 +1,135 @@
+{
+ "meta": {
+  "id": "AM-166",
+  "title": "Discrete-time control: ZOH models, deadbeat response and controller emulation",
+  "level": "H",
+  "tools": "Exact zero-order-hold discretisation (matrix exponential) checked against scipy.signal.cont2discrete, pole mapping z = e^{sT}, deadbeat state feedback by discrete Ackermann, inter-sample simulation of the continuous plant, forward-Euler / backward-Euler / Tustin emulation of a continuous compensator",
+  "summary": "Model a continuous plant as seen by a computer, design a deadbeat controller that settles in exactly n samples (something no continuous linear controller can do), look between the samples, and show how the choice of discretisation rule decides whether an emulated analog controller stays stable.",
+  "problem": "A digital controller only sees samples and only changes its output at sample instants. What is the plant from its point of view, and what can it do that an analog one cannot?",
+  "theory": "With a zero-order hold, $x_{k+1}=e^{AT}x_k+\\int_0^Te^{A\u03c4}d\u03c4\\,B\\,u_k$ exactly; poles map as $z=e^{sT}$. State feedback placing all n poles at z = 0 makes $(A_d-B_dK)^n=0$: any initial state is driven to zero in n steps (deadbeat). The required\neffort grows roughly as $1/T^2$ for a double-integrator-like plant. Emulating a compensator pole s = \u2212a: forward Euler $z=1-aT$ (unstable for $aT>2$), backward Euler $z=1/(1+aT)$ and Tustin $z=\\frac{1-aT/2}{1+aT/2}$ (always stable).",
+  "method": "Plant $G=\frac{1}{s(s+1)}$ (motor with inertia), T = 0.2 s. Deadbeat gain by Ackermann on (A_d, B_d); plant simulated continuously between samples (100 sub-steps). Effort scaling for T = 0.2, 0.1, 0.05. Emulation: lead compensator\n$C=\frac{10(s+1)}{s+20}$ at T = 0.02\u20260.2 s with the three rules; stability of the discrete compensator and of the closed loop.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Own ZOH discretisation vs scipy.signal.cont2discrete (max difference)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Discrete poles = e^{sT}: second pole e^{\u2212T}",
+   "predicted": 0.8187307530779818,
+   "measured": 0.8187307530779818,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "ZOH adds a sampling zero: zero of the pulse transfer function (\u2248 \u22121 for small T; exact value from the formula)",
+   "predicted": -0.9355254555685965,
+   "measured": -0.935525455568585,
+   "unit": "",
+   "error": 1.2223394976130214e-12,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Deadbeat: (A_d \u2212 B_dK)\u00b2 = 0 (largest element)",
+   "predicted": 0.0,
+   "measured": 9.992007221626409e-16,
+   "unit": "",
+   "error": 9.992007221626409e-16,
+   "error_str": "+9.9920e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Deadbeat step: position error after exactly 2 samples",
+   "predicted": 0.0,
+   "measured": 3.209617901317463e-15,
+   "unit": "",
+   "error": 3.209617901317463e-15,
+   "error_str": "+3.2096e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and no inter-sample ripple afterwards (max |y \u2212 1| for t > 2T)",
+   "predicted": 0.0,
+   "measured": 3.1086244689504383e-15,
+   "unit": "",
+   "error": 3.1086244689504383e-15,
+   "error_str": "+3.1086e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Deadbeat effort: peak |u| ratio when T is halved (\u2248 4\u00d7 for a double-integrator-like plant)",
+   "predicted": 4.0,
+   "measured": 3.80967483607192,
+   "unit": "\u00d7",
+   "error": -4.7581290982020015,
+   "error_str": "-4.76 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Forward Euler: compensator pole leaves the unit circle at T = 2/a",
+   "predicted": 0.1,
+   "measured": 0.10199999999999992,
+   "unit": "s",
+   "error": 1.9999999999999185,
+   "error_str": "+2.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Backward Euler and Tustin: compensator stable at every tested T (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Peak control for a unit step, T = 0.2 / 0.1 / 0.05 s",
+   "value": "28 / 105 / 410",
+   "unit": "",
+   "note": "settling time 2T \u2014 speed is bought with actuator effort"
+  },
+  {
+   "quantity": "Closed loop first unstable at T (forward Euler / backward Euler / Tustin)",
+   "value": "0.100 s / stable to 0.2 s / stable to 0.2 s",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/discrete.png"
+ ],
+ "runtime_s": 0.22,
+ "folder": "projects/applied-math/I-control-theory/AM166-discrete-time-control"
+}

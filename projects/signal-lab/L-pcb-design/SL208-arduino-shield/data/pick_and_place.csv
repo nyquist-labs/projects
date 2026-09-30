@@ -1,0 +1,17 @@
+ref,value,footprint,x_mm,y_mm,rot,side,type
+J1,Power 1x08,PinHeader_1x08_P2.54mm,36.83,2.54,0,top,THT
+J2,Analog 1x06,PinHeader_1x06_P2.54mm,57.15,2.54,0,top,THT
+J3,Digital 0-7 1x08,PinHeader_1x08_P2.54mm,54.61,50.8,0,top,THT
+J4,Digital 8-13 1x10,PinHeader_1x10_P2.54mm,30.23,50.8,0,top,THT
+R1,330,C_0805,40,40,90,top,SMD
+D1,LED,C_0805,40,33,90,top,SMD
+R2,330,C_0805,46,40,90,top,SMD
+D2,LED,C_0805,46,33,90,top,SMD
+R3,330,C_0805,52,40,90,top,SMD
+D3,LED,C_0805,52,33,90,top,SMD
+R4,330,C_0805,58,40,90,top,SMD
+D4,LED,C_0805,58,33,90,top,SMD
+SW1,Button,SW_PUSH_6mm,22,30,0,top,THT
+C1,100n,C_0805,30,30,90,top,SMD
+RV1,10k,Potentiometer_Trimmer_P2.54mm,40,16,0,top,THT
+J5,I2C GND/5V/SDA/SCL,PinHeader_1x04_P2.54mm,20,16,0,top,THT

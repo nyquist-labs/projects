@@ -1,0 +1,142 @@
+{
+ "meta": {
+  "id": "AM-175",
+  "title": "Support vector machines: margins, duality and kernels",
+  "level": "H",
+  "tools": "Own linear soft-margin SVM by dual coordinate descent, primal/dual objective and duality gap, KKT and support-vector checks, geometric margin on separable data, own kernel SVM (simplified SMO) with an RBF kernel, comparison with LDA and logistic regression on real ECG beats",
+  "summary": "Implement the SVM from its optimisation problem, verify the theory that defines it \u2014 zero duality gap, KKT conditions, the 2/\u2016w\u2016 margin, only support vectors mattering \u2014 then use an RBF kernel on a problem no line can solve and compare all three linear classifiers on real arrhythmia data.",
+  "problem": "What exactly is a 'maximum-margin' classifier, how do we know a solver has found it, and what does the kernel trick add?",
+  "theory": "Primal: $\\min_w\\tfrac12\\|w\\|^2+C\\sum_i\\max(0,1-y_iw^Tx_i)$. Dual: $\\max_\u03b1\\sum_i\u03b1_i-\\tfrac12\\|\\sum_i\u03b1_iy_ix_i\\|^2$, $0\\le\u03b1_i\\le C$, with $w=\\sum_i\u03b1_iy_ix_i$. Strong duality: the two optima are equal (gap \u2192 0). KKT:\n$\u03b1_i=0$ \u21d2 margin \u2265 1; $0<\u03b1_i<C$ \u21d2 margin = 1 (on the margin); $\u03b1_i=C$ \u21d2 margin \u2264 1. Removing non-support vectors leaves the solution unchanged. On separable data the margin width is 2/\u2016w\u2016. Replacing $x_i^Tx_j$ by a kernel\n$k(x_i,x_j)=e^{-\u03b3\\|x_i-x_j\\|^2}$ gives a non-linear boundary at the same cost in the dual.",
+  "method": "(1) Separable 2-D blobs: margin vs the smallest sample distance to the boundary. (2) PVC detection (7 features, train 10 patients / test 10 others): dual coordinate descent, C = 1, class-balanced by replicating the minority; objectives, KKT violations,\nretraining on support vectors only. (3) Two interleaved half-moons: linear vs RBF SVM trained by SMO on 400 points.",
+  "data": "PhysioNet MIT-BIH Arrhythmia Database (beat features built by eelab.ml.ecg_beats).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Separable data: distance of the closest points to the boundary on both sides are equal (ratio)",
+   "predicted": 1.0,
+   "measured": 0.9999999996858695,
+   "unit": "",
+   "error": -3.1413049939033044e-08,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and equal 1/\u2016w\u2016 in the augmented space projected to the plane: margin width vs 2\u00b7(closest distance)",
+   "predicted": 3.2507226309322594,
+   "measured": 3.2507226319534097,
+   "unit": "",
+   "error": 3.14130238529714e-08,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Duality gap (primal \u2212 dual) relative to the primal objective",
+   "predicted": 0.0,
+   "measured": 0.00014808884737349298,
+   "unit": "",
+   "error": 0.00014808884737349298,
+   "error_str": "+1.4809e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "w reconstructed from the dual variables \u03a3\u03b1\u1d62y\u1d62x\u1d62 (max difference)",
+   "predicted": 0.0,
+   "measured": 5.5067062021407764e-14,
+   "unit": "",
+   "error": 5.5067062021407764e-14,
+   "error_str": "+5.5067e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "KKT violations among the training samples (tolerance 0.02 on the margin)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Retraining on the support vectors alone gives the same classifier (relative change of w)",
+   "predicted": 0.0,
+   "measured": 0.001549106549973377,
+   "unit": "",
+   "error": 0.001549106549973377,
+   "error_str": "+0.001549",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Linear SVM vs logistic regression on unseen patients: AUC difference (three linear models should be close)",
+   "predicted": 0.0,
+   "measured": 0.0005663077087626478,
+   "unit": "",
+   "error": 0.0005663077087626478,
+   "error_str": "+5.6631e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Two half-moons: RBF-kernel SVM test accuracy (a line cannot exceed \u2248 88 %)",
+   "predicted": 99.0,
+   "measured": 99.7,
+   "unit": "%",
+   "error": 0.7000000000000028,
+   "error_str": "+0.7 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Support vectors on the separable problem",
+   "value": 2.0,
+   "unit": "",
+   "note": "of 200 points"
+  },
+  {
+   "quantity": "Support vectors: on the margin / inside or wrong (\u03b1 = C) / total samples",
+   "value": "15 / 135 / 4120",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Test AUC: linear SVM / logistic regression / LDA",
+   "value": "0.9887 / 0.9882 / 0.9910",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Linear SVM at its natural threshold: sensitivity / positive predictivity",
+   "value": "97.7 % / 88.8 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Half-moons test accuracy: linear / RBF",
+   "value": "88.0 % / 99.7 %",
+   "unit": "",
+   "note": "21 support vectors of 400"
+  }
+ ],
+ "figures": [
+  "figures/svm.png"
+ ],
+ "runtime_s": 8.27,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM175-support-vector-machine"
+}

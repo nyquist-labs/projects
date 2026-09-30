@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-172",
+  "title": "ECG R-peak detection (Pan\u2013Tompkins) on MIT-BIH",
+  "level": "M",
+  "tools": "Own Pan\u2013Tompkins implementation (band-pass, derivative, squaring, moving-window integration, adaptive thresholds, search-back), wfdb",
+  "summary": "Detect heartbeats in 10 real MIT-BIH Arrhythmia Database records and score sensitivity and positive predictivity against the cardiologist annotations with the standard \u00b1150 ms tolerance.",
+  "problem": "Almost every heart-rate device starts by finding each heartbeat's R peak. How well does the classic 1985 algorithm do on real, noisy, arrhythmic recordings?",
+  "theory": "Pan\u2013Tompkins emphasises the QRS complex's steep slopes: 5\u201315 Hz band-pass, 5-point derivative, squaring, 150 ms integration, then two adaptive\nthresholds (signal and noise peak estimates) with a 200 ms refractory period, T-wave discrimination and search-back after 1.66 \u00d7 the mean RR. The\noriginal paper reports 99.3 % sensitivity on MIT-BIH; performance drops on records with bundle-branch blocks, paced beats and heavy noise.",
+  "method": "Records 100, 101, 103, 105, 106, 108, 119, 200, 203, 210 (lead MLII, 360 Hz, first 10 minutes each). Reference = beat annotations (non-beat labels such\nas rhythm changes excluded). Se = TP/(TP + FN), +P = TP/(TP + FP).",
+  "data": "Real: MIT-BIH Arrhythmia Database (Moody & Mark 2001, PhysioNet), ODC-By license.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Gross sensitivity (Pan & Tompkins 1985 report 99.3 %)",
+   "predicted": 99.3,
+   "measured": 98.58409421728199,
+   "unit": "%",
+   "error": -0.7159057827180106,
+   "error_str": "-0.716 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gross positive predictivity (paper: 99.5 %)",
+   "predicted": 99.5,
+   "measured": 99.70556745182013,
+   "unit": "%",
+   "error": 0.20556745182013003,
+   "error_str": "+0.206 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Beats scored",
+   "value": 7557.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Hardest record",
+   "value": "203: Se 90.6 %, +P 99.8 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/detections.png"
+ ],
+ "runtime_s": 0.26,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL172-ecg-r-peak-detection"
+}

@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "id": "SL-098",
+  "title": "Link budget calculator (validated on a real NOAA pass)",
+  "level": "M",
+  "tools": "Python link-budget model + interactive HTML calculator; comparison with SatNOGS-measured SNR",
+  "summary": "A link-budget tool (path loss, antenna gains, system noise temperature, C/N\u2080, margin) as a web page, and a check of its prediction against the SNR actually measured on the NOAA-18 recording from SL-085.",
+  "problem": "Will a 5 W satellite transmitter 850 km up be receivable with a simple antenna and a USB radio? Do the arithmetic, then test it against a real pass.",
+  "theory": "$C/N_0\\,[\\mathrm{dBHz}] = EIRP - FSPL - L_{misc} + G/T - k$, with $FSPL=20\\log_{10}\\frac{4\\pi R f}{c}$ and $k = -228.6$ dBW/K/Hz.\nNOAA APT: EIRP \u2248 37 dBm (5 W into a right-hand circular antenna, ~+0 dBi) at 137.9 MHz; receive antenna ~+2 dBic, system\nnoise temperature T_sys \u2248 290 K\u00b7(NF) + sky \u2248 1,000 K at VHF (galactic noise dominates). FM threshold needs C/N \u2248 10 dB\nin 34 kHz (\u2248 55 dBHz).",
+  "method": "Python model evaluated along the SL-085 pass geometry (range from SGP4). Testable prediction: the slant range at which\nC/N falls to the 10 dB FM threshold. Measured: the ranges on the rising and setting sides where the recording's audio\nSNR has dropped 10 dB below its culmination plateau (the FM-threshold collapse seen in SL-085). A self-contained HTML calculator reproduces the same numbers in the browser.",
+  "data": "Real: SatNOGS observation 11229309 (NOAA-18) for the measured SNR; published NOAA APT transmitter parameters.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "Free-space path loss at 1,500 km, 137.9 MHz",
+   "predicted": 138.76168102673097,
+   "measured": 138.76168102673097,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "C/N at the range where the audio actually collapsed (rising side, 1129 km)",
+   "predicted": 10.0,
+   "measured": 22.982773093091765,
+   "unit": "dB",
+   "error": 12.982773093091765,
+   "error_str": "+12.98 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "10 dB = FM threshold; the difference is how optimistic the budget is there"
+  },
+  {
+   "quantity": "C/N at the range where the audio actually collapsed (setting side, 1151 km)",
+   "predicted": 10.0,
+   "measured": 22.81277574819339,
+   "unit": "dB",
+   "error": 12.812775748193388,
+   "error_str": "+12.81 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "10 dB = FM threshold; the difference is how optimistic the budget is there"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Predicted C/N at the horizon (range \u2248 3,300 km)",
+   "value": 13.40356110393185,
+   "unit": "dB",
+   "note": "the budget says the link never reaches threshold"
+  },
+  {
+   "quantity": "Predicted C/N\u2080 at culmination",
+   "value": 70.79664474346936,
+   "unit": "dBHz",
+   "note": ""
+  },
+  {
+   "quantity": "Predicted C/N at culmination (34 kHz)",
+   "value": 25.4818555730468,
+   "unit": "dB",
+   "note": "FM threshold \u2248 10 dB"
+  }
+ ],
+ "figures": [
+  "figures/budget_vs_pass.png"
+ ],
+ "runtime_s": 0.91,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL098-link-budget-calculator"
+}

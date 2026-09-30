@@ -1,0 +1,137 @@
+{
+ "meta": {
+  "id": "SL-061",
+  "title": "Window functions and spectral leakage",
+  "level": "M",
+  "tools": "NumPy/SciPy, zero-padded window spectra",
+  "summary": "Measure main-lobe width, highest sidelobe and sidelobe roll-off for rectangular, Hann, Hamming and Blackman windows, then show what each does to a weak tone next to a strong one.",
+  "problem": "Every finite FFT smears energy (leakage). Which window lets a -60 dB tone be seen next to a 0 dB tone, and what does it cost in resolution?",
+  "theory": "Tabulated (Harris, 1978): highest sidelobe / \u22123 dB width (bins) / roll-off \u2014\nrectangular \u221213.3 dB, 0.89, \u22126 dB/oct; Hann \u221231.5 dB, 1.44, \u221218 dB/oct; Hamming \u221242.7 dB, 1.30, \u22126 dB/oct;\nBlackman \u221258.1 dB, 1.68, \u221218 dB/oct. A weak tone is visible only if it sits above the strong tone's\nsidelobe level at its offset.",
+  "method": "N = 64 windows zero-padded to 65,536 points; \u22123 dB width measured in bins, highest sidelobe beyond the first\nnull, roll-off fitted over sidelobes 10\u2013100 bins out. Demo: 0 dB tone at 50.0 bins + \u221260 dB tone at 58.5 bins,\nN = 256.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "rectangular: highest sidelobe",
+   "predicted": -13.3,
+   "measured": -13.254323824189957,
+   "unit": "dB",
+   "error": 0.04567617581004413,
+   "error_str": "+0.04568 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "rectangular: \u22123 dB width",
+   "predicted": 0.89,
+   "measured": 0.8859446911272529,
+   "unit": "bins",
+   "error": -0.0040553088727470765,
+   "error_str": "-0.004055 bins",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "hann: highest sidelobe",
+   "predicted": -31.5,
+   "measured": -31.46740087140089,
+   "unit": "dB",
+   "error": 0.032599128599109406,
+   "error_str": "+0.0326 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "hann: \u22123 dB width",
+   "predicted": 1.44,
+   "measured": 1.440513205068175,
+   "unit": "bins",
+   "error": 0.0005132050681750933,
+   "error_str": "+5.1321e-04 bins",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: highest sidelobe",
+   "predicted": -42.7,
+   "measured": -42.44926596165343,
+   "unit": "dB",
+   "error": 0.2507340383465717,
+   "error_str": "+0.2507 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: \u22123 dB width",
+   "predicted": 1.3,
+   "measured": 1.3028702672488435,
+   "unit": "bins",
+   "error": 0.0028702672488434278,
+   "error_str": "+0.00287 bins",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: highest sidelobe",
+   "predicted": -58.1,
+   "measured": -58.1101484145535,
+   "unit": "dB",
+   "error": -0.010148414553498242,
+   "error_str": "-0.01015 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: \u22123 dB width",
+   "predicted": 1.68,
+   "measured": 1.6436013433787693,
+   "unit": "bins",
+   "error": -0.03639865662123065,
+   "error_str": "-0.0364 bins",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "rectangular: sidelobe roll-off",
+   "value": -4.365438059944083,
+   "unit": "dB/octave",
+   "note": ""
+  },
+  {
+   "quantity": "hann: sidelobe roll-off",
+   "value": -21.220329304923442,
+   "unit": "dB/octave",
+   "note": ""
+  },
+  {
+   "quantity": "hamming: sidelobe roll-off",
+   "value": -4.064351835885607,
+   "unit": "dB/octave",
+   "note": ""
+  },
+  {
+   "quantity": "blackman: sidelobe roll-off",
+   "value": -20.92535553321487,
+   "unit": "dB/octave",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/window_spectra.png",
+  "figures/weak_tone.png"
+ ],
+ "runtime_s": 0.18,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL061-window-function-comparison"
+}

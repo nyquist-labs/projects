@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "id": "SL-171",
+  "title": "Integrator windup and anti-windup strategies",
+  "level": "M",
+  "tools": "PI loop with actuator saturation on a first-order plant; clamping and back-calculation anti-windup",
+  "summary": "Show how a saturated actuator lets a PI integrator 'wind up' and cause large overshoot, predict the extra overshoot from the integrated error during saturation, and compare conditional integration and back-calculation fixes.",
+  "problem": "When the actuator hits its limit the controller keeps integrating an error it can't act on. How bad is it, and which fix works best?",
+  "theory": "Plant G = 1/(s + 1) (\u03c4 = 1 s, gain 1), PI K_p = 5, K_i = 5, actuator limited to \u00b11.2 (just above the 1.0 needed at steady state). During saturation the\nintegrator accumulates \u222be dt; after leaving saturation it must be 'unwound' by an equal area of negative error, so overshoot area \u2248 excess\nintegral. Back-calculation feeds (u_sat \u2212 u) back into the integrator with gain 1/T_t, T_t \u2248 \u221a(T_i\u00b7T_d) or \u2248 T_i.",
+  "method": "Unit step at t = 0, 10 ms steps. Variants: no anti-windup, conditional integration (freeze when saturated and error drives further), back-calculation\n(T_t = 0.2 s). Measured overshoot, settling, and the negative-error area after saturation vs the integral accumulated during it.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "No anti-windup: overshoot area \u2248 error integrated beyond the linear integrator state",
+   "predicted": 0.413206064672494,
+   "measured": 0.441766331488459,
+   "unit": "s",
+   "error": 6.911870192080024,
+   "error_str": "+6.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": "integral of (1 \u2212 y) accumulated while saturated"
+  },
+  {
+   "quantity": "clamp: overshoot (should be \u226a windup case)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "backcalc: overshoot (should be \u226a windup case)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "No anti-windup: overshoot / settling",
+   "value": "17.4 % / 6.21 s",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "clamp: settling time",
+   "value": 3.254,
+   "unit": "s",
+   "note": ""
+  },
+  {
+   "quantity": "backcalc: settling time",
+   "value": 3.617,
+   "unit": "s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/windup.png"
+ ],
+ "runtime_s": 0.14,
+ "folder": "projects/signal-lab/I-control-systems/SL171-anti-windup-strategies"
+}

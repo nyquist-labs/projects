@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vector-calculus visualiser</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>Vector-calculus visualiser</h1><p class="lead">Type a planar field; colour shows divergence or curl, and the circle checks Gauss's and Stokes' theorems live.</p>
+<div class="card"><div class="row"><label style="flex:1">P(x, y)<input id="P" value="x*x*y"></label><label style="flex:1">Q(x, y)<input id="Q" value="sin(x)*cos(y)"></label></div>
+<div class="row" style="margin-top:8px"><button id="bd" class="on">colour: divergence</button><button id="bc">colour: curl</button>
+<button data-f="x|y">source</button><button data-f="-y|x">vortex</button><button data-f="y|x">saddle</button><button data-f="x*x*y|sin(x)*cos(y)">mixed</button></div></div>
+<div class="card"><canvas id="cv" width="640" height="640"></canvas><p class="muted">Drag on the plot to move the circle; scroll to change its radius.</p>
+<table><tr><th></th><th class="n">boundary integral</th><th class="n">area integral</th></tr>
+<tr><td>Flux ∮F·n ds  vs  ∬div F dA</td><td class="n" id="fl"></td><td class="n" id="di"></td></tr>
+<tr><td>Circulation ∮F·t ds  vs  ∬curl F dA</td><td class="n" id="ci"></td><td class="n" id="cu"></td></tr></table></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);let mode='div',cx=0.5,cy=0.3,R=0.8;const L=3,cv=$('cv'),g=cv.getContext('2d');
+const X=x=>(x+L)/(2*L)*cv.width,Y=y=>(L-y)/(2*L)*cv.height;
+function col(v,m){const t=Math.max(-1,Math.min(1,v/m));return t>0?`rgba(235,104,52,${t})`:`rgba(42,120,214,${-t})`;}
+function draw(){let P=$('P').value,Q=$('Q').value,G;try{G=grid(P,Q,-L,L,-L,L,25)}catch(e){return}
+g.clearRect(0,0,cv.width,cv.height);const k=mode=='div'?4:5,m=Math.max(...G.map(r=>Math.abs(r[k])))||1,vm=Math.max(...G.map(r=>Math.hypot(r[2],r[3])))||1,s=cv.width/25;
+for(const r of G){g.fillStyle=col(r[k],m);g.fillRect(X(r[0])-s/2,Y(r[1])-s/2,s,s);}
+g.strokeStyle=getComputedStyle(document.body).color;g.lineWidth=1.2;
+for(const r of G){const ux=r[2]/vm*s*0.9,uy=r[3]/vm*s*0.9,x0=X(r[0]),y0=Y(r[1]);g.beginPath();g.moveTo(x0,y0);g.lineTo(x0+ux,y0-uy);g.stroke();g.beginPath();g.arc(x0+ux,y0-uy,1.6,0,7);g.fill();}
+g.strokeStyle='#eb6834';g.lineWidth=2;g.beginPath();g.arc(X(cx),Y(cy),R/(2*L)*cv.width,0,7);g.stroke();
+const [fl,ci]=circleIntegrals(P,Q,cx,cy,R,720),[di,cu]=discIntegrals(P,Q,cx,cy,R,60,120);
+$('fl').textContent=fl.toFixed(4);$('di').textContent=di.toFixed(4);$('ci').textContent=ci.toFixed(4);$('cu').textContent=cu.toFixed(4);}
+cv.onmousemove=e=>{if(e.buttons){const b=cv.getBoundingClientRect();cx=((e.clientX-b.left)/b.width*2-1)*L;cy=(1-(e.clientY-b.top)/b.height*2)*L;draw();}};
+cv.onwheel=e=>{e.preventDefault();R=Math.max(0.1,Math.min(2.5,R*(e.deltaY>0?0.9:1.1)));draw();};
+$('bd').onclick=()=>{mode='div';$('bd').className='on';$('bc').className='';draw()};$('bc').onclick=()=>{mode='curl';$('bc').className='on';$('bd').className='';draw()};
+document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{const [p,q]=b.dataset.f.split('|');$('P').value=p;$('Q').value=q;draw()});
+$('P').oninput=$('Q').oninput=draw;draw();</script></body></html>

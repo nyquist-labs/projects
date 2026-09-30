@@ -1,0 +1,135 @@
+{
+ "meta": {
+  "id": "AM-146",
+  "title": "Reed\u2013Solomon codes: polynomials that survive erasure",
+  "level": "H",
+  "tools": "Reed\u2013Solomon over GF(8) and GF(256) using the repository's field/codec (Berlekamp\u2013Massey, Chien, Forney), exhaustive codeword enumeration, Lagrange interpolation over the field for erasure recovery, evaluation-view vs generator-view equivalence, burst-error experiments",
+  "summary": "Treat a message as a polynomial and a codeword as its values: any k of n symbols determine it. Verify exhaustively on RS(7,3) that the minimum distance is n \u2212 k + 1 and that every \u2264 2-symbol error and every 4-symbol erasure is recovered, then scale to RS(255,223) and its 16-symbol (128-bit burst) limit.",
+  "problem": "CDs, QR codes and deep-space links all survive scratches and bursts with the same trick. What is it, and where exactly does it stop working?",
+  "theory": "A polynomial of degree < k has at most k \u2212 1 roots, so two distinct codewords (n evaluations) agree in at most k \u2212 1 places: $d=n-k+1$, meeting the Singleton bound (MDS). Hence t = \u230a(n\u2212k)/2\u230b errors or n \u2212 k erasures are correctable.\nThe evaluations $c_j=f(\\alpha^j)$ have a spectrum that vanishes at $\\alpha^1\u2026\\alpha^{n-k}$, so the evaluation code equals the cyclic code with generator $\\prod_{i=1}^{n-k}(x-\\alpha^i)$. Symbols are m-bit, so a burst of up to $(t-1)m+1$ bits is always corrected.",
+  "method": "RS(7,3) over GF(8): all 512 codewords for the weight distribution; every error pattern of weight 1 and 2 (49 + 1029) on random codewords; every choice of 3 surviving symbols (35) reconstructs the message by Lagrange interpolation.\nRS(255,223): random 1\u202616 symbol errors (500 trials each extreme), 17 errors, and bit bursts of 121 and 129+ bits.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "RS(7,3): minimum distance = n \u2212 k + 1",
+   "predicted": 5.0,
+   "measured": 5.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RS(7,3): codewords of minimum weight = (q\u22121)\u00b7C(7,5)",
+   "predicted": 147.0,
+   "measured": 147.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Evaluation codewords that are not in the cyclic code with roots \u03b1\u00b9\u2026\u03b1\u2074",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RS(7,3): error patterns of weight \u2264 2 not corrected (all 1078)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RS(7,3): 4 erasures \u2014 message recovered from any 3 surviving symbols (failures of 35)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RS(255,223): 16 random symbol errors corrected",
+   "predicted": 300.0,
+   "measured": 300.0,
+   "unit": "of 300",
+   "error": 0.0,
+   "error_str": "+0 of 300",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RS(255,223): 17 symbol errors \u2014 decoding fails (t = 16)",
+   "predicted": 300.0,
+   "measured": 300.0,
+   "unit": "of 300",
+   "error": 0.0,
+   "error_str": "+0 of 300",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Bit bursts of 121 bits = (t\u22121)\u00b78 + 1 (always \u2264 16 symbols): corrected",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "of 100",
+   "error": 0.0,
+   "error_str": "+0 of 100",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Bit bursts of 137 bits (always \u2265 18 symbols): corrected",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "of 100",
+   "error": 0.0,
+   "error_str": "+0 of 100",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "RS(7,3) with 3 errors (beyond t): detected / silently mis-decoded",
+   "value": "86 % / 13 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Bursts of 128 / 129 / 136 bits corrected (depends on alignment)",
+   "value": "11 / 0 / 0",
+   "unit": "of 100",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/rs.png"
+ ],
+ "runtime_s": 9.13,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM146-reed-solomon-codes"
+}

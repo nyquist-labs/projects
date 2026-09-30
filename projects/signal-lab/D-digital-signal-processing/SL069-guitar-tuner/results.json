@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "SL-069",
+  "title": "Guitar tuner (cents-accurate note detection)",
+  "level": "M",
+  "tools": "Karplus\u2013Strong plucked-string synthesis (ground truth), FFT + parabolic interpolation, YIN-style ACF",
+  "summary": "Detect which string is played and how many cents it is off, on physically-modelled plucked notes with known detuning; measure the tuner's error vs note length.",
+  "problem": "A tuner must report pitch to \u00b11 cent from a decaying, slightly inharmonic string. How long must it listen, and which estimator is accurate enough?",
+  "theory": "FFT bin spacing $f_s/N$ is far too coarse (1 cent at 82 Hz is 0.048 Hz), so interpolation is essential. For a\nsinusoid in white noise the Cram\u00e9r\u2013Rao bound on frequency error is $\\sigma_f\\ge\\frac{\\sqrt{6}f_s}{2\\pi N^{1.5}\\sqrt{SNR}}$ \u2014\nerror falls as $N^{-1.5}$, so doubling the listening time improves accuracy 2.8\u00d7. Real strings are slightly\ninharmonic ($f_k = kf_0\\sqrt{1+Bk^2}$), so the *fundamental* must be measured, not harmonic spacing.",
+  "method": "Karplus\u2013Strong synthesis (loop = N-sample delay + two-tap averaging damping filter + first-order Thiran all-pass\nfor the fractional delay) for\nthe six standard strings E2\u2013E4 with random detuning \u00b130 cents, 44.1 kHz, 30 dB SNR. Estimator: Hann FFT with 8\u00d7\nzero-padding + parabolic interpolation on the log magnitude of the fundamental peak (guided by an ACF coarse\nestimate). Analysis windows 50\u2013800 ms.",
+  "data": "Synthetic plucked-string notes (physical model) with exact ground-truth detuning.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "String identified correctly (60 notes)",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RMS cents error, 400 ms window",
+   "predicted": 0.0,
+   "measured": 0.05935933560020154,
+   "unit": "cents",
+   "error": 0.05935933560020154,
+   "error_str": "+0.05936 cents",
+   "kind": "abs",
+   "ok": null,
+   "note": "includes Karplus\u2013Strong's own \u2248 fraction-of-a-cent tuning error"
+  },
+  {
+   "quantity": "Error scaling exponent vs window length (CRLB: \u22121.5)",
+   "predicted": -1.5,
+   "measured": -1.3980749035918736,
+   "unit": "",
+   "error": 0.10192509640812641,
+   "error_str": "+0.1019",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/accuracy.png"
+ ],
+ "runtime_s": 1.63,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL069-guitar-tuner"
+}

@@ -1,0 +1,7 @@
+* zener — exported by eelab.circuit
+Vin in 0 DC 12.0 AC 0.0
+Rs in out 220
+IL out 0 DC 0.0 AC 0.0
+Dz 0 out D_z
+.model D_z D(Is=1e-14 N=1.0 BV=5.1)
+.end

@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-128",
+  "title": "Biot\u2013Savart: coils and the Helmholtz pair",
+  "level": "M",
+  "tools": "Numerical Biot\u2013Savart integration over discretised wire loops (NumPy)",
+  "summary": "Integrate the Biot\u2013Savart law over discretised loops to map the magnetic field of a single coil and a Helmholtz pair; verify the on-axis formula and the famous uniformity of coils spaced one radius apart.",
+  "problem": "How do you make a region of uniform magnetic field, and how uniform is it really?",
+  "theory": "On the axis of a loop of radius R carrying I: $B_z(z)=\\frac{\\mu_0IR^2}{2(R^2+z^2)^{3/2}}$. Two coaxial loops separated by R (Helmholtz)\ncancel the second derivative at the midpoint: $B=\\left(\\frac45\\right)^{3/2}\\frac{\\mu_0I}{R}$ at the centre, and the leading deviation on\naxis is $-\\frac{144}{125}\\left(\\frac zR\\right)^4$ \u2014 under 0.2 % at z = \u00b10.2R.",
+  "method": "R = 5 cm, I = 1 A, 720 segments per loop; field at 2-D grids in the x\u2013z plane by summing \u03bc\u2080I dl \u00d7 r/(4\u03c0|r|\u00b3). Uniformity: region where\n|B \u2212 B\u2080|/B\u2080 < 1 %.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Single loop: B at centre",
+   "predicted": 1.2566370614359172e-05,
+   "measured": 1.25663706143591e-05,
+   "unit": "T",
+   "error": -5.66199818172318e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Single loop: max on-axis error vs formula",
+   "predicted": 0.0,
+   "measured": 1.4424614415342384e-14,
+   "unit": "",
+   "error": 1.4424614415342384e-14,
+   "error_str": "+1.4425e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Helmholtz pair: B at centre",
+   "predicted": 1.798352571146426e-05,
+   "measured": 1.7983525711464165e-05,
+   "unit": "T",
+   "error": -5.275255342838848e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Deviation at z = 0.2R (Taylor: (144/125)(z/R)\u2074)",
+   "predicted": 0.0018432000000000001,
+   "measured": 0.001763498421066375,
+   "unit": "",
+   "error": -4.324087398742684,
+   "error_str": "-4.32 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "On-axis \u00b11 % uniform region",
+   "value": 0.6000000000000005,
+   "unit": "\u00d7 R",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/helmholtz.png"
+ ],
+ "runtime_s": 0.46,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL128-biot-savart-coil-fields"
+}

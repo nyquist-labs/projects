@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-166",
+  "title": "LQR optimal control vs a tuned PID",
+  "level": "H",
+  "tools": "Continuous algebraic Riccati equation (SciPy), cost integration, PID grid search on the same cost",
+  "summary": "Design an LQR controller for a double integrator (a satellite's attitude axis), verify the optimal cost x\u2080\u1d40Px\u2080, then show that no PD controller from a dense grid beats it on the same quadratic cost.",
+  "problem": "LQR is 'optimal' \u2014 optimal at what, and by how much does it beat a hand-tuned controller?",
+  "theory": "\u1e8d = u (double integrator). Cost J = \u222b(x\u00b2 + \u1e8b\u00b2 + \u03c1u\u00b2)dt, \u03c1 = 0.1. LQR: K = R\u207b\u00b9B\u1d40P with P from the ARE; minimum cost from x\u2080 is $x_0^TPx_0$. For this\nplant the closed form is $K=[1/\\sqrt\\rho,\\ \\sqrt{1/\\rho+2/\\sqrt\\rho}]$ (for Q = I). A PD law u = \u2212k_px \u2212 k_d\u1e8b is the same structure, so the best PD equals LQR.",
+  "method": "x\u2080 = [1, 0]. Riccati solution, analytic gains, simulated cost (exact ZOH, 1 ms, 20 s). PD grid k_p \u2208 [0.5, 10], k_d \u2208 [0.5, 10] (100 \u00d7 100) on the same cost.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "LQR position gain vs closed form 1/\u221a\u03c1",
+   "predicted": 3.162277660168379,
+   "measured": 3.1622776601683804,
+   "unit": "",
+   "error": 4.2130001622920416e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "LQR rate gain vs closed form",
+   "predicted": 4.040365740912171,
+   "measured": 4.040365740912167,
+   "unit": "",
+   "error": -1.0991312131802282e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Simulated cost vs x\u2080\u1d40Px\u2080",
+   "predicted": 1.2776758321396218,
+   "measured": 1.2786765055330935,
+   "unit": "",
+   "error": 0.07831981855648117,
+   "error_str": "+0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Best PD on a 60\u00d760 grid: cost / LQR cost (\u2265 1)",
+   "predicted": 1.0,
+   "measured": 1.0039740111151612,
+   "unit": "",
+   "error": 0.003974011115161158,
+   "error_str": "+0.003974",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Best grid PD gains",
+   "value": "k_p = 3.08, k_d = 3.88",
+   "unit": "",
+   "note": "LQR: 3.16, 4.04"
+  }
+ ],
+ "figures": [
+  "figures/lqr.png"
+ ],
+ "runtime_s": 16.2,
+ "folder": "projects/signal-lab/I-control-systems/SL166-lqr-optimal-control"
+}

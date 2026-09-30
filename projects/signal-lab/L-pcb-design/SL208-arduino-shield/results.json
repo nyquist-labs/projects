@@ -1,0 +1,188 @@
+{
+ "meta": {
+  "id": "SL-208",
+  "title": "Arduino Uno R3 shield (LEDs, button, potentiometer, I\u00b2C port)",
+  "level": "M",
+  "tools": "Uno R3 mechanical data parsed from the official KiCad footprint library (kiutils), eelab.pcb router/DRC/exports, MNA simulation of the LED drive",
+  "summary": "A shield laid out on the Uno R3's real header coordinates \u2014 including the famous 160-mil offset between D7 and D8 \u2014 carrying four LEDs, a push-button, a potentiometer and a Qwiic-style I\u00b2C header; LED currents and the pin current budget are simulated.",
+  "problem": "Designing to a standard mechanical footprint means getting someone else's dimensions exactly right. How do you avoid measuring by hand?",
+  "theory": "The Uno's header rows are on a 100-mil grid except for one quirk: the gap between D7 and D8 is 160 mil (4.064 mm), which stops shields being plugged in\noffset by one pin. The LED current is $(V_{OH}-V_f)/(R+R_\\text{pin})$: with a 330 \u03a9 resistor, V_f \u2248 2.0 V and an output driver of ~40 \u03a9, \u2248 8.1 mA per LED \u2014 well under\nthe 20 mA recommended per pin; four LEDs draw \u2248 32 mA. The button uses the internal pull-up (20\u201350 k\u03a9) with a 100 nF capacitor: \u03c4 \u2248 3.5 ms of debouncing.",
+  "method": "Pad positions of all 32 header pins and the board outline read from KiCad's `Module.pretty/Arduino_UNO_R3.kicad_mod` (fetched from the KiCad GitLab) and interpreted in\nthis toolkit's y-up frame (USB side at the left, digital header along the top). LEDs on D2\u2013D5 (0805 + 330 \u03a9), button on D7 to GND with 100 nF, 10 k\u03a9\ntrimmer on A0, 4-pin I\u00b2C header on SDA/SCL. LED drive simulated with a diode model fitted to V_f = 2.0 V at 10 mA and a 40 \u03a9 pin resistance (assumed).",
+  "data": "Real mechanical data: KiCad footprint library (CC-BY-SA 4.0 with exception).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "D7 \u2192 D8 pin spacing from the KiCad library (the 160-mil quirk)",
+   "predicted": 4.064,
+   "measured": 4.0600000000000005,
+   "unit": "mm",
+   "error": -0.09842519685038285,
+   "error_str": "-0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Power-header \u2192 analog-header spacing (VIN \u2192 A0)",
+   "predicted": 5.08,
+   "measured": 5.079999999999998,
+   "unit": "mm",
+   "error": -3.496765431890256e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Distance between the two header rows",
+   "predicted": 48.26,
+   "measured": 48.26,
+   "unit": "mm",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Board length (outline in the library) = 2.7 in",
+   "predicted": 68.58,
+   "measured": 68.58,
+   "unit": "mm",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Board width = 2.1 in",
+   "predicted": 53.339999999999996,
+   "measured": 53.339999999999996,
+   "unit": "mm",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "DRC violations (clearance, widths, drills, annular rings, edge, courtyards, connectivity)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Drill hits in the Excellon file (re-read with gerbonara) = holes in the design",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Board outline from the Gerber profile (re-read with gerbonara)",
+   "predicted": 68.58,
+   "measured": 68.58,
+   "unit": "mm",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pads in the KiCad file (re-read with kiutils) = pads in the design",
+   "predicted": 61.0,
+   "measured": 61.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "LED current, 330 \u03a9 + 40 \u03a9 pin (formula with V_f = 2.0 V)",
+   "predicted": 0.008108108108108109,
+   "measured": 0.008136918904147274,
+   "unit": "A",
+   "error": 0.35533315114971126,
+   "error_str": "+0.36 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Total for 4 LEDs vs 200 mA package limit (fraction)",
+   "predicted": 0.16,
+   "measured": 0.16273837808294547,
+   "unit": "",
+   "error": 0.0027383780829454696,
+   "error_str": "+0.002738",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Pins off the 100-mil grid of pin 1 (all of D8\u2013SCL)",
+   "value": 10.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Unrouted connections",
+   "value": 0.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Board",
+   "value": "68.58 \u00d7 53.34 mm, 2 layers, 1.6 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Components / nets / pads",
+   "value": "16 / 33 / 61",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Routed track length",
+   "value": 247.74190103891172,
+   "unit": "mm",
+   "note": "87 segments, 7 vias"
+  },
+  {
+   "quantity": "Simulated LED forward voltage",
+   "value": 1.9893400054654973,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "Button debounce \u03c4 with 35 k\u03a9 internal pull-up and 100 nF",
+   "value": 3.4999999999999996,
+   "unit": "ms",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/board.png",
+  "figures/shield_top.png"
+ ],
+ "runtime_s": 2.15,
+ "folder": "projects/signal-lab/L-pcb-design/SL208-arduino-shield"
+}

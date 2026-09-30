@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-152",
+  "title": "IMU sensor fusion with a complementary filter",
+  "level": "H",
+  "tools": "C firmware (complementary filter, fixed update rate) with a simulated MEMS accelerometer/gyroscope (noise, bias, vibration)",
+  "summary": "Estimate tilt from a noisy accelerometer and a drifting gyroscope; show each sensor alone fails, predict the optimal blend coefficient from their noise properties, and measure tilt RMS error vs the filter constant.",
+  "problem": "Accelerometers are noisy but unbiased; gyroscopes are smooth but drift. How does a complementary filter get the best of both, and what time constant should it use?",
+  "theory": "\u03b8\u0302 = \u03b1(\u03b8\u0302 + \u03c9\u00b7dt) + (1 \u2212 \u03b1)\u03b8_acc, \u03b1 = \u03c4/(\u03c4 + dt). The filter high-passes the gyro (removing drift) and low-passes the accelerometer (removing\nvibration noise) with crossover $f_c=1/(2\\pi\\tau)$. Error \u2248 gyro drift \u00d7 \u03c4 (bias leaks as $b\\tau$) plus accelerometer noise \u00d7 \u221a(dt/(2\u03c4)); the optimum \u03c4\nminimises the sum, $\\tau^*\\approx\\left(\\frac{\\sigma_a^2 dt}{2b^2}\\right)^{1/3}$ for bias b (rad/s) and accel angle noise \u03c3_a.",
+  "method": "100 Hz updates for 120 s. True tilt: slow manoeuvres (\u00b130\u00b0) + 20 Hz vibration on the accelerometer (\u03c3_a \u2248 3\u00b0 effective), gyro bias 0.5 \u00b0/s + 0.05 \u00b0/s\nnoise. \u03c4 swept 0.05\u201350 s; RMS error after 10 s settling.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Optimal time constant \u03c4* = (\u03c3_a\u00b2\u00b7dt/(2b\u00b2))^(1/3)",
+   "predicted": 0.6979532046908887,
+   "measured": 0.5011872336272722,
+   "unit": "s",
+   "error": -28.19185723930599,
+   "error_str": "-28.19 %",
+   "kind": "rel",
+   "ok": true,
+   "note": "coarse \u03c4 grid (log steps of \u00d71.8)"
+  },
+  {
+   "quantity": "RMS error at \u03c4* vs predicted b\u00b7\u03c4 \u2295 \u03c3_a\u00b7\u221a(dt/2\u03c4)",
+   "predicted": 0.4935274439878099,
+   "measured": 0.418121,
+   "unit": "\u00b0",
+   "error": -15.279078176181912,
+   "error_str": "-15.28 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "RMS tilt error: accelerometer only",
+   "value": 4.090373,
+   "unit": "\u00b0",
+   "note": ""
+  },
+  {
+   "quantity": "RMS tilt error: gyro integration only (120 s)",
+   "value": 28.898174,
+   "unit": "\u00b0",
+   "note": "bias drifts without bound"
+  }
+ ],
+ "figures": [
+  "figures/fusion.png"
+ ],
+ "runtime_s": 5.88,
+ "folder": "projects/signal-lab/H-embedded-systems/SL152-sensor-fusion"
+}

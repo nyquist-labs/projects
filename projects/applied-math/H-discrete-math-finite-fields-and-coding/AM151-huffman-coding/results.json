@@ -1,0 +1,176 @@
+{
+ "meta": {
+  "id": "AM-151",
+  "title": "Huffman coding: the optimal prefix code, built greedily",
+  "level": "M",
+  "tools": "Own heap-based Huffman construction, canonical code, bit-exact encoder/decoder, brute-force optimality check over all Kraft-tight length assignments, real English text (Project Gutenberg), comparison with Shannon code lengths, pair coding and zlib",
+  "summary": "Build Huffman codes from scratch, prove on small alphabets that no prefix code does better, verify H \u2264 L < H + 1 and Gallager's tighter redundancy bound on a real book, round-trip the whole text bit-exactly, and show where symbol-by-symbol coding stops: skewed sources and context.",
+  "problem": "Morse gave 'e' a short code by intuition. What is the provably best variable-length code for a given set of symbol frequencies?",
+  "theory": "For symbol probabilities p\u1d62 the optimal prefix code merges the two least probable symbols repeatedly (greedy is optimal because the two rarest symbols can always be made siblings at maximum depth). Its mean length satisfies\n$H\\le L<H+1$ with $H=-\\sum p_i\\log_2p_i$; more tightly $L-H\\le p_{max}+0.086$ (Gallager). Kraft: $\\sum2^{-l_i}=1$ for a complete code. L = H exactly iff all p\u1d62 are powers of \u00bd. Coding pairs of symbols reduces the per-symbol overhead and starts to exploit\ncorrelation between neighbouring letters.",
+  "method": "Data: the text of 'Alice's Adventures in Wonderland' (\u2248 144 k characters). Optimality check: 300 random distributions on 3\u20136 symbols against exhaustive search over all length assignments with Kraft sum \u2264 1. Round trip of the entire text.\nPair (digram) Huffman; zlib level 9 for context.",
+  "data": "Project Gutenberg eBook #11 (public domain), fetched on first run and cached.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding"
+ },
+ "rows": [
+  {
+   "quantity": "Huffman worse than the best prefix code found by exhaustive search (300 random sources, 3\u20136 symbols)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Dyadic source (\u00bd, \u00bc, \u215b, 1/16, 1/16): L = H exactly",
+   "predicted": 1.875,
+   "measured": 1.875,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Kraft sum \u03a32^(\u2212l\u1d62) of the Huffman code",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Source coding bound: H \u2264 L < H + 1 (1 = holds)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gallager bound: L \u2212 H \u2264 p_max + 0.086 (1 = holds)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Encode \u2192 decode of the whole book: characters that differ",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Encoded size = \u03a3 f\u1d62\u00b7l\u1d62",
+   "predicted": 665550.0,
+   "measured": 665550.0,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Prefix-free: codewords that are a prefix of another",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Pair (digram) Huffman: bits per character beats single-symbol Huffman (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Skewed binary source (0.99, 0.01): Huffman cannot go below 1 bit/symbol",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Text length / alphabet size",
+   "value": "144599 characters / 75 symbols",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Entropy H / Huffman L / redundancy",
+   "value": "4.5646 / 4.6027 / 0.0381 bit per character",
+   "unit": "",
+   "note": "p_max = 0.170 (space)"
+  },
+  {
+   "quantity": "Shannon code lengths \u2308\u2212log\u2082p\u2309: mean",
+   "value": 5.060270126349422,
+   "unit": "bit/char",
+   "note": "valid but wasteful \u2014 Huffman is never worse"
+  },
+  {
+   "quantity": "Fixed-length code",
+   "value": 7.0,
+   "unit": "bit/char",
+   "note": ""
+  },
+  {
+   "quantity": "Digram Huffman / digram entropy per character",
+   "value": "4.0316 / 4.0178 bit",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "zlib -9 (LZ77 + Huffman, long contexts)",
+   "value": 2.94535923484948,
+   "unit": "bit/char",
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 while its entropy is",
+   "value": 0.08079313589591118,
+   "unit": "bit",
+   "note": "the gap arithmetic coding closes (AM-208)"
+  }
+ ],
+ "figures": [
+  "figures/huffman.png"
+ ],
+ "runtime_s": 1.5,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM151-huffman-coding"
+}

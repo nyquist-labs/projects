@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-067",
+  "title": "Controllability and observability of a bridge circuit",
+  "level": "H",
+  "tools": "Controllability/observability matrices and their rank, Gramians via Lyapunov equations, singular values as a quantitative measure, pole-zero cancellation",
+  "summary": "Build a symmetric RC bridge in which one internal mode cannot be driven from the input when the bridge is balanced; show the rank deficiency, the resulting pole-zero cancellation in the transfer function, and how a small imbalance restores full rank but leaves the mode 'nearly uncontrollable' (tiny Gramian singular value).",
+  "problem": "Can a circuit have internal dynamics that no input can excite \u2014 and does that show up anywhere measurable?",
+  "theory": "Controllable iff rank [B, AB, \u2026, A^{n\u22121}B] = n. In a symmetric circuit driven symmetrically, the antisymmetric mode (difference of the two capacitor voltages) obeys an equation with no input term, so it is\nuncontrollable; its pole cancels in the transfer function to a symmetric output. Near balance (imbalance \u03b5) the smallest singular value of the controllability Gramian $W_c$ (AW + WA\u1d40 + BB\u1d40 = 0) scales\nlike \u03b5\u00b2, a quantitative 'distance' from losing controllability.",
+  "method": "Two RC branches (R1, C1) and (R2, C2) from the input to ground via a coupling resistor R_c between the capacitor nodes; states v1, v2; output (v1+v2)/2 or v1\u2212v2. \u03b5 = (R2\u2212R1)/R1 from 0 to 10 %.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Balanced bridge: rank of the controllability matrix (n = 2)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Balanced: sum output behaves as a single RC (fit of |H| to 1/(1+sRC))",
+   "predicted": 0.0,
+   "measured": 2.237726045655905e-16,
+   "unit": "",
+   "error": 2.237726045655905e-16,
+   "error_str": "+2.2377e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Imbalanced bridge: full rank restored for every \u03b5 > 0",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gramian conditioning \u03c3_min/\u03c3_max \u221d \u03b5^k (k = 2)",
+   "predicted": 2.0,
+   "measured": 1.9792174434384753,
+   "unit": "",
+   "error": -0.020782556561524723,
+   "error_str": "-0.02078",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Balanced: observability rank from output v1 \u2212 v2",
+   "value": 1.0,
+   "unit": "",
+   "note": "the difference mode is observable \u2014 but never excited"
+  },
+  {
+   "quantity": "Eigenvalues (s\u207b\u00b9): symmetric mode / antisymmetric mode",
+   "value": "-1000+0j / -2000+0j",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/controllability.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/applied-math/D-linear-algebra/AM067-controllability-and-observability"
+}

@@ -1,0 +1,53 @@
+{
+ "meta": {
+  "id": "SL-105",
+  "title": "Spectrum occupancy survey of the WSPR sub-bands",
+  "level": "M",
+  "tools": "wspr.live database, NumPy statistics (occupancy histograms, hourly load)",
+  "summary": "Measure how the 200 Hz-wide WSPR segment of each amateur band is actually used: frequency occupancy within the segment, hourly load and the fraction of transmitters on crowded vs quiet slots, from one day of real reports.",
+  "problem": "Spectrum is shared by thousands of independent users. How evenly do they spread across the available channel, and how busy is it through the day?",
+  "theory": "If N transmitters pick frequencies uniformly in a 200 Hz segment and each WSPR signal occupies ~6 Hz, the expected fraction\nof time-frequency overlap (collisions) for a given transmission is $\\approx1-e^{-N\\cdot 6/200}$ per 2-minute slot (Poisson). Users\ncluster around the segment centre, so the real occupancy histogram is peaked, raising collisions above the uniform\nestimate.",
+  "method": "Spots on 20 m, 2026-09-10: frequency offset within 14.0970\u201314.0972 MHz in 5 Hz bins (unique transmitter/slot pairs); per\n2-minute slot, each transmitter's frequency = median over all receivers that heard it; fraction of transmitters with\nanother transmitter within \u00b16 Hz vs the uniform Poisson estimate.",
+  "data": "Real: WSPRnet spots via wspr.live.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "Fraction of transmissions within 6 Hz of another (uniform-spread Poisson)",
+   "predicted": 0.9778318250372319,
+   "measured": 0.5988112563110614,
+   "unit": "",
+   "error": -0.3790205687261705,
+   "error_str": "-0.379",
+   "kind": "abs",
+   "ok": null,
+   "note": "\u00b16 Hz window = 12 Hz of 200 Hz"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "2-minute slots observed",
+   "value": 1363.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Mean distinct transmitters per slot (20 m)",
+   "value": 63.48495964783566,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Normalised occupancy entropy (1 = perfectly uniform)",
+   "value": 0.9874777888530133,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/occupancy.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL105-spectrum-occupancy-survey"
+}

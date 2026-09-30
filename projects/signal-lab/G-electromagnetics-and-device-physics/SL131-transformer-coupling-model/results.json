@@ -1,0 +1,141 @@
+{
+ "meta": {
+  "id": "SL-131",
+  "title": "Transformer coupling: coefficient k and leakage inductance",
+  "level": "M",
+  "tools": "eelab mini-SPICE with mutual inductance (AC analysis), open/short-circuit tests",
+  "summary": "Characterise a two-winding transformer by the classic open- and short-circuit tests in simulation and recover the coupling coefficient and leakage inductance; show how k sets voltage ratio and regulation.",
+  "problem": "Real transformers leak flux. How do you measure the coupling coefficient, and what does leakage do to the output voltage under load?",
+  "theory": "Coupled inductors L\u2081, L\u2082, M = k\u221a(L\u2081L\u2082). Open-circuit voltage ratio $V_2/V_1 = M/L_1 = k\\sqrt{L_2/L_1}$. Primary inductance with secondary\nshorted: $L_{sc}=L_1(1-k^2)$ (the leakage). So $k=\\sqrt{1-L_{sc}/L_{oc}}$. Under load the leakage reactance \u03c9L_sc causes a voltage drop that grows\nwith load current.",
+  "method": "L\u2081 = 10 mH, L\u2082 = 2.5 mH (n = 0.5), winding resistances 0.5 \u03a9 / 0.15 \u03a9, k \u2208 {0.9, 0.98, 0.998}. AC analysis at 1 kHz: input impedance with secondary\nopen and shorted; voltage ratio; load regulation from open circuit to 10 \u03a9.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "k = 0.9: recovered from open/short tests",
+   "predicted": 0.9,
+   "measured": 0.899958967179813,
+   "unit": "",
+   "error": -0.004559202242996699,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.9: leakage L\u2081(1\u2212k\u00b2)",
+   "predicted": 0.0018999999999999996,
+   "measured": 0.001900738573926441,
+   "unit": "H",
+   "error": 0.038872311917970456,
+   "error_str": "+0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.9: open-circuit ratio k\u221a(L\u2082/L\u2081)",
+   "predicted": 0.45,
+   "measured": 0.44999999993250006,
+   "unit": "",
+   "error": -1.4999988905294178e-08,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.98: recovered from open/short tests",
+   "predicted": 0.98,
+   "measured": 0.9799553198180185,
+   "unit": "",
+   "error": -0.004559202243005008,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.98: leakage L\u2081(1\u2212k\u00b2)",
+   "predicted": 0.0003960000000000008,
+   "measured": 0.00039687571160364877,
+   "unit": "H",
+   "error": 0.22113929385049869,
+   "error_str": "+0.22 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.98: open-circuit ratio k\u221a(L\u2082/L\u2081)",
+   "predicted": 0.49,
+   "measured": 0.48999999992650006,
+   "unit": "",
+   "error": -1.499998538077664e-08,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.998: recovered from open/short tests",
+   "predicted": 0.998,
+   "measured": 0.9979544991616149,
+   "unit": "",
+   "error": -0.004559202242991954,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.998: leakage L\u2081(1\u2212k\u00b2)",
+   "predicted": 3.996e-05,
+   "measured": 4.086817603090273e-05,
+   "unit": "H",
+   "error": 2.272712790046872,
+   "error_str": "+2.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.998: open-circuit ratio k\u221a(L\u2082/L\u2081)",
+   "predicted": 0.499,
+   "measured": 0.4989999999251501,
+   "unit": "",
+   "error": -1.4999980772063827e-08,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "k = 0.9: load regulation (open \u2192 10 \u03a9)",
+   "value": 6.7708400026028865,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.98: load regulation (open \u2192 10 \u03a9)",
+   "value": 2.8892064831923183,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.998: load regulation (open \u2192 10 \u03a9)",
+   "value": 2.7469044625508907,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/coupling.png"
+ ],
+ "runtime_s": 0.07,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL131-transformer-coupling-model"
+}

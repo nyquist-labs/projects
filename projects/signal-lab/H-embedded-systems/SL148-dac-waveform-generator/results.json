@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-148",
+  "title": "DDS waveform generator (phase accumulator + DAC)",
+  "level": "M",
+  "tools": "C firmware (32-bit phase accumulator, 256-entry sine LUT, 8/10/12-bit DAC models) on the simulated MCU, spectral analysis",
+  "summary": "Generate sine and triangle waves by direct digital synthesis; predict frequency resolution f_clk/2\u00b3\u00b2, and spurious-free dynamic range from LUT phase truncation and DAC bits, then measure them with an FFT.",
+  "problem": "How does a microcontroller make an arbitrary-frequency sine wave with only a table and an adder, and how pure is it?",
+  "theory": "Output frequency $f = \\frac{\\Delta\\phi}{2^{32}}f_{clk}$ \u2014 resolution 23 \u00b5Hz at 100 kHz. Amplitude quantisation to B bits gives SNR \u2248 6.02B + 1.76 dB; truncating\nthe phase to P = 8 bits (256-entry table) produces spurs at \u2248 \u22126.02P dB \u2192 \u2248 \u221248 dBc, which dominates for B \u2265 8.",
+  "method": "f_clk (sample rate) = 100 kHz, target 1,234.567 Hz. DAC 8, 10, 12 bits; LUT 256 entries (phase truncated to 8 bits) and a 4,096-entry variant.\n2\u00b9\u2076 samples, Blackman-Harris FFT, SFDR = carrier vs largest spur.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Actual output frequency (\u0394\u03c6/2\u00b3\u00b2\u00b7f_clk) vs target",
+   "predicted": 1234.567,
+   "measured": 1234.5670023933053,
+   "unit": "Hz",
+   "error": 1.9385787036185985e-07,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "DAC 8-bit, LUT 256: SFDR (\u2248 min(6.02\u00b7P, 6.02\u00b7B + ~10))",
+   "predicted": 48.16,
+   "measured": 48.33654037602959,
+   "unit": "dBc",
+   "error": 0.1765403760295925,
+   "error_str": "+0.1765 dBc",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "DAC 12-bit, LUT 256: SFDR (\u2248 min(6.02\u00b7P, 6.02\u00b7B + ~10))",
+   "predicted": 48.16,
+   "measured": 48.064411230022934,
+   "unit": "dBc",
+   "error": -0.09558876997706278,
+   "error_str": "-0.09559 dBc",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "DAC 12-bit, LUT 4096: SFDR (\u2248 min(6.02\u00b7P, 6.02\u00b7B + ~10))",
+   "predicted": 72.24,
+   "measured": 72.77718905707268,
+   "unit": "dBc",
+   "error": 0.5371890570726805,
+   "error_str": "+0.5372 dBc",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Frequency resolution f_clk/2\u00b3\u00b2",
+   "value": 2.3283064365386963e-05,
+   "unit": "Hz",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/dds.png"
+ ],
+ "runtime_s": 1.02,
+ "folder": "projects/signal-lab/H-embedded-systems/SL148-dac-waveform-generator"
+}

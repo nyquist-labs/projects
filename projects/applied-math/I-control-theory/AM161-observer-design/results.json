@@ -1,0 +1,119 @@
+{
+ "meta": {
+  "id": "AM-161",
+  "title": "Observer design and the separation principle",
+  "level": "H",
+  "tools": "Discrete-time Luenberger observer by duality with pole placement, combined controller\u2013observer eigenvalues, estimation-error decay fitted from simulation, steady-state error covariance from a discrete Lyapunov equation versus Monte-Carlo with sensor noise",
+  "summary": "Reconstruct unmeasured states from the output with a Luenberger observer, verify that the observer-based controller's poles are exactly the union of the state-feedback and observer poles, that the estimation error decays at the designed rate, and quantify the speed-versus-noise trade-off.",
+  "problem": "State feedback needs every state, but only the position is measured. Can an estimate be used instead \u2014 and how fast should the estimator be?",
+  "theory": "Plant $x^+=Ax+Bu$, $y=Cx+v$. Observer $\\hat x^+=A\\hat x+Bu+L(y-C\\hat x)$ gives error dynamics $e^+=(A-LC)e-Lv$, independent of u. With $u=-K\\hat x$ the closed-loop matrix is block-triangular in (x, e): its eigenvalues are\neig(A \u2212 BK) \u222a eig(A \u2212 LC) \u2014 controller and observer can be designed separately. L follows from pole placement on the dual pair (A\u1d40, C\u1d40). With sensor-noise variance R the steady-state error covariance solves $\u03a3=(A-LC)\u03a3(A-LC)^T+LRL^T$:\nfaster observer poles \u21d2 larger L \u21d2 more noise passed into the estimate.",
+  "method": "DC-motor position servo (states: angle, speed, current), sampled at 1 kHz by exact ZOH; only the angle is measured. Controller poles at radius \u2248 0.98; observer: two real poles at radius 0.95 / 0.85 / 0.7 (slow / medium / fast) \u2014 all faster than the plant's mechanical modes (z = 1 and 0.973) \u2014 with the third pole left next to the plant's own electrical mode (z \u2248 0.62).\nError decay from a noiseless simulation with a wrong initial estimate; noise study with \u03c3 = 1 mrad over 200 000 steps.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Separation principle: eigenvalues of the observer-based loop vs eig(A\u2212BK) \u222a eig(A\u2212LC) (worst distance, 3 designs)",
+   "predicted": 0.0,
+   "measured": 2.0128343436454088e-13,
+   "unit": "",
+   "error": 2.0128343436454088e-13,
+   "error_str": "+2.0128e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "slow observer: estimation-error decay per step = spectral radius of A \u2212 LC",
+   "predicted": 0.95,
+   "measured": 0.9500054560162625,
+   "unit": "",
+   "error": 0.0005743175013222787,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "fast observer: estimation-error decay per step = spectral radius of A \u2212 LC",
+   "predicted": 0.7,
+   "measured": 0.7054747940586376,
+   "unit": "",
+   "error": 0.7821134369482285,
+   "error_str": "+0.78 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "slow observer: rms speed-estimate error from sensor noise (Lyapunov vs simulation)",
+   "predicted": 0.004355260547404769,
+   "measured": 0.004362992306896317,
+   "unit": "rad/s",
+   "error": 0.17752691044294505,
+   "error_str": "+0.18 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "medium observer: rms speed-estimate error from sensor noise (Lyapunov vs simulation)",
+   "predicted": 0.024870909361448108,
+   "measured": 0.02482329244445709,
+   "unit": "rad/s",
+   "error": -0.19145627648351365,
+   "error_str": "-0.19 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "fast observer: rms speed-estimate error from sensor noise (Lyapunov vs simulation)",
+   "predicted": 0.09664947339469364,
+   "measured": 0.09679513116399246,
+   "unit": "rad/s",
+   "error": 0.15070725600748439,
+   "error_str": "+0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Noise amplification: fast observer's speed-estimate error is larger than the slow one's (ratio > 5; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "First attempt: all three observer poles at radius 0.95 (slower than the plant's own electrical mode)",
+   "value": "\u2016L\u2016 = 183, rms speed error 0.299 rad/s",
+   "unit": "",
+   "note": "slow poles but a large gain and more noise than the faster designs"
+  },
+  {
+   "quantity": "rms speed-estimate error, slow / medium / fast",
+   "value": "0.00436 / 0.0248 / 0.0968",
+   "unit": "rad/s",
+   "note": "for 1 mrad rms angle noise"
+  },
+  {
+   "quantity": "Observer gain \u2016L\u2016, slow / fast",
+   "value": "5.13 / 84.1",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/observer.png"
+ ],
+ "runtime_s": 1.28,
+ "folder": "projects/applied-math/I-control-theory/AM161-observer-design"
+}

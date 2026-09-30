@@ -1,0 +1,71 @@
+{
+ "meta": {
+  "id": "SL-185",
+  "title": "Epileptic seizure detection in scalp EEG (CHB-MIT)",
+  "level": "H",
+  "tools": "Line-length and band-energy features in 2-s windows, patient-specific threshold, false-alarm analysis; CHB-MIT Scalp EEG Database",
+  "summary": "Detect a clinically annotated seizure in a child's 23-channel EEG with a line-length detector, measure detection latency, and count false alarms per hour on a seizure-free hour from the same patient.",
+  "problem": "Seizure warning devices must catch seizures quickly without crying wolf. Where is that trade-off for a simple detector?",
+  "theory": "Seizures produce rhythmic, high-amplitude activity: line length $L=\\sum|x_{n+1}-x_n|$ over a window rises several-fold (Esteller 2001). A patient-specific\nthreshold (e.g. mean + k\u03c3 of background) trades latency against false alarms: raising k reduces false alarms roughly exponentially for Gaussian-like\nbackground but delays detection. Clinical systems target < 1 false alarm/h with detection within ~10 s.",
+  "method": "Patient chb01: file chb01_03 contains a seizure at 2996\u20133036 s (annotation); chb01_01 is seizure-free (1 h). 23 bipolar channels, 256 Hz, 3\u201330 Hz band-pass. Line\nlength per 2-s window summed over channels, normalised by the median of chb01_01. Detection = 3 consecutive windows above threshold k; k swept.",
+  "data": "Real: CHB-MIT Scalp EEG Database (Shoeb 2009, PhysioNet), ODC-By.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Line-length increase during the seizure (several-fold expected)",
+   "predicted": 3.0,
+   "measured": 1.8437715238713257,
+   "unit": "\u00d7",
+   "error": -1.1562284761286743,
+   "error_str": "-1.156 \u00d7",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Smoothed detector: latency after electrographic onset (target < 10 s + 20-s averaging)",
+   "predicted": 20.0,
+   "measured": 22.0,
+   "unit": "s",
+   "error": 2.0,
+   "error_str": "+2 s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "No threshold gives < 1 false alarm/h AND detects the seizure with the raw 2-s feature",
+   "value": 0.0,
+   "unit": "",
+   "note": "see trade-off plot"
+  },
+  {
+   "quantity": "Smoothed detector threshold (from seizure-free hour)",
+   "value": 5.326993799656751,
+   "unit": "\u03c3",
+   "note": ""
+  },
+  {
+   "quantity": "Smoothed detector: false alarms in the ~59 non-seizure minutes of chb01_03 (held out)",
+   "value": 0.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Seizure detected by raw feature at every threshold up to",
+   "value": 5.0,
+   "unit": "\u03c3",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/seizure.png",
+  "figures/smoothed_detector.png"
+ ],
+ "runtime_s": 1.67,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL185-seizure-detection"
+}

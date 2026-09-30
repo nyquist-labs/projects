@@ -1,0 +1,70 @@
+{
+ "meta": {
+  "id": "SL-024",
+  "title": "Logarithmic and anti-log amplifiers",
+  "level": "H",
+  "tools": "eelab mini-SPICE DC sweeps over 6 decades",
+  "summary": "Exploit the diode law to build an amplifier whose output is the logarithm of its input: verify 59.5 mV per decade over six decades and invert it with an anti-log stage.",
+  "problem": "The diode's exponential I\u2013V curve is usually a nuisance. Can it be turned into an exact logarithm function, and over how many decades does it hold?",
+  "theory": "With the diode in the feedback of an inverting op-amp, the input current $I=V_{in}/R$ flows through it:\n$$V_{out}=-nV_T\\ln\\frac{V_{in}}{RI_s}\\quad\\Rightarrow\\quad \\frac{dV_{out}}{d\\log_{10}V_{in}}=-2.303\\,nV_T=-59.5\\text{ mV/decade}\\ (n=1)$$\nAnti-log (diode at the input): $V_{out}=-RI_s e^{-V_{in}/nV_T}$. Cascading the two should return the input.\nLimits: at low currents the op-amp offset and leakage dominate; at high currents the diode's series\nresistance adds a linear term.",
+  "method": "Transistor-quality diode (Is = 10 fA, n = 1, Rs = 1 \u03a9), R = 10 k\u03a9, op-amp with 50 \u00b5V input offset. Input\n100 \u00b5V\u201310 V (6 decades). Slope measured by linear regression in the log domain over the middle\n4 decades; conformance error = deviation from the fitted line.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Log slope",
+   "predicted": -0.059537156,
+   "measured": -0.05980994563888723,
+   "unit": "V/dec",
+   "error": -0.4581838589791395,
+   "error_str": "-0.46 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "V_out at V_in = 10 mV",
+   "predicted": -0.4762114385926566,
+   "measured": -0.47602427244769846,
+   "unit": "V",
+   "error": 0.03930316027503411,
+   "error_str": "+0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Anti-log output at input \u22120.55 V",
+   "predicted": 0.17361740610762402,
+   "measured": 0.17361068037191352,
+   "unit": "V",
+   "error": -0.0038738833054194287,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Conformance error at 100 \u00b5V (offset-limited)",
+   "value": 17.9325296617025,
+   "unit": "mV",
+   "note": ""
+  },
+  {
+   "quantity": "Conformance error at 10 V (R_s-limited)",
+   "value": -0.45847983406233084,
+   "unit": "mV",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/log_amp.png",
+  "figures/antilog.png"
+ ],
+ "runtime_s": 0.32,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL024-log-antilog-amplifier"
+}

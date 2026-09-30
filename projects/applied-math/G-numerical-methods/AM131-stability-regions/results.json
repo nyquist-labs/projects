@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "AM-131",
+  "title": "Stability regions of time-integration schemes",
+  "level": "H",
+  "tools": "Stability functions R(z) of explicit Euler, Heun (RK2), classical RK4, backward Euler, trapezoidal and BDF2 (root condition), region plots, verification by running the test equation y' = \u03bby on a grid of h\u03bb values",
+  "summary": "Plot where each integration method is stable in the complex h\u03bb plane, then verify every region pixel-by-pixel by actually integrating y' = \u03bby \u2014 and read off practical consequences (e.g. RK4's imaginary-axis limit 2\u221a2 and BDF2's A-stability).",
+  "problem": "Which step sizes are safe for which method on which circuit? The stability region answers all three at once.",
+  "theory": "For y' = \u03bby each one-step method gives y_{n+1} = R(z)y_n, z = h\u03bb: Euler 1+z; Heun 1+z+z\u00b2/2; RK4 \u03a3_{k\u22644} z^k/k!; BE 1/(1\u2212z); trapezoid (1+z/2)/(1\u2212z/2). Stable iff |R(z)| \u2264 1. BDF2 (3y_{n+1} \u2212 4y_n + y_{n\u22121} = 2hf_{n+1}) is stable iff both roots of\n(3\u22122z)\u03b6\u00b2 \u2212 4\u03b6 + 1 = 0 satisfy |\u03b6| \u2264 1. Landmarks: real-axis limits \u22122 (Euler), \u22122 (Heun), \u22122.785 (RK4); RK4 includes the imaginary axis up to |z| = 2\u221a2 \u2248 2.83; BE, trapezoid, BDF2 contain the whole left half-plane (A-stable).",
+  "method": "Grid of 241 \u00d7 241 points in \u22124 \u2264 Re z \u2264 2, \u22123.5 \u2264 Im z \u2264 3.5. For each method and point: formula classification vs 400 actual integration steps of y' = \u03bby (bounded growth \u21d2 stable). Landmarks by bisection.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Agreement between |R(z)| \u2264 1 and 400-step simulations over all methods (excluding |R| \u2248 1 edge pixels)",
+   "predicted": 1.0,
+   "measured": 0.9979167025361133,
+   "unit": "",
+   "error": -0.20832974638866908,
+   "error_str": "-0.21 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RK4 real-axis stability limit",
+   "predicted": -2.7853,
+   "measured": -2.785293563405282,
+   "unit": "",
+   "error": 0.00023109161376177244,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RK4 imaginary-axis limit 2\u221a2 (why RK4 can integrate undamped oscillators)",
+   "predicted": 2.8284271247461903,
+   "measured": 2.82842712474619,
+   "unit": "",
+   "error": -1.5700924586837748e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Euler never stable on the imaginary axis (|1 + iy| > 1 for y \u2260 0; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "backward Euler: entire left half-plane stable (A-stable; fraction of LHP pixels)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "trapezoidal: entire left half-plane stable (A-stable; fraction of LHP pixels)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BDF2: entire left half-plane stable (A-stable; fraction of LHP pixels)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/stability_regions.png"
+ ],
+ "runtime_s": 5.28,
+ "folder": "projects/applied-math/G-numerical-methods/AM131-stability-regions"
+}

@@ -1,0 +1,118 @@
+{
+ "meta": {
+  "id": "SL-203",
+  "title": "Unit converter for EE (prefixes, value codes, AWG, PCB units)",
+  "level": "E",
+  "tools": "HTML/JS converter: SI-prefix and RKM ('4k7') parsing, EIA capacitor codes, AWG wire tables, mil/mm, oz copper, temperature, wavelength; Node harness",
+  "summary": "A single page for the conversions an electronics engineer does daily \u2014 parse '4k7' and '2u2', decode '104', look up AWG 22, convert mil to mm \u2014 tested against independent Python code and the published AWG table.",
+  "problem": "Small unit mistakes (a mil is not a millimetre, 104 is not 104 pF) cause real board re-spins. Can one tool handle all of them correctly?",
+  "theory": "AWG is defined geometrically: 36 AWG = 0.005 in, 0000 AWG = 0.46 in, 39 steps between \u2192 $d_n = 0.127\\,\\text{mm}\u00b792^{(36-n)/39}$; every 6 gauges halves the diameter\n(\u2248 \u00d70.5), every 3 gauges halves the area. 1 oz/ft\u00b2 copper = 28.35 g spread over 929 cm\u00b2 at 8.96 g/cm\u00b3 = 34.1 \u00b5m (the industry's nominal '1.378 mil \u2248 35 \u00b5m' is a rounded convention). EIA capacitor code \"abc\" = ab \u00d7 10^c pF\n(c = 8, 9 mean \u00d70.01, \u00d70.1). RKM code (IEC 60062) puts the prefix letter where the decimal point would be (4k7 = 4.7 k\u03a9) so a lost decimal point cannot\nmisread a value.",
+  "method": "Published AWG diameters (0000, 0, 10, 12, 14, 18, 22, 24, 26, 30) vs calc.js; 40 RKM and prefix strings; 12 EIA codes; 5000 random round trips for format/parse and\nunit pairs vs Python.",
+  "data": "Standard reference tables.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Worst AWG diameter deviation from the published table (values given to 0.001 mm)",
+   "predicted": 0.0,
+   "measured": 0.0004746115060521028,
+   "unit": "mm",
+   "error": 0.0004746115060521028,
+   "error_str": "+4.7461e-04 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "6 gauges \u2248 halves diameter (92^(6/39))",
+   "predicted": 0.4987452767070466,
+   "measured": 0.49874527670704666,
+   "unit": "\u00d7",
+   "error": 1.1130160790247245e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "3 gauges \u2248 halves area",
+   "predicted": 0.5,
+   "measured": 0.498745276707047,
+   "unit": "\u00d7",
+   "error": -0.25094465859060167,
+   "error_str": "-0.25 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Value strings parsed correctly (24 RKM/prefix forms)",
+   "predicted": 24.0,
+   "measured": 24.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "EIA capacitor codes decoded correctly (12)",
+   "predicted": 12.0,
+   "measured": 12.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "1 oz/ft\u00b2 copper thickness from mass and density",
+   "predicted": 34.06,
+   "measured": 34.05711226880043,
+   "unit": "\u00b5m",
+   "error": -0.008478365236557308,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "formatEng \u2192 parseEng round trips (3000 values, 12 digits)",
+   "predicted": 0.0,
+   "measured": 4.690581256738824e-12,
+   "unit": "",
+   "error": 4.690581256738824e-12,
+   "error_str": "+4.6906e-12",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Malformed strings rejected (4k7k, abc, 1..2, 4k7.2)",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Industry nominal (1.378 mil) exceeds the physical value by",
+   "value": 2.772072170265716,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/awg.png"
+ ],
+ "runtime_s": 0.38,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL203-unit-converter-for-ee"
+}

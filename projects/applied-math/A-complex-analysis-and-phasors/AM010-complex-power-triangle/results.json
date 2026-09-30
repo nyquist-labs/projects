@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-010",
+  "title": "Complex power: P, Q and S as one complex number",
+  "level": "E",
+  "tools": "Phasor power S = V\u00b7I*, time-domain simulation of instantaneous power, power-factor correction design",
+  "summary": "Compute real, reactive and apparent power of an inductive load as a single complex number, confirm each part from the simulated instantaneous power p(t) = v(t)i(t), then size a power-factor-correction capacitor and verify that it works.",
+  "problem": "What is 'reactive power' physically, and how does a capacitor cancel it?",
+  "theory": "With rms phasors, $S = VI^* = P + jQ$; |S| is apparent power, P/|S| the power factor. In time, $p(t)=P\\,[1+\\cos 2\u03c9t] + Q\\sin 2\u03c9t$ (for v = \u221a2V cos \u03c9t): P is the average,\nand Q the amplitude of the part that sloshes back and forth at 2\u03c9 without net transfer. A parallel capacitor supplying $Q_C = V^2\u03c9C$ cancels the load's Q:\n$C = Q/(\u03c9V^2)$ gives unity power factor, reducing the line current by the factor pf.",
+  "method": "230 V rms, 50 Hz source into R = 20 \u03a9 in series with L = 50 mH (Z = 20 + j15.7 \u03a9). Transient simulation for 0.5 s; P from mean(v\u00b7i), Q from the 2\u03c9 quadrature component of p(t);\nthen the computed PFC capacitor in parallel and the line current re-measured.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Real power P (mean of v\u00b7i)",
+   "predicted": 1635.896681830122,
+   "measured": 1636.1787003188524,
+   "unit": "W",
+   "error": 0.017239382649459175,
+   "error_str": "+0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Reactive power Q (2\u03c9 quadrature amplitude of p(t))",
+   "predicted": 1284.8302494173574,
+   "measured": 1284.3565010350278,
+   "unit": "var",
+   "error": -0.03687244930172419,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Apparent power |S| = Vrms\u00b7Irms",
+   "predicted": 2080.131419752289,
+   "measured": 2080.3079843674436,
+   "unit": "VA",
+   "error": 0.008488147117927227,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Power factor after correction",
+   "predicted": 1.0,
+   "measured": 0.9999999999241113,
+   "unit": "",
+   "error": -7.588873973674026e-09,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Line current reduction factor (= pf)",
+   "predicted": 0.7864391000953832,
+   "measured": 0.7865079101848702,
+   "unit": "",
+   "error": 0.00874957634719052,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Power factor before correction",
+   "value": 0.7864391000953832,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "PFC capacitor C = Q/(\u03c9V\u00b2)",
+   "value": 77.31080726985452,
+   "unit": "\u00b5F",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/power.png"
+ ],
+ "runtime_s": 0.45,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM010-complex-power-triangle"
+}

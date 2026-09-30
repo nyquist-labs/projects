@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-103",
+  "title": "Fitting a diode model: gradient descent vs Gauss\u2013Newton",
+  "level": "M",
+  "tools": "Diode I\u2013V data from the MNA simulator (Shockley diode with series resistance) plus measurement noise, own gradient descent with line search, own Gauss\u2013Newton / Levenberg\u2013Marquardt, convergence-rate comparison",
+  "summary": "Extract the saturation current, ideality factor and series resistance of a diode from noisy I\u2013V measurements by minimising the squared log-current error with three self-written optimisers, and show why plain gradient descent crawls on this ill-conditioned problem while Gauss\u2013Newton converges in a few steps.",
+  "problem": "Every device model is fitted to measurements. Why does the choice of optimiser matter so much?",
+  "theory": "$I = I_s(e^{(V-IR_s)/(nV_T)}-1)$. Parameters \u03b8 = (ln I_s, n, R_s) span orders of magnitude and are strongly correlated (I_s and n trade off), so the Hessian of the least-squares cost is poorly conditioned\n(my guess: \u03ba \u226b 10\u2074; measured below). Gradient descent converges linearly with rate \u2248 (\u03ba\u22121)/(\u03ba+1) per step \u2014 thousands of iterations; Gauss\u2013Newton uses J\u1d40J as the Hessian and converges quadratically near the optimum. Fitting ln I rather than I weights the\nexponential region fairly.",
+  "method": "'Measured' data: the repository's MNA simulator with a diode (I_s = 2.5 nA, n = 1.8, R_s = 0.6 \u03a9), V from 0.3 to 1.0 V, 1 % multiplicative noise. Implicit model solved per point by Newton; Jacobian by finite differences.\nStart (ln I_s, n, R_s) = (ln 1e-12, 1.2, 0.05). GD with backtracking line search vs LM; iterations to reach cost within 1e-6 of the optimum.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "LM fit: saturation current I_s",
+   "predicted": 2.5e-09,
+   "measured": 2.5199733707897667e-09,
+   "unit": "A",
+   "error": 0.7989348315906647,
+   "error_str": "+0.80 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "LM fit: ideality factor n",
+   "predicted": 1.8,
+   "measured": 1.8012736352192582,
+   "unit": "",
+   "error": 0.07075751218100902,
+   "error_str": "+0.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "LM fit: series resistance R_s",
+   "predicted": 0.6,
+   "measured": 0.591819384880044,
+   "unit": "\u03a9",
+   "error": -1.3634358533259894,
+   "error_str": "-1.36 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Iterations to reach the optimum cost (+1e-6): gradient descent / LM (my guess \u2265 100\u00d7)",
+   "predicted": 100.0,
+   "measured": 843.8,
+   "unit": "\u00d7",
+   "error": 743.8,
+   "error_str": "+743.8 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Condition number of J\u1d40J at the optimum (raw / column-scaled)",
+   "value": "9.2e+02 / 8.7e+01",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Iterations: LM / gradient descent",
+   "value": "5 / 4219",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/diode_fit.png"
+ ],
+ "runtime_s": 7.02,
+ "folder": "projects/applied-math/F-optimisation/AM103-gradient-descent-parameter-fitting"
+}

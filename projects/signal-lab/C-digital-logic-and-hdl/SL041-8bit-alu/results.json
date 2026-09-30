@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-041",
+  "title": "8-bit ALU with flags",
+  "level": "M",
+  "tools": "Verilog RTL, Icarus Verilog self-checking testbench, Yosys",
+  "summary": "An 8-bit ALU with ADD, SUB, AND, OR, XOR, SHL, SHR, SLT and Z/N/C/V flags, verified against a reference model on 4,000 random vectors per operation.",
+  "problem": "Design the arithmetic heart of a CPU and prove its flags (especially signed overflow) are right for every operation.",
+  "theory": "Two's-complement subtraction is $A + \\bar B + 1$. Carry $C$ is the 9th bit of the unsigned result;\nsigned overflow is $V = (a_7 = b'_7) \\wedge (s_7 \\ne a_7)$ where $b'$ is B (add) or $\\bar B$ (sub).\nSLT (set-less-than, signed) is $N\\oplus V$ of the subtraction \u2014 the classic trick that avoids a separate\ncomparator. For random operands, P(V=1) for ADD is 1/4 (half the time the signs agree, half of those overflow).",
+  "method": "RTL ALU with a 3-bit op decoder. Testbench computes the expected result and flags independently with\ninteger arithmetic, runs 4,000 random vectors per op plus corner cases (0x7F+1, 0x80\u22121, 0xFF+1), and\ncounts mismatches and flag frequencies. Synthesis gives the cell count.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Mismatches over 32,032 vectors (all ops)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Overflow frequency, ADD (random operands)",
+   "predicted": 0.25,
+   "measured": 0.243007,
+   "unit": "",
+   "error": -0.006992999999999999,
+   "error_str": "-0.006993",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Overflow frequency, SUB (random operands)",
+   "predicted": 0.25,
+   "measured": 0.253247,
+   "unit": "",
+   "error": 0.003247,
+   "error_str": "+0.003247",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Synthesised size",
+   "value": 235.0,
+   "unit": "cells",
+   "note": "logic depth 19"
+  }
+ ],
+ "figures": [
+  "figures/synthesis.png"
+ ],
+ "runtime_s": 1.18,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL041-8bit-alu"
+}

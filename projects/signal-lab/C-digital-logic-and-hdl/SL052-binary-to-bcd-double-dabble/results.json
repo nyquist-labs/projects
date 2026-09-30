@@ -1,0 +1,86 @@
+{
+ "meta": {
+  "id": "SL-052",
+  "title": "Binary-to-BCD (double-dabble) in hardware",
+  "level": "M",
+  "tools": "Verilog (combinational shift-add-3 network), Icarus Verilog exhaustive test, Yosys",
+  "summary": "Convert 8-, 10- and 12-bit binary to packed BCD with the shift-and-add-3 algorithm, verify every input exhaustively and measure how the hardware grows with width.",
+  "problem": "Displays want decimal digits, logic produces binary. Convert without a divider.",
+  "theory": "Double dabble shifts the binary number left into a BCD register n times; before each shift any BCD digit\n\u2265 5 gets +3 (so that after doubling it overflows correctly into the next digit). Unrolled, an n-bit input\nneeds about $\\sum$ (digits active at each step) \"add-3\" cells \u2014 roughly $n^2/8$ for n up to 16:\n7 cells for 8 bits, 13 for 10 bits, 21 for 12 bits (counting only cells whose digit can reach \u2265 5).",
+  "method": "Unrolled combinational Verilog with a generic loop (the synthesiser removes cells that can never\ntrigger). Testbench checks all 2\u207f inputs against integer division/modulo. Yosys (with ABC) reports gate\ncount and depth for each width.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "8-bit: conversion errors over all 256 inputs",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "10-bit: conversion errors over all 1024 inputs",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "12-bit: conversion errors over all 4096 inputs",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gates per add-3 cell, 8 \u2192 12 bit (should be constant)",
+   "predicted": 11.714285714285714,
+   "measured": 9.142857142857142,
+   "unit": "",
+   "error": -21.951219512195124,
+   "error_str": "-21.95 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "8-bit synthesised",
+   "value": 82.0,
+   "unit": "gates",
+   "note": "depth 23"
+  },
+  {
+   "quantity": "10-bit synthesised",
+   "value": 122.0,
+   "unit": "gates",
+   "note": "depth 31"
+  },
+  {
+   "quantity": "12-bit synthesised",
+   "value": 192.0,
+   "unit": "gates",
+   "note": "depth 40"
+  }
+ ],
+ "figures": [
+  "figures/area.png"
+ ],
+ "runtime_s": 3.49,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL052-binary-to-bcd-double-dabble"
+}

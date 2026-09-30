@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "AM-138",
+  "title": "Carry-lookahead derived: from ripple to parallel prefix",
+  "level": "M",
+  "tools": "Own gate-level netlist builder (2-input gates with automatic level tracking, bit-parallel evaluation over 64-bit words), ripple, 4-bit-group lookahead and Kogge\u2013Stone prefix adders, exhaustive/random functional verification, depth and gate counts against derived formulas",
+  "summary": "Derive the generate/propagate carry recurrence, unroll it into lookahead equations, recognise the associative prefix operator that lets carries be computed in log\u2082n levels, and verify depth and size formulas for 4 to 64 bits on real gate netlists.",
+  "problem": "A ripple adder waits for the carry to crawl across every bit. How does algebra make a 64-bit add as fast as a few gates?",
+  "theory": "$g_i=a_ib_i$, $p_i=a_i\\oplus b_i$, $c_{i+1}=g_i+p_ic_i$. Unrolling: $c_4=g_3+p_3g_2+p_3p_2g_1+p_3p_2p_1g_0+p_3p_2p_1p_0c_0$ (two levels of wide gates). The pair operator $(G,P)\\circ(G',P')=(G+PG',\\,PP')$ is\nassociative, so all prefixes $(G_{i:0},P_{i:0})$ can be computed by a tree: Kogge\u2013Stone uses $\\log_2 n$ levels with $n\\log_2n-n+1$ prefix cells. With 2-input gates and c\u2080 = 0: ripple depth $2n-1$; Kogge\u2013Stone depth $2\\log_2n+1$.\nBoth $p=a\\oplus b$ and $p=a+b$ give the same carries (since $g$ absorbs the difference).",
+  "method": "Netlists built from 2-input AND/OR/XOR; depth = longest gate path, size = gate count. Verification: exhaustive for n = 4 and 8, 10\u2075 random vectors for n = 16\u202664 (bit-parallel). The unrolled c\u2084 equation is checked against the recurrence on all 512 inputs\nfor both definitions of p.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Unrolled c\u2084 equation vs recurrence vs true carry (512 inputs \u00d7 both definitions of p)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "mismatches",
+   "error": 0.0,
+   "error_str": "+0 mismatches",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Functional mismatches, both adders, n = 4\u202664",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Ripple depth at n = 64: 2n \u2212 1",
+   "predicted": 127.0,
+   "measured": 127.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Kogge\u2013Stone depth = 2\u00b7log\u2082n + 1 for every n = 4\u202664 (mismatches)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Kogge\u2013Stone depth at n = 64",
+   "predicted": 13.0,
+   "measured": 13.0,
+   "unit": "gate delays",
+   "error": 0.0,
+   "error_str": "+0 gate delays",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Kogge\u2013Stone prefix cells at n = 64: n\u00b7log\u2082n \u2212 n + 1",
+   "predicted": 321.0,
+   "measured": 321.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Speed-up at 64 bits (depth ratio)",
+   "value": 9.76923076923077,
+   "unit": "\u00d7",
+   "note": ""
+  },
+  {
+   "quantity": "Area cost at 64 bits (gate ratio)",
+   "value": 3.441640378548896,
+   "unit": "\u00d7",
+   "note": "1091 vs 317 gates"
+  }
+ ],
+ "figures": [
+  "figures/cla.png"
+ ],
+ "runtime_s": 0.49,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM138-carry-lookahead-derivation"
+}

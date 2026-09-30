@@ -1,0 +1,130 @@
+{
+ "meta": {
+  "id": "AM-162",
+  "title": "The Kalman filter as the optimal observer",
+  "level": "H",
+  "tools": "Riccati recursion iterated to steady state (own) vs scipy's DARE, error covariance of an arbitrary observer gain from a discrete Lyapunov equation, gain-scaling sweep and random gain perturbations, Monte-Carlo simulation, innovation whiteness test",
+  "summary": "Among all observer gains, the steady-state Kalman gain minimises the estimation-error variance for given process and sensor noise. Show it: the Riccati recursion converges to the DARE solution, no perturbed gain gives a smaller error, simulation matches the predicted covariance, and only the optimal filter leaves a white innovation.",
+  "problem": "An observer can be made fast (noisy) or slow (sluggish against disturbances). Is there a best gain \u2014 and how would we recognise it in data?",
+  "theory": "$x^+=Ax+w$, $y=Cx+v$, cov(w) = W, cov(v) = R. For a predictor-form observer with gain L the error covariance obeys $\u03a3=(A-LC)\u03a3(A-LC)^T+W+LRL^T$. Minimising trace \u03a3 over L gives $L^*=APC^T(CPC^T+R)^{-1}$ where P solves the Riccati\nequation $P=APA^T-APC^T(CPC^T+R)^{-1}CPA^T+W$; then \u03a3 = P. The innovation $y-C\\hat x$ is white iff the gain is optimal \u2014 any remaining correlation is information the filter failed to use.",
+  "method": "Constant-acceleration-disturbance tracking model (position, velocity; 10 ms sample, random acceleration \u03c3_a = 2 m/s\u00b2, position sensor \u03c3 = 5 cm). Riccati recursion from P = I for 2000 steps. Sweep L = s\u00b7L* for s = 0.2\u20265 and 1000 random\nperturbations. Monte-Carlo: 400 000 steps. Innovation autocorrelation at lags 1\u20135 for s = 0.3, 1, 3.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Riccati recursion iterated to steady state vs scipy DARE (max relative difference)",
+   "predicted": 0.0,
+   "measured": 1.0810600219194263e-14,
+   "unit": "",
+   "error": 1.0810600219194263e-14,
+   "error_str": "+1.0811e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lyapunov covariance of the observer with gain L* equals the Riccati solution (trace ratio)",
+   "predicted": 1.0,
+   "measured": 1.0000000000000027,
+   "unit": "",
+   "error": 2.6645352591003757e-13,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Gain scale s that minimises trace \u03a3(s\u00b7L*)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Random gain perturbations (1000) giving a smaller position or velocity error variance",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Monte-Carlo position-error variance with the Kalman gain vs P\u2081\u2081",
+   "predicted": 0.00023389135515591392,
+   "measured": 0.00023470814101860776,
+   "unit": "m\u00b2",
+   "error": 0.34921592640710153,
+   "error_str": "+0.35 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Monte-Carlo velocity-error variance with the Kalman gain vs P\u2082\u2082",
+   "predicted": 0.009146507698538002,
+   "measured": 0.009172629516970135,
+   "unit": "(m/s)\u00b2",
+   "error": 0.28559335752058324,
+   "error_str": "+0.29 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Innovation lag-1 autocorrelation with the Kalman gain (white \u21d2 0)",
+   "predicted": 0.0,
+   "measured": 0.0009057019967910223,
+   "unit": "",
+   "error": 0.0009057019967910223,
+   "error_str": "+9.0570e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sub-optimal gains leave a coloured innovation: |lag-1 autocorrelation| > 0.05 for s = 0.3 and s = 3 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Innovation lag-1 autocorrelation, s = 0.3 / 1 / 3",
+   "value": "+0.213 / +0.001 / -0.109",
+   "unit": "",
+   "note": "positive: filter too slow; negative: too fast"
+  },
+  {
+   "quantity": "rms position error: raw sensor / Kalman estimate",
+   "value": "5.0 cm / 1.53 cm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Kalman gain L* and observer pole radius",
+   "value": "[0.0894, 0.383], |z| = 0.9563",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/kalman_observer.png"
+ ],
+ "runtime_s": 1.43,
+ "folder": "projects/applied-math/I-control-theory/AM162-kalman-filter-as-optimal-observer"
+}

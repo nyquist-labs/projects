@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-108",
+  "title": "BPSK bit-error rate vs SNR",
+  "level": "M",
+  "tools": "Monte Carlo simulation (NumPy), Q-function theory",
+  "summary": "Simulate BPSK over AWGN with 10\u2077 bits per point where needed and compare the measured BER with Q(\u221a(2E_b/N\u2080)) from 0 to 10 dB, including the confidence interval of each Monte Carlo estimate.",
+  "problem": "What does a textbook BER curve look like when you actually count errors, and how many bits must you simulate to trust a 10\u207b\u2076 point?",
+  "theory": "Antipodal signalling \u00b1\u221aE_b in noise of variance N\u2080/2: $P_b=Q\\!\\left(\\sqrt{2E_b/N_0}\\right)=\\tfrac12\\mathrm{erfc}\\sqrt{E_b/N_0}$. With k errors observed\nthe relative standard error of the estimate is \u2248 1/\u221ak, so ~100 errors give \u00b110 %.",
+  "method": "Random bits, BPSK mapping, AWGN at the set E_b/N\u2080, hard decision at 0. Adaptive length: simulate until \u2265 200 errors or 2\u00d710\u2077 bits.\n95 % Wilson intervals plotted.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "BER at Eb/N0 = 4 dB",
+   "predicted": 0.012500818040737554,
+   "measured": 0.012482,
+   "unit": "",
+   "error": -0.15053447443383464,
+   "error_str": "-0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BER at Eb/N0 = 8 dB",
+   "predicted": 0.00019090777407599314,
+   "measured": 0.0001835,
+   "unit": "",
+   "error": -3.880289376295594,
+   "error_str": "-3.88 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BER at Eb/N0 = 10 dB",
+   "predicted": 3.872108215522035e-06,
+   "measured": 3.5e-06,
+   "unit": "",
+   "error": -9.60996425746505,
+   "error_str": "-9.61 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Fraction of theory points inside the 95 % intervals",
+   "predicted": 0.95,
+   "measured": 0.9090909090909091,
+   "unit": "",
+   "error": -0.040909090909090895,
+   "error_str": "-0.04091",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/ber.png"
+ ],
+ "runtime_s": 0.55,
+ "folder": "projects/signal-lab/F-communication-systems/SL108-bpsk-ber-curve"
+}

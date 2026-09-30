@@ -1,0 +1,101 @@
+{
+ "meta": {
+  "id": "SL-081",
+  "title": "Delay-and-sum beamforming with a uniform linear array",
+  "level": "H",
+  "tools": "NumPy array-factor computation + time-domain simulation of plane waves",
+  "summary": "Steer an 8-element \u03bb/2 array electronically; measure beamwidth, sidelobe level, steering accuracy and array gain against closed-form array theory, including grating lobes at d = \u03bb.",
+  "problem": "How can eight fixed antennas (or microphones) listen in one direction and ignore others, and what limits how sharp that 'beam' can be?",
+  "theory": "Array factor $AF(\\theta)=\\frac1N\\sum_n e^{jkd n(\\sin\\theta-\\sin\\theta_0)}$, $|AF|=\\left|\\frac{\\sin(N\\psi/2)}{N\\sin(\\psi/2)}\\right|$ with\n$\\psi=kd(\\sin\\theta-\\sin\\theta_0)$. Half-power beamwidth \u2248 $0.886\\,\\lambda/(Nd\\cos\\theta_0)$ rad (= 12.8\u00b0 broadside for N = 8, d = \u03bb/2),\nfirst sidelobe \u221213.26 dB, array gain for white noise = N (9.03 dB). Grating lobes appear when $d\\ge\\lambda/(1+|\\sin\\theta_0|)$.",
+  "method": "N = 8, d = \u03bb/2 at 1 kHz acoustic (\u03bb = 34.3 cm). Pattern computed and also measured by time-domain simulation: plane waves\nfrom \u221290\u00b0\u202690\u00b0, each channel delayed and summed with steering to 0\u00b0 and 30\u00b0; output power vs angle. Array gain\nmeasured with independent noise per element. Grating lobes: d = \u03bb, steer 30\u00b0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Steer 0\u00b0: half-power beamwidth",
+   "predicted": 12.691015162147735,
+   "measured": 12.80251312955275,
+   "unit": "\u00b0",
+   "error": 0.878558302708273,
+   "error_str": "+0.88 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Steer 0\u00b0: beam direction",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "\u00b0",
+   "error": 0.0,
+   "error_str": "+0 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "First sidelobe level (broadside)",
+   "predicted": -13.26,
+   "measured": -12.797414833584222,
+   "unit": "dB",
+   "error": 0.46258516641577785,
+   "error_str": "+0.4626 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Steer 30\u00b0: half-power beamwidth",
+   "predicted": 14.654322040311232,
+   "measured": 14.835556541034887,
+   "unit": "\u00b0",
+   "error": 1.236730708013056,
+   "error_str": "+1.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Steer 30\u00b0: beam direction",
+   "predicted": 30.0,
+   "measured": 29.999999999999996,
+   "unit": "\u00b0",
+   "error": -3.552713678800501e-15,
+   "error_str": "-3.5527e-15 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Array gain (independent noise per element)",
+   "predicted": 9.030899869919436,
+   "measured": 9.026133661015031,
+   "unit": "dB",
+   "error": -0.004766208904404934,
+   "error_str": "-0.004766 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Grating lobe direction (d = \u03bb, steer 30\u00b0)",
+   "predicted": -29.999999999999996,
+   "measured": -29.999999999999996,
+   "unit": "\u00b0",
+   "error": 0.0,
+   "error_str": "+0 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/patterns.png",
+  "figures/grating_lobes.png"
+ ],
+ "runtime_s": 0.33,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL081-beamforming-simulation"
+}

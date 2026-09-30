@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "AM-116",
+  "title": "Trapezoidal vs backward Euler in circuit transients",
+  "level": "H",
+  "tools": "Both integration rules applied to an LC tank and a stiff RC step (own implementation and the repository's MNA simulator), amplitude factors per step, numerical damping and trapezoidal 'ringing'",
+  "summary": "Integrate a lossless LC tank and a stiff RC network with the two workhorse methods of SPICE, predict per-step amplitude factors from the stability functions, and show each method's characteristic artefact: backward Euler's artificial damping and the trapezoidal rule's point-to-point ringing.",
+  "problem": "SPICE offers 'trap' and 'gear'. What does each do wrong, and when does it matter?",
+  "theory": "For y' = \u03bby: backward Euler multiplies by $R_{BE}=\\frac1{1-h\u03bb}$, trapezoidal by $R_{TR}=\\frac{1+h\u03bb/2}{1-h\u03bb/2}$. On an undamped oscillator (\u03bb = \u00b1j\u03c9) |R_TR| = 1 exactly \u2014 energy is conserved \u2014 while |R_BE| = 1/\u221a(1+(h\u03c9)\u00b2) < 1: the tank decays\nartificially, e.g. by e^{\u2212\u00bd(h\u03c9)\u00b2\u00b7N} over N steps. For a very fast real pole (h\u03bb \u226a \u22121), R_TR \u2192 \u22121: the component does not decay but flips sign each step (ringing), whereas R_BE \u2192 0 damps it at once.",
+  "method": "LC tank: L = 1 mH, C = 1 \u00b5F (\u03c9 = 31.6 krad/s), initial 1 V, 200 cycles, h = T/40. Stiff RC: \u03c4_fast = 1 ns with h = 1 \u00b5s after a step. Own integrators on the state equations and the repository's simulator with method = 'be'/'trap'.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Trapezoidal: energy after 200 cycles (conserved, |R| = 1)",
+   "predicted": 1.0,
+   "measured": 1.000000000000006,
+   "unit": "",
+   "error": 5.995204332975845e-13,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Backward Euler: energy after 200 cycles = (1+(h\u03c9)\u00b2)^(\u2212N)",
+   "predicted": 2.061721326158746e-85,
+   "measured": 2.0617213261608975e-85,
+   "unit": "",
+   "error": 1.0434911789215358e-10,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Repository simulator, trap, 50 cycles: amplitude = (1+(h\u03c9)\u00b2)^(\u2212\u00bd) (it takes one backward-Euler start-up step)",
+   "predicted": 0.9878867019201812,
+   "measured": 0.9878850948976194,
+   "unit": "V",
+   "error": -0.0001626727598090682,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Repository simulator, trap: decay rate per step after start-up",
+   "predicted": 0.0,
+   "measured": 1.538398536635158e-07,
+   "unit": "1/step",
+   "error": 1.538398536635158e-07,
+   "error_str": "+1.5384e-07 1/step",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Repository simulator, BE: decay rate per step = \u2212\u00bd\u00b7ln(1+(h\u03c9)\u00b2)",
+   "predicted": -0.012187261979711565,
+   "measured": -0.012186777036937631,
+   "unit": "1/step",
+   "error": 0.003979095343491574,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Stiff fast mode (h\u03bb = \u22121000): trapezoidal factor \u2192 \u22121 (ringing)",
+   "predicted": -0.9960079840319361,
+   "measured": -0.9960079840319361,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Fast-mode value after 10 steps: BE / trap",
+   "value": "9.9e-31 / +0.961",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/trap_vs_be.png"
+ ],
+ "runtime_s": 0.21,
+ "folder": "projects/applied-math/G-numerical-methods/AM116-transient-integration-methods"
+}

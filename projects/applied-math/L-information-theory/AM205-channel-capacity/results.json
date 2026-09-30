@@ -1,0 +1,147 @@
+{
+ "meta": {
+  "id": "AM-205",
+  "title": "Channel capacity: the Blahut\u2013Arimoto algorithm",
+  "level": "H",
+  "tools": "Own Blahut\u2013Arimoto iteration with certified upper/lower bounds, closed-form capacities (BSC, BEC, Z-channel, symmetric channels), brute-force maximisation of the mutual information as an independent check, a channel estimated from simulated noisy 4-PAM with a hard-decision receiver",
+  "summary": "Compute the capacity of any discrete memoryless channel by the alternating-maximisation algorithm of Blahut and Arimoto, verify it against every channel with a closed form and against direct numerical optimisation, and show that the capacity-achieving input need not be uniform.",
+  "problem": "A channel is a table of transition probabilities. What is the most information per use it can carry, and which input distribution achieves it?",
+  "theory": "$C=\\max_{p(x)}I(X;Y)$. BSC(\u03b5): $1-H_2(\u03b5)$; BEC(\u03b5): $1-\u03b5$; symmetric channels: uniform input, $C=\\log_2|Y|-H(\\text{row})$. Z-channel (1 \u2192 0 with probability \u03b5, 0 always correct): $C=\\log_2\\left(1+(1-\u03b5)\u03b5^{\u03b5/(1-\u03b5)}\\right)$, achieved with\n$P(X=1)=\\frac{1}{(1-\u03b5)\\left(1+2^{H_2(\u03b5)/(1-\u03b5)}\\right)}$, less than \u00bd. Blahut\u2013Arimoto alternates between the output distribution and the input distribution; at every step $\\log_2\\sum_xp(x)2^{D_x}\\le C\\le\\max_xD_x$ with $D_x=D(W_x\\|p_Y)$, so the gap certifies convergence.",
+  "method": "Closed-form channels at several \u03b5; 200 random channels (2\u20136 inputs, 2\u20138 outputs) against SciPy optimisation of I(X;Y) over the simplex (softmax parametrisation, 5 random starts). 4-PAM with Gaussian noise at 6 dB and 12 dB: transition matrix of the hard-decision\nchannel estimated from 10\u2076 symbols, its capacity and optimal input.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "BSC(\u03b5 = 0.01): capacity 1 \u2212 H\u2082(\u03b5)",
+   "predicted": 0.9192068641040888,
+   "measured": 0.9192068641040888,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BSC(\u03b5 = 0.11): capacity 1 \u2212 H\u2082(\u03b5)",
+   "predicted": 0.500084041835472,
+   "measured": 0.500084041835472,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BSC(\u03b5 = 0.3): capacity 1 \u2212 H\u2082(\u03b5)",
+   "predicted": 0.1187091007693073,
+   "measured": 0.11870910076930735,
+   "unit": "bit",
+   "error": 4.676233824661441e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BEC(0.25): capacity 1 \u2212 \u03b5",
+   "predicted": 0.75,
+   "measured": 0.7499999999999999,
+   "unit": "bit",
+   "error": -1.4802973661668752e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Z-channel (\u03b5 = 0.3): capacity log\u2082(1 + (1\u2212\u03b5)\u03b5^{\u03b5/(1\u2212\u03b5)})",
+   "predicted": 0.5036919334848172,
+   "measured": 0.5036919334848172,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Z-channel: optimal P(X = 1) (not \u00bd)",
+   "predicted": 0.42100061340706735,
+   "measured": 0.4210006134076748,
+   "unit": "",
+   "error": 1.4428922632858497e-10,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Symmetric 3-ary channel: log\u20823 \u2212 H(row)",
+   "predicted": 0.4281828512741166,
+   "measured": 0.42818285127411665,
+   "unit": "bit",
+   "error": 1.296435648136697e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "200 random channels: best mutual information found by direct optimisation minus Blahut\u2013Arimoto capacity (never positive)",
+   "predicted": 0.0,
+   "measured": 8.610889778992714e-13,
+   "unit": "bit",
+   "error": 8.610889778992714e-13,
+   "error_str": "+8.6109e-13 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Certified bound gap (upper \u2212 lower) at termination, worst channel",
+   "predicted": 0.0,
+   "measured": 5.657428927321453e-11,
+   "unit": "bit",
+   "error": 5.657428927321453e-11,
+   "error_str": "+5.6574e-11 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Z-channel: mutual information with a uniform input",
+   "value": 0.49342260576014463,
+   "unit": "bit",
+   "note": "vs capacity 0.5037 \u2014 the loss from not optimising the input"
+  },
+  {
+   "quantity": "Blahut\u2013Arimoto iterations: median / max",
+   "value": "207 / 100000",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Hard-decision 4-PAM: capacity at 6 / 12 dB",
+   "value": "1.051 / 1.659 bit/symbol",
+   "unit": "",
+   "note": "out of 2"
+  },
+  {
+   "quantity": "\u2026 optimal input at 6 dB (outer, inner, inner, outer levels)",
+   "value": "0.383, 0.116, 0.119, 0.382",
+   "unit": "",
+   "note": "uniform input gives 0.967 bit \u2014 the outer levels, which are more reliable, are used more"
+  }
+ ],
+ "figures": [
+  "figures/capacity.png"
+ ],
+ "runtime_s": 12.08,
+ "folder": "projects/applied-math/L-information-theory/AM205-channel-capacity"
+}

@@ -1,0 +1,121 @@
+{
+ "meta": {
+  "id": "AM-152",
+  "title": "Routing as a graph problem: Lee, A*, and Steiner trees",
+  "level": "H",
+  "tools": "Own Lee (breadth-first) and A* maze routers on an obstacle grid, networkx shortest paths as an independent reference, weighted-A* sub-optimality bound, exact rectilinear Steiner minimal trees via Hanan-grid enumeration vs minimum spanning trees, net-ordering experiment",
+  "summary": "Treat PCB/IC routing as shortest paths and Steiner trees on a grid graph: prove the maze routers optimal against an independent solver, measure how much search A* saves, check the 3/2 bound between spanning and Steiner trees, and show why the order in which nets are routed matters.",
+  "problem": "An autorouter must connect thousands of pins without crossings. Which graph problems is it really solving, and which of them are easy?",
+  "theory": "A two-pin connection on a grid with obstacles is a shortest-path problem: Lee's algorithm (BFS) is optimal; A* with the Manhattan distance (an admissible, consistent heuristic) is optimal while expanding fewer cells. Weighted A* (f = g + w\u00b7h) returns a path\nat most w times longer. A multi-pin net wants a rectilinear Steiner minimal tree (NP-hard); Hanan showed the optimum uses only intersections of the pins' grid lines, and Hwang that MST \u2264 3/2 \u00b7 RSMT. For 3 pins RSMT = half the bounding-box perimeter.\nRouting many nets sequentially is order-dependent: earlier nets become obstacles for later ones.",
+  "method": "200 random 40\u00d740 grids with 25 % blocked cells, random pin pairs. Steiner: 300 random nets with 3 and 4 pins and 100 with 5 pins on a 20\u00d720 lattice, exact by enumerating up to n \u2212 2 Hanan points. Ordering: 10 two-pin nets on a 24\u00d724 single-layer\ngrid, routed sequentially in 60 random orders.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Lee and A* path length vs networkx shortest path (200 mazes, 196 routable): mismatches",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Weighted A* (w = 2): paths longer than 2\u00d7 optimal",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "3-pin nets: exact Steiner length \u2260 half-perimeter of the bounding box (300 nets)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Hwang's bound MST \u2264 1.5 \u00b7 RSMT violated (700 nets)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Net ordering matters: the number of nets completed differs between orders (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Cells expanded, A* / Lee (median over mazes)",
+   "value": 0.11310039540635486,
+   "unit": "",
+   "note": "same optimal length, less search"
+  },
+  {
+   "quantity": "Weighted A* (w = 2): mean length penalty / expansions vs plain A*",
+   "value": "5.4 % / 0.79\u00d7",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Empty 40\u00d740 grid, 54-step connection: cells expanded Lee / A*",
+   "value": "1486 / 55",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Mean wire saved by Steiner points vs MST: 3 / 4 / 5 pins",
+   "value": "6.5 % / 8.1 % / 9.5 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Worst-case saving seen (bound: 33.3 %)",
+   "value": 26.190476190476186,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Nets completed (of 10) over 60 random orders: min / median / max",
+   "value": "7 / 9 / 10",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Orders that complete every net",
+   "value": 18.333333333333332,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/routing.png"
+ ],
+ "runtime_s": 2.02,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM152-routing-as-a-graph-problem"
+}

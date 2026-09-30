@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "AM-002",
+  "title": "Phasor diagram visualiser: lead and lag",
+  "level": "E",
+  "tools": "Complex phasors, animated phasor diagram (matplotlib \u2192 GIF), time-domain transient simulation, phase measurement by quadrature correlation",
+  "summary": "Show how a sinusoid is the real part of a rotating complex number, animate voltage and current phasors for RL and RC loads, and confirm the predicted lag/lead angles by measuring them in transient simulations.",
+  "problem": "Why does current lag voltage in an inductor and lead it in a capacitor \u2014 and by exactly how much?",
+  "theory": "$v(t)=\\mathrm{Re}\\{V e^{j\u03c9t}\\}$. For a series RL load $I = V/(R+j\u03c9L)$ so the current lags by $\u03c6=\\arctan(\u03c9L/R)$; for series RC it leads by $\\arctan(1/(\u03c9RC))$. The\nphasor diagram is the picture of these complex numbers at t = 0; the whole diagram rotates at \u03c9.",
+  "method": "V = 10 V, 50 Hz; RL: R = 10 \u03a9, L = 31.8 mH (\u03c9L = 10 \u03a9 \u2192 45\u00b0 lag); RC: R = 10 \u03a9, C = 159 \u00b5F (\u22121/\u03c9C = \u221220 \u03a9 \u2192 63.4\u00b0 lead) and 5 more component values. Transient simulation, last 5 cycles;\nphase from the I/Q correlation of v and i with cos/sin at 50 Hz.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "RL, |X| = 5 \u03a9, R = 10 \u03a9: phase of i relative to v",
+   "predicted": -26.565051177077994,
+   "measured": -26.54262215240259,
+   "unit": "\u00b0",
+   "error": 0.022429024675403753,
+   "error_str": "+0.02243 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RL, |X| = 10 \u03a9, R = 10 \u03a9: phase of i relative to v",
+   "predicted": -45.0,
+   "measured": -44.97195548622598,
+   "unit": "\u00b0",
+   "error": 0.028044513774020174,
+   "error_str": "+0.02804 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RL, |X| = 30 \u03a9, R = 10 \u03a9: phase of i relative to v",
+   "predicted": -71.56505117707799,
+   "measured": -71.54821576428839,
+   "unit": "\u00b0",
+   "error": 0.016835412789603765,
+   "error_str": "+0.01684 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RC, |X| = 5 \u03a9, R = 10 \u03a9: phase of i relative to v",
+   "predicted": 26.565051177077994,
+   "measured": 26.541680667471333,
+   "unit": "\u00b0",
+   "error": -0.02337050960666076,
+   "error_str": "-0.02337 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RC, |X| = 20 \u03a9, R = 10 \u03a9: phase of i relative to v",
+   "predicted": 63.43494882292202,
+   "measured": 63.41156356395775,
+   "unit": "\u00b0",
+   "error": -0.02338525896426802,
+   "error_str": "-0.02339 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RC, |X| = 60 \u03a9, R = 10 \u03a9: phase of i relative to v",
+   "predicted": 80.53767779197439,
+   "measured": 80.52819560756475,
+   "unit": "\u00b0",
+   "error": -0.009482184409634442,
+   "error_str": "-0.009482 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/phasors.png"
+ ],
+ "runtime_s": 3.98,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM002-phasor-diagram-visualiser"
+}

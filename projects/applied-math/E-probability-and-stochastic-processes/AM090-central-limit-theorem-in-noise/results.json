@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-090",
+  "title": "The central limit theorem in noise: why interference becomes Gaussian",
+  "level": "E",
+  "tools": "Sums of N non-Gaussian interferers (uniform-phase sinusoids, impulsive Bernoulli\u2013Gaussian, binary), excess kurtosis vs N, Kolmogorov\u2013Smirnov distance and the Berry\u2013Esseen rate",
+  "summary": "Add up N independent non-Gaussian interference sources and measure how quickly the sum becomes Gaussian \u2014 excess kurtosis falls as 1/N and the maximum CDF error as 1/\u221aN \u2014 and show why impulsive noise converges much more slowly.",
+  "problem": "Receivers are designed for Gaussian noise even though no individual interferer is Gaussian. When is that justified?",
+  "theory": "For i.i.d. terms with excess kurtosis \u03ba, the normalised sum has excess kurtosis \u03ba/N. Berry\u2013Esseen: $\\sup|F_N-\u03a6| \\le C\\frac{\u03c1}{\u03c3^3\\sqrt N}$ (C < 0.48, \u03c1 = E|X|\u00b3). A random-phase sinusoid (arcsine law) has \u03ba = \u22121.5;\nimpulsive noise (Gaussian present with probability 0.01, variance 100) has \u03ba \u2248 3/0.01 \u2212 3 \u2248 297, so it needs ~100\u00d7 more terms to look Gaussian.",
+  "method": "N = 1\u20261000 terms, 200,000 samples per N. Excess kurtosis vs \u03ba/N; KS distance to N(0,1) vs N; Berry\u2013Esseen bound computed for each distribution.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "random-phase sinusoid: excess kurtosis at N = 20 (= \u03ba/N)",
+   "predicted": -0.075,
+   "measured": -0.08405213274752077,
+   "unit": "",
+   "error": -0.009052132747520772,
+   "error_str": "-0.009052",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "binary \u00b11: excess kurtosis at N = 20 (= \u03ba/N)",
+   "predicted": -0.1,
+   "measured": -0.09689456645917538,
+   "unit": "",
+   "error": 0.003105433540824626,
+   "error_str": "+0.003105",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "impulsive (1 % on, \u03c3 = 10): excess kurtosis at N = 20 (= \u03ba/N)",
+   "predicted": 14.85,
+   "measured": 14.314703164421587,
+   "unit": "",
+   "error": -0.5352968355784125,
+   "error_str": "-0.5353",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sinusoid sum: KS distance slope vs N (Berry\u2013Esseen order \u2212\u00bd or faster)",
+   "predicted": -1.0,
+   "measured": -0.8824563985640285,
+   "unit": "",
+   "error": 0.11754360143597153,
+   "error_str": "+0.1175",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Terms needed for KS distance < 0.01: sinusoids / impulsive",
+   "value": "5 / 1000",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/clt.png"
+ ],
+ "runtime_s": 12.44,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM090-central-limit-theorem-in-noise"
+}

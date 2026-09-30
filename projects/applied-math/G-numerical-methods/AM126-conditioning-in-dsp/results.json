@@ -1,0 +1,64 @@
+{
+ "meta": {
+  "id": "AM-126",
+  "title": "Where round-off destroys a filter: direct form vs second-order sections",
+  "level": "M",
+  "tools": "Polynomial root sensitivity, coefficient quantisation of an 8th-order narrow-band IIR in direct form vs cascaded biquads, pole displacement and response distortion",
+  "summary": "Quantise the coefficients of the same narrow-band filter in two structures and watch the direct form's poles scatter \u2014 some outside the unit circle \u2014 while the second-order-section form survives; explain it with the sensitivity of polynomial roots to their coefficients.",
+  "problem": "Why does every DSP library implement high-order IIR filters as cascades of biquads?",
+  "theory": "A root of $A(z)=\\sum a_kz^{-k}$ moves by $\u03b4p_i \u2248 -\\frac{\\sum_k \u03b4a_k p_i^{N-k}}{\\prod_{j\\ne i}(p_i-p_j)}$: when poles cluster (narrow band, low cutoff) the denominator is tiny and a coefficient error of 2\u207b\u00b9\u2076 moves poles by orders of magnitude more. In biquads each section has only two poles, so the product has\none factor \u2014 sensitivity is bounded. Prediction: 8th-order band-pass with poles near 0.99 in direct form becomes unstable at 16-bit coefficients; as SOS it stays within spec.",
+  "method": "8th-order Butterworth band-pass 0.04\u20130.05 fs (poles clustered near z = 1). Coefficients rounded to B = 12\u202632 fractional bits (after scaling to |a| < 2^k). Pole radii and response error vs the float64 design; sensitivity bound\nfrom the formula.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Direct form, 16-bit coefficients: largest pole radius \u2265 1 (unstable; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "SOS, 16-bit coefficients: all poles inside the unit circle (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Min |\u03a0(p_i \u2212 p_j)| over poles (small \u21d2 sensitive)",
+   "value": 1.812852944898e-06,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Max |\u0394H| at 16 bits: direct form / SOS",
+   "value": "nan / 1.28e-03",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Coefficient bits needed for < 1 % response error: direct form / SOS",
+   "value": "None / 16",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/conditioning_dsp.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/applied-math/G-numerical-methods/AM126-conditioning-in-dsp"
+}

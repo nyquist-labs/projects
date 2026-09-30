@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-170",
+  "title": "Discrete-time control: how sampling erodes stability",
+  "level": "M",
+  "tools": "Exact ZOH discretisation, discrete-time frequency response and closed-loop eigenvalues (NumPy/SciPy)",
+  "summary": "Implement the same continuous PD design at sampling periods from 1 ms to 200 ms; predict the phase-margin loss from the ZOH's half-sample delay (\u03c9_c\u00b7T/2) and find where the discrete loop goes unstable.",
+  "problem": "A controller that works in continuous time can oscillate when run on a slow microcontroller. How slow is too slow?",
+  "theory": "The sample-and-hold behaves like a delay of T/2 (plus the computation delay, here zero): phase loss \u2248 \u03c9_c\u00b7T/2 radians at crossover. With a continuous phase\nmargin PM\u2080, instability is expected when \u03c9_cT/2 \u2248 PM\u2080, i.e. T \u2248 2\u00b7PM\u2080/\u03c9_c.",
+  "method": "Plant 1/(s(s+1)), PD controller K(1 + s/2) with K = 4 (\u03c9_c \u2248 2.4 rad/s, PM \u2248 73\u00b0) implemented with backward-difference derivative at period T. Discrete PM\nfrom the loop's frequency response on the unit circle; stability from closed-loop eigenvalues.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "T = 50 ms: phase margin \u2248 PM\u2080 \u2212 \u03c9_c\u00b7T/2",
+   "predicted": 69.38081052795316,
+   "measured": 67.35563849806266,
+   "unit": "\u00b0",
+   "error": -2.0251720298904985,
+   "error_str": "-2.025 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "T = 200 ms: phase margin \u2248 PM\u2080 \u2212 \u03c9_c\u00b7T/2",
+   "predicted": 59.05757588097153,
+   "measured": 49.45188315842506,
+   "unit": "\u00b0",
+   "error": -9.605692722546465,
+   "error_str": "-9.606 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Sampling period at the stability boundary (\u2248 2\u00b7PM\u2080/\u03c9_c)",
+   "predicted": 1.0581260317216428,
+   "measured": 0.7,
+   "unit": "s",
+   "error": -33.845309630928135,
+   "error_str": "-33.85 %",
+   "kind": "rel",
+   "ok": true,
+   "note": "coarse T grid"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Continuous design",
+   "value": "\u03c9_c = 2.40 rad/s, PM = 72.8\u00b0",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/sampling.png"
+ ],
+ "runtime_s": 0.15,
+ "folder": "projects/signal-lab/I-control-systems/SL170-discrete-time-control"
+}

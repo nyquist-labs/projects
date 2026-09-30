@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-214",
+  "title": "Compressed sensing: recovering sparse signals from few measurements",
+  "level": "H",
+  "tools": "Own orthogonal matching pursuit and ISTA (\u2113\u2081-regularised least squares), Gaussian random measurement matrices, success-probability phase transition versus measurements and sparsity, comparison with the m \u2248 2k\u00b7ln(N/k) scaling, noise robustness, a multi-tone signal recovered from random time samples",
+  "summary": "Reconstruct a length-N signal with only k non-zero coefficients from m \u226a N random linear measurements: map the sharp transition between failure and success, compare it with the theoretical scaling, check stability to noise, and recover a spectrally sparse signal sampled far below its Nyquist rate.",
+  "problem": "The sampling theorem asks for 2B samples per second. If the signal is known to be sparse, how few measurements are really needed?",
+  "theory": "Measurements $y=Ax$, $A\\in\\mathbb R^{m\\times N}$ Gaussian, x k-sparse. \u2113\u2081 minimisation and greedy methods such as OMP recover x exactly with high probability once $m\\gtrsim Ck\\ln(N/k)$ (C \u2248 2 for \u2113\u2081 in the Donoho\u2013Tanner regime); below that, recovery fails abruptly \u2014 a phase transition.\nWith noise of norm \u03b5 the error scales like \u03b5 (stable recovery). A signal made of a few tones is sparse in the DFT basis, so random time samples at an average rate far below Nyquist suffice.",
+  "method": "N = 256; k = 4\u202640; m = 10\u2026200; 30 trials per cell; success = relative error < 10\u207b\u2074. OMP with least-squares refitting. FISTA (accelerated ISTA) with \u03bb continuation and a least-squares debias for comparison at one point. Multi-tone: 5 tones on a 1024-point DFT grid, 80 random samples (Nyquist-rate sampling would need 1024),\nrecovered by OMP on a partial inverse-DFT dictionary.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "50 % success point of OMP vs 2k\u00b7ln(N/k): ratio, median over k = 4\u202640",
+   "predicted": 1.0,
+   "measured": 0.7995153006980005,
+   "unit": "",
+   "error": -20.048469930199953,
+   "error_str": "-20.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "My expectation: at k = 20 the 10 % \u2192 90 % success transition spans < 40 % of the 50 % point (1 = yes)",
+   "predicted": 1.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": -1.0,
+   "error_str": "-1",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Stability: reconstruction error \u221d measurement noise (log\u2013log slope)",
+   "predicted": 1.0,
+   "measured": 1.006371803682279,
+   "unit": "",
+   "error": 0.006371803682279076,
+   "error_str": "+0.006372",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2113\u2081 (ISTA) recovers the same 10-sparse signal from 80 measurements (relative error)",
+   "predicted": 0.0,
+   "measured": 7.657472786638206e-16,
+   "unit": "",
+   "error": 7.657472786638206e-16,
+   "error_str": "+7.6575e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "5 tones from 80 random samples of 1024 (7.8 % of the Nyquist-rate samples): relative reconstruction error",
+   "predicted": 0.0,
+   "measured": 1.0581669200758335e-13,
+   "unit": "",
+   "error": 1.0581669200758335e-13,
+   "error_str": "+1.0582e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Transition width at k = 20 (10 % \u2192 90 % success)",
+   "value": 40.0,
+   "unit": "measurements",
+   "note": "50 % point at 70; sharper for larger N, as the asymptotic theory is for N \u2192 \u221e"
+  },
+  {
+   "quantity": "Measurements for 50 % success, k = 4 / 12 / 20 / 40 (N = 256)",
+   "value": "30 / 50 / 70 / 130",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/compressed_sensing.png"
+ ],
+ "runtime_s": 11.52,
+ "folder": "projects/applied-math/L-information-theory/AM214-compressed-sensing"
+}

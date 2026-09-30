@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "SL-175",
+  "title": "ECG denoising with real noise from the Noise Stress Test Database",
+  "level": "M",
+  "tools": "Zero-phase high-pass and notch filters, wavelet-free median baseline estimation (SciPy); MIT-BIH + NSTDB real noise",
+  "summary": "Corrupt a clean real ECG with real baseline-wander, electrode-motion and muscle-noise recordings at 6 dB SNR, remove them with standard filters, and measure the SNR improvement for each noise type \u2014 including the one filtering cannot fix.",
+  "problem": "ECGs recorded in the real world are full of baseline wander, muscle noise and motion artefacts. Which of these can filtering actually remove?",
+  "theory": "A linear filter that passes the ECG band (\u2248 0.5\u201340 Hz) can at best remove the noise power *outside* that band, so the best-case SNR gain is\n$-10\\log_{10}(P_{noise,\\,0.5\u201340\\,Hz}/P_{noise})$, computed from each real noise record's own spectrum. Baseline wander is almost all below 0.5 Hz (large\ngain); muscle noise and electrode-motion artefact have substantial in-band power that no linear filter can separate from the ECG.",
+  "method": "Clean signal: MIT-BIH record 103 lead 1, 2 minutes. Noise: NSTDB 'bw', 'em', 'ma' records scaled to 6 dB SNR (signal power / noise power). Filters: 200/600 ms\nmedian baseline removal, 60 Hz notch (Q = 30), 40 Hz zero-phase low-pass. SNR_out computed against the clean ECG after identical filtering.",
+  "data": "Real: MIT-BIH record 103 and MIT-BIH Noise Stress Test Database (PhysioNet).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "baseline wander: SNR gain vs \u221210\u00b7log\u2081\u2080(in-band noise fraction)",
+   "predicted": 17.625483695389672,
+   "measured": 16.699959801776192,
+   "unit": "dB",
+   "error": -0.9255238936134802,
+   "error_str": "-0.9255 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "upper bound for a linear filter that keeps 0.5\u201340 Hz"
+  },
+  {
+   "quantity": "muscle artefact: SNR gain vs \u221210\u00b7log\u2081\u2080(in-band noise fraction)",
+   "predicted": 5.8096862260758355,
+   "measured": 7.305030116046861,
+   "unit": "dB",
+   "error": 1.4953438899710259,
+   "error_str": "+1.495 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "upper bound for a linear filter that keeps 0.5\u201340 Hz"
+  },
+  {
+   "quantity": "electrode motion: SNR gain vs \u221210\u00b7log\u2081\u2080(in-band noise fraction)",
+   "predicted": 6.422369180254915,
+   "measured": 6.59185071048768,
+   "unit": "dB",
+   "error": 0.16948153023276546,
+   "error_str": "+0.1695 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "upper bound for a linear filter that keeps 0.5\u201340 Hz"
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/denoise.png"
+ ],
+ "runtime_s": 0.16,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL175-ecg-denoising"
+}

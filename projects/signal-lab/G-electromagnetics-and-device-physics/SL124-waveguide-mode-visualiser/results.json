@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-124",
+  "title": "Rectangular waveguide modes and cutoff frequencies",
+  "level": "H",
+  "tools": "Finite-difference Helmholtz eigenproblem on the waveguide cross-section (SciPy sparse eigensolver)",
+  "summary": "Solve for the TE and TM modes of a WR-90 X-band waveguide numerically, compare cutoff frequencies with f_c = (c/2)\u221a((m/a)\u00b2+(n/b)\u00b2), and plot the field patterns of the lowest modes.",
+  "problem": "A hollow metal pipe only carries microwaves above a cutoff frequency. Which modes exist, and where do they start?",
+  "theory": "Cross-section fields obey $\\nabla_t^2\\psi+k_c^2\\psi=0$ with Dirichlet (TM, E_z) or Neumann (TE, H_z) walls. Rectangular a\u00d7b:\n$k_c=\\pi\\sqrt{(m/a)^2+(n/b)^2}$, $f_c=ck_c/2\\pi$. WR-90: a = 22.86 mm, b = 10.16 mm \u2192 TE\u2081\u2080 6.557 GHz, TE\u2082\u2080 13.11 GHz, TE\u2080\u2081 14.76 GHz,\nTE/TM\u2081\u2081 16.15 GHz. Single-mode band 6.56\u201313.1 GHz.",
+  "method": "Grid 92\u00d741 points (0.25 mm). 5-point Laplacian with Dirichlet or Neumann (ghost-point) boundaries, smallest eigenvalues by shift-invert\nLanczos; f_c = c\u221a\u03bb/2\u03c0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "TE\u2081\u2080 cutoff",
+   "predicted": 6557140376.202975,
+   "measured": 6556814754.210295,
+   "unit": "Hz",
+   "error": -0.004965914621292684,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "TE\u2082\u2080 cutoff",
+   "predicted": 13114280752.40595,
+   "measured": 13111675892.885649,
+   "unit": "Hz",
+   "error": -0.019862770741917588,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "TE\u2080\u2081 cutoff",
+   "predicted": 14753565846.456692,
+   "measured": 14749774163.351828,
+   "unit": "Hz",
+   "error": -0.025700113073171087,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "TM\u2081\u2081 cutoff",
+   "predicted": 16145085787.909729,
+   "measured": 16141491564.073599,
+   "unit": "Hz",
+   "error": -0.022262029965933548,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Single-mode bandwidth",
+   "value": "6.557\u201313.112 GHz",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/modes.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL124-waveguide-mode-visualiser"
+}

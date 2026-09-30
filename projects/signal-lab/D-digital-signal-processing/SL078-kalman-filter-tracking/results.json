@@ -1,0 +1,59 @@
+{
+ "meta": {
+  "id": "SL-078",
+  "title": "Kalman filter vs moving average",
+  "level": "H",
+  "tools": "NumPy Kalman filter, discrete algebraic Riccati equation (SciPy) for the prediction",
+  "summary": "Track a manoeuvring 1-D target from noisy position measurements with a constant-velocity Kalman filter; predict the steady-state error from the Riccati equation and compare with the measured RMSE and with a moving average of the best length.",
+  "problem": "How much better than simple averaging can a model-based estimator do, and can its accuracy be predicted before running it?",
+  "theory": "State $[p, v]$, $F=\\begin{bmatrix}1&T\\\\0&1\\end{bmatrix}$, white-acceleration process noise\n$Q=q\\begin{bmatrix}T^3/3&T^2/2\\\\T^2/2&T\\end{bmatrix}$, measurement $H=[1\\ 0]$ with variance r.\nThe steady-state *prior* covariance P solves the DARE $P=FPF^T-FPH^T(HPH^T+r)^{-1}HPF^T+Q$; the posterior\nposition variance is $P_{11}-P_{11}^2/(P_{11}+r)$ \u2014 its square root is the predicted RMSE. A moving average of\nlength M has noise variance r/M plus a lag bias growing with velocity and M.",
+  "method": "T = 0.1 s, true motion simulated from the same model (q = 0.5 m\u00b2/s\u00b3), r = 4 m\u00b2 (\u03c3 = 2 m), 20,000 steps. Kalman\nRMSE vs the DARE prediction; moving averages M = 1\u202660, best M; also a model-mismatch run (true q \u00d710).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Kalman position RMSE (DARE prediction)",
+   "predicted": 0.7453632423039773,
+   "measured": 0.7504832827321373,
+   "unit": "m",
+   "error": 0.686918825287586,
+   "error_str": "+0.69 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Best moving-average length",
+   "value": 2.0,
+   "unit": "samples",
+   "note": ""
+  },
+  {
+   "quantity": "Accuracy gain over the best moving average",
+   "value": 2.0310260911495615,
+   "unit": "\u00d7",
+   "note": ""
+  },
+  {
+   "quantity": "Raw measurement RMSE",
+   "value": 1.989147718344324,
+   "unit": "m",
+   "note": ""
+  },
+  {
+   "quantity": "Model mismatch (true q \u00d710): RMSE",
+   "value": 1.2574337782576661,
+   "unit": "m",
+   "note": "vs 0.97 m if the filter knew q"
+  }
+ ],
+ "figures": [
+  "figures/tracking.png"
+ ],
+ "runtime_s": 0.61,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL078-kalman-filter-tracking"
+}

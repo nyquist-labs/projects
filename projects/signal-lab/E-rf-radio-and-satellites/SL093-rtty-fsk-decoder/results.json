@@ -1,0 +1,52 @@
+{
+ "meta": {
+  "id": "SL-093",
+  "title": "RTTY (45.45 Bd, 170 Hz FSK) decoder",
+  "level": "M",
+  "tools": "Non-coherent FSK filter-bank demodulator, Baudot (ITA2) decoding, Monte Carlo BER",
+  "summary": "Decode amateur radioteletype: two tone filters, envelope comparison, start/stop-bit framing and ITA2 letters/figures shifting; measure bit and character error rates vs E_b/N\u2080 against the non-coherent FSK formula.",
+  "problem": "RTTY has carried text over shortwave since the 1930s. How close does a simple two-filter receiver come to the theoretical error rate of non-coherent FSK?",
+  "theory": "Orthogonal non-coherent binary FSK: $P_b=\\tfrac12e^{-E_b/2N_0}$. 170 Hz shift at 45.45 Bd (22 ms bits) gives tones spaced\n7.5 \u00d7 the bit rate \u2014 comfortably orthogonal. Each character = 1 start + 5 data + 1.5 stop bits; a character is wrong if\nany of its 5 data bits is (plus framing), so CER \u2248 $1-(1-P_b)^5$.",
+  "method": "Text 'RYRYRY CQ CQ DE ABC123 THE QUICK BROWN FOX 73' in ITA2 (with LTRS/FIGS shifts), mark 2125 Hz / space 2295 Hz, 8 kS/s. Noise\nset by E_b/N\u2080. Demodulator: two 2nd-order band-pass filters (70 Hz wide) \u2192 envelopes \u2192 difference \u2192 matched\n(integrate over bit) \u2192 sample at bit centres located by the start-bit edge.",
+  "data": "Synthetic RTTY signal with known text.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "Clean decode character errors",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "E_b/N\u2080 for BER 10\u207b\u00b3 (non-coherent FSK: \u00bde^(\u2212Eb/2N0))",
+   "predicted": 10.94443742308721,
+   "measured": 12.059877759396157,
+   "unit": "dB",
+   "error": 1.1154403363089465,
+   "error_str": "+1.115 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Receiver filter group delay (measured by correlation)",
+   "value": 6.875,
+   "unit": "ms",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ber.png"
+ ],
+ "runtime_s": 1.56,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL093-rtty-fsk-decoder"
+}

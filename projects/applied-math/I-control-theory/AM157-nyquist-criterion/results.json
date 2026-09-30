@@ -1,0 +1,124 @@
+{
+ "meta": {
+  "id": "AM-157",
+  "title": "The Nyquist criterion: counting encirclements",
+  "level": "H",
+  "tools": "Numerical winding number of 1 + L(j\u03c9) over the whole imaginary axis (tangent frequency mapping, phase unwrapping), comparison with closed-loop pole counts for 2000 random loops including open-loop-unstable ones, real-axis crossings for a conditionally stable loop",
+  "summary": "Apply the argument principle numerically: the number of closed-loop right-half-plane poles equals the open-loop count plus the clockwise encirclements of \u22121. Verified on 2000 random loops, then used to predict the two-sided gain range of a conditionally stable, open-loop-unstable system.",
+  "problem": "How can a plot of the open-loop frequency response tell whether the closed loop is stable \u2014 even when the open loop itself is unstable?",
+  "theory": "Argument principle on $F(s)=1+L(s)$ around the right half-plane: $Z=N+P$, with P open-loop RHP poles, N clockwise encirclements of \u22121 by $L(j\u03c9)$, Z closed-loop RHP poles. For strictly proper L the infinite arc maps to the origin, so N follows from the\nchange of $\\arg(1+L(j\u03c9))$ over $\u03c9\u2208(-\u221e,\u221e)$. Example $L=K\\frac{s+2}{(s-1)(s^2+2s+5)}$ (P = 1): stability needs one *counter-clockwise* encirclement, i.e. \u22121 must lie between the two negative-real-axis crossings of L/K, giving $2.5<K<8$ (Routh:\n$s^3+s^2+(3+K)s+2K-5$).",
+  "method": "Random loops: 2\u20135 poles (each in the RHP with probability \u00bc, none within 0.05 of the axis), 0 to n \u2212 1 zeros, random gain; cases where |1 + L| comes within 10\u207b\u00b3 of zero are discarded as marginal. \u03c9 = tan \u03b8 with 400 001 points.\nConditionally stable example: crossings by root finding on Im L(j\u03c9) = 0; stability range compared with a root sweep over K.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Z = N + P from the encirclement count vs closed-loop RHP poles from the roots (2000 random loops): mismatches",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Real-axis crossing at \u03c9 = 0: L(0)/K = \u22122/5",
+   "predicted": -0.4,
+   "measured": -0.4,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Second crossing of the negative real axis: \u22121/8",
+   "predicted": -0.125,
+   "measured": -0.125,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lower stability limit K = \u22121/x\u2080 (Nyquist) vs root sweep",
+   "predicted": 2.5,
+   "measured": 2.505,
+   "unit": "",
+   "error": 0.19999999999999576,
+   "error_str": "+0.20 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Upper stability limit K = \u22121/x\u2081 (Nyquist) vs root sweep",
+   "predicted": 8.0,
+   "measured": 8.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 1: closed-loop RHP poles predicted by Z = P \u2212 (CCW encirclements)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "K = 5: closed-loop RHP poles predicted by Z = P \u2212 (CCW encirclements)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "K = 10: closed-loop RHP poles predicted by Z = P \u2212 (CCW encirclements)",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Of those: open-loop unstable / closed-loop stable",
+   "value": "1001 / 739",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Frequency of the second crossing",
+   "value": 3.3166247903554,
+   "unit": "rad/s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/nyquist.png"
+ ],
+ "runtime_s": 47.13,
+ "folder": "projects/applied-math/I-control-theory/AM157-nyquist-criterion"
+}

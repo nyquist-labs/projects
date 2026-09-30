@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EE unit converter</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>EE unit converter</h1><p class="lead">Prefixes, resistor/capacitor codes, wire gauges and PCB units in one place.</p>
+<div class="card"><b>Parse a value</b><label>Value (e.g. 4k7, 2u2, 100n, 0R22, 3.3e-3)<input id="v" value="4k7"></label><p>= <span class="big" id="vo"></span> <span class="muted" id="vs"></span></p></div>
+<div class="card"><b>Capacitor code</b><label>3-digit code<input id="cc" value="104"></label><p>= <span class="big" id="co"></span></p></div>
+<div class="card"><b>Wire gauge</b><label>AWG (0 = 1/0, −1 = 2/0 …)<input id="awg" type="number" value="22"></label><p id="ao"></p></div>
+<div class="card"><b>PCB & misc.</b><label>mil<input id="mil" type="number" value="10"></label><label>mm<input id="mm" type="number" value="0.254"></label>
+<label>Copper weight (oz/ft²)<input id="oz" type="number" value="1"></label><label>°C<input id="tc" type="number" value="25"></label><label>Frequency (MHz)<input id="fq" type="number" value="2400"></label><p id="mo"></p></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);
+function upd(){try{const x=parseEng($('v').value);$('vo').textContent=formatEng(x);$('vs').textContent=x.toExponential(4);}catch(e){$('vo').textContent='—';$('vs').textContent=e.message;}
+try{$('co').textContent=formatEng(capCode($('cc').value),'F');}catch(e){$('co').textContent=e.message;}
+const n=+$('awg').value;$('ao').innerHTML=`Diameter <b>${awgDiameterMm(n).toFixed(3)} mm</b> (${(awgDiameterMm(n)/0.0254).toFixed(1)} mil), area <b>${awgAreaMm2(n).toFixed(4)} mm²</b>, copper resistance <b>${awgResistanceOhmPerKm(n).toFixed(2)} Ω/km</b>`;
+$('mo').innerHTML=`${$('mil').value} mil = <b>${milToMm(+$('mil').value).toFixed(4)} mm</b> · ${$('mm').value} mm = <b>${mmToMil(+$('mm').value).toFixed(2)} mil</b> · ${$('oz').value} oz = <b>${ozToUm(+$('oz').value).toFixed(1)} µm</b> · ${$('tc').value} °C = <b>${cToF(+$('tc').value).toFixed(1)} °F</b> = <b>${cToK(+$('tc').value).toFixed(2)} K</b> · λ at ${$('fq').value} MHz = <b>${formatEng(wavelengthM(+$('fq').value*1e6),'m')}</b>`;}
+document.querySelectorAll('input').forEach(e=>e.oninput=upd);upd();</script></body></html>

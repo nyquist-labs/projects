@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-114",
+  "title": "Reed\u2013Solomon RS(255,223): the satellite / CD code",
+  "level": "H",
+  "tools": "Own GF(2\u2078) arithmetic and RS codec (Berlekamp\u2013Massey, Chien search, Forney), Monte Carlo",
+  "summary": "Implement the CCSDS-style RS(255,223) code from scratch, verify it corrects every pattern of up to 16 symbol errors and flags 17, and compare the decoded block-error rate on a random-symbol-error channel with the binomial prediction; show why RS is superb against bursts.",
+  "problem": "Deep-space probes and CDs both protect data with Reed\u2013Solomon codes. How many errors can RS(255,223) fix, and why do bursts not hurt it?",
+  "theory": "RS(n, k) over GF(2\u2078) has minimum distance n \u2212 k + 1 = 33, so it corrects t = 16 symbol errors per 255-byte block. With independent\nsymbol-error probability p, $P_{block}=\\sum_{i=17}^{255}\\binom{255}{i}p^i(1-p)^{255-i}$. A burst of b bit errors touches at most\n\u2308b/8\u2309 + 1 symbols, so any burst up to 121 bits is always correctable.",
+  "method": "Generator g(x) = \u03a0(x \u2212 \u03b1\u2071), i = 0\u202631, primitive polynomial x\u2078+x\u2074+x\u00b3+x\u00b2+1. Tests: 50 blocks each with exactly 1\u202620 random symbol errors;\nMonte Carlo 300 blocks per p for p = 0.03\u20260.09; bursts of 8\u2013160 bits at random offsets.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Largest error count always corrected (t = (n\u2212k)/2)",
+   "predicted": 16.0,
+   "measured": 16.0,
+   "unit": "symbols",
+   "error": 0.0,
+   "error_str": "+0 symbols",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "17 errors: blocks detected as uncorrectable (of 30)",
+   "predicted": 30.0,
+   "measured": 30.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Block error rate at p = 0.06",
+   "predicted": 0.3627658968023301,
+   "measured": 0.37666666666666665,
+   "unit": "",
+   "error": 0.013900769864336526,
+   "error_str": "+0.0139",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Bit-burst length always corrected (8\u00b7(t\u22121)+1 = 121)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Miscorrections observed (17\u201320 errors)",
+   "value": 0.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/rs.png"
+ ],
+ "runtime_s": 16.39,
+ "folder": "projects/signal-lab/F-communication-systems/SL114-reed-solomon-codes"
+}

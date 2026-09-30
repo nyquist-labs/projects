@@ -1,0 +1,60 @@
+{
+ "meta": {
+  "id": "SL-011",
+  "title": "Wien bridge oscillator",
+  "level": "M",
+  "tools": "eelab mini-SPICE transient (op-amp + diode amplitude limiter)",
+  "summary": "A 1 kHz Wien bridge sine oscillator with diode amplitude stabilisation: predict frequency and required gain, then measure start-up, frequency and distortion.",
+  "problem": "An oscillator needs loop gain exactly 1. Too little and it dies, too much and it clips. How do two diodes solve the amplitude problem, and at what cost in distortion?",
+  "theory": "The RC series\u2013parallel network has $\\beta(j\\omega_0)=1/3$ at $\\omega_0 = 1/(RC)$ with zero phase,\nso the amplifier needs gain exactly 3 (Barkhausen). R = 10 k\u03a9, C = 15.9 nF \u2192 f\u2080 = 1.00 kHz.\nAmplifier: $1+R_f/R_g$ with R_g = 10 k\u03a9, R_f = 15 k\u03a9 + (12 k\u03a9 \u2016 diodes): small signals see gain 3.7\n(start-up guaranteed), large signals switch the diodes on and gain falls toward 2.5, so amplitude\nsettles where the *average* gain is 3 \u2014 roughly where the diodes start conducting on the 12 k\u03a9.",
+  "method": "Transient 60 ms at 2 \u00b5s step (trapezoidal). A 1 \u00b5A, 50 \u00b5s current kick starts the oscillation.\nFrequency from zero crossings over the last 20 ms; THD from an FFT of the settled waveform.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Oscillation frequency",
+   "predicted": 1000.0310593270208,
+   "measured": 990.9723936243713,
+   "unit": "Hz",
+   "error": -0.9058384355327507,
+   "error_str": "-0.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Small-signal amplifier gain (start-up)",
+   "value": 3.7,
+   "unit": "",
+   "note": "must exceed 3 for start-up"
+  },
+  {
+   "quantity": "Settled amplitude",
+   "value": 3.253340166399457,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "THD of settled sine",
+   "value": 5.448280723238336,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Start-up time to 90 % amplitude",
+   "value": 0.003,
+   "unit": "s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/waveform.png",
+  "figures/spectrum.png"
+ ],
+ "runtime_s": 3.54,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL011-wien-bridge-oscillator"
+}

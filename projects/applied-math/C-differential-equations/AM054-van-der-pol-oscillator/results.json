@@ -1,0 +1,122 @@
+{
+ "meta": {
+  "id": "AM-054",
+  "title": "Van der Pol oscillator: limit cycles from weak to relaxation",
+  "level": "H",
+  "tools": "Adaptive RK45 integration (SciPy), phase portraits, amplitude from averaging theory, relaxation period from singular perturbation, Poincar\u00e9-section convergence",
+  "summary": "Integrate \u1e8d \u2212 \u03bc(1 \u2212 x\u00b2)\u1e8b + x = 0 for \u03bc from 0.1 to 20, show that every start converges to one limit cycle, and compare its amplitude and period with the small-\u03bc averaging result and the large-\u03bc relaxation formula.",
+  "problem": "Why does an oscillator with negative resistance settle at a definite amplitude \u2014 regardless of how it starts?",
+  "theory": "The term \u2212\u03bc(1\u2212x\u00b2)\u1e8b is negative damping for |x| < 1 and positive damping outside, so energy is pumped in at small amplitude and removed at large. Averaging (\u03bc \u226a 1): amplitude \u2192 2,\nperiod \u2192 2\u03c0(1 + \u03bc\u00b2/16). Relaxation (\u03bc \u226b 1): period \u2192 (3 \u2212 2 ln 2)\u03bc \u2248 1.614\u03bc, amplitude \u2192 2. Every non-zero initial condition converges to the same closed orbit (a stable limit cycle).",
+  "method": "RK45 with rtol 1e-10. \u03bc \u2208 {0.1, 0.5, 1, 2, 5, 10, 20}; period from successive upward zero crossings after transients; amplitude = max x. Convergence from 5 initial conditions for \u03bc = 1.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03bc = 0.1: period \u2248 2\u03c0(1 + \u03bc\u00b2/16)",
+   "predicted": 6.287112297996574,
+   "measured": 6.287110603142954,
+   "unit": "",
+   "error": -2.6957584655448918e-05,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.1: amplitude \u2248 2",
+   "predicted": 2.0,
+   "measured": 2.0001039246976755,
+   "unit": "",
+   "error": 0.005196234883775297,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.5: period \u2248 2\u03c0(1 + \u03bc\u00b2/16)",
+   "predicted": 6.381360077604267,
+   "measured": 6.380675801527277,
+   "unit": "",
+   "error": -0.010723044439880319,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 0.5: amplitude \u2248 2",
+   "predicted": 2.0,
+   "measured": 2.0024879303470615,
+   "unit": "",
+   "error": 0.12439651735307589,
+   "error_str": "+0.12 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 10: relaxation period, leading term (3 \u2212 2 ln 2)\u03bc",
+   "predicted": 16.137056388801096,
+   "measured": 19.078369554095257,
+   "unit": "",
+   "error": 18.227073726627083,
+   "error_str": "+18.23 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 10: with the first correction (3 \u2212 2 ln 2)\u03bc + 3\u03b1\u00b7\u03bc^(\u22121/3), \u03b1 = 2.338",
+   "predicted": 19.3926667966971,
+   "measured": 19.078369554095257,
+   "unit": "",
+   "error": -1.620701504835697,
+   "error_str": "-1.62 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 20: relaxation period, leading term (3 \u2212 2 ln 2)\u03bc",
+   "predicted": 32.27411277760219,
+   "measured": 34.68232350836802,
+   "unit": "",
+   "error": 7.4617410782461455,
+   "error_str": "+7.46 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 20: with the first correction (3 \u2212 2 ln 2)\u03bc + 3\u03b1\u00b7\u03bc^(\u22121/3), \u03b1 = 2.338",
+   "predicted": 34.85809247074856,
+   "measured": 34.68232350836802,
+   "unit": "",
+   "error": -0.5042414828867515,
+   "error_str": "-0.50 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc = 1: spread of final amplitude over 5 very different initial conditions",
+   "predicted": 0.0,
+   "measured": 7.727734629980887e-08,
+   "unit": "",
+   "error": 7.727734629980887e-08,
+   "error_str": "+7.7277e-08",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/vanderpol.png"
+ ],
+ "runtime_s": 5.84,
+ "folder": "projects/applied-math/C-differential-equations/AM054-van-der-pol-oscillator"
+}

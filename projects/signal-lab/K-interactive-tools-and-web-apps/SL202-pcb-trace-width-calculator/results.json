@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "SL-202",
+  "title": "PCB trace width calculator (IPC-2221) vs a thermal model",
+  "level": "E",
+  "tools": "HTML/JS calculator (IPC-2221 width/current, resistance, drop, loss) + Node harness; own 2-D finite-volume heat-conduction model of a trace in an FR-4 board",
+  "summary": "Current and allowed temperature rise in, trace width out, per IPC-2221 \u2014 plus resistance, voltage drop and dissipation. The formula's temperature rise is then checked against a 2-D thermal simulation of the trace in a board cooled by still air.",
+  "problem": "How wide must a trace be for 3 A, and how much should you trust the 1950s-era curve fit that everyone uses?",
+  "theory": "IPC-2221 fits NBS measurements as $I = k\\,\u0394T^{0.44}A^{0.725}$ (A in mil\u00b2, k = 0.048 outer, 0.024 inner). Physically, a long trace dissipates $I^2\u03c1/(wt)$ per metre and the\nheat spreads through the FR-4 to both board surfaces, where still air removes ~10 W/m\u00b2K. Because the *board*, not the trace, does most of the cooling,\nI expect (i) the outer-layer formula to be of the right order (within ~\u00b140 %) for a typical 1.6 mm board, and (ii) the inner-layer rule (half the current)\nto be strongly conservative, because a buried trace spreads heat through the same board with only a thin extra FR-4 resistance.",
+  "method": "Model (clearly a model, not a measurement): 60 mm \u00d7 1.6 mm FR-4 cross-section (k\u2225 = 0.8, k\u22a5 = 0.3 W/mK), 1 oz trace on top (outer) or at mid-depth (inner) as a\nhigh-conductivity strip, still-air convection + radiation h = 10 W/m\u00b2K on both faces, infinitely long trace, copper resistivity rising 0.393 %/\u00b0C (iterated).\nFor I = 0.5\u201310 A, trace width from calc.js for \u0394T = 10 \u00b0C, then the model's temperature rise.",
+  "data": "Simulation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "3 A, \u0394T 10 \u00b0C, 1 oz outer: width = A/1.378 mil",
+   "predicted": 53.81831752806748,
+   "measured": 53.81831752806748,
+   "unit": "mil",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "100 mil 1 oz outer at 10 \u00b0C rise: current",
+   "predicted": 4.701072188035226,
+   "measured": 4.7010721880352255,
+   "unit": "A",
+   "error": -1.8893103193791455e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Inner vs outer width for the same current = 2^(1/0.725)",
+   "predicted": 2.601439840712011,
+   "measured": 2.601439840712011,
+   "unit": "\u00d7",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 mm \u00d7 1 m, 1 oz trace at 20 \u00b0C (\u2248 0.49 \u03a9)",
+   "predicted": 0.49141172302663905,
+   "measured": 0.49141172302663905,
+   "unit": "\u03a9",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Outer layer: model \u0394T at the IPC width, 3 A (IPC says 10 \u00b0C)",
+   "predicted": 10.0,
+   "measured": 12.00251435692807,
+   "unit": "\u00b0C",
+   "error": 2.002514356928071,
+   "error_str": "+2.003 \u00b0C",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Inner layer: model \u0394T at the IPC width, 3 A (IPC says 10 \u00b0C)",
+   "predicted": 10.0,
+   "measured": 3.4895025415752268,
+   "unit": "\u00b0C",
+   "error": -6.510497458424773,
+   "error_str": "-6.51 \u00b0C",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Outer-layer model \u0394T range over 0.5\u201310 A",
+   "value": "4.9 \u2013 17.7",
+   "unit": "\u00b0C",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/thermal.png"
+ ],
+ "runtime_s": 1.69,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL202-pcb-trace-width-calculator"
+}

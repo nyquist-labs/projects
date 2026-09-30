@@ -1,0 +1,173 @@
+{
+ "meta": {
+  "id": "AM-145",
+  "title": "Hamming codes: perfect single-error correction",
+  "level": "M",
+  "tools": "Parity-check and generator matrices over GF(2) built from the definition, exhaustive weight enumeration, syndrome decoding, extended (SECDED) code, Monte-Carlo binary-symmetric-channel simulation against exact block-error formulas",
+  "summary": "Construct Hamming codes for r = 3\u20266 from 'all non-zero columns', verify minimum distance 3 and the perfect sphere-packing identity, show that every single error is corrected and every double error is mis-corrected (unless an overall parity bit is added), and match simulated error rates to theory.",
+  "problem": "How few parity bits can locate any single flipped bit \u2014 and what exactly happens when two bits flip?",
+  "theory": "H has all $2^r-1$ non-zero r-bit columns: $n=2^r-1$, $k=n-r$, $d_{min}=3$. The syndrome $s=Hr^T$ equals the column of the flipped bit. Perfect: $2^k(1+n)=2^n$ \u2014 every word is within distance 1 of exactly one codeword, so a double error\nis *always* decoded to a wrong codeword (three bits wrong). (7,4) weight enumerator: $1+7x^3+7x^4+x^7$. Block error on a BSC(p): $1-(1-p)^n-np(1-p)^{n-1}$. Adding an overall parity bit gives d = 4 (SECDED): doubles are detected, not mis-corrected.",
+  "method": "Systematic G from H; all 2\u1d4f codewords enumerated for r = 3, 4 (weights); all single and double error patterns decoded for r = 3\u20266; BSC simulation of the (7,4) code, 10\u2076 blocks per p; extended (8,4) code on all double errors.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "(7,4) sphere packing: 2\u1d4f(1 + n) / 2\u207f",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(63,57) sphere packing: 2\u1d4f(1 + n) / 2\u207f",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,4) minimum distance",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,4) codewords of weight 3",
+   "predicted": 7.0,
+   "measured": 7.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,4) codewords of weight 4",
+   "predicted": 7.0,
+   "measured": 7.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,4) codewords of weight 7",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(15,11) minimum distance",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(15,11) number of weight-3 codewords: n(n\u22121)/6",
+   "predicted": 35.0,
+   "measured": 35.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Single errors not corrected (all positions, r = 3\u20266)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Double errors decoded to a wrong codeword at distance 3 (all 2544 patterns)",
+   "predicted": 2544.0,
+   "measured": 2544.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Extended (8,4) SECDED: double errors flagged as uncorrectable (of 28)",
+   "predicted": 28.0,
+   "measured": 28.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,4) block error rate on BSC(p = 0.01)",
+   "predicted": 0.002031041634940084,
+   "measured": 0.002033,
+   "unit": "",
+   "error": 0.09642170924644375,
+   "error_str": "+0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "(7,4) block error rate on BSC(p = 0.1)",
+   "predicted": 0.14969439999999978,
+   "measured": 0.149883,
+   "unit": "",
+   "error": 0.12599001699476103,
+   "error_str": "+0.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Decoded bit error rate at p = 0.01",
+   "value": 0.00086825,
+   "unit": "",
+   "note": "vs raw 0.01 \u2014 12\u00d7 better at rate 4/7"
+  }
+ ],
+ "figures": [
+  "figures/hamming.png"
+ ],
+ "runtime_s": 0.57,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM145-hamming-codes"
+}

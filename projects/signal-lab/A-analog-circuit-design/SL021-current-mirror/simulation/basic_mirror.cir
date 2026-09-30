@@ -1,0 +1,9 @@
+* basic — exported by eelab.circuit
+Vcc vcc 0 DC 10 AC 0.0
+Vo vo 0 DC 5 AC 0.0
+Rref vcc c1 9300
+Q1 c1 c1 0 Q_1
+Q2 vo c1 0 Q_2
+.model Q_1 NPN(Is=1e-15 BF=100 BR=1 VAF=50)
+.model Q_2 NPN(Is=1e-15 BF=100 BR=1 VAF=50)
+.end

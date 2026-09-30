@@ -1,0 +1,92 @@
+{
+ "meta": {
+  "id": "AM-107",
+  "title": "DC optimal power flow on a 5-bus network",
+  "level": "H",
+  "tools": "DC power-flow model (B-matrix, PTDFs), linear program for least-cost dispatch with line limits (HiGHS), locational marginal prices from dual variables, verification of KKT conditions and of prices by finite perturbation",
+  "summary": "Dispatch three generators to serve load on a 5-bus transmission network at least cost, first ignoring and then enforcing line limits, and show that congestion creates different electricity prices at different buses \u2014 the LP's shadow prices.",
+  "problem": "Why does electricity cost more at some locations of the grid than others, even with the same generators?",
+  "theory": "DC approximation: P = B\u03b8, line flow $F_\u2113 = (\u03b8_i-\u03b8_j)/x_\u2113$, linear in injections via PTDFs. OPF: minimise \u03a3c_gP_g subject to power balance, $|F_\u2113|\u2264F^{max}_\u2113$, generator limits \u2014 an LP. Without congestion one marginal generator sets a single\nprice everywhere; with a binding line limit, prices differ by bus: $LMP_i = \u03bb \u2212 \\sum_\u2113 \u03bc_\u2113\\,PTDF_{\u2113,i}$ and each LMP equals the cost of serving 1 MW more load at that bus.",
+  "method": "5 buses, 6 lines (reactances 0.03\u20130.1 p.u.), generators at buses 1, 3, 5 with costs 14, 30, 40 $/MWh and capacities 600/300/400 MW (a first version with capacities summing exactly to the load left only one, infeasible, dispatch); loads 300/300/400 MW at buses 2, 3, 4. Line 1\u20132 limit 280 MW (with this topology the flow on line 1\u20132 cannot go below \u2248 266 MW whatever the dispatch, so a first choice of 240 MW was infeasible, and 300 MW never bound).\nLP solved with and without limits; LMPs from duals; each LMP checked by re-solving with +1 MW load at that bus.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Line 1\u20132 limit binds in the constrained solution",
+   "predicted": 280.0,
+   "measured": 280.0,
+   "unit": "MW",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Power balance (generation \u2212 load)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "MW",
+   "error": 0.0,
+   "error_str": "+0 MW",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "LMPs from LP duals vs +1 MW finite-difference cost at each bus (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 2.1827872842550278e-11,
+   "unit": "$/MWh",
+   "error": 2.1827872842550278e-11,
+   "error_str": "+2.1828e-11 $/MWh",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Congestion creates price differences (max \u2212 min LMP > 0)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Unconstrained dispatch (MW) and flow on line 1\u20132",
+   "value": "[600. 300. 100.], F12 = 292.1 MW (limit 280)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Constrained dispatch (MW) and flow on line 1\u20132",
+   "value": "[457.9 300.  242.1], F12 = 280.0 MW",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Cost of congestion",
+   "value": 3693.333333333325,
+   "unit": "$/h",
+   "note": ""
+  },
+  {
+   "quantity": "Locational marginal prices, buses 1\u20135",
+   "value": "14.00, 268.67, 102.00, 52.00, 40.00",
+   "unit": "$/MWh",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/opf.png"
+ ],
+ "runtime_s": 0.08,
+ "folder": "projects/applied-math/F-optimisation/AM107-optimal-power-flow"
+}

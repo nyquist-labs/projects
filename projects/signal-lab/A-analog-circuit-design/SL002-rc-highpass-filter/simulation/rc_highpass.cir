@@ -1,0 +1,8 @@
+* RC high-pass — exported by eelab.circuit
+Vin src 0 DC 0.0 AC 1  ; time-varying in eelab
+Rs src a 50
+C1 a out 1e-07
+R1 out 0 1600
+Rprobe out 0 1e+07
+Cprobe out 0 1.2e-11
+.end

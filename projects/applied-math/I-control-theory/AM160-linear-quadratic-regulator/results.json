@@ -1,0 +1,135 @@
+{
+ "meta": {
+  "id": "AM-160",
+  "title": "LQR: optimal state feedback from the Riccati equation",
+  "level": "H",
+  "tools": "Own algebraic-Riccati solver (stable invariant subspace of the Hamiltonian matrix), SciPy's solver as reference, closed-loop cost by Lyapunov equation and by time-domain integration, random gain perturbations, loop-gain robustness (Kalman inequality), Q/R trade-off curve",
+  "summary": "Solve the continuous-time LQR problem from scratch, confirm that the predicted optimal cost x\u2080\u1d40Px\u2080 is what a simulation accumulates, that no perturbed gain does better, and that the optimal loop has the guaranteed \u2265 60\u00b0 phase margin; then trace the trade-off between regulation and effort.",
+  "problem": "Pole placement asks where the poles should go. What if we instead state what we care about \u2014 error versus effort \u2014 and let the mathematics choose?",
+  "theory": "Minimise $J=\\int_0^\\infty(x^TQx+u^TRu)\\,dt$ for $\\dot x=Ax+Bu$: $u=-Kx$, $K=R^{-1}B^TP$, where P solves $A^TP+PA-PBR^{-1}B^TP+Q=0$; the optimal cost is $x_0^TPx_0$. P comes from the stable eigenvectors $[X_1;X_2]$ of the Hamiltonian\n$\\begin{bmatrix}A&-BR^{-1}B^T\\\\-Q&-A^T\\end{bmatrix}$: $P=X_2X_1^{-1}$. For any stabilising gain the cost is $x_0^TSx_0$ with $(A-BK)^TS+S(A-BK)+Q+K^TRK=0$. Single-input LQR loops satisfy $|1+K(j\u03c9I-A)^{-1}B|\\ge1$: the Nyquist curve avoids the unit disc\naround \u22121, so PM \u2265 60\u00b0 and the gain can be raised without limit or halved.",
+  "method": "Plant: two masses coupled by a spring and damper, force on the first (4 states). Q = diag(10, 1, 10, 1), R = 1. Cost by integrating the simulated closed loop (matrix exponential steps, 2 ms, 60 s). 500 random gain perturbations of 1\u201320 %.\nReturn difference evaluated on 20 000 frequencies. Trade-off: R swept over 6 decades.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Own Hamiltonian-eigenvector Riccati solution vs scipy (max relative difference)",
+   "predicted": 0.0,
+   "measured": 7.895676472468362e-16,
+   "unit": "",
+   "error": 7.895676472468362e-16,
+   "error_str": "+7.8957e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Riccati residual \u2016A\u1d40P + PA \u2212 PBR\u207b\u00b9B\u1d40P + Q\u2016 / \u2016Q\u2016",
+   "predicted": 0.0,
+   "measured": 5.3426219173085104e-15,
+   "unit": "",
+   "error": 5.3426219173085104e-15,
+   "error_str": "+5.3426e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Cost accumulated by the simulated closed loop vs x\u2080\u1d40Px\u2080",
+   "predicted": 31.312019566781323,
+   "measured": 31.31210809499029,
+   "unit": "",
+   "error": 0.0002827291570171626,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Randomly perturbed gains (500) that achieve a lower cost than the LQR gain",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Kalman inequality: min over \u03c9 of |1 + L(j\u03c9)| \u2265 1",
+   "predicted": 1.0,
+   "measured": 1.00000050000887,
+   "unit": "",
+   "error": 5.000088700857219e-05,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Smallest phase margin over all gain crossovers \u2265 60\u00b0 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Loop still stable with gain \u00d7 0.51 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Loop still stable with gain \u00d7 100 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Trade-off curve is monotonic: cheaper control (smaller R) always gives lower state cost and higher effort (violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Median cost penalty of a ~10 % gain error",
+   "value": 0.7549193749474714,
+   "unit": "%",
+   "note": "the optimum is flat: first-order insensitive to gain errors"
+  },
+  {
+   "quantity": "Phase margin(s) of the LQR loop",
+   "value": "85.4\u00b0, 131.5\u00b0, 68.2\u00b0",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/lqr.png"
+ ],
+ "runtime_s": 0.5,
+ "folder": "projects/applied-math/I-control-theory/AM160-linear-quadratic-regulator"
+}

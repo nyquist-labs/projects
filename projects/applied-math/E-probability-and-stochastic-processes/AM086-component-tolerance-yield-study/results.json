@@ -1,0 +1,140 @@
+{
+ "meta": {
+  "id": "AM-086",
+  "title": "Manufacturing yield from component tolerances",
+  "level": "M",
+  "tools": "Monte-Carlo circuit simulation of a Sallen-Key low-pass with toleranced parts, first-order sensitivity analysis, Gaussian vs uniform tolerance models, yield vs specification",
+  "summary": "Predict the spread of a filter's cutoff frequency from component sensitivities, check it with 5,000 Monte-Carlo circuits, and compute manufacturing yield against a \u00b15 % specification for different capacitor grades and tolerance distributions.",
+  "problem": "A design is built from 1 % resistors and 5 % capacitors. What fraction of boards will meet a \u00b15 % cutoff specification?",
+  "theory": "f0 = 1/(2\u03c0\u221a(R1R2C1C2)) so each part has sensitivity \u2212\u00bd: $\\frac{\u03c3_{f}}{f}\u2248\\frac12\\sqrt{\u03c3_{R1}^2+\u03c3_{R2}^2+\u03c3_{C1}^2+\u03c3_{C2}^2}$. With parts spread uniformly over \u00b1t (\u03c3 = t/\u221a3): 1 % R and 5 % C give \u03c3_f \u2248 2.1 %; if the parts are Gaussian with\n\u00b1t = 3\u03c3, \u03c3_f \u2248 1.2 %. Yield for |\u0394f| < 5 % = 2\u03a6(5/\u03c3_f) \u2212 1: \u2248 98 % (uniform) vs \u2248 100 %; with 10 % capacitors \u2248 76 %.",
+  "method": "Unity-gain Sallen-Key Butterworth low-pass at 1 kHz (R = 10 k\u03a9, C1 = 22.5 nF, C2 = 11.25 nF). 5,000 circuits per case built in the MNA simulator; \u22123 dB frequency measured; cases: (1 % R, 5 % C) uniform and\nGaussian, (1 %, 10 %) uniform. Q spread also reported.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Nominal \u22123 dB frequency",
+   "predicted": 1000.0,
+   "measured": 1004.945564952396,
+   "unit": "Hz",
+   "error": 0.4945564952396012,
+   "error_str": "+0.49 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 5 % C, uniform: \u03c3 of cutoff, first model (f0 sensitivity only)",
+   "predicted": 2.081665999466133,
+   "measured": 2.62227682711898,
+   "unit": "%",
+   "error": 25.970104127727144,
+   "error_str": "+25.97 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 5 % C, uniform: \u03c3 of cutoff, corrected model (sensitivities measured on the circuit)",
+   "predicted": 2.6063066450273746,
+   "measured": 2.62227682711898,
+   "unit": "%",
+   "error": 0.6127514627672458,
+   "error_str": "+0.61 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 5 % C, uniform: yield for |\u0394f| < 5 % (Gaussian approx., corrected \u03c3)",
+   "predicted": 94.49426704392387,
+   "measured": 99.0,
+   "unit": "%",
+   "error": 4.50573295607613,
+   "error_str": "+4.51 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 5 % C, Gaussian (t = 3\u03c3): \u03c3 of cutoff, first model (f0 sensitivity only)",
+   "predicted": 1.201850425154663,
+   "measured": 1.485552908723337,
+   "unit": "%",
+   "error": 23.60547349576926,
+   "error_str": "+23.61 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 5 % C, Gaussian (t = 3\u03c3): \u03c3 of cutoff, corrected model (sensitivities measured on the circuit)",
+   "predicted": 1.5047518430972648,
+   "measured": 1.485552908723337,
+   "unit": "%",
+   "error": -1.2758870814479437,
+   "error_str": "-1.28 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 5 % C, Gaussian (t = 3\u03c3): yield for |\u0394f| < 5 % (Gaussian approx., corrected \u03c3)",
+   "predicted": 99.91088345985287,
+   "measured": 99.92,
+   "unit": "%",
+   "error": 0.009116540147132923,
+   "error_str": "+0.00912 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 10 % C, uniform: \u03c3 of cutoff, first model (f0 sensitivity only)",
+   "predicted": 4.102844541697057,
+   "measured": 5.220438007061377,
+   "unit": "%",
+   "error": 27.239478708156227,
+   "error_str": "+27.24 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 10 % C, uniform: \u03c3 of cutoff, corrected model (sensitivities measured on the circuit)",
+   "predicted": 5.166281869106903,
+   "measured": 5.220438007061377,
+   "unit": "%",
+   "error": 1.0482613865556736,
+   "error_str": "+1.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 % R, 10 % C, uniform: yield for |\u0394f| < 5 % (Gaussian approx., corrected \u03c3)",
+   "predicted": 66.6862737050055,
+   "measured": 55.84,
+   "unit": "%",
+   "error": -10.846273705005501,
+   "error_str": "-10.8 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Measured sensitivities S(R1), S(R2), S(C1), S(C2) of the \u22123 dB frequency",
+   "value": "-0.490, -0.490, -0.093, -0.887",
+   "unit": "",
+   "note": "f0 alone would give \u22120.5 each"
+  }
+ ],
+ "figures": [
+  "figures/yield.png"
+ ],
+ "runtime_s": 37.86,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM086-component-tolerance-yield-study"
+}

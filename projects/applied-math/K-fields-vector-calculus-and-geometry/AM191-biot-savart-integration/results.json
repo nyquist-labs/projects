@@ -1,0 +1,113 @@
+{
+ "meta": {
+  "id": "AM-191",
+  "title": "Biot\u2013Savart integration for coils",
+  "level": "M",
+  "tools": "Numerical Biot\u2013Savart integration over polygonal current paths (vectorised midpoint rule), closed-form checks (straight segment, loop on axis, loop off axis by complete elliptic integrals, finite solenoid), convergence order, Helmholtz-coil uniformity from the Taylor expansion",
+  "summary": "Compute magnetic fields of arbitrary wire shapes by summing Biot\u2013Savart contributions, verify against every closed form available \u2014 including the full off-axis field of a loop in elliptic integrals \u2014 and use the tool to show why the Helmholtz spacing (d = R) makes the field so uniform.",
+  "problem": "Closed-form coil fields exist only on symmetry axes. How do we get the field everywhere, and how accurate is a discretised wire?",
+  "theory": "$B(r)=\\frac{\u03bc_0I}{4\u03c0}\\oint\\frac{dl\\times(r-r')}{|r-r'|^3}$. Loop of radius R on axis: $B_z=\\frac{\u03bc_0IR^2}{2(R^2+z^2)^{3/2}}$; off axis: $B_z,B_\u03c1$ in complete elliptic integrals K(m), E(m), $m=\\frac{4R\u03c1}{(R+\u03c1)^2+z^2}$. Finite segment: $B=\\frac{\u03bc_0I}{4\u03c0d}(\\sin \u03b1_2-\\sin \u03b1_1)$.\nSolenoid of length L, n turns/m, centre: $B=\u03bc_0nI\\frac{L}{\\sqrt{L^2+4R^2}}$. A polygon with N segments approximates the loop with an O(1/N\u00b2) error. Two coaxial loops spaced d apart have $\\partial^2B_z/\\partial z^2=0$ at the centre when d = R (Helmholtz), leaving a fourth-order variation.",
+  "method": "Loop R = 50 mm, I = 1 A, 1000 segments unless stated; field compared at 200 random points off axis. Convergence N = 16\u20261024. Solenoid as 200 discrete turns. Helmholtz pair: field along the axis and radially within \u00b1R/5 of the centre for d = 0.8R, R, 1.2R.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Finite straight segment: \u03bc\u2080I(sin \u03b1\u2082 \u2212 sin \u03b1\u2081)/(4\u03c0d)",
+   "predicted": 9.940215896093796e-06,
+   "measured": 9.940215901449118e-06,
+   "unit": "T",
+   "error": 5.38753063241467e-08,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Loop on axis: worst relative error vs \u03bc\u2080IR\u00b2/(2(R\u00b2 + z\u00b2)^{3/2})",
+   "predicted": 0.0,
+   "measured": 8.224719856502084e-06,
+   "unit": "",
+   "error": 8.224719856502084e-06,
+   "error_str": "+8.2247e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Off-axis field vs the elliptic-integral solution (200 points \u2265 5 mm from the wire): median relative error",
+   "predicted": 0.0,
+   "measured": 7.868749200657156e-06,
+   "unit": "",
+   "error": 7.868749200657156e-06,
+   "error_str": "+7.8687e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Convergence with the number of polygon segments: error \u221d N^\u2212order",
+   "predicted": 2.0,
+   "measured": 2.002896531614572,
+   "unit": "",
+   "error": 0.002896531614572151,
+   "error_str": "+0.002897",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Finite solenoid, centre: \u03bc\u2080nI\u00b7L/\u221a(L\u00b2 + 4R\u00b2)",
+   "predicted": 0.0008304091442180796,
+   "measured": 0.0008263989980053395,
+   "unit": "T",
+   "error": -0.48291209708631944,
+   "error_str": "-0.48 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Helmholtz spacing d = R: field variation within \u00b1R/5 on the axis (Taylor: 144/125\u00b7(z/R)\u2074 \u2248 0.18 %)",
+   "predicted": 0.18432,
+   "measured": 0.17625690100842029,
+   "unit": "%",
+   "error": -4.374511171646986,
+   "error_str": "-4.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "d = R is flatter than d = 0.8R and d = 1.2R (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "\u2026 worst point",
+   "value": 4.420634986461692e-05,
+   "unit": "",
+   "note": "closest to the wire, where a 1000-gon's corners are resolved"
+  },
+  {
+   "quantity": "Axial / radial field variation within R/5: d = 0.8R, R, 1.2R",
+   "value": "1.71 % / 0.76 % ; 0.18 % / 0.07 % ; 1.23 % / 0.79 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/biot_savart.png"
+ ],
+ "runtime_s": 0.44,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM191-biot-savart-integration"
+}

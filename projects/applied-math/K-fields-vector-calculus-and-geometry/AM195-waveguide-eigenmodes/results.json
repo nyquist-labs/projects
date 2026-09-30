@@ -1,0 +1,141 @@
+{
+ "meta": {
+  "id": "AM-195",
+  "title": "Waveguide modes as a Helmholtz eigenvalue problem",
+  "level": "H",
+  "tools": "Finite-difference Laplacian with Dirichlet (TM) and Neumann (TE) boundary conditions on cell-centred grids, sparse shift-invert eigen-solver, analytic rectangular cutoffs, Bessel-zero cutoffs of the circular guide, convergence orders for smooth and staircased boundaries, guide wavelength",
+  "summary": "Find the cutoff frequencies and field patterns of hollow metal waveguides by solving \u2207\u00b2\u03c8 + k_c\u00b2\u03c8 = 0 as a matrix eigenproblem, check them against the analytic WR-90 and circular-guide results, and measure how the discretisation error converges \u2014 quickly for a rectangle, slowly when a round wall is approximated by steps.",
+  "problem": "Why does a waveguide have a cutoff frequency, and how are the modes of a guide with an arbitrary cross-section computed?",
+  "theory": "Inside a hollow conductor the transverse field of each mode obeys $\\nabla_t^2\u03c8+k_c^2\u03c8=0$, with \u03c8 = E_z = 0 on the wall (TM) or \u2202H_z/\u2202n = 0 (TE). Propagation needs $k>k_c$: $f_c=\\frac{c\\,k_c}{2\u03c0}$. Rectangle a \u00d7 b: $k_c^2=(m\u03c0/a)^2+(n\u03c0/b)^2$; WR-90 (22.86 \u00d7 10.16 mm):\nTE\u2081\u2080 6.557 GHz, TE\u2082\u2080 13.114, TE\u2080\u2081 14.754, TE\u2081\u2081/TM\u2081\u2081 16.145 GHz. Circle of radius R: TE\u2081\u2081 at $p'_{11}c/(2\u03c0R)$, TM\u2080\u2081 at $p_{01}c/(2\u03c0R)$ with $p'_{11}$ = 1.8412, $p_{01}$ = 2.4048. Guide wavelength $\u03bb_g=\u03bb/\\sqrt{1-(f_c/f)^2}$. A second-order stencil converges as h\u00b2 on a rectangle; a\nstaircased round wall limits convergence to about first order.",
+  "method": "Cell-centred grids with mirror (Neumann) or antimirror (Dirichlet) ghost cells; eigsh in shift-invert mode for the 8 smallest eigenvalues. WR-90 at h = a/40, a/80, a/160; circle R = 10 mm with 40\u2026160 cells across, staircased.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "WR-90 TE10 cutoff (h = a/160)",
+   "predicted": 6557140376.202975,
+   "measured": 6557035044.058453,
+   "unit": "Hz",
+   "error": -0.001606373182202046,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "WR-90 TE20 cutoff (h = a/160)",
+   "predicted": 13114280752.40595,
+   "measured": 13113438107.431793,
+   "unit": "Hz",
+   "error": -0.006425399837522476,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "WR-90 TE01 cutoff (h = a/160)",
+   "predicted": 14753565846.456692,
+   "measured": 14752362312.974249,
+   "unit": "Hz",
+   "error": -0.0081575769205104,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "WR-90 TE11 cutoff (h = a/160)",
+   "predicted": 16145085787.909729,
+   "measured": 16143943210.451166,
+   "unit": "Hz",
+   "error": -0.007076936434852962,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "WR-90 TM11 cutoff (h = a/160)",
+   "predicted": 16145085787.909729,
+   "measured": 16143943210.452045,
+   "unit": "Hz",
+   "error": -0.007076936429406799,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rectangle: error of the TM11 cutoff falls as h\u00b2 (order from a/80 \u2192 a/160)",
+   "predicted": 2.0,
+   "measured": 1.9610597444226834,
+   "unit": "",
+   "error": -0.03894025557731662,
+   "error_str": "-0.03894",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Circular guide R = 10 mm: TE11 cutoff p\u2032\u2081\u2081c/(2\u03c0R), 160 cells across",
+   "predicted": 8785000707.187057,
+   "measured": 8771685896.67285,
+   "unit": "Hz",
+   "error": -0.1515629987748882,
+   "error_str": "-0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Circular guide: TM01 cutoff p\u2080\u2081c/(2\u03c0R), 160 cells across",
+   "predicted": 11474252783.521006,
+   "measured": 11482535799.938623,
+   "unit": "Hz",
+   "error": 0.07218785025822012,
+   "error_str": "+0.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Staircased round wall: TM01 convergence order from the last two grids (\u2248 1, and erratic \u2014 not 2)",
+   "predicted": 1.0,
+   "measured": 1.1652785433940913,
+   "unit": "",
+   "error": 0.16527854339409132,
+   "error_str": "+0.1653",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "TE10 cutoff error, h = a/40 / a/80 / a/160",
+   "value": "2.6e-04 / 6.4e-05 / 1.6e-05",
+   "unit": "",
+   "note": "second order: the error falls four-fold per halving of h"
+  },
+  {
+   "quantity": "TM01 relative error at 40 / 80 / 160 cells across",
+   "value": "0.01 % / 0.16 % / 0.07 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "WR-90 at 10 GHz: free-space / guide wavelength (TE10)",
+   "value": "30.0 mm / 39.7 mm",
+   "unit": "",
+   "note": "single-mode band 6.56\u201313.11 GHz"
+  }
+ ],
+ "figures": [
+  "figures/waveguide.png"
+ ],
+ "runtime_s": 0.52,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM195-waveguide-eigenmodes"
+}

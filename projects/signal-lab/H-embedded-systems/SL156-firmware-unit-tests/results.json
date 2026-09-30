@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-156",
+  "title": "Firmware unit tests on the host (with mutation testing)",
+  "level": "M",
+  "tools": "Minimal C test framework, host-compiled embedded modules (ring buffer, CRC-16, Q15 math), mutation testing driver in Python",
+  "summary": "Test three embedded modules on the PC with a tiny assertion framework, measure line coverage with clang's instrumentation, then deliberately inject bugs (mutants) and count how many the tests catch.",
+  "problem": "Firmware bugs are expensive to find on hardware. How much of an embedded module can be verified on a PC, and how do you know the tests are any good?",
+  "theory": "Code coverage measures what the tests execute; mutation score measures what they would *notice*. A good suite should kill \u2265 90 % of simple\nmutants (off-by-one, flipped comparison, wrong constant). Surviving mutants point at untested behaviour, not just unexecuted lines.",
+  "method": "Modules: ring buffer (push/pop/full/empty/wrap), CRC-16/CCITT (check value 0x29B1 for \"123456789\"), Q15 saturating multiply. 14 tests. Coverage via\n-fprofile-instr-generate/llvm-cov if available (else line-execution counting). 12 hand-written mutants compiled and run one by one.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Tests failing on the correct code",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Mutation score (12 hand-written mutants)",
+   "predicted": 100.0,
+   "measured": 83.33333333333334,
+   "unit": "%",
+   "error": -16.666666666666657,
+   "error_str": "-16.7 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Assertions executed",
+   "value": 27.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Line coverage of modules.c",
+   "value": 100.0,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/mutants.png"
+ ],
+ "runtime_s": 4.92,
+ "folder": "projects/signal-lab/H-embedded-systems/SL156-firmware-unit-tests"
+}

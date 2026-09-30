@@ -1,0 +1,5 @@
+program,instructions,load_use_stalls,flush_slots,cycles,cpi
+sum_1_to_100,305,0,198,507,1.6623
+fibonacci_20,145,0,38,187,1.28966
+bubble_sort_16,964,120,372,1460,1.51452
+shift_add_multiply,42,0,18,64,1.52381

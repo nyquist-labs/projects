@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-117",
+  "title": "AWGN, Rayleigh and Rician fading channels",
+  "level": "M",
+  "tools": "Monte Carlo BPSK (NumPy), closed-form fading BER, Jakes Doppler spectrum",
+  "summary": "Compare BPSK over AWGN, Rayleigh and Rician (K = 3, 10) flat fading: verify the closed-form average BERs, show the 1/SNR slope that makes fading so costly, and generate a time-correlated Rayleigh process with the Jakes spectrum.",
+  "problem": "A phone's signal fades in and out as it moves. How much extra power does fading cost at a target error rate?",
+  "theory": "Rayleigh: $\\bar P_b=\\tfrac12\\left(1-\\sqrt{\\frac{\\bar\\gamma}{1+\\bar\\gamma}}\\right)\\approx\\frac1{4\\bar\\gamma}$ \u2014 BER falls only as 1/SNR (vs exponentially on AWGN), so\n10\u207b\u2074 needs ~34 dB instead of 8.4 dB. Rician with K-factor K interpolates between the two. Jakes: Doppler spectrum\n$S(f)\\propto1/\\sqrt{1-(f/f_D)^2}$, envelope autocorrelation $J_0(2\\pi f_D\\tau)$.",
+  "method": "10\u2076 symbols per point, coherent detection with perfect channel knowledge. Rician BER by numerical averaging of Q over the Rician\ndistribution. Jakes process by sum-of-sinusoids (64 paths), f_D = 100 Hz.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Rayleigh BER at 12 dB",
+   "predicted": 0.015064680370352801,
+   "measured": 0.015091,
+   "unit": "",
+   "error": 0.17471084019144656,
+   "error_str": "+0.17 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rayleigh BER at 24 dB",
+   "predicted": 0.0009923060761368174,
+   "measured": 0.000978,
+   "unit": "",
+   "error": -1.4416999432788933,
+   "error_str": "-1.44 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rayleigh: SNR for BER 10\u207b\u2074 (\u2248 1/(4\u03b3))",
+   "predicted": 33.979400086720375,
+   "measured": 34.13617888580271,
+   "unit": "dB",
+   "error": 0.15677879908233194,
+   "error_str": "+0.1568 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Jakes autocorrelation first null \u03c4 (J\u2080 zero at 2.405/(2\u03c0f_D))",
+   "predicted": 0.0038276763813600823,
+   "measured": 0.0036,
+   "unit": "s",
+   "error": -5.948161722051918,
+   "error_str": "-5.95 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Fading margin at 10\u207b\u2074 (Rayleigh \u2212 AWGN)",
+   "value": 25.579400086720376,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/fading.png"
+ ],
+ "runtime_s": 1.71,
+ "folder": "projects/signal-lab/F-communication-systems/SL117-channel-models"
+}

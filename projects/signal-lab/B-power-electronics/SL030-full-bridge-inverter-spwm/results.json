@@ -1,0 +1,76 @@
+{
+ "meta": {
+  "id": "SL-030",
+  "title": "Full-bridge SPWM inverter",
+  "level": "H",
+  "tools": "eelab mini-SPICE (4 switches, LC filter), FFT THD",
+  "summary": "Turn 200 V DC into a 50 Hz sine with sinusoidal PWM on an H-bridge: predict the fundamental amplitude m\u00b7V_dc and compare output THD before and after the LC filter.",
+  "problem": "How does a solar or UPS inverter make a clean mains sine wave out of DC with switches that are only ever on or off?",
+  "theory": "Bipolar SPWM on a full bridge: the bridge output's local average is $m V_{dc}\\sin\\omega_1t$, so\n$\\hat V_1 = mV_{dc}$ for $m\\le1$ (linear modulation). Harmonics cluster around the carrier $f_c$ and its\nmultiples; an LC filter with $f_0 = 1/(2\\pi\\sqrt{LC})$ \u226a $f_c$ attenuates them by $(f_c/f_0)^2$ while\npassing 50 Hz (fundamental gain $\\approx 1/(1-\\omega_1^2LC)$).",
+  "method": "V_dc = 200 V, f_c = 10 kHz, m = 0.8, L = 5 mH (0.1 \u03a9), C = 10 \u00b5F, R = 20 \u03a9. Diagonal switch pairs driven by\nthe comparison sin vs triangle. 60 ms (3 cycles) at 1 \u00b5s steps; THD of bridge voltage and of load voltage\nover the last 40 ms.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Bridge fundamental amplitude (m\u00b7V_dc)",
+   "predicted": 160.0,
+   "measured": 158.52833944003743,
+   "unit": "V",
+   "error": -0.9197878499766077,
+   "error_str": "-0.92 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Load fundamental amplitude (m\u00b7V_dc\u00b7|H(50 Hz)|)",
+   "predicted": 159.4945374251159,
+   "measured": 158.02556168376873,
+   "unit": "V",
+   "error": -0.9210194687933289,
+   "error_str": "-0.92 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Carrier-band attenuation by LC filter",
+   "predicted": -45.89017406642284,
+   "measured": -45.90933993318404,
+   "unit": "dB",
+   "error": -0.01916586676120602,
+   "error_str": "-0.01917 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "LC corner frequency",
+   "value": 711.7625434171771,
+   "unit": "Hz",
+   "note": ""
+  },
+  {
+   "quantity": "THD of bridge voltage (unfiltered)",
+   "value": 118.96397374357137,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "THD of load voltage (filtered)",
+   "value": 1.1122563831940357,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/waveforms.png",
+  "figures/spectrum.png"
+ ],
+ "runtime_s": 1.11,
+ "folder": "projects/signal-lab/B-power-electronics/SL030-full-bridge-inverter-spwm"
+}

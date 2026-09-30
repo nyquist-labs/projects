@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "AM-042",
+  "title": "Welch's method: trading resolution for variance",
+  "level": "M",
+  "tools": "Own Welch PSD estimator (segmenting, Hann windows, overlap, averaging), variance and resolution measurements, comparison with scipy.signal.welch",
+  "summary": "Implement Welch's averaged periodogram, predict how the relative variance falls with the number of segments (including the effect of 50 % overlap) and how the resolution (ENBW) grows, and verify both on white noise and closely spaced tones.",
+  "problem": "A raw periodogram is as noisy as the spectrum it estimates. How much does averaging help, and what does it cost?",
+  "theory": "Averaging K independent periodograms divides the relative variance by K. With a Hann window and 50 % overlap segments are correlated: the effective number is $K_{eff}=K/(1+2c^2)$ with\nc = 0.167 (Hann at 50 %) \u2192 K_eff \u2248 0.95K \u2014 overlap buys ~2\u00d7 more segments for almost the same independence. Resolution: equivalent noise bandwidth $1.5f_s/L$ for a Hann segment of\nlength L, so halving L doubles the averaging and doubles the smearing.",
+  "method": "White noise, N = 2\u00b9\u2078: relative variance var(P\u0302)/E(P\u0302)\u00b2 per bin vs K for non-overlapping (L = N/K) and 50 %-overlap segments. Two tones 20 Hz apart at fs = 8 kHz: minimum L that resolves them.\nOwn implementation vs scipy.signal.welch.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "No overlap, K = 4 segments: relative variance = 1/K",
+   "predicted": 0.25,
+   "measured": 0.25073013762916174,
+   "unit": "",
+   "error": 0.2920550516646969,
+   "error_str": "+0.29 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "50 % overlap, 7 segments: relative variance = (1+2c\u00b2)/K, c = 0.167",
+   "predicted": 0.15082542857142858,
+   "measured": 0.15145789300725118,
+   "unit": "",
+   "error": 0.41933541433503974,
+   "error_str": "+0.42 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "No overlap, K = 32 segments: relative variance = 1/K",
+   "predicted": 0.03125,
+   "measured": 0.031059084086245862,
+   "unit": "",
+   "error": -0.6109309240132421,
+   "error_str": "-0.61 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "50 % overlap, 63 segments: relative variance = (1+2c\u00b2)/K, c = 0.167",
+   "predicted": 0.016758380952380955,
+   "measured": 0.016876320043919892,
+   "unit": "",
+   "error": 0.7037618483197258,
+   "error_str": "+0.70 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Own Welch vs scipy.signal.welch (max relative difference)",
+   "predicted": 0.0,
+   "measured": 0.00019899654451368013,
+   "unit": "",
+   "error": 0.00019899654451368013,
+   "error_str": "+1.9900e-04",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Shortest power-of-two Hann segment resolving tones 20 Hz apart (prediction L \u2273 2\u00b71.5\u00b7fs/\u0394f = 1200 \u2192 2048)",
+   "predicted": 2048.0,
+   "measured": 2048.0,
+   "unit": "samples",
+   "error": 0.0,
+   "error_str": "+0 samples",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/welch.png"
+ ],
+ "runtime_s": 0.3,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM042-welchs-method"
+}

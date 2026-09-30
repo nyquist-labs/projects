@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-112",
+  "title": "Tikhonov regularisation: deblurring a sensor signal",
+  "level": "H",
+  "tools": "Ill-posed deconvolution (Gaussian blur Toeplitz matrix), SVD analysis, truncated SVD and Tikhonov (ridge) solutions, L-curve and generalised cross-validation, bias\u2013variance decomposition by Monte Carlo",
+  "summary": "Undo the blur of a slow sensor from noisy data: show that naive inversion amplifies noise catastrophically, regularise with Tikhonov and truncated SVD, choose the parameter by the L-curve and GCV, and decompose the error into bias and variance as the parameter varies.",
+  "problem": "A sensor smooths the true signal. Inverting the smoothing should restore it \u2014 why does that produce garbage, and what is the principled fix?",
+  "theory": "y = Ax + n with A = U\u03a3V\u1d40 having singular values decaying to ~10\u207b\u00b9\u2075: naive $x=\\sum \\frac{u_i^Ty}{\u03c3_i}v_i$ amplifies noise by 1/\u03c3_i. Tikhonov $\\min\\|Ax-y\\|^2+\u03bb^2\\|x\\|^2$ applies filter factors $f_i=\\frac{\u03c3_i^2}{\u03c3_i^2+\u03bb^2}$. Error = bias\u00b2 (grows with \u03bb) +\nvariance (shrinks with \u03bb): U-shaped with a minimum. GCV $G(\u03bb)=\\frac{\\|Ax_\u03bb-y\\|^2}{(\\mathrm{trace}(I-AA_\u03bb^+))^2}$ estimates the optimum without knowing x.",
+  "method": "x: piecewise signal (steps + a bump), N = 200; Gaussian blur \u03c3 = 4 samples; noise 1 % of max. \u03bb from 10\u207b\u2076 to 1: error, bias\u00b2, variance (100 noise realisations), residual/solution norms (L-curve corner by max curvature), GCV minimum.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Naive inversion: error norm / signal norm (\u226b 1: noise amplified)",
+   "predicted": 100.0,
+   "measured": 2069318776974979.8,
+   "unit": "\u00d7",
+   "error": 2069318776974879.8,
+   "error_str": "+2.0693e+15 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Error = bias\u00b2 + variance (max relative mismatch over \u03bb)",
+   "predicted": 0.0,
+   "measured": 4.554329163388582e-16,
+   "unit": "",
+   "error": 4.554329163388582e-16,
+   "error_str": "+4.5543e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "GCV-chosen \u03bb vs true error-minimising \u03bb (ratio, within \u00d73 is good)",
+   "predicted": 1.0,
+   "measured": 0.630957344480193,
+   "unit": "\u00d7",
+   "error": -0.369042655519807,
+   "error_str": "-0.369 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Regularised error at the GCV \u03bb relative to the best possible (ratio)",
+   "predicted": 1.0,
+   "measured": 1.061497740668873,
+   "unit": "",
+   "error": 6.1497740668873035,
+   "error_str": "+6.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Singular values of the blur matrix: largest / smallest",
+   "value": "1.00 / 2.0e-17",
+   "unit": "",
+   "note": "condition number 5.0e+16"
+  },
+  {
+   "quantity": "\u03bb: error-optimal / GCV / L-curve corner",
+   "value": "4.0e-02 / 2.5e-02 / 2.0e-02",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/tikhonov.png"
+ ],
+ "runtime_s": 0.33,
+ "folder": "projects/applied-math/F-optimisation/AM112-regularisation-on-noisy-data"
+}

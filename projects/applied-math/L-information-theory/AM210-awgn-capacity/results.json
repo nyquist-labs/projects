@@ -1,0 +1,108 @@
+{
+ "meta": {
+  "id": "AM-210",
+  "title": "AWGN capacity and what real constellations can achieve",
+  "level": "H",
+  "tools": "Shannon capacity \u00bdlog\u2082(1 + SNR) per real dimension, Monte-Carlo mutual information of BPSK, 4-PAM, 8-PAM and 16-QAM inputs with Gaussian noise, the ultimate \u22121.59 dB limit in E_b/N\u2080, the 1.53 dB shaping gap at high SNR, required SNR for a target spectral efficiency",
+  "summary": "Compute the capacity of the Gaussian channel and the information rates actually available with the finite, equally likely constellations used by modems, locate where each constellation stops being useful, and measure the two classic gaps \u2014 \u22121.59 dB at zero rate and 1.53 dB of shaping loss at high rate.",
+  "problem": "Shannon's formula promises log\u2082(1 + SNR) bits. How much of it can a modem with a fixed constellation actually carry?",
+  "theory": "Real channel: $C=\\tfrac12\\log_2(1+\\mathrm{SNR})$ bits per dimension, achieved by Gaussian inputs. With a discrete equiprobable constellation $\\{a_i\\}$, $I=\\log_2M-E\\left[\\log_2\\sum_j\\exp\\left(-\\frac{(a_j-a_i)^2+2(a_j-a_i)n}{2\u03c3^2}\\right)\\right]$. In energy per bit, reliable communication needs\n$E_b/N_0\\ge\\frac{2^{2R}-1}{2R}$ (per real dimension), which tends to ln 2 = \u22121.59 dB as R \u2192 0. At high SNR a uniform (square) constellation needs \u03c0e/6 = 1.53 dB more SNR than a Gaussian input for the same rate (shaping loss). 16-QAM = two independent 4-PAM.",
+  "method": "Monte-Carlo expectation with 2\u00d710\u2075 noise samples per point, SNR \u221210 \u2026 40 dB. Constellation-constrained Shannon limits: bisection on SNR for a target rate. Shaping gap: SNR needed for a given rate by an 8-PAM-like dense PAM (M = 64) vs Gaussian input at 4 bits/dimension.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Every constellation rate stays below the Shannon capacity (violations beyond Monte-Carlo noise)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "BPSK at high SNR saturates at log\u20822 = 1 bit/dimension",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "8-PAM at high SNR saturates at 3 bits/dimension",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "bit",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ultimate limit: minimum E_b/N\u2080 as R \u2192 0 is ln 2",
+   "predicted": -1.591745389548616,
+   "measured": -1.5917423790419838,
+   "unit": "dB",
+   "error": 3.0105066322061447e-06,
+   "error_str": "+3.0105e-06 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BPSK at rate \u00bd: minimum E_b/N\u2080 (known value 0.19 dB) from the constellation-constrained mutual information",
+   "predicted": 0.187,
+   "measured": 0.16974356247351927,
+   "unit": "dB",
+   "error": -0.017256437526480733,
+   "error_str": "-0.01726 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Shaping gap at 6 bits/dimension: extra SNR a uniform 256-PAM needs over a Gaussian input (asymptotically \u03c0e/6 = 1.53 dB)",
+   "predicted": 1.53,
+   "measured": 1.485442279609245,
+   "unit": "dB",
+   "error": -0.04455772039075501,
+   "error_str": "-0.04456 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Same rate with Gaussian inputs: minimum E_b/N\u2080",
+   "value": 0.0,
+   "unit": "dB",
+   "note": "restricting to \u00b11 costs about 0.2 dB at rate \u00bd"
+  },
+  {
+   "quantity": "Shaping gap at 2 / 4 / 6 bits per dimension",
+   "value": "0.74 dB / 1.29 dB / 1.49 dB",
+   "unit": "",
+   "note": "it approaches 1.53 dB only at high rate; my first check at 4 bits expected the asymptote and found 1.3 dB"
+  },
+  {
+   "quantity": "16-QAM (two 4-PAM) at 20 dB SNR: mutual information / 2-D capacity",
+   "value": "4.000 / 6.658 bit per symbol",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/awgn_capacity.png"
+ ],
+ "runtime_s": 3.35,
+ "folder": "projects/applied-math/L-information-theory/AM210-awgn-capacity"
+}

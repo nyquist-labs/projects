@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "SL-008",
+  "title": "BJT differential pair",
+  "level": "M",
+  "tools": "eelab mini-SPICE (DC sweep + AC), Monte Carlo mismatch",
+  "summary": "Measure the tanh transfer curve, differential gain and common-mode rejection of the long-tailed pair \u2014 the input stage of every op-amp.",
+  "problem": "Why does a differential pair amplify the difference between its inputs but ignore what they have in common, and what limits that rejection?",
+  "theory": "With tail current $I_{EE}$: $\\Delta I_C = I_{EE}\\tanh\\!\\left(\\frac{v_d}{2V_T}\\right)$ (linear only for\n$|v_d| \\ll 2V_T$). Single-ended differential gain $A_d = g_mR_C/2$ with $g_m = I_{EE}/(2V_T)$.\nCommon-mode gain (tail resistance $R_{EE}$): $A_{cm}\\approx -R_C/(2R_{EE})$, so\n$\\mathrm{CMRR}\\approx g_mR_{EE}$. With perfectly matched halves the *differential output* has\nCMRR \u2192 \u221e; a load mismatch \u03b4 gives $A_{cm,diff}\\approx \\delta R_C/(2R_{EE})$.",
+  "method": "\u00b112 V supplies, R_C = 5 k\u03a9, tail resistor R_EE = 10 k\u03a9 to \u221212 V. DC sweep of v_d (\u2212150\u2026150 mV),\nAC small-signal gains, and 300 Monte Carlo builds with \u00b11 % R_C mismatch for differential-output CMRR.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Tail current I_EE",
+   "predicted": 0.001135,
+   "measured": 0.0011308050226922195,
+   "unit": "A",
+   "error": -0.369601524914572,
+   "error_str": "-0.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u0394I_C at v_d = 50 mV (tanh law)",
+   "predicted": 0.000840961188877555,
+   "measured": 0.0008321169702607253,
+   "unit": "A",
+   "error": -1.0516797604695853,
+   "error_str": "-1.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Differential gain (single-ended)",
+   "predicted": 54.40483942523475,
+   "measured": 53.04687877083543,
+   "unit": "",
+   "error": -2.4960291561295445,
+   "error_str": "-2.50 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Common-mode gain (single-ended)",
+   "predicted": 0.25,
+   "measured": 0.24808283117934812,
+   "unit": "",
+   "error": -0.7668675282607507,
+   "error_str": "-0.77 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "CMRR single-ended",
+   "predicted": 46.75395048309467,
+   "measured": 46.6012625195318,
+   "unit": "dB",
+   "error": -0.15268796356286884,
+   "error_str": "-0.1527 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Diff-output CMRR at \u03b4 = 1 % (analytic)",
+   "predicted": 92.7745503963743,
+   "measured": 88.73741886004687,
+   "unit": "dB",
+   "error": -4.037131536327422,
+   "error_str": "-4.037 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "worst builds approach \u03b4 = 2 %"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Differential-output CMRR, \u00b11 % R_C (median)",
+   "value": 98.30665215483305,
+   "unit": "dB",
+   "note": "5th percentile 89.9 dB"
+  }
+ ],
+ "figures": [
+  "figures/transfer.png",
+  "figures/cmrr_hist.png"
+ ],
+ "runtime_s": 0.38,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL008-differential-pair"
+}

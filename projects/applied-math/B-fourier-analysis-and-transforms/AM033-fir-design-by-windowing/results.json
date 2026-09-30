@@ -1,0 +1,140 @@
+{
+ "meta": {
+  "id": "AM-033",
+  "title": "FIR low-pass design by windowing the ideal sinc",
+  "level": "M",
+  "tools": "Windowed-sinc design (own implementation), measured stopband attenuation and transition width for rectangular, Hann, Hamming, Blackman and Kaiser windows, Kaiser's design formulas",
+  "summary": "Design low-pass FIR filters by truncating the ideal sinc with different windows, predict stopband attenuation and transition width from the window alone, and verify with measured responses \u2014 then hit a specification with Kaiser's formula.",
+  "problem": "Truncating an ideal filter causes ripples. How much, how wide \u2014 and can the filter length be predicted from a spec?",
+  "theory": "$h[n]=2f_c\\,\\mathrm{sinc}(2f_c(n-\\tfrac{N-1}{2}))\\,w[n]$. The window's sidelobes set the stopband floor independent of N (rect \u2248 21 dB, Hann \u2248 44, Hamming \u2248 53, Blackman \u2248 74 dB) and its mainlobe\nsets the transition width \u0394f \u2248 D/N (D \u2248 0.9, 3.1, 3.3, 5.5 in fs units). Kaiser: \u03b2 from the attenuation A, and $N \u2248 \\frac{A-8}{2.285\u00b72\u03c0\u0394f}+1$.",
+  "method": "f_c = 0.2 fs, N = 101. Stopband attenuation = peak sidelobe beyond the transition; transition width measured between |H| = 1 \u2212 \u03b4 and |H| = \u03b4 (\u03b4 = stopband peak). Kaiser design\nfor A = 60 dB, \u0394f = 0.02 fs; check the spec is met.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "boxcar: stopband attenuation",
+   "predicted": 21.0,
+   "measured": 20.981598925535753,
+   "unit": "dB",
+   "error": -0.018401074464247102,
+   "error_str": "-0.0184 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "boxcar: transition width \u2248 0.9/N",
+   "predicted": 0.008910891089108912,
+   "measured": 0.009124755859374972,
+   "unit": "\u00d7 fs",
+   "error": 2.400037977430233,
+   "error_str": "+2.40 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hann: stopband attenuation",
+   "predicted": 44.0,
+   "measured": 43.94302867924641,
+   "unit": "dB",
+   "error": -0.056971320753589794,
+   "error_str": "-0.05697 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hann: transition width \u2248 3.1/N",
+   "predicted": 0.030693069306930693,
+   "measured": 0.031242370605468778,
+   "unit": "\u00d7 fs",
+   "error": 1.7896590694305357,
+   "error_str": "+1.79 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: stopband attenuation",
+   "predicted": 53.0,
+   "measured": 53.85815216650129,
+   "unit": "dB",
+   "error": 0.8581521665012914,
+   "error_str": "+0.8582 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "hamming: transition width \u2248 3.3/N",
+   "predicted": 0.032673267326732675,
+   "measured": 0.03303527832031253,
+   "unit": "\u00d7 fs",
+   "error": 1.1079730409565205,
+   "error_str": "+1.11 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: stopband attenuation",
+   "predicted": 74.0,
+   "measured": 75.29345935030182,
+   "unit": "dB",
+   "error": 1.2934593503018164,
+   "error_str": "+1.293 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "blackman: transition width \u2248 5.5/N",
+   "predicted": 0.054455445544554455,
+   "measured": 0.05593109130859375,
+   "unit": "\u00d7 fs",
+   "error": 2.709822221235796,
+   "error_str": "+2.71 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Kaiser: achieved stopband attenuation beyond f_c + \u0394f/2",
+   "predicted": 60.0,
+   "measured": 60.091481982973825,
+   "unit": "dB",
+   "error": 0.09148198297382493,
+   "error_str": "+0.09148 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Kaiser: passband ripple \u2248 stopband ripple (\u03b4p = \u03b4s)",
+   "predicted": 0.001,
+   "measured": 0.0010247411124248984,
+   "unit": "",
+   "error": 2.4741112424898383e-05,
+   "error_str": "+2.4741e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Kaiser design for 60 dB, \u0394f = 0.02 fs",
+   "value": "\u03b2 = 5.65, N = 183",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/fir_windows.png"
+ ],
+ "runtime_s": 0.12,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM033-fir-design-by-windowing"
+}

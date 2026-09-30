@@ -1,0 +1,137 @@
+{
+ "meta": {
+  "id": "AM-170",
+  "title": "Heart-rate variability: time-domain and spectral statistics",
+  "level": "M",
+  "tools": "RR-interval series from MIT-BIH annotations, ectopic-beat handling, SDNN/RMSSD/pNN50, exact identities between time-domain measures, Lomb\u2013Scargle periodogram on the unevenly sampled series vs Welch on a 4 Hz resampled tachogram, Parseval check, Poincar\u00e9 descriptors",
+  "summary": "Compute heart-rate-variability statistics from a real 30-minute ECG record, verify the algebraic identities that link them (RMSSD, lag-1 autocorrelation, Poincar\u00e9 SD1/SD2, spectral power and variance), compare two spectral estimators for unevenly sampled data, and quantify how a handful of ectopic beats distorts everything.",
+  "problem": "HRV indices are quoted as if independent measurements. Which of them are mathematically the same information \u2014 and how robust are they to a few abnormal beats?",
+  "theory": "For an RR series with variance \u03c3\u00b2 and lag-1 autocorrelation \u03c1\u2081: $\\mathrm{RMSSD}^2=2\u03c3^2(1-\u03c1_1)$ (exactly, up to end effects). Poincar\u00e9 plot: $SD1=\\mathrm{RMSSD}/\\sqrt2$, $SD2^2=2\\,SDNN^2-SD1^2$. Parseval: the integral of the power spectral density\nequals the variance. Bands: LF 0.04\u20130.15 Hz, HF 0.15\u20130.4 Hz (respiratory sinus arrhythmia). The RR series is sampled at the beats themselves \u2014 unevenly \u2014 so either resample (cubic, 4 Hz) and use Welch, or use the Lomb\u2013Scargle periodogram directly.\nA premature beat creates a short\u2013long RR pair: a large successive difference that inflates RMSSD and adds broadband spectral power.",
+  "method": "MIT-BIH record 100 (30 min). Beat times from the reference annotations; 'NN' series = intervals between consecutive normal beats with intervals deviating > 20 % from the local median removed. Spectra: Welch (256 s Hann segments) on the 4 Hz cubic-spline\ntachogram; Lomb\u2013Scargle on the raw (t, RR) pairs, normalised to the same units.",
+  "data": "PhysioNet MIT-BIH Arrhythmia Database, record 100.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Identity: RMSSD\u00b2 = 2\u03c3\u00b2(1 \u2212 \u03c1\u2081)",
+   "predicted": 0.027801715813124295,
+   "measured": 0.02779114017635982,
+   "unit": "s",
+   "error": -0.03803951107032338,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Poincar\u00e9 SD1 = RMSSD/\u221a2",
+   "predicted": 0.01965130367560993,
+   "measured": 0.019655739098859763,
+   "unit": "s",
+   "error": 0.02257063105353442,
+   "error_str": "+0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Poincar\u00e9 SD2\u00b2 = 2\u00b7SDNN\u00b2 \u2212 SD1\u00b2",
+   "predicted": 0.046904422937476806,
+   "measured": 0.04688334019530603,
+   "unit": "s",
+   "error": -0.04494830306062607,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Parseval: \u222bPSD df of the full-length periodogram = variance of the tachogram",
+   "predicted": 0.0012402735112860314,
+   "measured": 0.0012402735112860307,
+   "unit": "s\u00b2",
+   "error": -5.24498263948878e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "LF/HF ratio: Lomb\u2013Scargle (no resampling) vs Welch on the resampled series",
+   "predicted": 0.10223923574031127,
+   "measured": 0.13845193582696402,
+   "unit": "",
+   "error": 35.4195723632299,
+   "error_str": "+35.42 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "RMSSD predicted from the spectrum: \u221a\u222bPSD\u00b74 sin\u00b2(\u03c0f\u00b7RR\u0304) df (a high-pass view of RMSSD)",
+   "predicted": 0.02779114017635982,
+   "measured": 0.025837613409857366,
+   "unit": "s",
+   "error": -7.029314933124617,
+   "error_str": "-7.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "A few ectopic beats inflate RMSSD (ratio with/without cleaning > 1.5; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Beats / ectopic or rejected intervals",
+   "value": "2273 / 68",
+   "unit": "",
+   "note": "mean heart rate 75.5 bpm"
+  },
+  {
+   "quantity": "Share of the variance seen by Welch with 256 s segments",
+   "value": 76.81091241569811,
+   "unit": "%",
+   "note": "the rest is slower than the segment length (VLF drift) and is removed with each segment's mean"
+  },
+  {
+   "quantity": "LF / HF power (Welch)",
+   "value": "55 / 542",
+   "unit": "ms\u00b2",
+   "note": ""
+  },
+  {
+   "quantity": "HF peak frequency (respiration)",
+   "value": 0.16796875,
+   "unit": "Hz",
+   "note": "\u2248 10 breaths/min"
+  },
+  {
+   "quantity": "SDNN / RMSSD / pNN50, cleaned NN series",
+   "value": "36.0 ms / 27.8 ms / 6.3 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "SDNN / RMSSD / pNN50, all beats (ectopics kept)",
+   "value": "48.8 ms / 63.2 ms / 10.3 %",
+   "unit": "",
+   "note": "68 of 2272 intervals are responsible"
+  }
+ ],
+ "figures": [
+  "figures/hrv.png"
+ ],
+ "runtime_s": 0.29,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM170-hrv-spectral-analysis"
+}

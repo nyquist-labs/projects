@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-130",
+  "title": "Verifying solvers: observed order of accuracy and manufactured solutions",
+  "level": "H",
+  "tools": "Method of manufactured solutions (MMS) for a 2-D Poisson solver and a heat-equation solver, grid refinement studies, observed order, Richardson extrapolation and the grid convergence index (GCI); deliberately injected bug detection",
+  "summary": "Show how to *prove* a simulator is correct: choose an exact solution, derive the source term it requires, run the solver on refined grids, and confirm the observed order of accuracy \u2014 then plant a subtle bug and watch the order test catch it while a visual check does not.",
+  "problem": "A solver produces plausible pictures. How do you know it solves the equations you think it does, to the accuracy you think it does?",
+  "theory": "MMS: pick u*(x,y) = sin(\u03c0x)sin(2\u03c0y)e^{x}, compute f = \u2212\u2207\u00b2u*, solve \u2212\u2207\u00b2u = f with u = u* on the boundary. A correct second-order scheme gives error \u221d h\u00b2 (observed order p = log(e_h/e_{h/2})/log 2 \u2192 2). Richardson: $u \u2248 u_h + \\frac{u_h-u_{2h}}{2^p-1}$;\nGCI = 1.25|u_h \u2212 u_{2h}|/(2^p \u2212 1) estimates the discretisation uncertainty without knowing the exact solution. A bug that makes the scheme first-order (e.g. a boundary treated with a one-sided formula, or an O(h) source error) changes p to 1 while the solution still looks right.",
+  "method": "5-point Laplacian on N\u00d7N grids, N = 16\u2026256. Correct solver vs one with a planted bug (source evaluated at cell corners shifted by h/2 in x). Heat equation u_t = u_xx with Crank\u2013Nicolson (expected order 2 in time and space) vs backward Euler in time\n(order 1 in \u0394t), refined together.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Correct Poisson solver: observed order (5-point stencil \u2192 2)",
+   "predicted": 2.0,
+   "measured": 2.000078071219199,
+   "unit": "",
+   "error": 7.807121919878313e-05,
+   "error_str": "+7.8071e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Planted bug (source shifted by h/2): observed order drops to 1",
+   "predicted": 1.0,
+   "measured": 1.0080248462065176,
+   "unit": "",
+   "error": 0.008024846206517555,
+   "error_str": "+0.008025",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Richardson order from three grids at a probe point (no exact solution needed)",
+   "predicted": 2.0,
+   "measured": 2.0004906778870573,
+   "unit": "",
+   "error": 0.0004906778870572559,
+   "error_str": "+4.9068e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Heat equation, Crank\u2013Nicolson with \u0394t \u221d h: observed order 2",
+   "predicted": 2.0,
+   "measured": 2.001684925753605,
+   "unit": "",
+   "error": 0.0016849257536049045,
+   "error_str": "+0.001685",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Heat equation, backward Euler with \u0394t \u221d h: observed order 1 (time error dominates)",
+   "predicted": 1.0,
+   "measured": 0.966017770861863,
+   "unit": "",
+   "error": -0.03398222913813698,
+   "error_str": "-0.03398",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Max error on the 64\u00d764 grid: correct / buggy",
+   "value": "1.14e-03 / 2.57e-02",
+   "unit": "",
+   "note": "both 'look' right on a plot"
+  },
+  {
+   "quantity": "Grid convergence index at the probe (256\u00b2 grid)",
+   "value": 4.955646604502856e-05,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/convergence.png"
+ ],
+ "runtime_s": 0.87,
+ "folder": "projects/applied-math/G-numerical-methods/AM130-convergence-analysis"
+}

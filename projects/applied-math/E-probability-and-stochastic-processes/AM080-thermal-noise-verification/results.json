@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-080",
+  "title": "Johnson noise and kT/C, verified by stochastic simulation",
+  "level": "M",
+  "tools": "Stochastic differential equation of an RC circuit driven by the resistor's thermal-noise current (Euler\u2013Maruyama, exact discretisation), Welch PSD, ensemble statistics",
+  "summary": "Simulate the thermal noise of a resistor loaded by a capacitor, confirm the Nyquist noise density 4kTR and the Lorentzian spectrum, and verify the striking result that the total noise voltage \u221a(kT/C) does not depend on R at all.",
+  "problem": "A bigger resistor is noisier (4kTR) \u2014 so why is the RMS noise on a sampling capacitor independent of the resistor?",
+  "theory": "Norton model: noise current with one-sided PSD $S_i=4kT/R$ in parallel with R. Across R\u2016C: $S_v(f)=\\frac{4kTR}{1+(2\u03c0fRC)^2}$; integrating over all f gives $\\overline{v^2}=kT/C$ \u2014 R cancels (larger R: more noise\ndensity, less bandwidth). Equipartition says the same: \u00bdC\u27e8v\u00b2\u27e9 = \u00bdkT. For C = 1 pF at 300 K: 64.4 \u00b5V rms, the kT/C limit of switched-capacitor circuits and ADC samplers.",
+  "method": "T = 300 K; R = 1 k\u03a9, 10 k\u03a9, 100 k\u03a9, 1 M\u03a9 with C = 1 pF. Exact discretisation of dv = \u2212v/(RC)dt + noise (Ornstein\u2013Uhlenbeck), step \u03c4/50, 2\u00b2\u2070 samples. RMS vs \u221a(kT/C); Welch PSD vs 4kTR/(1+(\u03c9RC)\u00b2).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "R = 1e+03 \u03a9, C = 1 pF: rms noise = \u221a(kT/C)",
+   "predicted": 6.435795988065502e-05,
+   "measured": 6.466339044174179e-05,
+   "unit": "V",
+   "error": 0.47458086249651704,
+   "error_str": "+0.47 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 1e+04 \u03a9, C = 1 pF: rms noise = \u221a(kT/C)",
+   "predicted": 6.435795988065502e-05,
+   "measured": 6.404649528303297e-05,
+   "unit": "V",
+   "error": -0.48395660490111997,
+   "error_str": "-0.48 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 1e+05 \u03a9, C = 1 pF: rms noise = \u221a(kT/C)",
+   "predicted": 6.435795988065502e-05,
+   "measured": 6.413686729183813e-05,
+   "unit": "V",
+   "error": -0.3435357323738648,
+   "error_str": "-0.34 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 1e+06 \u03a9, C = 1 pF: rms noise = \u221a(kT/C)",
+   "predicted": 6.435795988065502e-05,
+   "measured": 6.423927524032716e-05,
+   "unit": "V",
+   "error": -0.1844133041941436,
+   "error_str": "-0.18 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Low-frequency PSD / 4kTR (R = 100 k\u03a9)",
+   "predicted": 1.0,
+   "measured": 0.9667343512946471,
+   "unit": "",
+   "error": -3.326564870535287,
+   "error_str": "-3.33 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "4kTR noise density of 1 k\u03a9 at 300 K",
+   "value": 4.070354775692163,
+   "unit": "nV/\u221aHz",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/thermal_noise.png"
+ ],
+ "runtime_s": 0.48,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM080-thermal-noise-verification"
+}

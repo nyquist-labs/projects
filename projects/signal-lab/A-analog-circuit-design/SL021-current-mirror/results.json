@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-021",
+  "title": "BJT current mirrors (basic vs Wilson)",
+  "level": "M",
+  "tools": "eelab mini-SPICE DC sweeps (Ebers-Moll with Early effect)",
+  "summary": "Measure the copying accuracy and output impedance of a two-transistor mirror and a Wilson mirror against \u03b2- and Early-effect predictions.",
+  "problem": "A current mirror should copy a reference current regardless of the output voltage. How accurate is the copy, and how constant is it?",
+  "theory": "Basic mirror: base currents steal from the reference, $I_{out}=I_{ref}/(1+2/\\beta)$, and the Early\neffect gives $r_o = (V_A+V_{CE})/I_{out}$, i.e. $\\Delta I/\\Delta V = 1/r_o$.\nWilson mirror: \u03b2 error $\\approx 2/\\beta^2$, but Q\u2081 sits at $V_{CE}=2V_{BE}$ while Q\u2082 sits at $V_{BE}$, an Early mismatch of\n$\\approx V_{BE}/V_A$ (1.4 % here) that the textbook formula omits, output resistance $\\approx \\beta r_o/2$ (feedback through the\nthird transistor).",
+  "method": "\u03b2 = 100, V_A = 50 V, I_ref set to 1 mA by a resistor from 10 V. Output voltage swept 1\u201310 V;\ncurrent ratio at V_out = V_BE and output resistance from the slope.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Basic: I_out/I_ref (\u03b2 error, at V_CE = V_BE)",
+   "predicted": 0.9938376498545309,
+   "measured": 0.995873241362157,
+   "unit": "",
+   "error": 0.20482133152472767,
+   "error_str": "+0.20 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Basic: output resistance",
+   "predicted": 55307.655183478826,
+   "measured": 51788.0745224809,
+   "unit": "\u03a9",
+   "error": -6.363641071605716,
+   "error_str": "-6.36 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Wilson: I_out/I_ref (\u03b2\u00b2 error \u00d7 Early mismatch)",
+   "predicted": 0.9861879527703807,
+   "measured": 0.9861009971091232,
+   "unit": "",
+   "error": -0.0088173518053246,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Wilson: output resistance",
+   "predicted": 2797455.3495379617,
+   "measured": 2649541.758593027,
+   "unit": "\u03a9",
+   "error": -5.2874334873428674,
+   "error_str": "-5.29 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/iout_vs_vout.png"
+ ],
+ "runtime_s": 0.08,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL021-current-mirror"
+}

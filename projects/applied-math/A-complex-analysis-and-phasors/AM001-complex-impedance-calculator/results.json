@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "AM-001",
+  "title": "Complex impedance calculator for R, L, C networks",
+  "level": "E",
+  "tools": "Own recursive-descent parser for series (+) / parallel (||) network expressions, complex arithmetic in NumPy, verification with the MNA circuit simulator",
+  "summary": "Type a network such as `R1 + (L1 || C1)`; the calculator evaluates its complex impedance at every frequency. The results are checked against an independent nodal-analysis simulation of the same circuit, and the parallel-tank resonance against 1/(2\u03c0\u221aLC).",
+  "problem": "Impedances of R, L and C are just complex numbers \u2014 can a few lines of complex arithmetic replace a circuit simulator for two-terminal networks?",
+  "theory": "$Z_R=R$, $Z_L=j\u03c9L$, $Z_C=1/(j\u03c9C)$; series impedances add, parallel admittances add: $Z_1\\parallel Z_2 = Z_1Z_2/(Z_1+Z_2)$. The whole network is therefore a\nrational function of j\u03c9 built by these two operations. For `R1 + (L1 || C1)` the tank's impedance becomes infinite (real, lossless) at $f_0 = 1/(2\u03c0\\sqrt{LC})$\nand |Z| peaks there, with the phase jumping from +90\u00b0 to \u221290\u00b0. Two independent methods (algebraic reduction vs solving the nodal equations) must agree to rounding error.",
+  "method": "Parser: tokens R/L/C names, `+`, `||`, parentheses (|| binds tighter than +). Five networks \u00d7 400 log-spaced frequencies (10 Hz\u201310 MHz). The same networks are built as netlists\n(a 1 V AC source at the port, Z = V/I) and solved by the MNA simulator; |Z| and \u2220Z compared. Tank: L = 10 \u00b5H, C = 100 nF, R = 1 \u03a9.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Worst relative |Z_calc \u2212 Z_MNA| over 5 networks \u00d7 400 frequencies",
+   "predicted": 0.0,
+   "measured": 1.6480801539900266e-13,
+   "unit": "",
+   "error": 1.6480801539900266e-13,
+   "error_str": "+1.6481e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Tank resonance (|Z| peak) of R1 + (L1 \u2225 C1)",
+   "predicted": 159154.94309189534,
+   "measured": 159154.42643273415,
+   "unit": "Hz",
+   "error": -0.0003246265250423597,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Phase just below / above resonance: inductive (+90\u00b0) \u2192 capacitive (\u221290\u00b0); difference",
+   "predicted": -180.0,
+   "measured": -179.77080572729128,
+   "unit": "\u00b0",
+   "error": 0.2291942727087246,
+   "error_str": "+0.2292 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/impedance.png"
+ ],
+ "runtime_s": 0.75,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM001-complex-impedance-calculator"
+}

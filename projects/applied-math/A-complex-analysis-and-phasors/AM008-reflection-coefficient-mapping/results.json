@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-008",
+  "title": "Reflection coefficient mapping: impedance \u2192 unit disc",
+  "level": "M",
+  "tools": "Complex mapping \u0393(Z) = (Z\u2212Z0)/(Z+Z0), transmission-line input impedance, VSWR and mismatch loss, grid visualisation",
+  "summary": "Visualise how the impedance plane folds into the unit disc, show that lossless transmission lines rotate \u0393 on a circle, and check the VSWR / mismatch-loss relations numerically.",
+  "problem": "What does a length of cable do to an impedance, and why do RF engineers think in \u0393 rather than Z?",
+  "theory": "$\u0393=(Z-Z_0)/(Z+Z_0)$ maps Re Z > 0 into |\u0393| < 1, Z = Z0 to the centre, open/short to \u00b11. A lossless line of length \u2113 gives $Z_{in}=Z_0\\frac{Z_L+jZ_0\\tan \u03b2\u2113}{Z_0+jZ_L\\tan \u03b2\u2113}$, equivalently\n$\u0393_{in}=\u0393_Le^{-2j\u03b2\u2113}$: a rotation at constant |\u0393|, a full turn every \u03bb/2. VSWR = (1+|\u0393|)/(1\u2212|\u0393|); mismatch loss = \u221210 log(1\u2212|\u0393|\u00b2).",
+  "method": "Z0 = 50 \u03a9. Grid of constant-R and constant-X lines mapped. Loads 10 \u03a9, 100 \u2212 j75 \u03a9 and 20 + j60 \u03a9 on 0 \u2192 \u03bb/2 of line (400 steps): Z_in from the impedance formula, \u0393_in computed from it;\n|\u0393_in| constancy and rotation angle measured. VSWR/loss relations checked on 10\u2074 random loads.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Lossless line: max change of |\u0393| along the line",
+   "predicted": 0.0,
+   "measured": 4.440892098500626e-16,
+   "unit": "",
+   "error": 4.440892098500626e-16,
+   "error_str": "+4.4409e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rotation angle of \u0393 vs \u22122\u03b2\u2113, worst error",
+   "predicted": 0.0,
+   "measured": 2.71507521061462e-14,
+   "unit": "\u00b0",
+   "error": 2.71507521061462e-14,
+   "error_str": "+2.7151e-14 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Quarter-wave line turns 10 \u03a9 into Z0\u00b2/10",
+   "predicted": 250.0,
+   "measured": 250.0,
+   "unit": "\u03a9",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "VSWR = (1+|\u0393|)/(1\u2212|\u0393|) vs Vmax/Vmin of the standing wave (worst of 3)",
+   "predicted": 0.0,
+   "measured": 1.1467533367337523e-08,
+   "unit": "",
+   "error": 1.1467533367337523e-08,
+   "error_str": "+1.1468e-08",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Mismatch loss at VSWR 2:1",
+   "value": 0.5115252244738131,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/gamma_map.png"
+ ],
+ "runtime_s": 0.21,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM008-reflection-coefficient-mapping"
+}

@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "SL-054",
+  "title": "Asynchronous FIFO with Gray-code pointers",
+  "level": "H",
+  "tools": "Verilog RTL (dual-clock FIFO, 2-FF synchronisers), Icarus Verilog stress test",
+  "summary": "A 16-entry FIFO between unrelated 50 MHz and 37 MHz clocks, using Gray-coded pointers synchronised across domains; stress it with random bursts and check ordering, full/empty flags and throughput.",
+  "problem": "Passing data between two clock domains is where hardware bugs hide. Why do the pointers have to be Gray-coded, and does the FIFO stay correct under arbitrary throttling?",
+  "theory": "Binary pointers can change several bits at once, so a synchroniser sampling mid-transition could see a\nwildly wrong value. Gray code changes one bit per increment, so a mis-sampled pointer is off by at most\none \u2014 which only makes full/empty *pessimistic*, never wrong. Pointers carry one extra bit to tell full\nfrom empty. Throughput is bounded by the slower side: max rate = 37 M words/s, and the 2-FF synchronisers\nadd 2\u20133 cycles of latency to the flags.",
+  "method": "Writer at 50 MHz pushes 5,000 incrementing words with random stalls (writes attempted 70 % of cycles);\nreader at 37 MHz pops with random stalls (60 %). Checks: every word read in order exactly once, no write\naccepted when full, no read accepted when empty. A second run with the reader always enabled measures\nthroughput.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Ordering/data errors (5,000 words across domains)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Words read = words written",
+   "predicted": 5000.0,
+   "measured": 5000.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Throughput, random stalls (limited by 0.7\u00b750 M vs 0.6\u00b737 M)",
+   "predicted": 22224000.0,
+   "measured": 22084195.997239,
+   "unit": "words/s",
+   "error": -0.6290676870095343,
+   "error_str": "-0.63 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Throughput, reader always ready (write side limits: 0.7\u00b750 M)",
+   "predicted": 35000000.0,
+   "measured": 34729005.231056,
+   "unit": "words/s",
+   "error": -0.7742707684114362,
+   "error_str": "-0.77 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ordering errors, second run",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Write cycles spent full",
+   "value": 4063.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Read cycles spent empty",
+   "value": 3.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Synthesised size (16 \u00d7 16-bit)",
+   "value": 718.0,
+   "unit": "cells",
+   "note": "294 flip-flops incl. storage"
+  }
+ ],
+ "figures": [
+  "figures/gray_vs_binary.png"
+ ],
+ "runtime_s": 1.24,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL054-async-fifo-cdc"
+}

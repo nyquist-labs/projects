@@ -1,0 +1,108 @@
+{
+ "meta": {
+  "id": "AM-215",
+  "title": "Nyquist and Shannon: sampling rate, signalling rate and capacity",
+  "level": "M",
+  "tools": "Sinc interpolation of band-limited signals and its truncation error, aliasing measured on real speech with and without an anti-alias filter, raised-cosine pulses and the Nyquist ISI criterion, signalling faster than Nyquist, M-PAM throughput at the Nyquist rate versus Shannon capacity",
+  "summary": "Two different 'Nyquist' results and one Shannon result, each tested: a signal of bandwidth B is rebuilt from 2B samples per second (and aliases predictably below that), a channel of bandwidth B carries at most 2B independent symbols per second without interference, and the bits per symbol are then capped by the SNR.",
+  "problem": "Nyquist says 2B, Shannon says B\u00b7log\u2082(1 + SNR). Are they in conflict, and what does each actually limit?",
+  "theory": "Sampling theorem: $x(t)=\\sum x(nT)\\,\\mathrm{sinc}((t-nT)/T)$ exactly if X(f) = 0 for |f| \u2265 1/(2T); energy above the new Nyquist frequency folds back (aliasing). Nyquist ISI criterion: pulses p(t) with p(nT) = \u03b4\u2099 (e.g. raised cosine, bandwidth (1+\u03b2)/(2T)) allow symbol rate 1/T; the\nmaximum ISI-free rate in bandwidth B is 2B symbols/s (\u03b2 = 0). Shannon: $C=B\\log_2(1+\\mathrm{SNR})$ bits/s. Together: 2B symbols/s \u00d7 \u00bdlog\u2082(1 + SNR) bits per real symbol = C \u2014 Nyquist fixes the symbol rate, Shannon the bits per symbol.",
+  "method": "(1) Band-limited random signals (40 tones below B), sampled at 2.5B and 1.6B, reconstructed by sinc interpolation over \u00b1200 samples. (2) FSDD speech (8 kHz), decimated by 2 by dropping samples vs scipy.signal.decimate (FIR anti-alias); aliased energy predicted from the\n3.2\u20134 kHz content by the spectrum. (3) Raised cosine \u03b2 = 0.35: ISI at the sampling instants for symbol rates 1/T and 1.25/T. (4) M-PAM at the Nyquist rate: symbol error vs SNR and throughput vs capacity.",
+  "data": "Free Spoken Digit Dataset (CC BY-SA 4.0).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory"
+ },
+ "rows": [
+  {
+   "quantity": "Sampling at 2.5B: sinc reconstruction error (only truncation of the series)",
+   "predicted": 0.0,
+   "measured": 0.0009820578310083352,
+   "unit": "",
+   "error": 0.0009820578310083352,
+   "error_str": "+9.8206e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sampling at 1.6B: reconstruction error \u2248 \u221a2 \u00d7 (energy share of tones above 0.8B)^\u00bd \u2014 they alias",
+   "predicted": 0.5661985671719407,
+   "measured": 0.5207772688786473,
+   "unit": "",
+   "error": -8.022149988857196,
+   "error_str": "-8.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Speech decimated 8 \u2192 4 kHz by dropping samples: error energy vs the share of speech energy above 2 kHz (which folds back)",
+   "predicted": 0.0224167058264783,
+   "measured": 0.021942953632376215,
+   "unit": "",
+   "error": -2.113388995552132,
+   "error_str": "-2.11 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "With an FIR anti-alias filter the error is at least 20 dB smaller (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Raised cosine at symbol rate 1/T: sum of |ISI| at the sampling instants",
+   "predicted": 0.0,
+   "measured": 1.7042021643058994e-16,
+   "unit": "",
+   "error": 1.7042021643058994e-16,
+   "error_str": "+1.7042e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Uncoded PAM at the Nyquist rate (largest M with SER < 10\u207b\u00b3) never exceeds Shannon's capacity (bit/s per Hz; violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Speech energy above 2 kHz / aliased error energy: dropping samples / FIR decimation",
+   "value": "2.2 % / 2.2 % / 0.016 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Same pulse at 1.25/T (faster than Nyquist): worst-case ISI",
+   "value": 0.8814390482692787,
+   "unit": "",
+   "note": "relative to the wanted sample 1.0 \u2014 the eye closes"
+  },
+  {
+   "quantity": "Spectral efficiency at 10 / 20 / 30 dB: uncoded PAM (SER < 10\u207b\u00b3) vs capacity",
+   "value": "2 vs 3.46 ; 4 vs 6.66 ; 8 vs 9.97",
+   "unit": "bit/s/Hz",
+   "note": "the gap is what coding recovers"
+  }
+ ],
+ "figures": [
+  "figures/nyquist_shannon.png"
+ ],
+ "runtime_s": 1.07,
+ "folder": "projects/applied-math/L-information-theory/AM215-nyquist-vs-shannon"
+}

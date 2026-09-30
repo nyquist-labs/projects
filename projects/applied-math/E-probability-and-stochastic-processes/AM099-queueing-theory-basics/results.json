@@ -1,0 +1,118 @@
+{
+ "meta": {
+  "id": "AM-099",
+  "title": "Queueing theory for packet buffers: M/M/1 and Little's law",
+  "level": "M",
+  "tools": "Event-driven simulation of a single-server queue (Poisson arrivals, exponential service), M/M/1 formulas, Little's law, finite buffers and loss probability (M/M/1/K), a deterministic-service comparison (M/D/1)",
+  "summary": "Simulate a router buffer, verify the M/M/1 predictions for queue length, waiting time and their blow-up as load approaches 1, confirm Little's law, size a finite buffer for a target loss rate, and show how deterministic packet lengths halve the waiting time.",
+  "problem": "A link is 90 % utilised. How long do packets wait, and how large must the buffer be to lose fewer than one in a million?",
+  "theory": "M/M/1 with load \u03c1 = \u03bb/\u03bc: mean number in system L = \u03c1/(1\u2212\u03c1), mean time W = 1/(\u03bc\u2212\u03bb); Little's law L = \u03bbW (for any stable queue). Finite buffer K (M/M/1/K): loss $P_K=\\frac{(1-\u03c1)\u03c1^K}{1-\u03c1^{K+1}}$ \u21d2 K \u2248 ln(10\u207b\u2076)/ln \u03c1 \u2248 131 at \u03c1 = 0.9. M/D/1\n(constant service): waiting time in queue $W_q=\\frac{\u03c1}{2\u03bc(1-\u03c1)}$, half the M/M/1 value \u2014 variability, not load alone, creates delay.",
+  "method": "Lindley recursion for waiting times, 10\u2076 packets per load, \u03c1 = 0.1\u20260.95; time-average number in system from the sample path; finite-buffer simulation for K = 10\u202640 at \u03c1 = 0.9 (losses counted directly where\nmeasurable) and the formula extrapolated to 10\u207b\u2076.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03c1 = 0.3: mean time in system 1/(\u03bc\u2212\u03bb)",
+   "predicted": 1.4285714285714286,
+   "measured": 1.430640539726025,
+   "unit": "",
+   "error": 0.14483778082174048,
+   "error_str": "+0.14 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c1 = 0.3: Little's law \u2014 time-average number = \u03bb\u00b7W",
+   "predicted": 0.42919216191780746,
+   "measured": 0.42973147217332514,
+   "unit": "",
+   "error": 0.125657060722595,
+   "error_str": "+0.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c1 = 0.9: mean time in system 1/(\u03bc\u2212\u03bb)",
+   "predicted": 10.000000000000002,
+   "measured": 9.909372868324205,
+   "unit": "",
+   "error": -0.9062713167579693,
+   "error_str": "-0.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c1 = 0.9: Little's law \u2014 time-average number = \u03bb\u00b7W",
+   "predicted": 8.918435581491785,
+   "measured": 8.91345104273137,
+   "unit": "",
+   "error": -0.05589028159556004,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c1 = 0.95: mean number in system \u03c1/(1\u2212\u03c1) (slow convergence near saturation)",
+   "predicted": 19.0,
+   "measured": 17.855149101204002,
+   "unit": "",
+   "error": -6.0255310462947245,
+   "error_str": "-6.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "M/D/1 at \u03c1 = 0.9: queueing delay = \u03c1/(2\u03bc(1\u2212\u03c1)) (half of M/M/1)",
+   "predicted": 4.5,
+   "measured": 4.503036414571315,
+   "unit": "",
+   "error": 0.0674758793625527,
+   "error_str": "+0.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "M/M/1/K, \u03c1 = 0.9, K = 10: loss probability",
+   "predicted": 0.0508137313274124,
+   "measured": 0.0500825,
+   "unit": "",
+   "error": -1.4390427711375695,
+   "error_str": "-1.44 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "M/M/1/K, \u03c1 = 0.9, K = 20: loss probability",
+   "predicted": 0.01365138635417442,
+   "measured": 0.0144675,
+   "unit": "",
+   "error": 5.978247371015339,
+   "error_str": "+5.98 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Buffer needed for loss < 10\u207b\u2076 at \u03c1 = 0.9 (formula)",
+   "value": 110.0,
+   "unit": "packets",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/queueing.png"
+ ],
+ "runtime_s": 3.93,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM099-queueing-theory-basics"
+}

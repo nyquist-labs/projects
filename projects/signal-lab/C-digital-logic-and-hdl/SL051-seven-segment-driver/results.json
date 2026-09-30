@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-051",
+  "title": "Multiplexed 7-segment display driver",
+  "level": "E",
+  "tools": "Verilog RTL (hex decoder + 4-digit time multiplexing), Icarus Verilog",
+  "summary": "Decode 16 hex digits to segments and time-multiplex four digits; verify the decode table exhaustively and measure refresh rate and per-digit duty.",
+  "problem": "Drive four 7-segment digits with only 7 segment lines + 4 digit enables, fast enough that the eye sees them all lit.",
+  "theory": "Each digit is enabled for $2^{K}$ clocks in turn, so the refresh rate is $f_{clk}/(4\\cdot2^K)$ and each digit\nis on for 25 % of the time (brightness \u221d duty). With 50 MHz and K = 16: 190.7 Hz refresh \u2014 above the\n~60 Hz flicker-fusion threshold. The decoder is a 16-entry truth table (active-low segments a\u2013g).",
+  "method": "Testbench checks all 16 codes against a reference table, then displays 0x2B7F and samples which digit is\nenabled and what segments are shown over 20 ms. (For simulation speed K = 10 is used and the time axis is\nscaled; the refresh prediction uses the same K.)",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Decoder mismatches (16 hex digits)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Refresh rate (K = 10, simulation)",
+   "predicted": 12207.03125,
+   "measured": 12207.03125,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Per-digit on-time fraction",
+   "predicted": 25.0,
+   "measured": 25.01720796496898,
+   "unit": "%",
+   "error": 0.017207964968978473,
+   "error_str": "+0.0172 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Digits shown for 0x2B7F correct",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Refresh rate with K = 16 (hardware setting)",
+   "value": 190.73486328125,
+   "unit": "Hz",
+   "note": "> 60 Hz flicker threshold"
+  }
+ ],
+ "figures": [
+  "figures/decoder.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL051-seven-segment-driver"
+}

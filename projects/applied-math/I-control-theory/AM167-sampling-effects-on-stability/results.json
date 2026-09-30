@@ -1,0 +1,124 @@
+{
+ "meta": {
+  "id": "AM-167",
+  "title": "How sampling erodes stability margins",
+  "level": "H",
+  "tools": "Continuous lead design, exact discrete loop model (ZOH plant + Tustin controller), discrete-time phase margin from the pulse transfer function, critical sample period by spectral-radius bisection, with and without one sample of computation delay, step-response overshoot versus sample period",
+  "summary": "A digital implementation of a continuous controller behaves like the analog loop plus a delay of half a sample (plus any computation delay). Predict the phase-margin loss \u03c9_gc\u00b7T/2 and the sample period at which the loop goes unstable, and check both on exact discrete models.",
+  "problem": "How fast must a digital controller sample to preserve an analog design \u2014 and what exactly is lost when it samples slower?",
+  "theory": "A zero-order hold reconstructs a staircase whose fundamental lags the ideal signal by T/2: at frequencies well below Nyquist it acts as the delay $e^{-sT/2}$. Hence $\\mathrm{PM}_{digital}\u2248\\mathrm{PM}-\u03c9_{gc}\\frac{T}{2}$ (radians) and instability near\n$T_{crit}\u2248\\frac{2\\,\\mathrm{PM}}{\u03c9_{gc}}$. One extra sample of computation delay makes the total 1.5 T: $T_{crit}\u2248\\frac{2\\,\\mathrm{PM}}{3\u03c9_{gc}}$. Rule of thumb: sampling at 20\u201330 \u00d7 the closed-loop bandwidth costs only 5\u201310\u00b0 of phase margin.\nThe approximations assume \u03c9_gc \u226a \u03c0/T and degrade as T approaches the limit.",
+  "method": "Plant $G=\frac{1}{s(s+1)}$ with lead $C=10\frac{0.37s+1}{0.083s+1}$ (continuous PM \u2248 50\u00b0). Discrete loop: exact ZOH plant, Tustin-discretised compensator, optional z\u207b\u00b9. Discrete phase margin from $L(e^{j\u03c9T})$ on a fine grid; T_crit by bisection\non the closed-loop spectral radius; overshoot from simulated step responses.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "T = 10 ms (\u03c9_s/\u03c9_gc = 154): discrete phase margin vs PM \u2212 \u03c9_gc\u00b7T/2",
+   "predicted": 50.37024530623073,
+   "measured": 50.37199574026337,
+   "unit": "\u00b0",
+   "error": 0.001750434032643966,
+   "error_str": "+0.00175 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "T = 30 ms (\u03c9_s/\u03c9_gc = 51): discrete phase margin vs PM \u2212 \u03c9_gc\u00b7T/2",
+   "predicted": 48.03137882522346,
+   "measured": 48.04258125798066,
+   "unit": "\u00b0",
+   "error": 0.011202432757194458,
+   "error_str": "+0.0112 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "T = 60 ms (\u03c9_s/\u03c9_gc = 26): discrete phase margin vs PM \u2212 \u03c9_gc\u00b7T/2",
+   "predicted": 44.523079103712554,
+   "measured": 44.56584346509564,
+   "unit": "\u00b0",
+   "error": 0.04276436138308526,
+   "error_str": "+0.04276 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "T = 30 ms with one sample of computation delay: PM \u2212 1.5\u00b7\u03c9_gc\u00b7T",
+   "predicted": 41.01477938220165,
+   "measured": 41.02597821875969,
+   "unit": "\u00b0",
+   "error": 0.011198836558037328,
+   "error_str": "+0.0112 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Critical sample period (no computation delay): 2\u00b7PM/\u03c9_gc",
+   "predicted": 0.44072356387388134,
+   "measured": 0.4623437394026288,
+   "unit": "s",
+   "error": 4.905609162058406,
+   "error_str": "+4.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Critical sample period with one sample of delay: 2\u00b7PM/(3\u03c9_gc)",
+   "predicted": 0.1469078546246271,
+   "measured": 0.14737066352360687,
+   "unit": "s",
+   "error": 0.315033461051018,
+   "error_str": "+0.32 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Computation delay cuts the usable sample period by about 3\u00d7 (ratio of critical periods)",
+   "predicted": 3.0,
+   "measured": 3.1372847780424586,
+   "unit": "\u00d7",
+   "error": 4.576159268081955,
+   "error_str": "+4.58 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rule of thumb: sampling at 20\u00d7 the crossover frequency costs \u2248 9\u00b0 of phase margin",
+   "predicted": 9.0,
+   "measured": 8.933184670703838,
+   "unit": "\u00b0",
+   "error": -0.06681532929616196,
+   "error_str": "-0.06682 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Continuous design: gain crossover / phase margin",
+   "value": "4.082 rad/s / 51.5\u00b0",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Step overshoot at T = 5 / 20 / 50 / 80 / 120 ms",
+   "value": "22 % / 23 % / 27 % / 31 % / 37 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/sampling.png"
+ ],
+ "runtime_s": 0.35,
+ "folder": "projects/applied-math/I-control-theory/AM167-sampling-effects-on-stability"
+}

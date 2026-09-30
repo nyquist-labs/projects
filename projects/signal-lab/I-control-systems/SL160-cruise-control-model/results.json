@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-160",
+  "title": "Cruise control: rejecting a hill with PI feedback",
+  "level": "M",
+  "tools": "Nonlinear car longitudinal model (aerodynamic drag, rolling resistance, grade), PI controller with saturation",
+  "summary": "Hold 25 m/s through a 5 % climb: predict the steady-state throttle, the speed dip for P-only and PI control from the linearised disturbance transfer function, and measure them on the nonlinear model.",
+  "problem": "A hill is a disturbance the driver can't see coming. How much speed does cruise control lose, and why does it need integral action?",
+  "theory": "m\u00b7dv/dt = F \u2212 \u00bd\u03c1C_dAv\u00b2 \u2212 C_r m g \u2212 m g sin \u03b8. Linearised at v\u2080: time constant \u03c4 = m/(\u03c1C_dAv\u2080). A grade adds a force m g sin\u03b8 \u2248 490 N\u00b7\u2026 With P control of gain K_p\n(N per m/s) the steady-state speed error is $\\Delta F_{hill}/(K_p+\\rho C_dAv_0)$; PI removes it, with a transient dip \u2248 that error scaled by the loop damping.",
+  "method": "m = 1,000 kg, \u03c1C_dA = 0.84 kg/m (C_d\u00b7A = 0.7 m\u00b2), C_r = 0.01, v\u2080 = 25 m/s, force limit 0\u20135,000 N. Hill of 5 % from t = 20 s to 80 s. P: K_p = 500 N/(m/s);\nPI: K_p = 500, K_i = 100. 10 ms steps.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Cruise force on the flat (\u00bd\u03c1C_dAv\u00b2 + C_r mg)",
+   "predicted": 360.6,
+   "measured": 360.6,
+   "unit": "N",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "P control: steady speed loss on the hill \u0394F/(K_p + \u03c1C_dAv\u2080)",
+   "predicted": 0.9400491874539336,
+   "measured": 0.9407626508574403,
+   "unit": "m/s",
+   "error": 0.0758963906387723,
+   "error_str": "+0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PI control: steady speed error on the hill",
+   "predicted": 0.0,
+   "measured": -6.513374408712025e-07,
+   "unit": "m/s",
+   "error": -6.513374408712025e-07,
+   "error_str": "-6.5134e-07 m/s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "PI control: maximum speed dip",
+   "value": 0.645589846545839,
+   "unit": "m/s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/cruise.png"
+ ],
+ "runtime_s": 0.12,
+ "folder": "projects/signal-lab/I-control-systems/SL160-cruise-control-model"
+}

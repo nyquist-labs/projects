@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "id": "SL-049",
+  "title": "Parameterised PWM generator",
+  "level": "E",
+  "tools": "Verilog RTL, Icarus Verilog, VCD duty-cycle measurement",
+  "summary": "A counter-compare PWM with N-bit resolution: verify frequency f_clk/2\u1d3a and duty = compare/2\u1d3a for a sweep of compare values, and glitch-free updates at period boundaries.",
+  "problem": "Generate an exact duty cycle in hardware, and make sure changing the duty mid-period never produces a runt pulse.",
+  "theory": "Free-running N-bit counter; output high while count < CMP. Frequency $f_{clk}/2^N$; duty exactly\n$CMP/2^N$, resolution $1/2^N$ (8 bits \u2192 0.39 %). The compare register is double-buffered and loaded only when\nthe counter wraps, so a new duty takes effect on the next full period.",
+  "method": "8-bit PWM at 50 MHz clock (195.3 kHz PWM). Testbench steps CMP through 0, 1, 32, 64, 128, 200, 255, 256 (100 %),\nchanging CMP at random times. Python measures high time/period for each settled period and flags any\nperiod shorter than 2\u2078 clocks.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Duty at CMP = 1",
+   "predicted": 0.390625,
+   "measured": 0.390625,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Duty at CMP = 32",
+   "predicted": 12.5,
+   "measured": 12.5,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Duty at CMP = 64",
+   "predicted": 25.0,
+   "measured": 25.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Duty at CMP = 128",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Duty at CMP = 200",
+   "predicted": 78.125,
+   "measured": 78.125,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Duty at CMP = 255",
+   "predicted": 99.609375,
+   "measured": 99.609375,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "PWM frequency",
+   "predicted": 195312.5,
+   "measured": 195312.5,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Runt periods (shorter than 256 clocks)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/timing.png"
+ ],
+ "runtime_s": 0.08,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL049-pwm-generator-hdl"
+}

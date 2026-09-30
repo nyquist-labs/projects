@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "AM-123",
+  "title": "Lookup tables: linear vs spline interpolation",
+  "level": "M",
+  "tools": "Table-based evaluation of an NTC thermistor's temperature (\u03b2 model) and of a sine, linear/cubic-spline/Chebyshev interpolation, error vs table size (O(h\u00b2) vs O(h\u2074)), memory\u2013accuracy trade-off for firmware",
+  "summary": "Replace an expensive function with a small table plus interpolation, predict the error scaling for linear and cubic-spline interpolation, and determine the smallest table that meets a 0.01 \u00b0C (thermistor) or 16-bit (sine) accuracy target.",
+  "problem": "A microcontroller converts thermistor resistance to temperature. How big must the lookup table be?",
+  "theory": "Linear interpolation error \u2264 h\u00b2/8\u00b7max|f''|; natural/not-a-knot cubic spline error = O(h\u2074)\u00b7max|f\u2057|. So each halving of the table spacing gains \u00d74 accuracy with linear and \u00d716 with splines. For T(R) of an NTC (\u03b2 = 3950, 10 k\u03a9 at 25 \u00b0C),\nusing ln R as the table variable makes the function nearly linear (T\u207b\u00b9 is linear in ln R for the \u03b2 model), which shrinks the table dramatically.",
+  "method": "Thermistor over \u221220\u2026100 \u00b0C; tables uniform in R and uniform in ln R; sizes 8\u2013256 entries; max error over 10\u2075 test points. Sine over a quarter wave with 16\u2013512 entries; 16-bit target (\u2264 1.5e-5). Error slopes fitted.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "ln R table, linear interpolation: error \u221d n^slope (\u22122)",
+   "predicted": -2.0,
+   "measured": -2.0169064544313238,
+   "unit": "",
+   "error": -0.01690645443132377,
+   "error_str": "-0.01691",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "ln R table, cubic spline: error \u221d n^slope (\u22124)",
+   "predicted": -4.0,
+   "measured": -4.0203560516799675,
+   "unit": "",
+   "error": -0.020356051679967457,
+   "error_str": "-0.02036",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sine table, linear interpolation: max error = h\u00b2/8 (worst ratio)",
+   "predicted": 1.0,
+   "measured": 0.9999948236967151,
+   "unit": "",
+   "error": -0.0005176303284892825,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Entries for 0.01 \u00b0C: linear in R / linear in ln R / spline in R / spline in ln R",
+   "value": "None / 64 / None / 8",
+   "unit": "",
+   "note": "None = not reached with \u2264 256"
+  },
+  {
+   "quantity": "Quarter-wave sine entries for 16-bit accuracy (1.5e-5): linear / clamped spline",
+   "value": "256 / 16",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/lookup.png"
+ ],
+ "runtime_s": 0.3,
+ "folder": "projects/applied-math/G-numerical-methods/AM123-interpolation-for-lookup-tables"
+}

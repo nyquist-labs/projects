@@ -1,0 +1,166 @@
+{
+ "meta": {
+  "id": "AM-053",
+  "title": "Coupled LC oscillators: normal modes and beating",
+  "level": "H",
+  "tools": "Eigenvalue analysis of two magnetically coupled LC tanks, MNA transient simulation with a coupled-inductor element, spectral peak and beat-period measurement",
+  "summary": "Couple two identical LC tanks through mutual inductance, predict the split normal-mode frequencies \u03c90/\u221a(1\u00b1k) and the energy beating between the tanks, and verify both in simulation for coupling coefficients from 0.02 to 0.3.",
+  "problem": "Two identical resonators placed near each other stop having one resonance. Why two \u2014 and how does energy slosh between them?",
+  "theory": "With L1 = L2 = L, mutual M = kL: $L\\ddot q_1 + M\\ddot q_2 + q_1/C = 0$ (and symmetric). Normal modes q1 = \u00b1q2 have $\u03c9_\\pm = \u03c9_0/\\sqrt{1\\pm k}$. Starting with energy only in tank 1, the\nenvelope beats at $\u0394\u03c9 = \u03c9_- - \u03c9_+$: energy fully transfers to tank 2 after $T_{transfer}=\u03c0/\u0394\u03c9 \u2248 \u03c0/(k\u03c9_0)$. This is the physics of double-tuned IF transformers and wireless power transfer.",
+  "method": "L = 10 \u00b5H, C = 100 nF (f0 = 159 kHz), k = 0.02, 0.05, 0.1, 0.2, 0.3. Tank 1 capacitor precharged to 1 V; transient 500 \u00b5s; mode frequencies from the FFT peaks of v1, transfer time from the first\nminimum of tank-1 energy.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "k = 0.02: lower mode \u03c90/\u221a(1+k)",
+   "predicted": 157586.8758550326,
+   "measured": 157582.75985717773,
+   "unit": "Hz",
+   "error": -0.002611891271097626,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.02: upper mode \u03c90/\u221a(1\u2212k)",
+   "predicted": 160770.77074234036,
+   "measured": 160765.6478881836,
+   "unit": "Hz",
+   "error": -0.0031864337858894974,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.05: lower mode \u03c90/\u221a(1+k)",
+   "predicted": 155319.3205735003,
+   "measured": 155317.7833557129,
+   "unit": "Hz",
+   "error": -0.0009897144680602002,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.05: upper mode \u03c90/\u221a(1\u2212k)",
+   "predicted": 163289.52623962928,
+   "measured": 163280.96389770508,
+   "unit": "Hz",
+   "error": -0.005243656541472511,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.1: lower mode \u03c90/\u221a(1+k)",
+   "predicted": 151748.2841316334,
+   "measured": 151741.50466918945,
+   "unit": "Hz",
+   "error": -0.00446757107189093,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.1: upper mode \u03c90/\u221a(1\u2212k)",
+   "predicted": 167764.04034829015,
+   "measured": 167751.31225585938,
+   "unit": "Hz",
+   "error": -0.007586901462522123,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.2: lower mode \u03c90/\u221a(1+k)",
+   "predicted": 145287.92078313683,
+   "measured": 145280.3611755371,
+   "unit": "Hz",
+   "error": -0.005203190711910734,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.2: upper mode \u03c90/\u221a(1\u2212k)",
+   "predicted": 177940.63585429426,
+   "measured": 177931.7855834961,
+   "unit": "Hz",
+   "error": -0.004973721014133562,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.3: lower mode \u03c90/\u221a(1+k)",
+   "predicted": 139588.1191511007,
+   "measured": 139582.15713500977,
+   "unit": "Hz",
+   "error": -0.004271148667367301,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.3: upper mode \u03c90/\u221a(1\u2212k)",
+   "predicted": 190226.54130042062,
+   "measured": 190222.26333618164,
+   "unit": "Hz",
+   "error": -0.0022488787367602532,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.02: time for energy to move to tank 2 = \u03c0/(\u03c9\u2212 \u2212 \u03c9+)",
+   "predicted": 0.00015704036021829454,
+   "measured": 0.00015708,
+   "unit": "s",
+   "error": 0.025241779661207824,
+   "error_str": "+0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.05: time for energy to move to tank 2 = \u03c0/(\u03c9\u2212 \u2212 \u03c9+)",
+   "predicted": 6.273363837082057e-05,
+   "measured": 6.278e-05,
+   "unit": "s",
+   "error": 0.07390234391537955,
+   "error_str": "+0.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 0.1: time for energy to move to tank 2 = \u03c0/(\u03c9\u2212 \u2212 \u03c9+)",
+   "predicted": 3.1219256414504464e-05,
+   "measured": 3.13e-05,
+   "unit": "s",
+   "error": 0.258633916271063,
+   "error_str": "+0.26 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/coupled.png"
+ ],
+ "runtime_s": 3.41,
+ "folder": "projects/applied-math/C-differential-equations/AM053-coupled-oscillators"
+}

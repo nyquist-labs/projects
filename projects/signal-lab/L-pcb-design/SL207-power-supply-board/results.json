@@ -1,0 +1,184 @@
+{
+ "meta": {
+  "id": "SL-207",
+  "title": "Linear power-supply board (LM317, 12 V \u2192 5 V, 1 A)",
+  "level": "M",
+  "tools": "eelab.pcb with IPC-2221 track widths and wide power routing, tolerance Monte-Carlo on the MNA simulator, thermal budget, DRC and fab outputs",
+  "summary": "An adjustable-regulator board delivering 5 V at up to 1 A: resistor selection from E96, a Monte-Carlo of output voltage over part tolerances, a junction-temperature budget that sizes the heatsink, IPC-2221 track widths and the routed copper's voltage drop.",
+  "problem": "A linear regulator is a three-pin part \u2014 so where do the real design decisions lie? Answer: tolerance, heat and copper.",
+  "theory": "$V_\\text{out}=V_\\text{ref}(1+R_2/R_1)+I_\\text{adj}R_2$ with $V_\\text{ref}$ = 1.25 V (1.20\u20131.30 V), $I_\\text{adj}$ \u2248 50 \u00b5A (\u2264 100 \u00b5A). With R1 = 240 \u03a9, 5.00 V needs R2 = 713 \u03a9 \u2192 E96 715 \u03a9 \u2192 5.01 V\nnominal. Worst case (\u00b14 % reference, \u00b11 % resistors, I_adj 50\u2013100 \u00b5A) spans \u2248 4.74\u20135.32 V \u2014 the reference dominates. Heat: P \u2248 (12 \u2212 5) V \u00d7 1 A = 7 W; with \u03b8_ja \u2248 50 \u00b0C/W\n(no heatsink) T_j would be ~390 \u00b0C, so a heatsink of \u03b8_sa \u2264 (125 \u2212 40)/7 \u2212 \u03b8_jc \u2212 \u03b8_cs \u2248 6.6 \u00b0C/W is required at 40 \u00b0C ambient. Copper: IPC-2221 gives\n0.30 mm for 1 A at 10 \u00b0C rise on 1 oz outer layers; 1.5 mm tracks cut the IR drop to a few mV per cm.",
+  "method": "Regulator as a behavioural model (high-gain error amplifier holding OUT \u2212 ADJ = V_ref, I_adj into ADJ) in the MNA simulator; 5000 Monte-Carlo draws: V_ref uniform 1.20\u20131.30 V, resistors\nuniform \u00b11 %, I_adj uniform 50\u2013100 \u00b5A. Board: 2-pin terminal blocks, TO-220 (1 ADJ, 2 OUT, 3 IN), input/output 10 \u00b5F electrolytics, 10 \u00b5F ADJ bypass,\npower LED; power nets routed at 1.5 mm, GND poured on both layers.",
+  "data": "Design + simulation (datasheet-typical LM317 parameters).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "Nominal output with E96 parts",
+   "predicted": 5.009708333333333,
+   "measured": 5.009706335876137,
+   "unit": "V",
+   "error": -3.987172631986475e-05,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Worst-case low output (analytic) vs Monte-Carlo minimum",
+   "predicted": 4.73960042079208,
+   "measured": 4.76153022537869,
+   "unit": "V",
+   "error": 0.46269310995938046,
+   "error_str": "+0.46 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Worst-case high output (analytic) vs Monte-Carlo maximum",
+   "predicted": 5.3233724074074065,
+   "measured": 5.294280784931778,
+   "unit": "V",
+   "error": -0.5464885837246318,
+   "error_str": "-0.55 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "IPC-2221 minimum width for 1 A, 10 \u00b0C rise, 1 oz outer",
+   "predicted": 0.3,
+   "measured": 0.3003762222199717,
+   "unit": "mm",
+   "error": 0.12540740665722971,
+   "error_str": "+0.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "DRC violations (clearance, widths, drills, annular rings, edge, courtyards, connectivity)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Drill hits in the Excellon file (re-read with gerbonara) = holes in the design",
+   "predicted": 18.0,
+   "measured": 18.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Board outline from the Gerber profile (re-read with gerbonara)",
+   "predicted": 44.0,
+   "measured": 43.99999999999999,
+   "unit": "mm",
+   "error": -1.6148698540002278e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pads in the KiCad file (re-read with kiutils) = pads in the design",
+   "predicted": 25.0,
+   "measured": 25.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "IR drop in VOUT copper at 1 A (\u2264 10 mV target)",
+   "predicted": 0.01,
+   "measured": 0.0070331666294453695,
+   "unit": "V",
+   "error": -0.0029668333705546307,
+   "error_str": "-2.967 mV",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Ideal R2 for 5.00 V",
+   "value": 713.1537242472267,
+   "unit": "\u03a9",
+   "note": "E96 choice: 715 \u03a9"
+  },
+  {
+   "quantity": "Share of output variance from V_ref alone",
+   "value": 91.50340017378599,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Regulator dissipation at 1 A",
+   "value": 7.06,
+   "unit": "W",
+   "note": ""
+  },
+  {
+   "quantity": "T_j with no heatsink (\u03b8_ja \u2248 50 \u00b0C/W, 40 \u00b0C ambient)",
+   "value": 393.0,
+   "unit": "\u00b0C",
+   "note": "\u2014 impossible: thermal shutdown"
+  },
+  {
+   "quantity": "Required heatsink \u03b8_sa (\u03b8_jc 5, \u03b8_cs 0.5 \u00b0C/W, T_j \u2264 125 \u00b0C)",
+   "value": 6.539660056657224,
+   "unit": "\u00b0C/W",
+   "note": ""
+  },
+  {
+   "quantity": "Unrouted connections",
+   "value": 0.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Board",
+   "value": "44 \u00d7 32 mm, 2 layers, 1.6 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Components / nets / pads",
+   "value": "14 / 5 / 25",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Routed track length",
+   "value": 64.76650429449553,
+   "unit": "mm",
+   "note": "51 segments, 3 vias"
+  },
+  {
+   "quantity": "Routed VOUT copper length / resistance",
+   "value": "21.5 mm / 7.03 m\u03a9",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/board.png",
+  "figures/tolerance_thermal.png"
+ ],
+ "runtime_s": 1.23,
+ "folder": "projects/signal-lab/L-pcb-design/SL207-power-supply-board"
+}

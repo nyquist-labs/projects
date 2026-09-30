@@ -1,0 +1,108 @@
+{
+ "meta": {
+  "id": "AM-149",
+  "title": "The Viterbi algorithm as dynamic programming",
+  "level": "H",
+  "tools": "Batch Viterbi decoder (add\u2013compare\u2013select as a shortest-path recursion), brute-force maximum-likelihood search over all codewords, Dijkstra on the explicit trellis graph (networkx), hard- vs soft-decision simulation, finite traceback-depth experiment on the K = 7 code",
+  "summary": "Show that Viterbi decoding is exactly a shortest-path dynamic programme: it returns the same answer as exhaustive maximum-likelihood search and as Dijkstra on the trellis, at linear instead of exponential cost; then measure the \u2248 2 dB gain of soft decisions and the '5 \u00d7 constraint length' traceback rule.",
+  "problem": "Maximum-likelihood decoding means comparing the received signal with every possible message. How does Viterbi do that without the exponential cost?",
+  "theory": "The path metric is additive over trellis stages, so Bellman's principle applies: the best path into a state extends a best path into one of its predecessors. Keeping one survivor per state gives the ML path with $N\\cdot2^{K-1}$ add\u2013compare\u2013select steps\ninstead of $2^N$ comparisons. Soft decisions (correlation metric) gain \u2248 2 dB over hard decisions (Hamming metric) on AWGN. Survivors merge after a few constraint lengths, so decisions can be released after a traceback of \u2248 5K stages with negligible loss.",
+  "method": "(7,5) K = 3 code, 10 information bits + tail: all 1024 codewords scored by correlation for 400 noisy blocks at 0 dB \u2014 metric of the Viterbi output vs the true maximum. One block as an explicit graph (nodes = (time, state), edge weight = Hamming distance):\nDijkstra vs Viterbi. BER curves hard/soft, 2\u00d710\u2076 bits per point. K = 7 (171,133): BER vs traceback depth 5\u202670 at 3 dB.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Viterbi path metric vs exhaustive ML maximum over 1024 codewords (max difference, 400 blocks)",
+   "predicted": 0.0,
+   "measured": 1.4210854715202004e-14,
+   "unit": "",
+   "error": 1.4210854715202004e-14,
+   "error_str": "+1.4211e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Blocks where Viterbi and brute-force ML choose different messages",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Hamming cost of the Viterbi path vs Dijkstra's shortest path on the trellis graph",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Soft-decision gain over hard decisions at BER 10\u207b\u2074",
+   "predicted": 2.0,
+   "measured": 2.056490481371763,
+   "unit": "dB",
+   "error": 0.056490481371763046,
+   "error_str": "+0.05649 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 7: BER with traceback depth 5K = 35 relative to full-block traceback",
+   "predicted": 1.0,
+   "measured": 1.1951136492568362,
+   "unit": "\u00d7",
+   "error": 19.511364925683615,
+   "error_str": "+19.51 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 7: traceback depth K = 7 is far too short (BER ratio to full > 10; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Blocks decoded wrongly at 0 dB (by both \u2014 ML is optimal, not infallible)",
+   "value": 68.0,
+   "unit": "of 400",
+   "note": ""
+  },
+  {
+   "quantity": "Work: add\u2013compare\u2013selects (N\u00b72^(K\u22121)\u00b72) vs codewords to compare (2^N), N = 1000, K = 3",
+   "value": "8000 vs 2^1000",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "K = 7 at 3 dB: BER at depth 5 / 15 / 35 / full",
+   "value": "1.3e-02 / 2.5e-03 / 4.1e-04 / 3.4e-04",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/viterbi.png"
+ ],
+ "runtime_s": 3.55,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM149-viterbi-as-dynamic-programming"
+}

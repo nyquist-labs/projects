@@ -1,0 +1,123 @@
+{
+ "meta": {
+  "id": "SL-102",
+  "title": "Transmission-line reflections, standing waves and VSWR",
+  "level": "M",
+  "tools": "1-D FDTD solution of the telegrapher's equations (NumPy), bounce-diagram prediction",
+  "summary": "Launch a step and a sine onto a 50 \u03a9 line terminated in 150 \u03a9, 50 \u03a9, open and short loads; compare the time-domain voltage at the source with the bounce-diagram prediction and the standing-wave ratio with (1+|\u0393|)/(1\u2212|\u0393|).",
+  "problem": "What really happens when a fast edge hits a mismatched load, and how does that become a standing wave for a continuous sine?",
+  "theory": "Load reflection $\\Gamma_L=\\frac{Z_L-Z_0}{Z_L+Z_0}$, source $\\Gamma_S=\\frac{Z_S-Z_0}{Z_S+Z_0}$. A step $V_s$ launches $V^+=V_s\\frac{Z_0}{Z_S+Z_0}$;\nafter each round trip 2T the source voltage changes by the next bounce term, converging to $V_s\\frac{Z_L}{Z_S+Z_L}$.\nFor a sine, the envelope along the line varies between $|V^+|(1\\pm|\\Gamma_L|)$: VSWR = $\\frac{1+|\\Gamma|}{1-|\\Gamma|}$.",
+  "method": "Lossless line, L\u2032 = 250 nH/m, C\u2032 = 100 pF/m (Z\u2080 = 50 \u03a9, v = 2\u00d710\u2078 m/s), 1 m long, 400 cells, leapfrog update at Courant number 0.5, resistive source 25 \u03a9 and resistive/open/short loads implemented as boundary conditions. Step\nresponse vs bounce diagram; 1 GHz sine for VSWR.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "150 \u03a9: settled source voltage",
+   "predicted": 0.8571428571428571,
+   "measured": 0.8570888815701462,
+   "unit": "V",
+   "error": -5.397557271091813e-05,
+   "error_str": "-53.98 \u00b5V",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "150 \u03a9: first-step voltage V\u207a = V_s\u00b7Z\u2080/(Z_S+Z\u2080)",
+   "predicted": 0.6666666666666666,
+   "measured": 0.6666505512841935,
+   "unit": "V",
+   "error": -0.0024173073709721216,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "150 \u03a9: voltage after first reflection returns (t = 2T+)",
+   "predicted": 0.8888888888888888,
+   "measured": 0.8912976470291958,
+   "unit": "V",
+   "error": 0.27098529078453115,
+   "error_str": "+0.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "matched 50 \u03a9: settled source voltage",
+   "predicted": 0.6666666666666666,
+   "measured": 0.6664965515208275,
+   "unit": "V",
+   "error": -0.00017011514583908927,
+   "error_str": "-170.1 \u00b5V",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "open: settled source voltage",
+   "predicted": 1.0,
+   "measured": 1.0002227597244464,
+   "unit": "V",
+   "error": 0.00022275972444640857,
+   "error_str": "+222.8 \u00b5V",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "short: settled source voltage",
+   "predicted": 0.0,
+   "measured": 0.0023681185295465826,
+   "unit": "V",
+   "error": 0.0023681185295465826,
+   "error_str": "+2.368 mV",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "VSWR, Z_L = 150 \u03a9",
+   "predicted": 3.0,
+   "measured": 2.998253469312055,
+   "unit": "",
+   "error": -0.0582176895981649,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "VSWR, Z_L = 50 \u03a9",
+   "predicted": 1.0,
+   "measured": 1.0005936797531683,
+   "unit": "",
+   "error": 0.05936797531682636,
+   "error_str": "+0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "VSWR, Z_L = 100 \u03a9",
+   "predicted": 1.9999999999999998,
+   "measured": 1.998844479421018,
+   "unit": "",
+   "error": -0.05777602894908586,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/bounce.png",
+  "figures/standing_waves.png"
+ ],
+ "runtime_s": 1.39,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL102-transmission-line-reflections"
+}

@@ -1,0 +1,125 @@
+{
+ "meta": {
+  "id": "AM-168",
+  "title": "Model predictive control: optimisation in the loop",
+  "level": "H",
+  "tools": "Condensed MPC formulation (prediction matrices), own box-constrained QP solver (accelerated projected gradient), reference solution by bounded least squares (scipy.optimize.lsq_linear, exact active-set BVLS), LQR equivalence for the unconstrained case, closed-loop comparison with a saturated LQR",
+  "summary": "Build a linear MPC from scratch: predict over a horizon, minimise a quadratic cost subject to actuator limits, apply the first move, repeat. Verify the QP solver, show that without constraints MPC is exactly LQR, and measure what explicit constraint handling gains over simply clipping an LQR.",
+  "problem": "LQR ignores actuator limits; clipping its output is not optimal and can misbehave. How does a controller plan *around* the limits?",
+  "theory": "Stack predictions $X=S_xx_0+S_uU$; cost $J=X^T\\bar QX+U^T\\bar RU=\\tfrac12U^THU+f^TU+\\text{const}$ with $H=2(S_u^T\\bar QS_u+\\bar R)$, $f=2S_u^T\\bar QS_xx_0$, subject to $|u_k|\\le u_{max}$. With terminal weight P from the Riccati equation and no\nactive constraints, the first move equals the LQR law \u2212Kx for every horizon (dynamic programming). Box-constrained QPs are solved by projected gradient: $U\\leftarrow\\mathrm{clip}(V-\\tfrac1L\\nabla J(V))$ with Nesterov momentum, L = \u03bb_max(H).\nReceding-horizon cost with a long enough horizon approaches the infinite-horizon constrained optimum.",
+  "method": "Double integrator sampled at 0.1 s, |u| \u2264 1, Q = diag(1, 0.1), R = 0.1, terminal weight P. QP check on 200 random states (N = 20). Closed loop from x\u2080 = (10, 0) for 150 steps: MPC with N = 3\u202640, saturated LQR, and a single open-loop QP\nwith N = 150 as the constrained optimum.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Unconstrained MPC (N = 20, Riccati terminal weight): first-move gain vs LQR gain (max difference)",
+   "predicted": 0.0,
+   "measured": 1.0658141036401503e-14,
+   "unit": "",
+   "error": 1.0658141036401503e-14,
+   "error_str": "+1.0658e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and for a horizon of only N = 3",
+   "predicted": 0.0,
+   "measured": 4.440892098500626e-15,
+   "unit": "",
+   "error": 4.440892098500626e-15,
+   "error_str": "+4.4409e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Own projected-gradient QP vs scipy lsq_linear (BVLS) on 200 random states (196 with active constraints): worst |\u0394U|",
+   "predicted": 0.0,
+   "measured": 5.1888789376342e-09,
+   "unit": "",
+   "error": 5.1888789376342e-09,
+   "error_str": "+5.1889e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Actuator limit respected by MPC at every step: max |u|",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Receding-horizon MPC (N = 40) cost vs the one-shot constrained optimum over the whole run",
+   "predicted": 2496.275642604401,
+   "measured": 2496.275642604396,
+   "unit": "",
+   "error": -2.0038736004859685e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "MPC (N = 20) cost \u2264 saturated-LQR cost (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Short horizons cost more: closed-loop cost decreases as N grows from 3 to 40 (violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Median iterations of the QP solver",
+   "value": 5.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Closed-loop cost: saturated LQR / MPC N = 3 / 5 / 10 / 20 / 40 / optimum",
+   "value": "2908.8 / 2866.9 / 2802.0 / 2626.0 / 2507.4 / 2496.3 / 2496.3",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Cost penalty of clipping an LQR instead of planning",
+   "value": 16.52620610801754,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Position overshoot: saturated LQR / MPC (N = 20)",
+   "value": "3.77 / 1.10",
+   "unit": "m",
+   "note": "starting 10 m from the target"
+  }
+ ],
+ "figures": [
+  "figures/mpc.png"
+ ],
+ "runtime_s": 0.88,
+ "folder": "projects/applied-math/I-control-theory/AM168-model-predictive-control"
+}

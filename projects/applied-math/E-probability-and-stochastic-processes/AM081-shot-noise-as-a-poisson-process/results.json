@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "AM-081",
+  "title": "Shot noise: Poisson electrons and the 2qI spectrum",
+  "level": "M",
+  "tools": "Poisson point-process simulation of electron arrivals, counting statistics (Fano factor), current PSD via Welch, Schottky formula",
+  "summary": "Generate a current as individual electrons arriving at random (a Poisson process), verify the counting statistics (variance = mean), and show that the resulting current noise is white with density 2qI \u2014 Schottky's formula.",
+  "problem": "A DC current through a diode is made of discrete charges. How much noise does that granularity produce?",
+  "theory": "Arrivals at rate \u03bb = I/q in time T: count N ~ Poisson(\u03bbT), var N = E N (Fano factor 1). The current is a train of impulses q\u00b7\u03b4(t \u2212 t_k); its one-sided PSD is $S_I = 2qI$ (plus the DC spike) up to frequencies\n~1/(transit time). In bandwidth B: $i_{rms}=\\sqrt{2qIB}$ \u2014 for 1 mA in 1 MHz, 17.9 nA. Relative noise falls as 1/\u221aI, which is why photodetector SNR improves with signal level.",
+  "method": "Currents 1 pA\u20131 nA simulated as Poisson arrival times in 1 s (1 pA \u2248 6.2 million electrons/s); binned at 1 MHz; count statistics in 1 ms windows; Welch PSD of the binned current compared with 2qI.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "I = 1e-12 A: PSD / 2qI (white, flat band)",
+   "predicted": 1.0,
+   "measured": 0.9971500653374114,
+   "unit": "",
+   "error": -0.2849934662588649,
+   "error_str": "-0.28 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "I = 1e-12 A: Fano factor var(N)/E(N) in 1 ms windows (\u00b1\u221a(2/1000) \u2248 4.5 % sampling error)",
+   "predicted": 1.0,
+   "measured": 0.9307369659114926,
+   "unit": "",
+   "error": -6.9263034088507425,
+   "error_str": "-6.93 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "I = 1e-11 A: PSD / 2qI (white, flat band)",
+   "predicted": 1.0,
+   "measured": 0.997647945859389,
+   "unit": "",
+   "error": -0.23520541406110151,
+   "error_str": "-0.24 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "I = 1e-11 A: Fano factor var(N)/E(N) in 1 ms windows (\u00b1\u221a(2/1000) \u2248 4.5 % sampling error)",
+   "predicted": 1.0,
+   "measured": 0.9708636469128932,
+   "unit": "",
+   "error": -2.9136353087106825,
+   "error_str": "-2.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "I = 1e-10 A: PSD / 2qI (white, flat band)",
+   "predicted": 1.0,
+   "measured": 1.001640256481987,
+   "unit": "",
+   "error": 0.1640256481987068,
+   "error_str": "+0.16 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "I = 1e-10 A: Fano factor var(N)/E(N) in 1 ms windows (\u00b1\u221a(2/1000) \u2248 4.5 % sampling error)",
+   "predicted": 1.0,
+   "measured": 1.012972004810215,
+   "unit": "",
+   "error": 1.2972004810215099,
+   "error_str": "+1.30 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Shot noise of 1 mA in 1 MHz",
+   "value": 17.900707438534376,
+   "unit": "nA rms",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/shot_noise.png"
+ ],
+ "runtime_s": 0.56,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM081-shot-noise-as-a-poisson-process"
+}

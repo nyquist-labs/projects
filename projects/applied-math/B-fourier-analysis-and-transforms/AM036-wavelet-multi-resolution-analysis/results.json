@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "AM-036",
+  "title": "Wavelet multi-resolution analysis of a transient",
+  "level": "H",
+  "tools": "Own periodic discrete wavelet transform (Haar and Daubechies-4 filter banks, analysis + synthesis), soft-threshold denoising, Fourier low-pass comparison",
+  "summary": "Implement the orthogonal DWT as a two-channel filter bank, verify perfect reconstruction and energy conservation, locate a spike and a step that Fourier analysis smears across all frequencies, and compare wavelet denoising with the best Fourier low-pass on a piecewise-smooth signal.",
+  "problem": "Fourier analysis tells you *which* frequencies are present but not *when*. How do wavelets localise a transient \u2014 and does that help remove noise?",
+  "theory": "Daubechies-4: low-pass $h=[1+\\sqrt3,3+\\sqrt3,3-\\sqrt3,1-\\sqrt3]/(4\\sqrt2)$, high-pass $g_k=(-1)^kh_{3-k}$. Filtering + downsampling by 2, iterated on the low-pass branch, is an orthogonal\ntransform: perfect reconstruction and $\\sum x^2=\\sum$ coefficients\u00b2. A spike excites only O(1) detail coefficients per level at its location (time localisation 2^j samples at level j),\nwhereas its Fourier transform is flat. For piecewise-smooth signals in white noise, soft thresholding at $\u03c3\\sqrt{2\\ln N}$ (Donoho\u2013Johnstone) should beat any linear low-pass, which\nmust trade edge blurring against noise.",
+  "method": "N = 2048: smooth sinusoid + step at n = 700 + spike at n = 1500 (+ a chirp segment). 6-level DWT (periodic boundaries). Denoising at SNR 10 dB: universal soft threshold on all\ndetail levels, \u03c3 from the median absolute finest-level coefficient / 0.6745; Fourier: ideal low-pass with the cutoff chosen *optimally in hindsight*.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Haar: perfect reconstruction, max |x \u2212 IDWT(DWT(x))|",
+   "predicted": 0.0,
+   "measured": 3.552713678800501e-15,
+   "unit": "",
+   "error": 3.552713678800501e-15,
+   "error_str": "+3.5527e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Haar: energy conservation (relative)",
+   "predicted": 0.0,
+   "measured": 9.984384954233453e-16,
+   "unit": "",
+   "error": 9.984384954233453e-16,
+   "error_str": "+9.9844e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Daubechies-4: perfect reconstruction, max |x \u2212 IDWT(DWT(x))|",
+   "predicted": 0.0,
+   "measured": 4.218847493575595e-15,
+   "unit": "",
+   "error": 4.218847493575595e-15,
+   "error_str": "+4.2188e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Daubechies-4: energy conservation (relative)",
+   "predicted": 0.0,
+   "measured": 1.6427796174698067e-15,
+   "unit": "",
+   "error": 1.6427796174698067e-15,
+   "error_str": "+1.6428e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Spike located by the finest detail level (position = 2k \u00b1 3)",
+   "predicted": 1500.0,
+   "measured": 1498.0,
+   "unit": "samples",
+   "error": -2.0,
+   "error_str": "-2 samples",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Denoising (input SNR 10 dB): wavelet soft threshold beats the best Fourier low-pass by (dB)",
+   "predicted": 2.0,
+   "measured": 0.3223582949941637,
+   "unit": "dB",
+   "error": -1.6776417050058363,
+   "error_str": "-1.678 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Fourier magnitude of the spike alone: max/min over all bins",
+   "value": 1.0000000000000007,
+   "unit": "",
+   "note": "flat \u2014 no time information"
+  },
+  {
+   "quantity": "Output SNR: wavelet / best Fourier low-pass",
+   "value": "15.6 / 15.2 dB",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/wavelets.png"
+ ],
+ "runtime_s": 0.17,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM036-wavelet-multi-resolution-analysis"
+}

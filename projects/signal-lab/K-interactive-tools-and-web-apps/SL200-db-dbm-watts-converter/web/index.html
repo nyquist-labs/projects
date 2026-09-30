@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>dB · dBm · watts · volts</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>dB · dBm · watts · volts</h1><p class="lead">Every RF level unit at once, at your system impedance.</p>
+<div class="card"><div class="row"><label style="flex:2">Value<input id="x" type="number" value="0" step="any"></label>
+<label style="flex:1">Unit<select id="u"></select></label><label style="flex:1">Impedance (Ω)<select id="z"><option>50</option><option>75</option><option>600</option></select></label></div>
+<table id="t" style="margin-top:8px"></table></div><div class="card"><b>Thermal noise floor (kTB, 290 K)</b>
+<label>Bandwidth (Hz)<input id="bw" type="number" value="1000000"></label><p>Noise power: <span class="big" id="nf"></span></p></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>const $=id=>document.getElementById(id);Object.keys(UNITS).forEach(u=>$('u').insertAdjacentHTML('beforeend',`<option ${u=='dBm'?'selected':''}>${u}</option>`));
+const L={W:'watts',mW:'milliwatts',dBW:'dB re 1 W',dBm:'dB re 1 mW',Vrms:'volts rms (sine)',Vpk:'volts peak',Vpp:'volts peak-to-peak',dBV:'dB re 1 V rms',dBu:'dB re 0.7746 V',dBuV:'dB re 1 µV'};
+const f=v=>Math.abs(v)>=1e-3&&Math.abs(v)<1e5?v.toPrecision(6):v.toExponential(4);
+function upd(){const r=all(+$('x').value,$('u').value,+$('z').value);$('t').innerHTML=Object.entries(r).map(([k,v])=>`<tr><td>${k} <span class="muted">${L[k]}</span></td><td class="n">${isFinite(v)?f(v):'—'}</td></tr>`).join('');
+$('nf').textContent=thermalNoiseDbm(+$('bw').value).toFixed(2)+' dBm';}
+document.querySelectorAll('input,select').forEach(e=>e.oninput=upd);upd();</script></body></html>

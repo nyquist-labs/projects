@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "AM-069",
+  "title": "PCA on 64-channel EEG: dominant spatial modes",
+  "level": "M",
+  "tools": "Principal component analysis via SVD of the channel covariance, variance-explained curves, spatial maps (by electrode position), band-power of component time courses; real EEG (PhysioNet EEG Motor Movement/Imagery)",
+  "summary": "Decompose real 64-channel EEG into orthogonal spatial components, measure how much variance the first few capture, and interpret them: a global common mode, frontal eye-movement activity, and occipital alpha \u2014 then check that PCA's components are uncorrelated and energy-ranked as the theory says.",
+  "problem": "Sixty-four electrodes record heavily overlapping signals. How many independent-looking patterns are really there?",
+  "theory": "PCA diagonalises the channel covariance \u03a3 = U\u039bU\u1d40; component k has variance \u03bb_k and time course u_k\u1d40x. Components are uncorrelated and ranked by variance. Because volume conduction smears sources\nacross the scalp, EEG covariance is dominated by a few broad patterns \u2014 I expect > 50 % of variance in the first 3 PCs, a near-uniform first component (common reference/global activity),\nand a component with strong 8\u201313 Hz power over occipital sites during eyes-closed rest.",
+  "method": "Subject S001, run 2 (eyes-closed baseline, 160 Hz, 1 min) from EEG Motor Movement/Imagery; band-pass 1\u201340 Hz; channels z-scored. SVD; variance explained; alpha-band (8\u201313 Hz) fraction of each component's power;\nelectrode names from the EDF header to locate occipital (O1/Oz/O2) and frontal (Fp1/Fpz/Fp2) sites.",
+  "data": "Real: EEG Motor Movement/Imagery Dataset (Schalk et al. 2004, PhysioNet), ODC-By.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra"
+ },
+ "rows": [
+  {
+   "quantity": "Variance explained by the first 3 principal components (my guess > 50 %)",
+   "predicted": 50.0,
+   "measured": 86.71557937866724,
+   "unit": "%",
+   "error": 36.71557937866724,
+   "error_str": "+36.7 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Component time courses are uncorrelated (max |off-diagonal corr|, first 10)",
+   "predicted": 0.0,
+   "measured": 2.487268027482941e-15,
+   "unit": "",
+   "error": 2.487268027482941e-15,
+   "error_str": "+2.4873e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Variances are ranked (\u03bb decreasing, 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Most alpha-rich component (PC2): occipital loading / mean loading",
+   "predicted": 1.5,
+   "measured": 1.951156921617439,
+   "unit": "\u00d7",
+   "error": 0.4511569216174389,
+   "error_str": "+0.4512 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Alpha fraction of power, PC1\u2026PC5",
+   "value": "36 %, 65 %, 46 %, 32 %, 31 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "PC1 loading uniformity (min/max |loading|)",
+   "value": 0.2711148273887062,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pca_eeg.png"
+ ],
+ "runtime_s": 0.27,
+ "folder": "projects/applied-math/D-linear-algebra/AM069-pca-on-signal-data"
+}

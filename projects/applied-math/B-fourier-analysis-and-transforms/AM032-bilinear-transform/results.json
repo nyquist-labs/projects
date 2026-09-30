@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "AM-032",
+  "title": "Bilinear transform and frequency pre-warping",
+  "level": "H",
+  "tools": "Own zpk bilinear mapping z = (1+sT/2)/(1\u2212sT/2) with gain matching, frequency-warping formula, comparison with scipy.signal.bilinear_zpk",
+  "summary": "Map an analog Butterworth prototype to a digital filter with the bilinear transform, predict exactly how far the cutoff moves without pre-warping, implement pre-warping, and verify both against the measured digital responses.",
+  "problem": "The bilinear transform keeps stable filters stable \u2014 but it squeezes the whole analog frequency axis into [0, fs/2]. Where does a 3 kHz cutoff end up at fs = 8 kHz?",
+  "theory": "With $s=\\frac2T\\frac{z-1}{z+1}$, the j\u03a9 axis maps onto the unit circle with $\u03a9=\\frac2T\\tan\\frac{\u03c9}{2}$ (\u03c9 = digital rad/sample). An analog cutoff \u03a9_c therefore lands at\n$f_d=\\frac{f_s}{\u03c0}\\arctan\\frac{\u03c0f_c}{f_s}$ = 2207 Hz for f_c = 3 kHz, f_s = 8 kHz (\u221226 %). Pre-warping designs the analog prototype at $\u03a9_c=\\frac2T\\tan\\frac{\u03c0f_c}{f_s}$ so the digital cutoff lands exactly on f_c.\nPoles map as $z_p=\\frac{1+p T/2}{1-p T/2}$; zeros at infinity go to z = \u22121.",
+  "method": "4th-order Butterworth, f_c \u2208 {500, 1000, 2000, 3000, 3500} Hz at f_s = 8 kHz, with and without pre-warping. Own mapping vs scipy.signal.bilinear_zpk; \u22123 dB point measured on a 2\u00b9\u2078-point\nfrequency response.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Own bilinear mapping vs scipy.signal.bilinear_zpk (worst pole/gain difference)",
+   "predicted": 0.0,
+   "measured": 5.984451494427149e-16,
+   "unit": "",
+   "error": 5.984451494427149e-16,
+   "error_str": "+5.9845e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "f_c = 1000 Hz without pre-warping: digital \u22123 dB point",
+   "predicted": 952.884022300225,
+   "measured": 952.8961181640625,
+   "unit": "Hz",
+   "error": 0.001269395178685564,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "f_c = 1000 Hz with pre-warping: digital \u22123 dB point",
+   "predicted": 1000.0,
+   "measured": 1000.0152587890625,
+   "unit": "Hz",
+   "error": 0.00152587890625,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "f_c = 3000 Hz without pre-warping: digital \u22123 dB point",
+   "predicted": 2207.7566624121328,
+   "measured": 2207.763671875,
+   "unit": "Hz",
+   "error": 0.00031749254737098963,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "f_c = 3000 Hz with pre-warping: digital \u22123 dB point",
+   "predicted": 3000.0,
+   "measured": 3000.0152587890625,
+   "unit": "Hz",
+   "error": 0.0005086263020833333,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/bilinear.png"
+ ],
+ "runtime_s": 0.26,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM032-bilinear-transform"
+}

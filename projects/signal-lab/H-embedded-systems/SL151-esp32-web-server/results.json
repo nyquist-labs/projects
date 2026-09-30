@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-151",
+  "title": "Embedded web server: control page and REST endpoint",
+  "level": "M",
+  "tools": "C firmware (single-threaded HTTP/1.0 server on sockets, like an ESP32 WebServer loop) + Python HTTP client test",
+  "summary": "Serve a control page and a tiny JSON API from 'device' firmware, toggle a simulated LED over HTTP and read a simulated sensor; measure request latency and verify HTTP framing (status line, headers, Content-Length).",
+  "problem": "Many IoT gadgets are configured through a web page served by the device itself. What is the minimum HTTP a microcontroller must implement, and how responsive is it?",
+  "theory": "HTTP/1.0 over TCP: parse the request line (`GET /path HTTP/1.0`), answer with a status line, headers (Content-Type, Content-Length) and the\nbody, then close. A single-threaded server handles one request at a time, so latency \u2248 processing time + loopback RTT (\u226a 1 ms on localhost), and\nthroughput \u2248 1/latency.",
+  "method": "Server bound to 127.0.0.1 (random free port) with routes `/` (HTML page), `/api/led?on=1|0`, `/api/sensor` (JSON), 404 otherwise. Python client\nissues 200 mixed requests, checks status codes, Content-Length = body length, LED state round-trip and JSON validity; latencies recorded.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Correct status codes (150 \u00d7 200, 50 \u00d7 404)",
+   "predicted": 200.0,
+   "measured": 200.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Content-Length equals body length (all 200 responses)",
+   "predicted": 200.0,
+   "measured": 200.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "LED state round-trips",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Sensor endpoint returns valid JSON",
+   "predicted": 50.0,
+   "measured": 50.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Median request latency (loopback)",
+   "value": 0.18754147458821535,
+   "unit": "ms",
+   "note": "p95 0.23 ms"
+  }
+ ],
+ "figures": [
+  "figures/latency.png"
+ ],
+ "runtime_s": 0.45,
+ "folder": "projects/signal-lab/H-embedded-systems/SL151-esp32-web-server"
+}

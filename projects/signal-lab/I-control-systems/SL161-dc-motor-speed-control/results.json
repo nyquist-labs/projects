@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-161",
+  "title": "DC motor speed control (with current limiting)",
+  "level": "M",
+  "tools": "Electromechanical state-space model (R, L, K, J, b), exact ZOH simulation, PI speed loop with voltage saturation",
+  "summary": "Model a small brushed DC motor, verify its open-loop speed time constant and no-load speed, then close a PI speed loop designed for 20 Hz bandwidth and check rise time and the effect of supply saturation.",
+  "problem": "How fast can a motor change speed, and how does a controller make it faster without exceeding the supply?",
+  "theory": "$L\\,di/dt=V-Ri-K\\omega$, $J\\,d\\omega/dt=Ki-b\\omega$. With L small, the mechanical time constant $\\tau_m\\approx\\frac{JR}{K^2+bR}$ and no-load speed\n$\\omega_\\infty = \\frac{KV}{K^2+bR}$. A PI speed loop with crossover \u03c9_c gives rise time \u2248 1.8/\u03c9_c for a well-damped design; voltage saturation slows large\nsteps (the loop then behaves open-loop).",
+  "method": "R = 1 \u03a9, L = 0.5 mH, K = 0.05 V\u00b7s/rad, J = 1e-5 kg\u00b7m\u00b2, b = 1e-5 N\u00b7m\u00b7s. 12 V supply. PI tuned by pole-zero cancellation of \u03c4_m with crossover 2\u03c0\u00b7100 rad/s.\nSteps of 20 and 200 rad/s (the no-load limit at 12 V is 239 rad/s).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "No-load speed K\u00b7V/(K\u00b2 + bR)",
+   "predicted": 239.0438247011952,
+   "measured": 239.04382470119577,
+   "unit": "rad/s",
+   "error": 2.377949689010469e-13,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Mechanical time constant JR/(K\u00b2 + bR)",
+   "predicted": 0.00398406374501992,
+   "measured": 0.00404,
+   "unit": "s",
+   "error": 1.4040000000000064,
+   "error_str": "+1.40 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PI loop, 20 rad/s step: 10\u201390 % rise time (\u2248 2.2/\u03c9_c for first-order loop)",
+   "predicted": 0.0035014087480216977,
+   "measured": 0.0022400000000000002,
+   "unit": "s",
+   "error": -36.025749599626025,
+   "error_str": "-36.03 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "20 rad/s step: overshoot",
+   "value": 0.0,
+   "unit": "%",
+   "note": "a pure first-order loop would have none"
+  },
+  {
+   "quantity": "200 rad/s step: rise time / time in saturation",
+   "value": "7.2 ms / 2.6 ms",
+   "unit": "",
+   "note": "large steps are supply-limited"
+  }
+ ],
+ "figures": [
+  "figures/motor.png"
+ ],
+ "runtime_s": 0.2,
+ "folder": "projects/signal-lab/I-control-systems/SL161-dc-motor-speed-control"
+}

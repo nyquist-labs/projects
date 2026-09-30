@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "AM-124",
+  "title": "Fixed vs floating point in a DSP chain",
+  "level": "H",
+  "tools": "Bit-true Q15 fixed-point FIR and biquad IIR (rounding, saturation), float32/float64 references, SQNR measurement, 6.02B + 1.76 dB rule, zero-input limit cycles",
+  "summary": "Implement a filter chain in Q15 fixed point and in float32, measure the signal-to-quantisation-noise ratio against a float64 reference, check the 6 dB-per-bit rule, and provoke the zero-input limit cycles that only fixed-point recursive filters suffer from.",
+  "problem": "A DSP runs 16-bit integers. How much precision does the filter really lose, and what can go wrong that never happens in floating point?",
+  "theory": "Rounding to B bits adds white noise of variance q\u00b2/12 (q = 2^{\u2212(B\u22121)}); a full-scale sine then has SQNR \u2248 6.02B + 1.76 dB (98 dB at 16 bits). In a filter, each rounding point's noise is shaped by the transfer function from that point to the output\n(noise gain \u03a3h\u00b2). Recursive fixed-point filters can sustain small oscillations with zero input (limit cycles) because rounding makes the effective pole radius \u2265 1 near zero; floating point has no such dead band.",
+  "method": "Input: 997 Hz sine at \u22121 dBFS, fs = 48 kHz. (i) Plain quantisation to 8/12/16 bits: SQNR vs 6.02B+1.76. (ii) 64-tap FIR in Q15 (products accumulated in 32-bit, one rounding) vs float32. (iii) Direct-form-I biquad (Q15 coefficients, rounding after each product) with poles at\n0.99e^{\u00b1j0.1}: output SQNR; then zero input after an impulse: amplitude of the persistent limit cycle.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "8-bit quantisation of a \u22121 dBFS sine: SQNR \u2248 6.02B + 1.76 \u2212 1 dB",
+   "predicted": 48.919999999999995,
+   "measured": 49.05676134867015,
+   "unit": "dB",
+   "error": 0.13676134867015577,
+   "error_str": "+0.1368 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "12-bit quantisation of a \u22121 dBFS sine: SQNR \u2248 6.02B + 1.76 \u2212 1 dB",
+   "predicted": 73.0,
+   "measured": 73.03723730680407,
+   "unit": "dB",
+   "error": 0.037237306804073,
+   "error_str": "+0.03724 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "16-bit quantisation of a \u22121 dBFS sine: SQNR \u2248 6.02B + 1.76 \u2212 1 dB",
+   "predicted": 97.08,
+   "measured": 97.07707857014111,
+   "unit": "dB",
+   "error": -0.0029214298588868814,
+   "error_str": "-0.002921 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Q15 FIR with one final rounding: SQNR \u2248 6.02\u00b716 + 1.76 + level (output ~ \u22121 dBFS)",
+   "predicted": 96.1,
+   "measured": 95.76605333654723,
+   "unit": "dB",
+   "error": -0.3339466634527639,
+   "error_str": "-0.3339 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Zero input after an impulse: fixed-point output never decays (limit cycle amplitude > 0 LSB)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "64-tap FIR output SQNR: Q15 / float32",
+   "value": "95.8 / 147.4 dB",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Resonant biquad (r = 0.99) output SQNR in Q15 (roundings inside the loop are amplified by the high-Q poles)",
+   "value": 45.48959598193793,
+   "unit": "dB",
+   "note": ""
+  },
+  {
+   "quantity": "Limit-cycle amplitude (LSBs)",
+   "value": 48.0,
+   "unit": "LSB",
+   "note": "float64 tail: 1.9e-66"
+  }
+ ],
+ "figures": [
+  "figures/fixed_point.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/applied-math/G-numerical-methods/AM124-fixed-vs-floating-point"
+}

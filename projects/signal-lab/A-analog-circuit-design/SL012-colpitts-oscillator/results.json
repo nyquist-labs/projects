@@ -1,0 +1,76 @@
+{
+ "meta": {
+  "id": "SL-012",
+  "title": "Colpitts LC oscillator",
+  "level": "M",
+  "tools": "eelab mini-SPICE transient (BJT common-base Colpitts)",
+  "summary": "Build a common-base Colpitts oscillator for three inductor values and compare the measured frequency with 1/(2\u03c0\u221a(L\u00b7C\u2081C\u2082/(C\u2081+C\u2082))).",
+  "problem": "How accurately does the ideal tank formula predict an LC oscillator, and what does the transistor itself do to the frequency?",
+  "theory": "The tank inductor resonates with the series combination of the divider capacitors:\n$$f_0=\\frac{1}{2\\pi\\sqrt{L\\,C_{eq}}},\\qquad C_{eq}=\\frac{C_1C_2}{C_1+C_2}$$\nThe divider C\u2081/C\u2082 feeds back a fraction $C_1/(C_1+C_2)$ of the collector swing to the emitter; start-up\nrequires roughly $g_m R_{tank} > C_2/C_1$. C\u2081 = 1 nF, C\u2082 = 4.7 nF \u2192 C_eq = 824.6 pF.",
+  "method": "9 V supply, base biased at 3 V and AC-grounded by 100 nF, R_E = 2.2 k\u03a9, tank L from V_CC to collector\n(with 2 \u03a9 series loss), C\u2081 collector\u2013emitter, C\u2082 emitter\u2013ground. L \u2208 {4.7, 10, 22} \u00b5H. A short\ncurrent kick starts oscillation; 40 \u00b5s transient at ~1/150 of the period; frequency from zero\ncrossings of the collector swing in the last 10 \u00b5s.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "L = 4.7 \u00b5H: frequency",
+   "predicted": 2556581.8508484,
+   "measured": 2552982.1556368317,
+   "unit": "Hz",
+   "error": -0.14080109386577336,
+   "error_str": "-0.14 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "L = 10 \u00b5H: frequency",
+   "predicted": 1752704.2127070648,
+   "measured": 1753906.0306072105,
+   "unit": "Hz",
+   "error": 0.06856935080274855,
+   "error_str": "+0.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "L = 22 \u00b5H: frequency",
+   "predicted": 1181672.9391458482,
+   "measured": 1184434.1123927722,
+   "unit": "Hz",
+   "error": 0.23366645333521247,
+   "error_str": "+0.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "L = 4.7 \u00b5H: collector swing (pk-pk)",
+   "value": 13.3144162445083,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "L = 10 \u00b5H: collector swing (pk-pk)",
+   "value": 13.810159487867445,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "L = 22 \u00b5H: collector swing (pk-pk)",
+   "value": 14.034747146415548,
+   "unit": "V",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/startup.png",
+  "figures/freq_vs_L.png"
+ ],
+ "runtime_s": 2.38,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL012-colpitts-oscillator"
+}

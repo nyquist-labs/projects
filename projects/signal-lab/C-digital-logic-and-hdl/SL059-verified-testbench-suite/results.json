@@ -1,0 +1,92 @@
+{
+ "meta": {
+  "id": "SL-059",
+  "title": "Verified testbench suite: assertions and coverage",
+  "level": "M",
+  "tools": "SystemVerilog-style testbench (immediate assertions, functional coverage bins), Icarus Verilog",
+  "summary": "Build a self-checking, coverage-driven testbench for the SL-041 ALU: 8 ops \u00d7 4 flag outcomes \u00d7 operand-class bins; measure how many random vectors reach full coverage, catch an injected bug, and compare with the coupon-collector prediction.",
+  "problem": "How do you know a testbench has tested enough? Measure functional coverage, and check that the checker actually catches bugs.",
+  "theory": "With B equally likely bins, the expected number of random draws to hit all of them is the coupon-collector\nvalue $B\\,H_B \\approx B(\\ln B + 0.577)$. Rare bins break the equal-probability assumption \u2014 e.g. \"ADD with\nsigned overflow AND zero result\" happens only for $a=b=-128$ (p = 2\u207b\u00b9\u2076) \u2014 so constrained-random or\ndirected vectors are needed for those. A mutation (injected bug) must make at least one assertion fire.",
+  "method": "Coverage model: op (8) \u00d7 result class {zero, negative, positive} (3) \u00d7 carry (2) = 48 bins, of which the\nreachable ones are counted by exhaustive enumeration in Python. Testbench draws random vectors, updates\nbins, and stops at full reachable coverage. Then the ALU is mutated (SLT using unsigned compare) and the\nsame testbench must report assertion failures.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Assertion failures on correct ALU",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Coverage reached (bins)",
+   "predicted": 32.0,
+   "measured": 32.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Random draws to full coverage (unequal-probability coupon collector)",
+   "predicted": 786432.4658562321,
+   "measured": 1601853.0,
+   "unit": "draws",
+   "error": 103.68602131093037,
+   "error_str": "+103.69 %",
+   "kind": "rel",
+   "ok": null,
+   "note": "single run; the rarest bin makes this nearly exponential, \u03c3 \u2248 mean"
+  },
+  {
+   "quantity": "Injected bug detected (assertion failures > 0)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Reachable coverage bins (of 48)",
+   "value": 32.0,
+   "unit": "",
+   "note": "found by exhaustive enumeration"
+  },
+  {
+   "quantity": "Naive equal-bin estimate B\u00b7H_B",
+   "value": 129.87184625396864,
+   "unit": "draws",
+   "note": "badly wrong: bins are far from equiprobable"
+  },
+  {
+   "quantity": "Rarest bin",
+   "value": "ADD zero carry=0: p = 1/524288 per draw",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Assertion failures with mutated SLT",
+   "value": 99786.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/coverage.png"
+ ],
+ "runtime_s": 23.5,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL059-verified-testbench-suite"
+}

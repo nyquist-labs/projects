@@ -1,0 +1,18 @@
+* full 0.001 — exported by eelab.circuit
+Vac a b DC 0.0 AC 0.0  ; time-varying in eelab
+Rw b bb 0.5
+R1_rs a 1_int 0.034
+R2_rs bb 2_int 0.034
+R3_rs 0 3_int 0.034
+R4_rs 0 4_int 0.034
+Cres out 0 0.001
+RL out 0 100
+D1 1_int out D_1
+D2 2_int out D_2
+D3 3_int a D_3
+D4 4_int bb D_4
+.model D_1 D(Is=1.41e-08 N=1.984)
+.model D_2 D(Is=1.41e-08 N=1.984)
+.model D_3 D(Is=1.41e-08 N=1.984)
+.model D_4 D(Is=1.41e-08 N=1.984)
+.end

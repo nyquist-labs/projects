@@ -1,0 +1,109 @@
+{
+ "meta": {
+  "id": "AM-140",
+  "title": "State encoding optimisation: every assignment of a 5-state FSM",
+  "level": "H",
+  "tools": "Exhaustive enumeration of all 6720 three-bit state assignments, exact two-level minimisation of every next-state and output function (eelab.boolmin) with unused codes as don't-cares, one-hot encoding for comparison, simulation of the encoded logic against the behavioural FSM",
+  "summary": "The same state machine costs very different amounts of logic depending on which binary code each state gets. Enumerate every possible 3-bit assignment for a '1101' sequence detector, minimise the logic exactly for each, and see where the naive binary, Gray and one-hot choices rank.",
+  "problem": "State names are arbitrary; their codes are not. How much logic does a good assignment save, and how good are the default choices?",
+  "theory": "With s states in b bits there are $2^b!/(2^b-s)!$ assignments (6720 for s = 5, b = 3; 1120 distinct up to renaming the flip-flops). Each gives next-state functions $D_i(q, x)$ and output $z(q)$; cost here = total literals + product terms of the exact minimum\nSOP forms (unused codes are don't-cares). No closed form predicts the best assignment \u2014 the problem is NP-hard \u2014 which is why tools use heuristics (adjacent codes for states sharing successors) or one-hot (s flip-flops, very simple\nper-flip-flop logic). My guess before running: a 2\u00d7 spread between best and worst, with plain binary somewhere in the middle.",
+  "method": "Moore '1101' detector (overlapping), states S0\u2026S4, output in S4. All injective maps state \u2192 {0\u20267}; per assignment minimise D2, D1, D0 (4 variables) and z (3 variables). One-hot: 6 variables, non-one-hot codes as don't-cares.\nThe best assignment's equations are simulated on 5000 random bits against the state table.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Assignments enumerated: 8!/3!",
+   "predicted": 6720.0,
+   "measured": 6720.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Worst / best cost ratio (my guess: about 2\u00d7)",
+   "predicted": 2.0,
+   "measured": 2.6923076923076925,
+   "unit": "\u00d7",
+   "error": 34.61538461538463,
+   "error_str": "+34.62 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Distinct costs are invariant under flip-flop renaming (6720 / 6 classes have equal cost; violations)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Encoded logic vs behavioural FSM on 5000 random bits (best, binary, one-hot; mismatches)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Detections by the FSM vs occurrences of '1101' counted directly in the input",
+   "predicted": 277.0,
+   "measured": 277.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Best assignment (S0\u2026S4)",
+   "value": "001 011 010 000 111",
+   "unit": "",
+   "note": "cost 13"
+  },
+  {
+   "quantity": "Worst assignment",
+   "value": "011 000 101 100 110",
+   "unit": "",
+   "note": "cost 35"
+  },
+  {
+   "quantity": "Plain binary 000,001,010,011,100: cost",
+   "value": 25.0,
+   "unit": "",
+   "note": "better than or equal to 44 % of assignments"
+  },
+  {
+   "quantity": "Gray order 000,001,011,010,110: cost",
+   "value": 25.0,
+   "unit": "",
+   "note": "better than or equal to 44 % of assignments"
+  },
+  {
+   "quantity": "One-hot (5 flip-flops): logic cost",
+   "value": 18.0,
+   "unit": "",
+   "note": "vs 3 flip-flops for the binary encodings"
+  }
+ ],
+ "figures": [
+  "figures/encodings.png"
+ ],
+ "runtime_s": 1.13,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM140-state-encoding-optimisation"
+}

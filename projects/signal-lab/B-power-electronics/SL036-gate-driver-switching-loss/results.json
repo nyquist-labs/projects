@@ -1,0 +1,141 @@
+{
+ "meta": {
+  "id": "SL-036",
+  "title": "Gate resistance vs switching loss and EMI",
+  "level": "H",
+  "tools": "eelab mini-SPICE (square-law MOSFET with C_gs and Miller C_gd, clamped inductive load)",
+  "summary": "Turn on a MOSFET into a 5 A clamped inductive load with gate resistors from 2 \u03a9 to 47 \u03a9; measure turn-on energy and drain dV/dt, and predict both from the Miller plateau.",
+  "problem": "A bigger gate resistor slows switching edges (less EMI) but costs energy. Quantify the trade-off with the gate-charge model.",
+  "theory": "During the current rise the gate charges C_gs from $V_{th}$ to the Miller plateau\n$V_{pl}=V_{th}+\\sqrt{2I_L/K}$; during the voltage fall the gate is stuck at $V_{pl}$ and the drive current\n$(V_{drv}-V_{pl})/R_g$ discharges $C_{gd}$:\n$$t_{fv}=\\frac{R_gC_{gd}V_{DD}}{V_{drv}-V_{pl}},\\qquad \\frac{dV}{dt}=\\frac{V_{drv}-V_{pl}}{R_gC_{gd}}$$\n$E_{on}\\approx\\tfrac12V_{DD}I_L(t_{ri}+t_{fv})$ with $t_{ri}\\approx R_g(C_{gs}+C_{gd})\\ln\\frac{V_{drv}-V_{th}}{V_{drv}-V_{pl}}$.",
+  "method": "V_DD = 48 V, I_L = 5 A (ideal current source through a freewheeling diode to V_DD), gate drive 0\u219212 V step.\nMOSFET: K = 20 A/V\u00b2, V_th = 3 V, C_gs = 1 nF, C_gd = 100 pF. R_g \u2208 {2, 5, 10, 22, 47} \u03a9. 400 ns transient at\n20 ps steps; E_on = \u222bv_DS\u00b7i_D dt over the edge, dV/dt = max slope of v_DS.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "R_g = 2 \u03a9: drain dV/dt",
+   "predicted": 41464466094.06726,
+   "measured": 40249999997.71706,
+   "unit": "V/s",
+   "error": -2.9289321936403043,
+   "error_str": "-2.93 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 2 \u03a9: turn-on energy E_on",
+   "predicted": 1.6051610072708342e-07,
+   "measured": 3.089775747653145e-07,
+   "unit": "J",
+   "error": 92.4900825311299,
+   "error_str": "+92.49 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 5 \u03a9: drain dV/dt",
+   "predicted": 16585786437.626904,
+   "measured": 16370636486.25647,
+   "unit": "V/s",
+   "error": -1.2971947527452758,
+   "error_str": "-1.30 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 5 \u03a9: turn-on energy E_on",
+   "predicted": 4.0129025181770864e-07,
+   "measured": 5.540381091117055e-07,
+   "unit": "J",
+   "error": 38.06418336904545,
+   "error_str": "+38.06 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 10 \u03a9: drain dV/dt",
+   "predicted": 8292893218.813452,
+   "measured": 8236869151.700623,
+   "unit": "V/s",
+   "error": -0.675567207180863,
+   "error_str": "-0.68 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 10 \u03a9: turn-on energy E_on",
+   "predicted": 8.025805036354173e-07,
+   "measured": 9.606844418330408e-07,
+   "unit": "J",
+   "error": 19.69944914952037,
+   "error_str": "+19.70 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 22 \u03a9: drain dV/dt",
+   "predicted": 3769496917.642478,
+   "measured": 3757638179.5004883,
+   "unit": "V/s",
+   "error": -0.31459736938600313,
+   "error_str": "-0.31 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 22 \u03a9: turn-on energy E_on",
+   "predicted": 1.7656771079979183e-06,
+   "measured": 1.935478305307382e-06,
+   "unit": "J",
+   "error": 9.61677514763723,
+   "error_str": "+9.62 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 47 \u03a9: drain dV/dt",
+   "predicted": 1764445365.70499,
+   "measured": 1761817688.8328552,
+   "unit": "V/s",
+   "error": -0.14892367444229643,
+   "error_str": "-0.15 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R_g = 47 \u03a9: turn-on energy E_on",
+   "predicted": 3.772128367086461e-06,
+   "measured": 3.965658472410391e-06,
+   "unit": "J",
+   "error": 5.1305280862806395,
+   "error_str": "+5.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Miller plateau voltage",
+   "value": 3.7071067811865475,
+   "unit": "V",
+   "note": "V_th + \u221a(2I/K)"
+  }
+ ],
+ "figures": [
+  "figures/tradeoff.png",
+  "figures/waveforms.png"
+ ],
+ "runtime_s": 1.95,
+ "folder": "projects/signal-lab/B-power-electronics/SL036-gate-driver-switching-loss"
+}

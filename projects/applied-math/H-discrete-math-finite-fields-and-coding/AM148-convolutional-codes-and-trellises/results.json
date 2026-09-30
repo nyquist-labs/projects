@@ -1,0 +1,179 @@
+{
+ "meta": {
+  "id": "AM-148",
+  "title": "Convolutional codes: state diagrams, trellises and distance spectra",
+  "level": "H",
+  "tools": "Trellis enumeration of error events (distance spectrum) by dynamic programming over (state, weight), transfer-function closed form for the (7,5) code, catastrophic-code test via polynomial GCD, batch Viterbi simulation against the union bound",
+  "summary": "Compute the free distance and distance spectrum of convolutional codes directly from their trellis, check the K = 3 result against the transfer function T(D) = D\u2075/(1 \u2212 2D) and the K = 7 NASA code against published values, demonstrate a catastrophic code, and compare simulated BER with the union bound.",
+  "problem": "A convolutional code has no block length and no codeword list. What determines how well it corrects errors?",
+  "theory": "The encoder is a finite-state machine; codewords are paths in its trellis. Performance is governed by paths that leave the all-zero path and re-merge: for the (7,5)\u2088 K = 3 code, signal-flow-graph reduction gives $T(D)=D^5/(1-2D)$ \u21d2 $d_{free}=5$,\n$a_d=2^{d-5}$ paths and $c_d=(d-4)2^{d-5}$ information-bit errors at distance d. The K = 7 (171,133)\u2088 code has $d_{free}=10$, $a_{10}=11$, $a_{12}=38$, $c_{10}=36$, $c_{12}=211$. Soft-decision bound: $P_b\\le\\sum_d c_d\\,Q(\\sqrt{2dR\\,E_b/N_0})$.\nA code is catastrophic iff gcd(g\u2081, g\u2082) \u2260 1: some infinite-weight input produces finite-weight output.",
+  "method": "Spectrum: propagate a table {(state, output weight, input weight): count} from the first diverging branch until paths re-merge, keeping weights \u2264 d_max. Simulation: BPSK/AWGN, terminated 1000-bit blocks, soft Viterbi, 4\u00d710\u2076 bits at 5 dB\nand 2\u00d710\u2077 at 6 dB. Catastrophic example (6,5)\u2088: g\u2081 = 1+D, g\u2082 = 1+D\u00b2 share the factor 1+D.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "H. Discrete math, finite fields & coding",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "(7,5) K = 3: free distance",
+   "predicted": 5.0,
+   "measured": 5.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,5): path counts a_d = 2^(d\u22125) for d = 5\u202614 (mismatches)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,5): bit weights c_d = (d\u22124)\u00b72^(d\u22125) for d = 5\u202614 (mismatches)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(171,133) K = 7: free distance",
+   "predicted": 10.0,
+   "measured": 10.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(171,133): a\u2081\u2080",
+   "predicted": 11.0,
+   "measured": 11.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(171,133): a\u2081\u2082",
+   "predicted": 38.0,
+   "measured": 38.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(171,133): c\u2081\u2080",
+   "predicted": 36.0,
+   "measured": 36.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(171,133): c\u2081\u2082",
+   "predicted": 211.0,
+   "measured": 211.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(171,133): no odd-weight error events (a\u2081\u2081 + a\u2081\u2083)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "gcd(g\u2081, g\u2082) for (7,5): 1 \u21d2 non-catastrophic",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "gcd(g\u2081, g\u2082) for (6,5): 1 + D = 0b11 \u21d2 catastrophic",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "(7,5) soft Viterbi BER at 5 dB vs union bound (304 errors)",
+   "predicted": 9.165450133050349e-05,
+   "measured": 7.6e-05,
+   "unit": "",
+   "error": -17.07990453633456,
+   "error_str": "-17.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "(7,5) soft Viterbi BER at 6 dB vs union bound (151 errors)",
+   "predicted": 7.2831125744628805e-06,
+   "measured": 7.55e-06,
+   "unit": "",
+   "error": 3.6644693159476778,
+   "error_str": "+3.66 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "All-ones input (weight 2000): output weight, catastrophic (6,5) vs good (7,5)",
+   "value": "3 vs 2001",
+   "unit": "",
+   "note": "a handful of channel errors can therefore cause unbounded decoded errors"
+  },
+  {
+   "quantity": "BER at 3 dB: simulated vs union bound (bound is loose at low SNR)",
+   "value": "3.42e-03 vs 7.55e-03",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/conv.png"
+ ],
+ "runtime_s": 1.81,
+ "folder": "projects/applied-math/H-discrete-math-finite-fields-and-coding/AM148-convolutional-codes-and-trellises"
+}

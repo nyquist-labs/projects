@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-139",
+  "title": "SSD1306 OLED driver: framebuffer, font and refresh rate",
+  "level": "E",
+  "tools": "C firmware (framebuffer + 5\u00d77 font + line drawing), simulated SSD1306 page memory, Python image render",
+  "summary": "Render text, a line and a sine plot into a 128\u00d764 monochrome framebuffer using the SSD1306 page layout, 'send' it over a simulated 400 kHz I\u00b2C link, rebuild the panel image from the transferred bytes and compute the achievable frame rate.",
+  "problem": "Small OLEDs store pixels in vertical 8-pixel 'pages'. Build a driver that gets the bit ordering right, and work out how fast the screen can actually be updated.",
+  "theory": "128\u00d764 pixels = 1,024 bytes (8 pages \u00d7 128 columns, bit 0 = top pixel of each page). Over I\u00b2C each byte costs 9 clocks: at 400 kHz a full\nframe is \u2265 1,024\u00d79/400 k \u2248 23 ms \u2192 \u2248 43 frames/s maximum (plus addressing overhead).",
+  "method": "Firmware draws into uint8_t fb[1024] using the SSD1306 layout, then streams it with the 0x40 data prefix; the simulated panel writes\nreceived bytes into its own GDDRAM in horizontal addressing mode and dumps it; Python renders the panel memory.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Bytes per frame on the bus (1,024 data + 32 prefixes + 7 cmd)",
+   "predicted": 1063.0,
+   "measured": 1063.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Frame transfer time at 400 kHz",
+   "predicted": 0.0239175,
+   "measured": 0.024099,
+   "unit": "s",
+   "error": 0.7588585763562146,
+   "error_str": "+0.76 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lit pixels rendered (non-zero)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Maximum full-frame refresh rate",
+   "value": 41.495497738495374,
+   "unit": "frames/s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/panel.png"
+ ],
+ "runtime_s": 0.31,
+ "folder": "projects/signal-lab/H-embedded-systems/SL139-oled-display-driver"
+}

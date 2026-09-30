@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-133",
+  "title": "PCB crosstalk vs trace spacing",
+  "level": "M",
+  "tools": "2-D Laplace solver for coupled microstrip capacitances + eelab mini-SPICE coupled-line ladder (transient)",
+  "summary": "Extract mutual capacitance and inductance of two parallel microstrips for several spacings, predict near-end crosstalk K_NE = \u00bc(C_m/C + L_m/L), and verify with a transient simulation of a 1 ns edge on a 20 cm pair.",
+  "problem": "Two neighbouring traces talk to each other. How much, and how much does spacing them out help?",
+  "theory": "For weakly coupled lines the backward (near-end) crosstalk saturates at $K_{NE}=\\frac14\\left(\\frac{C_m}{C}+\\frac{L_m}{L}\\right)$ once the line delay exceeds\nhalf the rise time. Mutual terms fall roughly as $1/(1+(s/h)^2)$, so doubling the spacing cuts crosstalk ~4\u00d7 (the '3W rule').",
+  "method": "Two 0.3 mm traces, h = 0.2 mm, \u03b5_r = 4.4, spacings 0.15\u20131.2 mm. Capacitance matrix from two Laplace solves; inductance from the air-filled\ncapacitance matrix (L = \u03bc\u2080\u03b5\u2080 C\u2080\u207b\u00b9). Transient: 40-section LC ladder with coupling capacitors and K-coupled inductors, 50 \u03a9 terminations,\n1 V / 1 ns ramp on the aggressor.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "s = 0.15 mm: near-end crosstalk (\u00bc(Cm/C + Lm/L))",
+   "predicted": 0.08116225670799407,
+   "measured": 0.07947375320654573,
+   "unit": "",
+   "error": -2.0804048210774138,
+   "error_str": "-2.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "s = 0.30 mm: near-end crosstalk (\u00bc(Cm/C + Lm/L))",
+   "predicted": 0.04766561913053896,
+   "measured": 0.04859128567654974,
+   "unit": "",
+   "error": 1.9420004667844757,
+   "error_str": "+1.94 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "s = 0.60 mm: near-end crosstalk (\u00bc(Cm/C + Lm/L))",
+   "predicted": 0.016985584398460978,
+   "measured": 0.01924101915268695,
+   "unit": "",
+   "error": 13.27852313653885,
+   "error_str": "+13.28 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "s = 1.20 mm: near-end crosstalk (\u00bc(Cm/C + Lm/L))",
+   "predicted": 0.005023517338444277,
+   "measured": 0.006008391516137877,
+   "unit": "",
+   "error": 19.605270796151054,
+   "error_str": "+19.61 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Crosstalk reduction from 0.3 \u2192 0.6 mm spacing",
+   "value": 2.525400826793736,
+   "unit": "\u00d7",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/crosstalk.png"
+ ],
+ "runtime_s": 4.4,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL133-emi-coupling-demo"
+}

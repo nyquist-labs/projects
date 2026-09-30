@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-050",
+  "title": "Switch debouncer in logic",
+  "level": "E",
+  "tools": "Verilog RTL (synchroniser + saturating counter), Icarus Verilog, stochastic bounce model",
+  "summary": "Feed realistic contact bounce (random 0.1\u20132 ms bursts) into a synchroniser and a counter-based debouncer; count spurious edges before and after.",
+  "problem": "A mechanical button produces dozens of edges per press. Remove them in logic with a known, bounded added latency.",
+  "theory": "Two flip-flops synchronise the asynchronous input. A counter increments while the synchronised input differs\nfrom the stable output and resets otherwise; the output toggles only after the input has been stable for\n$N$ ticks. The input is only *examined* on tick edges, so the counter can already be running during the tail\nof a burst if the samples happen to see the new level; the latency measured from the last bounce is therefore\nat most $N\\,T_{tick}$ = 10 ms (N = 10, 1 kHz tick) and usually a little less. Any burst shorter than N ticks\n(\u2264 2 ms here) still yields exactly one clean edge.",
+  "method": "Testbench generates 40 presses/releases, each with a burst of 3\u201325 random bounce edges over 0.1\u20132 ms, then a\nstable level. Debouncer clocked at 1 kHz tick (clock enable) from a 1 MHz clock. Python counts edges on the\nraw and debounced signals and measures latency from the last bounce to the output edge.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Output edges for 40 presses/releases",
+   "predicted": 40.0,
+   "measured": 40.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Latency upper bound after last bounce (N\u00b7T_tick)",
+   "predicted": 10.0,
+   "measured": 9.8625,
+   "unit": "ms",
+   "error": -0.1374999999999993,
+   "error_str": "-0.1375 ms",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Raw input edges (with bounce)",
+   "value": 580.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Mean latency after last bounce",
+   "value": 8.938425,
+   "unit": "ms",
+   "note": "below N\u00b7T because counting can begin inside the burst"
+  }
+ ],
+ "figures": [
+  "figures/timing.png"
+ ],
+ "runtime_s": 1.42,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL050-switch-debouncer"
+}

@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "SL-111",
+  "title": "OFDM with cyclic prefix over a multipath channel",
+  "level": "H",
+  "tools": "NumPy OFDM modem (64 subcarriers, IFFT/FFT, cyclic prefix, one-tap equaliser), Monte Carlo",
+  "summary": "Build a Wi-Fi-like OFDM link, pass it through a 6-tap multipath channel, and show that a cyclic prefix longer than the delay spread turns ISI into a per-subcarrier multiplication; measure BER with and without CP and the peak-to-average power ratio (PAPR).",
+  "problem": "Why do Wi-Fi, LTE and 5G all use OFDM, and what is the cyclic prefix for?",
+  "theory": "With a cyclic prefix of length L \u2265 channel memory, the channel's linear convolution becomes circular, so each subcarrier sees\n$Y_k=H_kX_k+N_k$ \u2014 one complex tap equalises it. Per subcarrier the BER is that of flat Rayleigh-like fading averaged over\nthe $|H_k|$ values: $\\overline{P_b}=\\frac1N\\sum_k Q\\!\\left(\\sqrt{2|H_k|^2\\frac{N}{N+L}E_b/N_0}\\right)$ for known H (E_b counts the energy spent on the\nprefix, hence the N/(N+L) factor). Without CP, inter-symbol and inter-carrier\ninterference create an error floor. PAPR of N subcarriers: $P(\\mathrm{PAPR}>x)\\approx1-(1-e^{-x})^N$.",
+  "method": "N = 64, CP = 16, QPSK, channel taps [0.8, 0.5, 0.3, 0.15, 0.1, 0.05]\u00b7e^{j\u03c6} (normalised), perfect channel knowledge; 2,000 OFDM\nsymbols per E_b/N\u2080. PAPR CCDF from 20,000 symbols (4\u00d7 oversampled).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "BER with CP at 8 dB (per-subcarrier Q-average)",
+   "predicted": 0.03760167325344648,
+   "measured": 0.03787109375,
+   "unit": "",
+   "error": 0.7165119880106012,
+   "error_str": "+0.72 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BER with CP at 14 dB (per-subcarrier Q-average)",
+   "predicted": 0.008535642823077796,
+   "measured": 0.0086171875,
+   "unit": "",
+   "error": 0.9553431254378554,
+   "error_str": "+0.96 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PAPR CCDF at 9 dB",
+   "predicted": 0.0616519299108772,
+   "measured": 0.05045,
+   "unit": "",
+   "error": -0.0112019299108772,
+   "error_str": "-0.0112",
+   "kind": "abs",
+   "ok": null,
+   "note": "\u2248 2.8N effective samples with 4\u00d7 oversampling"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "BER without CP at 20 dB (ISI floor)",
+   "value": 0.0049609375,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "CP overhead",
+   "value": 20.0,
+   "unit": "%",
+   "note": "10\u00b7log(80/64) = 0.97 dB energy cost"
+  }
+ ],
+ "figures": [
+  "figures/ofdm.png"
+ ],
+ "runtime_s": 0.42,
+ "folder": "projects/signal-lab/F-communication-systems/SL111-ofdm-simulation"
+}

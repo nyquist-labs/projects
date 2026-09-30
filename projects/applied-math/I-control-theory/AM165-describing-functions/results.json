@@ -1,0 +1,146 @@
+{
+ "meta": {
+  "id": "AM-165",
+  "title": "Describing functions: predicting limit cycles in nonlinear loops",
+  "level": "H",
+  "tools": "Describing functions of the ideal relay, relay with hysteresis and saturation; harmonic-balance solution G(j\u03c9)N(a) = \u22121; time-domain simulation with exact plant stepping; measured amplitude and frequency; harmonic content at the nonlinearity input",
+  "summary": "Replace a nonlinearity by its amplitude-dependent gain for sinusoids and solve for the oscillation that sustains itself. Compare the predicted amplitude and frequency of limit cycles with simulation for three nonlinearities, and tie the prediction error to how well the plant filters harmonics.",
+  "problem": "A loop with a relay or a saturating amplifier oscillates. Linear theory cannot say at what amplitude \u2014 what can?",
+  "theory": "Assume the input to the nonlinearity is $a\\sin \u03c9t$ and keep only the fundamental of its output: gain $N(a)$. A limit cycle needs $G(j\u03c9)=-1/N(a)$. Plant $G=\\frac{K}{s(s+1)(s+2)}$: phase \u2212180\u00b0 at $\u03c9=\\sqrt2$, where $|G|=K/6$.\n**Relay** \u00b1M: $N=\\frac{4M}{\u03c0a}$ \u21d2 $a=\\frac{2MK}{3\u03c0}$, \u03c9 = \u221a2. **Relay with hysteresis** h: $-1/N=-\\frac{\u03c0}{4M}\\left(\\sqrt{a^2-h^2}+jh\\right)$ \u21d2 $\\mathrm{Im}\\,G(j\u03c9)=-\\frac{\u03c0h}{4M}$ fixes \u03c9 (lower than \u221a2), then a. **Saturation** (unit slope, limit 1):\n$N=\\frac2\u03c0\\left(\\arcsin\\frac1a+\\frac1a\\sqrt{1-\\frac1{a^2}}\\right)$ for a > 1; a limit cycle exists only if K > 6, with $N(a)=6/K$. Accuracy rests on the plant attenuating the 3rd harmonic.",
+  "method": "Simulation: exact zero-order-hold stepping (0.5 ms) with the nonlinearity evaluated each step, 150 s, measurements over the last 40 s (amplitude = half peak-to-peak of the nonlinearity input, frequency from zero crossings).\nCases: relay M = 1, K = 3; hysteresis h = 0.2; saturation with K = 9 and K = 5; a second-order plant 2/(s(s+1)) with the hysteresis relay. Third-harmonic ratio from an FFT.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Ideal relay: limit-cycle frequency \u221a2",
+   "predicted": 1.4142135623730951,
+   "measured": 1.3803131166914737,
+   "unit": "rad/s",
+   "error": -2.397123502672072,
+   "error_str": "-2.40 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ideal relay: amplitude 2MK/(3\u03c0)",
+   "predicted": 0.6366197723675814,
+   "measured": 0.6603816331042817,
+   "unit": "",
+   "error": 3.7325043563020674,
+   "error_str": "+3.73 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Third harmonic at the relay input relative to the fundamental: \u2153\u00b7|G(3j\u03c9)|/|G(j\u03c9)|",
+   "predicted": 0.023057148795535817,
+   "measured": 0.022219440549742654,
+   "unit": "",
+   "error": -3.6331822864210985,
+   "error_str": "-3.63 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Relay with hysteresis: frequency from Im G(j\u03c9) = \u2212\u03c0h/4M",
+   "predicted": 1.1331258611781803,
+   "measured": 1.1112814480331779,
+   "unit": "rad/s",
+   "error": -1.9278011290192805,
+   "error_str": "-1.93 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Relay with hysteresis: amplitude",
+   "predicted": 0.970347471220023,
+   "measured": 1.0014746909537797,
+   "unit": "",
+   "error": 3.207842618955903,
+   "error_str": "+3.21 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Saturation, K = 9 (> 6): amplitude from N(a) = 6/K",
+   "predicted": 1.8073615967974648,
+   "measured": 1.8316640580986083,
+   "unit": "",
+   "error": 1.3446374728889914,
+   "error_str": "+1.34 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Saturation, K = 9: frequency \u221a2",
+   "predicted": 1.4142135623730951,
+   "measured": 1.4024055120546353,
+   "unit": "rad/s",
+   "error": -0.8349552452774957,
+   "error_str": "-0.83 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Saturation, K = 5 (< 6): no limit cycle \u2014 the oscillation dies out (amplitude after 110 s below 1 % of the initial swing; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Second-order plant 2/(s(s+1)) with the hysteresis relay: limit-cycle frequency",
+   "predicted": 2.19252753450447,
+   "measured": 2.206174616284966,
+   "unit": "rad/s",
+   "error": 0.622436049980109,
+   "error_str": "+0.62 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and amplitude",
+   "predicted": 0.4819616992899021,
+   "measured": 0.4691362415238701,
+   "unit": "",
+   "error": -2.6610948100084255,
+   "error_str": "-2.66 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "\u2026 amplitude in the first 15 s / last 40 s",
+   "value": "2.20 / 0.0067",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Third-harmonic content at the nonlinearity input: third-order plant / second-order plant",
+   "value": "2.2 % / 4.2 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/describing_function.png"
+ ],
+ "runtime_s": 4.06,
+ "folder": "projects/applied-math/I-control-theory/AM165-describing-functions"
+}

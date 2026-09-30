@@ -1,0 +1,151 @@
+{
+ "meta": {
+  "id": "AM-180",
+  "title": "Confusion matrices and class imbalance",
+  "level": "M",
+  "tools": "Confusion-matrix metrics (accuracy, balanced accuracy, F1, Matthews correlation, Cohen's \u03ba) coded from their definitions and cross-checked through identities, the accuracy paradox on 4 %-prevalence arrhythmia data, class weighting vs over-sampling vs threshold moving for logistic regression, micro/macro averaging on a 6-class problem",
+  "summary": "Show on real, imbalanced ECG data why accuracy is the wrong headline number, verify the identities that tie the alternative metrics together, and test whether the usual remedies for imbalance \u2014 weighting, over-sampling, moving the threshold \u2014 are actually different things.",
+  "problem": "A detector for a condition present in 4 % of beats is '96 % accurate' if it never fires. Which numbers should be reported instead, and how should the classifier be trained?",
+  "theory": "From the confusion matrix (TP, FP, FN, TN): accuracy of the trivial 'always negative' rule = 1 \u2212 \u03c0. Balanced accuracy = (Se + Sp)/2; F1 = 2TP/(2TP + FP + FN); Matthews correlation\n$\\mathrm{MCC}=\\frac{TP\\cdot TN-FP\\cdot FN}{\\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}$ with $\\mathrm{MCC}^2=\u03c7^2/n$; Cohen's \u03ba compares accuracy with chance agreement. Weighting the positive class by r in the likelihood is *identical* to replicating each\npositive r times (over-sampling), and for a well-specified logistic model it is approximately a shift of the intercept by ln r \u2014 i.e. the same ranking with a moved threshold, $p>\\frac{1}{1+r}$. For single-label multi-class problems micro-averaged F1 equals accuracy;\nmacro-averaging weights every class equally.",
+  "method": "PVC detection, 7 features, logistic regression trained on 10 patients and tested on 10 others. Models: unweighted; positives weighted by r = (1 \u2212 \u03c0)/\u03c0; positives replicated r times (r rounded). Decision at p > 0.5, and the unweighted model\nat p > 1/(1 + r). Multi-class part: softmax regression on the HAR benchmark.",
+  "data": "PhysioNet MIT-BIH Arrhythmia Database; UCI HAR.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "Accuracy of a detector that never fires = 1 \u2212 prevalence",
+   "predicted": 96.04411169566977,
+   "measured": 96.04411169566977,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 while its balanced accuracy is 50 % and its MCC, \u03ba and F1 are 0 (sum of the three)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Identity: MCC\u00b2 = \u03c7\u00b2/n for the 2 \u00d7 2 table",
+   "predicted": 0.9367140656044252,
+   "measured": 0.9367140656044252,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Identity: F1 is the harmonic mean of sensitivity and positive predictive value",
+   "predicted": 0.9690721649484536,
+   "measured": 0.9690721649484536,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Weighting positives by r = 19 vs replicating them r times: max coefficient difference",
+   "predicted": 0.0,
+   "measured": 8.704148513061227e-14,
+   "unit": "",
+   "error": 8.704148513061227e-14,
+   "error_str": "+8.7041e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Weighted model at p > 0.5 vs unweighted model at p > 1/(1 + r): sensitivity",
+   "predicted": 97.44245524296676,
+   "measured": 97.18670076726342,
+   "unit": "%",
+   "error": -0.2557544757033412,
+   "error_str": "-0.256 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 specificity",
+   "predicted": 99.57863689034025,
+   "measured": 99.62077320130622,
+   "unit": "%",
+   "error": 0.04213631096597226,
+   "error_str": "+0.0421 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Intercept shift caused by weighting \u2248 ln r",
+   "predicted": 2.9444389791664403,
+   "measured": 2.9949493863621726,
+   "unit": "",
+   "error": 1.715450975656884,
+   "error_str": "+1.72 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Weighting barely changes the ranking: AUC weighted \u2212 AUC unweighted",
+   "predicted": 0.0,
+   "measured": 0.0006694931761538347,
+   "unit": "",
+   "error": 0.0006694931761538347,
+   "error_str": "+6.6949e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Re-balancing trades precision for sensitivity: weighted model has higher Se and lower PPV than the unweighted one (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Multi-class: micro-averaged F1 = accuracy",
+   "predicted": 0.9426535459789617,
+   "measured": 0.9426535459789617,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "HAR: accuracy / macro-F1 / worst class F1",
+   "value": "94.3 % / 0.942 / 0.917 (sitting)",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/imbalance.png"
+ ],
+ "runtime_s": 2.77,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM180-confusion-matrices-and-class-imbalance"
+}

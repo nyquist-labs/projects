@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-176",
+  "title": "EMG envelope extraction and amplitude estimators",
+  "level": "M",
+  "tools": "Rectification + low-pass and RMS envelopes (SciPy), PhysioNet EMG database (healthy subject, 4 kHz)",
+  "summary": "Turn raw surface-EMG into a smooth activation envelope with mean-absolute-value and RMS detectors, verify the Gaussian-signal relation MAV = \u221a(2/\u03c0)\u00b7RMS on real data, and measure how the smoothing window trades noise against delay.",
+  "problem": "Prosthetics and muscle-controlled interfaces need 'how hard is the muscle working' from a noisy, zero-mean EMG signal. How do you get a clean, fast envelope?",
+  "theory": "*Surface* EMG is approximately a zero-mean Gaussian process with slowly varying variance \u03c3\u00b2(t). For a Gaussian, E|x| = \u221a(2/\u03c0)\u03c3 \u2248 0.798\u03c3. A moving window of N samples\nestimates \u03c3 with relative standard deviation \u2248 1/\u221a(2N_eff) (fewer effective samples because EMG is band-limited to ~20\u2013450 Hz), while adding a delay of\nN/2 samples \u2014 the noise-vs-latency trade.",
+  "method": "PhysioNet 'emgdb' healthy record (tibialis anterior, concentric needle electrode, 4 kHz, 12.7 s): 20\u2013450 Hz band-pass, full-wave rectification, windows 25\u2013400 ms. Envelope noise =\ncoefficient of variation during the steadiest contraction segment; delay from cross-correlation with a zero-phase reference envelope.",
+  "data": "Real: Examples of Electromyograms database (PhysioNet 'emgdb').",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "MAV / RMS during contraction (Gaussian: \u221a(2/\u03c0))",
+   "predicted": 0.7978845608028654,
+   "measured": 0.5924182455799886,
+   "unit": "",
+   "error": -25.751383761095454,
+   "error_str": "-25.75 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Causal envelope delay vs half the window (100 ms window)",
+   "predicted": 50.0,
+   "measured": 40.0,
+   "unit": "ms",
+   "error": -10.0,
+   "error_str": "-10 ms",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Envelope noise scaling with window (\u221d N^\u2212\u00bd)",
+   "predicted": -0.5,
+   "measured": -0.36133746811972395,
+   "unit": "",
+   "error": 0.13866253188027605,
+   "error_str": "+0.1387",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Excess kurtosis of active EMG (Gaussian = 0)",
+   "value": 22.05078509265303,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/emg_envelope.png"
+ ],
+ "runtime_s": 0.18,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL176-emg-envelope-extraction"
+}

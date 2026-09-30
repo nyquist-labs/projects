@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-058",
+  "title": "What sets an oscillator's amplitude?",
+  "level": "H",
+  "tools": "Wien-bridge oscillator with a tanh-limited amplifier (state-space ODE), describing-function prediction of amplitude, sensitivity to excess gain",
+  "summary": "Model a Wien-bridge oscillator whose amplifier saturates smoothly, predict the steady amplitude with a describing function (the amplitude at which the effective gain falls to exactly 3), and verify with simulation as the small-signal excess gain is varied.",
+  "problem": "Linear theory says an oscillator's amplitude grows forever or dies. Real ones settle \u2014 where, and why there?",
+  "theory": "A Wien bridge needs amplifier gain exactly 3 at f0 = 1/(2\u03c0RC). With $v_o = V_s\\tanh(Kv_i/V_s)$ the effective (describing-function) gain for a sinusoid of amplitude a at the input is\n$N(a)=\\frac{2}{\u03c0 a}\\int_0^\u03c0 V_s\\tanh\\!\\big(\\tfrac{Ka}{V_s}\\sin \u03b8\\big)\\sin \u03b8\\,d\u03b8$, decreasing from K. The steady amplitude solves N(a) = 3; output amplitude \u2248 3a. More excess gain (K \u2212 3) \u2192 larger amplitude and more\ndistortion. The frequency stays at f0 to first order.",
+  "method": "R = 10 k\u03a9, C = 10 nF (f0 = 1.59 kHz), V_s = 5 V; K from 3.05 to 6. States: the two capacitor voltages; simulate 200 periods from a 1 mV kick; amplitude and frequency from the last 20 periods;\nTHD from the FFT.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "K = 3.05: steady input amplitude, describing function N(a) = 3",
+   "predicted": 0.4244510233251401,
+   "measured": 0.4244565618732828,
+   "unit": "V",
+   "error": 0.0013048733159554318,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 3.5: steady input amplitude, describing function N(a) = 3",
+   "predicted": 1.1984210350407147,
+   "measured": 1.1999445767057642,
+   "unit": "V",
+   "error": 0.1271290823927887,
+   "error_str": "+0.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "K = 5.0: steady input amplitude, describing function N(a) = 3",
+   "predicted": 1.8074528361681106,
+   "measured": 1.8353467323621737,
+   "unit": "V",
+   "error": 1.5432710406540713,
+   "error_str": "+1.54 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Oscillation frequency (K = 3.2) = 1/(2\u03c0RC)",
+   "predicted": 1591.5494309189535,
+   "measured": 1587.959626903728,
+   "unit": "Hz",
+   "error": -0.22555403844119656,
+   "error_str": "-0.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "THD of the output: K = 3.05 / 4 / 6",
+   "value": "0.83 / 12.4 / 28.6 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/limit_cycle.png"
+ ],
+ "runtime_s": 3.82,
+ "folder": "projects/applied-math/C-differential-equations/AM058-limit-cycles-in-oscillators"
+}

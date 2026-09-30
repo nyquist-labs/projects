@@ -1,0 +1,104 @@
+{
+ "meta": {
+  "id": "SL-157",
+  "title": "PID control of a second-order plant",
+  "level": "M",
+  "tools": "Closed-loop transfer functions (SciPy), nonlinear-free time simulation with a discrete PID, dominant-pole predictions",
+  "summary": "Tune P, PI and PID controllers on a two-lag plant; predict overshoot and settling time from the closed-loop poles and verify them in a time-domain simulation with a sampled controller.",
+  "problem": "What does each term of a PID controller actually do to a step response, and can the response be predicted from pole locations?",
+  "theory": "Plant $G=\\frac{1}{(s+1)(0.2s+1)}$. With P control the steady-state error is 1/(1+K_p); integral action removes it. For dominant poles with damping \u03b6 the\novershoot is $e^{-\\pi\\zeta/\\sqrt{1-\\zeta^2}}$ and the 2 % settling time \u2248 4/(\u03b6\u03c9_n). Derivative action adds damping.",
+  "method": "Controllers: P (K_p = 10), PI (K_p = 4, K_i = 5), PID (K_p = 8, K_i = 10, K_d = 0.5 with a 0.02 s derivative filter). Closed-loop poles from the characteristic\npolynomial; dominant pair \u2192 predicted overshoot and settling. Simulation: plant discretised exactly (zero-order hold, matrix exponential), controller sampled at 1 kHz.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "P: overshoot from dominant poles",
+   "predicted": 24.917303632614647,
+   "measured": 25.0903409536265,
+   "unit": "%",
+   "error": 0.17303732101185432,
+   "error_str": "+0.173 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "P: steady-state error 1/(1 + K_p\u00b7G(0))",
+   "predicted": 0.09090909090909091,
+   "measured": 0.09090907682536042,
+   "unit": "",
+   "error": -1.5492103536129953e-05,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "PI: overshoot from dominant poles",
+   "predicted": 13.419996874694002,
+   "measured": 17.37577139460129,
+   "unit": "%",
+   "error": 3.9557745199072887,
+   "error_str": "+3.96 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "PID: overshoot from dominant poles",
+   "predicted": 9.575965891110581,
+   "measured": 17.98822763991208,
+   "unit": "%",
+   "error": 8.412261748801498,
+   "error_str": "+8.41 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "P: dominant poles",
+   "value": "-3.00 \u00b1 6.78j (\u03b6 = 0.40)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "P: 2 % settling time",
+   "value": 1.1340000000000001,
+   "unit": "s",
+   "note": "4/(\u03b6\u03c9_n) = 1.33 s"
+  },
+  {
+   "quantity": "PI: dominant poles",
+   "value": "-2.33 \u00b1 3.65j (\u03b6 = 0.54)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "PI: 2 % settling time",
+   "value": 1.4000000000000001,
+   "unit": "s",
+   "note": "4/(\u03b6\u03c9_n) = 1.71 s"
+  },
+  {
+   "quantity": "PID: dominant poles",
+   "value": "-3.53 \u00b1 4.73j (\u03b6 = 0.60)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "PID: 2 % settling time",
+   "value": 1.363,
+   "unit": "s",
+   "note": "4/(\u03b6\u03c9_n) = 1.13 s"
+  }
+ ],
+ "figures": [
+  "figures/pid.png"
+ ],
+ "runtime_s": 0.09,
+ "folder": "projects/signal-lab/I-control-systems/SL157-pid-controller-sim"
+}

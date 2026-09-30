@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "AM-046",
+  "title": "Impulse and step response: the derivative relationship",
+  "level": "M",
+  "tools": "Analytic impulse and step responses of a second-order low-pass, numerical differentiation/integration, simulated narrow-pulse approximation of \u03b4(t)",
+  "summary": "Derive the impulse and step responses of a second-order system, confirm that h(t) = dy_step/dt, and show how a real narrow pulse approximates the impulse with an error that shrinks in proportion to the pulse width.",
+  "problem": "An ideal impulse cannot be generated. How do engineers measure an impulse response anyway?",
+  "theory": "For $H(s)=\\frac{\u03c9_0^2}{s^2+2\u03b6\u03c9_0s+\u03c9_0^2}$: $h(t)=\\frac{\u03c9_0}{\\sqrt{1-\u03b6^2}}e^{-\u03b6\u03c9_0t}\\sin \u03c9_dt$ and $y_{step}=1-\\frac{e^{-\u03b6\u03c9_0t}}{\\sqrt{1-\u03b6^2}}\\sin(\u03c9_dt+\u03c6)$, \u03c6 = arccos \u03b6. Since the step is the integral of the\nimpulse, $h=\\dot y_{step}$. A rectangular pulse of width w and area 1 gives $\\frac1w[y(t)-y(t-w)]$ \u2248 h(t \u2212 w/2): the error is O(w\u00b2) about the midpoint, O(w) if compared at t.",
+  "method": "\u03c90 = 2\u03c0\u00b7100 rad/s, \u03b6 = 0.2. Closed forms vs scipy.signal.impulse/step; numerical derivative of the step (central differences); unit-area pulses of widths 0.1\u20135 ms, their response built exactly as (y_step(t) \u2212 y_step(t \u2212 w))/w (a first attempt fed a sampled pulse to lsim, whose linear interpolation of the input edges added an O(\u0394t) error that masked the O(w\u00b2) behaviour).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Closed-form impulse response vs numerical (max relative)",
+   "predicted": 0.0,
+   "measured": 5.6712577282367134e-14,
+   "unit": "",
+   "error": 5.6712577282367134e-14,
+   "error_str": "+5.6713e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Closed-form step response vs numerical",
+   "predicted": 0.0,
+   "measured": 8.304468224196171e-14,
+   "unit": "",
+   "error": 8.304468224196171e-14,
+   "error_str": "+8.3045e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "h(t) = d y_step / dt (central differences, max relative error)",
+   "predicted": 0.0,
+   "measured": 0.00041544563073796204,
+   "unit": "",
+   "error": 0.00041544563073796204,
+   "error_str": "+4.1545e-04",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Pulse approximation error vs h(t): order in width (\u2248 1)",
+   "predicted": 1.0,
+   "measured": 1.0441256324157915,
+   "unit": "",
+   "error": 0.04412563241579148,
+   "error_str": "+0.04413",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 vs h(t \u2212 w/2): order (\u2248 2)",
+   "predicted": 2.0,
+   "measured": 2.0006886676286917,
+   "unit": "",
+   "error": 0.000688667628691686,
+   "error_str": "+6.8867e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/impulse_step.png"
+ ],
+ "runtime_s": 0.5,
+ "folder": "projects/applied-math/C-differential-equations/AM046-impulse-and-step-response"
+}

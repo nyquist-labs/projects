@@ -1,0 +1,114 @@
+{
+ "meta": {
+  "id": "SL-193",
+  "title": "Voltage divider calculator with live schematic",
+  "level": "E",
+  "tools": "HTML/SVG/JavaScript tool (GitHub Pages) + Node test harness; references: own MNA circuit simulator and brute-force search",
+  "summary": "An interactive divider calculator: loaded output, Thevenin resistance, worst-case tolerance band, and the best pair of standard E12/E24/E96 resistors for a target ratio. The JavaScript is verified against the circuit simulator and an exhaustive search.",
+  "problem": "Everyone needs R1 and R2 for 'turn 5 V into 3.3 V'. How close can standard values get, and what does loading do?",
+  "theory": "$V_\\text{out}=V_\\text{in}\\,\\frac{R_2\\parallel R_L}{R_1+R_2\\parallel R_L}$, $R_\\text{th}=R_1\\parallel R_2$. With $n$ values per decade the logarithmic spacing is $10^{1/n}$, so a single\nresistor is within $\\pm\\tfrac12\\cdot\\ln 10/n$ (\u00b14.8 % E24). My first guess: choosing *both* resistors gives ~n\u00b2 ratios per decade pair, so the best ratio error\nshould be an order of magnitude smaller \u2014 \u2264 0.5 % worst case for E24 and \u2264 0.1 % for E96. (This turned out to be wrong; see the discussion.) A \u00b11 % pair gives at most \u00b12(1\u2212k)\u00b71 % output error, k = ratio.",
+  "method": "(1) 500 random (Vin, R1, R2, RL) cases: calc.js vs the MNA simulator's DC operating point. (2) 400 target ratios 0.05\u20130.95: calc.js `bestPair` vs a\nbrute-force Python search over the same series (both constrained to 1 k\u03a9\u20131 M\u03a9 total). (3) Worst-case band vs Monte-Carlo corners.",
+  "data": "Generated test vectors.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Max |Vout(JS) \u2212 Vout(MNA simulator)| over 500 random loaded dividers",
+   "predicted": 0.0,
+   "measured": 7.105427357601002e-15,
+   "unit": "V",
+   "error": 7.105427357601002e-15,
+   "error_str": "+7.105 fV",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "E96 table in calc.js vs IEC 60063 values (mismatches)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "E24: corrected model \u2014 worst error \u00f7 (1\u2212k)\u00b7ln10/(2n) envelope (\u2264 1 expected)",
+   "predicted": 1.0,
+   "measured": 0.6634316072034222,
+   "unit": "",
+   "error": -0.3365683927965778,
+   "error_str": "-0.3366",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "E24: worst best-pair ratio error over 400 targets",
+   "predicted": 0.5,
+   "measured": 2.9013539651837617,
+   "unit": "%",
+   "error": 2.4013539651837617,
+   "error_str": "+2.4 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "E96: worst best-pair ratio error over 400 targets",
+   "predicted": 0.1,
+   "measured": 0.5988575337330326,
+   "unit": "%",
+   "error": 0.49885753373303265,
+   "error_str": "+0.499 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u00b11 % pair, 5 V \u2192 3.24 V: worst-case half-width = 2(1\u2212k)\u00b71 %\u00b7Vout",
+   "predicted": 0.022837370242214532,
+   "measured": 0.022837567799029568,
+   "unit": "V",
+   "error": 0.0008650593870491387,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "E12: JS search misses the brute-force optimum by at most",
+   "value": 0.0,
+   "unit": "pp",
+   "note": ""
+  },
+  {
+   "quantity": "E24: JS search misses the brute-force optimum by at most",
+   "value": 0.0,
+   "unit": "pp",
+   "note": ""
+  },
+  {
+   "quantity": "E96: JS search misses the brute-force optimum by at most",
+   "value": 0.0,
+   "unit": "pp",
+   "note": ""
+  },
+  {
+   "quantity": "Monte-Carlo (uniform \u00b11 %) spread stays inside the band",
+   "value": 1.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/divider.png"
+ ],
+ "runtime_s": 1.01,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL193-voltage-divider-calculator"
+}

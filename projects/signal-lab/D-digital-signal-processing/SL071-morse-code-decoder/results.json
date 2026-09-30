@@ -1,0 +1,87 @@
+{
+ "meta": {
+  "id": "SL-071",
+  "title": "Morse code (CW) decoder",
+  "level": "M",
+  "tools": "Envelope detection + adaptive timing classification (NumPy/SciPy), synthetic CW with keying jitter",
+  "summary": "Decode on-off-keyed Morse audio: band-pass, envelope, adaptive threshold, then classify dot/dash and gap lengths with a self-calibrating timing estimate; measure character error rate vs SNR and speed.",
+  "problem": "Human operators copy Morse through heavy noise and uneven keying. How does a simple DSP decoder compare, and where does it break?",
+  "theory": "PARIS timing: dot = 1 unit, dash = 3, intra-character gap 1, letter gap 3, word gap 7; at W words per minute the\nunit is $1.2/W$ s (60 ms at 20 WPM). Decision thresholds midway: mark < 2 units = dot; space < 2 units =\nintra, < 5 units = letter gap. Post-detection SNR = audio-band SNR \u00d7 $(f_s/2)/B$ where B is the detector's noise\nbandwidth; non-coherent on/off keying needs \u2248 12 dB of it for ~1 % element errors. An ideal matched filter\n(B \u2248 1/unit \u2248 17 Hz at 20 WPM) would work down to \u2248 \u221212 dB; this decoder's fixed 40 Hz envelope filter\n(B \u2248 80 Hz) should need \u2248 \u22125 dB.",
+  "method": "Text \"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG 0123456789\" keyed at 15, 20 and 30 WPM on a 700 Hz tone with \u00b110 %\nGaussian element-length jitter and 5 ms raised-cosine edges, 8 kHz sampling, white noise at audio-band\nSNR \u221220\u20260 dB. Decoder: 700 Hz band-pass \u2192 |Hilbert| \u2192 40 Hz low-pass \u2192 hysteresis threshold (40/60 % between the\n20th and 95th envelope percentiles) \u2192 glitch removal (< 12 ms) \u2192 run lengths \u2192 k-means (2 clusters) on mark lengths for the unit.",
+  "data": "Synthetic CW with known transmitted text (ground truth).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "15 WPM: SNR where CER < 2 % (this decoder)",
+   "predicted": -4.9897000433601875,
+   "measured": -3.0,
+   "unit": "dB",
+   "error": 1.9897000433601875,
+   "error_str": "+1.99 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "12 dB post-detection SNR in the decoder's 80 Hz envelope bandwidth"
+  },
+  {
+   "quantity": "20 WPM: SNR where CER < 2 % (this decoder)",
+   "predicted": -4.9897000433601875,
+   "measured": -3.0,
+   "unit": "dB",
+   "error": 1.9897000433601875,
+   "error_str": "+1.99 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "12 dB post-detection SNR in the decoder's 80 Hz envelope bandwidth"
+  },
+  {
+   "quantity": "30 WPM: SNR where CER < 2 % (this decoder)",
+   "predicted": -4.9897000433601875,
+   "measured": 0.0,
+   "unit": "dB",
+   "error": 4.9897000433601875,
+   "error_str": "+4.99 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "12 dB post-detection SNR in the decoder's 80 Hz envelope bandwidth"
+  },
+  {
+   "quantity": "Clean decode at 20 WPM, \u00b110 % jitter (CER)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "%",
+   "error": 0.0,
+   "error_str": "+0 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "15 WPM: ideal matched-filter requirement",
+   "value": -13.05149978319906,
+   "unit": "dB",
+   "note": "bandwidth 1/unit"
+  },
+  {
+   "quantity": "20 WPM: ideal matched-filter requirement",
+   "value": -11.80211241711606,
+   "unit": "dB",
+   "note": "bandwidth 1/unit"
+  },
+  {
+   "quantity": "30 WPM: ideal matched-filter requirement",
+   "value": -10.041199826559247,
+   "unit": "dB",
+   "note": "bandwidth 1/unit"
+  }
+ ],
+ "figures": [
+  "figures/cer_vs_snr.png",
+  "figures/waveform.png"
+ ],
+ "runtime_s": 11.31,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL071-morse-code-decoder"
+}

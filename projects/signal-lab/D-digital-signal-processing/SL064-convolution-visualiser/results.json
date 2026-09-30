@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-064",
+  "title": "Convolution visualiser",
+  "level": "E",
+  "tools": "NumPy, Matplotlib frame sequence + animated GIF",
+  "summary": "Animate the flip-slide-multiply-sum picture of discrete convolution, verify it equals numpy.convolve and FFT multiplication, and export the animation.",
+  "problem": "Convolution is the operation behind every filter, yet its formula hides a simple picture. Make the picture and prove it computes the same thing.",
+  "theory": "$y[n]=\\sum_k x[k]\\,h[n-k]$: flip h, slide it to offset n, multiply overlapping samples, sum. Output length\n$N_x+N_h-1$. Convolution theorem: $Y = X\\cdot H$ with FFTs of length \u2265 $N_x+N_h-1$ (otherwise circular wraparound).",
+  "method": "x = a 12-sample pulse train, h = a 6-tap decaying exponential. Frame-by-frame sliding computation\n(explicit Python loop), numpy.convolve, and zero-padded FFT product; max differences reported. 18 frames\nexported as an animated GIF; four key frames shown as a figure.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Output length",
+   "predicted": 17.0,
+   "measured": 17.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Sliding sum vs numpy.convolve (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 4.440892098500626e-16,
+   "unit": "",
+   "error": 4.440892098500626e-16,
+   "error_str": "+4.4409e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Sliding sum vs FFT product, zero-padded (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 4.179663151530001e-16,
+   "unit": "",
+   "error": 4.179663151530001e-16,
+   "error_str": "+4.1797e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Unpadded result = linear result + wrapped tail (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 4.440892098500626e-16,
+   "unit": "",
+   "error": 4.440892098500626e-16,
+   "error_str": "+4.4409e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "FFT product WITHOUT padding: error vs true convolution",
+   "value": 0.21599999999999997,
+   "unit": "",
+   "note": "the tail wraps onto the start"
+  }
+ ],
+ "figures": [
+  "figures/key_frames.png"
+ ],
+ "runtime_s": 1.78,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL064-convolution-visualiser"
+}

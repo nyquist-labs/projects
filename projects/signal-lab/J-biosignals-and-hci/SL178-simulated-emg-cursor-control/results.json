@@ -1,0 +1,59 @@
+{
+ "meta": {
+  "id": "SL-178",
+  "title": "EMG-driven cursor control (HCI without hardware)",
+  "level": "H",
+  "tools": "Recorded Myo EMG streamed through the SL-177 classifier with majority-vote smoothing; simulated 2-D cursor and Fitts-style target task",
+  "summary": "Map four wrist gestures to cursor directions, replay real recorded EMG as if it were live, and measure how classification errors and decision smoothing affect path efficiency and time to reach targets.",
+  "problem": "Can a muscle-signal classifier drive a cursor well enough to use a computer \u2014 and what does a 5 % error rate feel like in a continuous task?",
+  "theory": "Each 100 ms decision moves the cursor one step in the decoded direction (or not at all for rest/fist). The expected progress toward the target per\ndecision is P(correct) \u2212 P(opposite); sideways and 'stay' decisions make no progress and sideways ones must later be undone, so reaching a target\ntakes longer than the progress figure alone suggests. A majority vote over m\ndecisions raises accuracy but adds (m \u2212 1)/2 \u00d7 100 ms of lag.",
+  "method": "Subjects 1\u201310: classifier trained on each subject's first file (SL-177 features/LDA, gestures flexion\u2192left, extension\u2192right, radial\u2192up, ulnar\u2192down, rest\u2192stay),\ndecisions made on windows of the second file for the gesture held. 20 targets at 10 steps distance per subject; decision sequences sampled from the\nreal per-gesture decision streams; vote window m = 1, 3, 5.",
+  "data": "Real EMG ('EMG data for gestures', UCI) replayed; the cursor task is simulated.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Progress toward target per decision = P(correct) \u2212 P(opposite)",
+   "predicted": 0.9271339116083623,
+   "measured": 0.9279999999999999,
+   "unit": "steps",
+   "error": 0.0934156739165258,
+   "error_str": "+0.09 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Mean directional decision accuracy a",
+   "value": 0.9271339116083623,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "No smoothing: path efficiency (10 / steps to reach target)",
+   "value": 0.6998409090909089,
+   "unit": "",
+   "note": "lateral and 'stay' errors cost extra steps"
+  },
+  {
+   "quantity": "Vote window 3: path efficiency / mean steps",
+   "value": "0.90 / 29.9",
+   "unit": "",
+   "note": "adds 100 ms decision lag"
+  },
+  {
+   "quantity": "Vote window 5: path efficiency / mean steps",
+   "value": "0.89 / 32.8",
+   "unit": "",
+   "note": "adds 200 ms decision lag"
+  }
+ ],
+ "figures": [
+  "figures/cursor.png"
+ ],
+ "runtime_s": 5.98,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL178-simulated-emg-cursor-control"
+}

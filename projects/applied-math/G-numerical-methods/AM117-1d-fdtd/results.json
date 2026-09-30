@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-117",
+  "title": "1-D FDTD: Maxwell's equations on a Yee grid",
+  "level": "M",
+  "tools": "Yee staggered E/H grid, leapfrog time stepping, dielectric slab, simple Mur absorbing boundaries, reflection/transmission measurement, animation",
+  "summary": "Discretise Maxwell's curl equations in one dimension, launch a Gaussian pulse at a dielectric slab, and measure the wave speed and the reflection and transmission coefficients against the Fresnel formulas.",
+  "problem": "How do electromagnetic simulators actually turn Maxwell's equations into numbers?",
+  "theory": "$\u2202E_z/\u2202t = \\frac1\u03b5\u2202H_y/\u2202x$, $\u2202H_y/\u2202t = \\frac1\u03bc\u2202E_z/\u2202x$; Yee staggers E and H by half a cell in space and time, giving second-order accuracy and stability for Courant number S = c\u0394t/\u0394x \u2264 1 (exact at S = 1 in vacuum).\nAt a vacuum/dielectric interface with n = \u221a\u03b5_r: \u0393 = (1 \u2212 n)/(1 + n), T = 2/(1 + n); inside the slab the pulse travels at c/n. For \u03b5_r = 4: \u0393 = \u22121/3, T = 2/3.",
+  "method": "2000 cells, \u0394x = 1 mm, S = 0.5; Gaussian pulse (soft source); half-space of \u03b5_r = 4 starting at cell 1200 (for \u0393, T) and a slab for multiple reflections; probes before and after the interface.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Reflection coefficient vacuum \u2192 \u03b5_r = 4: (1 \u2212 n)/(1 + n)",
+   "predicted": -0.3333333333333333,
+   "measured": -0.33379016901435316,
+   "unit": "",
+   "error": -0.13705070430595212,
+   "error_str": "-0.14 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Transmission coefficient 2/(1 + n)",
+   "predicted": 0.6666666666666666,
+   "measured": 0.6659819776460296,
+   "unit": "",
+   "error": -0.10270335309555123,
+   "error_str": "-0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Vacuum propagation: cells travelled per step = Courant number (speed = c)",
+   "predicted": 400.0,
+   "measured": 400.0,
+   "unit": "cells",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Speed in the dielectric = c/n",
+   "predicted": 0.5,
+   "measured": 0.4993757802746567,
+   "unit": "c",
+   "error": -0.12484394506866447,
+   "error_str": "-0.12 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/fdtd1d.png"
+ ],
+ "runtime_s": 3.18,
+ "folder": "projects/applied-math/G-numerical-methods/AM117-1d-fdtd"
+}

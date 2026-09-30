@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "id": "AM-075",
+  "title": "MIMO capacity from singular values",
+  "level": "H",
+  "tools": "SVD of random Rayleigh channel matrices, parallel-channel decomposition, equal-power and water-filling capacity, Monte-Carlo ergodic capacity, high-SNR slope",
+  "summary": "Show that a MIMO channel H = U\u03a3V\u1d34 is a set of min(Nt, Nr) parallel scalar channels, compute capacity from the singular values, and verify that ergodic capacity grows linearly with min(Nt, Nr) \u2014 about min(Nt,Nr) \u00d7 log\u2082(SNR) bits at high SNR.",
+  "problem": "Adding antennas at both ends of a link multiplies its capacity. Why \u2014 and by exactly how much?",
+  "theory": "Precoding with V and receiving with U\u1d34 turns y = Hx + n into y'_i = \u03c3_i x'_i + n'_i. With equal power per transmit antenna, $C=\\log_2\\det(I+\\frac{\u03c1}{N_t}HH^H)=\\sum_i\\log_2(1+\\frac{\u03c1}{N_t}\u03c3_i^2)$ bits/s/Hz.\nAt high SNR each non-zero \u03c3_i adds log\u2082\u03c1: capacity slope = min(Nt, Nr) bits per 3 dB. For Rayleigh fading (i.i.d. CN(0,1) entries) the channel has full rank almost surely.",
+  "method": "10,000 channel draws per configuration (1\u00d71, 2\u00d72, 4\u00d74, 8\u00d78, 4\u00d72); SNR 0\u201330 dB. det formula vs \u03a3 log(1+\u03c3\u00b2) (must agree), SVD pre/post-coding verified on a random draw (off-diagonal leakage),\nhigh-SNR slope from 20\u201330 dB.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "SVD precoding diagonalises H: max off-diagonal |U\u1d34HV|",
+   "predicted": 0.0,
+   "measured": 1.4456898615017772e-15,
+   "unit": "",
+   "error": 1.4456898615017772e-15,
+   "error_str": "+1.4457e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "log\u2082det(I + \u03c1/Nt\u00b7HH\u1d34) = \u03a3 log\u2082(1 + \u03c1\u03c3\u00b2/Nt)",
+   "predicted": 12.805452569584764,
+   "measured": 12.805452569584764,
+   "unit": "bit/s/Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1\u00d71: high-SNR slope (bits per 3 dB) = min(Nt, Nr)",
+   "predicted": 1.0,
+   "measured": 0.9711585201529317,
+   "unit": "bit/3 dB",
+   "error": -0.028841479847068308,
+   "error_str": "-0.02884 bit/3 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "2\u00d72: high-SNR slope (bits per 3 dB) = min(Nt, Nr)",
+   "predicted": 2.0,
+   "measured": 1.9425910893490774,
+   "unit": "bit/3 dB",
+   "error": -0.05740891065092257,
+   "error_str": "-0.05741 bit/3 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "4\u00d74: high-SNR slope (bits per 3 dB) = min(Nt, Nr)",
+   "predicted": 4.0,
+   "measured": 3.862889299430289,
+   "unit": "bit/3 dB",
+   "error": -0.13711070056971097,
+   "error_str": "-0.1371 bit/3 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "8\u00d78: high-SNR slope (bits per 3 dB) = min(Nt, Nr)",
+   "predicted": 8.0,
+   "measured": 7.5752727517500595,
+   "unit": "bit/3 dB",
+   "error": -0.42472724824994046,
+   "error_str": "-0.4247 bit/3 dB",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "2\u00d74: high-SNR slope (bits per 3 dB) = min(Nt, Nr)",
+   "predicted": 2.0,
+   "measured": 1.9800440998613358,
+   "unit": "bit/3 dB",
+   "error": -0.019955900138664218,
+   "error_str": "-0.01996 bit/3 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "4\u00d74 vs 1\u00d71 ergodic capacity at 30 dB (\u2248 4\u00d7)",
+   "predicted": 4.0,
+   "measured": 3.8292513620472737,
+   "unit": "\u00d7",
+   "error": -0.17074863795272632,
+   "error_str": "-0.1707 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/mimo.png"
+ ],
+ "runtime_s": 0.95,
+ "folder": "projects/applied-math/D-linear-algebra/AM075-mimo-channel-capacity"
+}

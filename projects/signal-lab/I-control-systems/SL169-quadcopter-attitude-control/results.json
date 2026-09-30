@@ -1,0 +1,81 @@
+{
+ "meta": {
+  "id": "SL-169",
+  "title": "Quadcopter attitude: cascaded rate and angle loops",
+  "level": "H",
+  "tools": "Rigid-body roll/pitch/yaw model with motor lag, cascaded P-angle / PI-rate controllers at 1 kHz, bandwidth analysis",
+  "summary": "Stabilise roll, pitch and yaw of a 1 kg quadrotor with the standard cascade (fast inner rate loop, slower outer angle loop); predict each loop's bandwidth and verify the step responses and the need for bandwidth separation.",
+  "problem": "Every drone flight controller uses cascaded loops. Why, and how far apart must the inner and outer bandwidths be?",
+  "theory": "Per axis: J\u00b7\u03c9\u0307 = \u03c4, motors respond with \u03c4_m = 20 ms. Inner rate loop (P gain k_r on \u03c9): crossover \u2248 k_r/J (below 1/\u03c4_m). Outer angle loop (P gain k_a) sees\nthe inner loop as \u2248 unity up to its bandwidth, so \u03c9_outer \u2248 k_a; stable and well damped if \u03c9_outer \u2272 \u03c9_inner/4.",
+  "method": "J = (0.01, 0.01, 0.02) kg\u00b7m\u00b2, rate loop crossover 30 rad/s (k_r = 0.3 roll/pitch, 0.6 yaw) with small integral, angle loop k_a = 6 rad/s, 1 kHz discrete control.\n10\u00b0 step on each axis; a second run with k_a = 20 (poor separation).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "roll: angle-loop rise time \u2248 2.2/k_a (k_a = 6 rad/s)",
+   "predicted": 0.3666666666666667,
+   "measured": 0.28,
+   "unit": "s",
+   "error": -23.636363636363637,
+   "error_str": "-23.64 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "pitch: angle-loop rise time \u2248 2.2/k_a (k_a = 6 rad/s)",
+   "predicted": 0.3666666666666667,
+   "measured": 0.28,
+   "unit": "s",
+   "error": -23.636363636363637,
+   "error_str": "-23.64 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "yaw: angle-loop rise time \u2248 2.2/k_a (k_a = 6 rad/s)",
+   "predicted": 0.3666666666666667,
+   "measured": 0.28,
+   "unit": "s",
+   "error": -23.636363636363637,
+   "error_str": "-23.64 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "roll: overshoot",
+   "value": 0.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "pitch: overshoot",
+   "value": 0.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "yaw: overshoot",
+   "value": 0.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Overshoot with poor separation (k_a = 20, inner/outer = 1.5)",
+   "value": 24.442043155507527,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/attitude.png"
+ ],
+ "runtime_s": 0.11,
+ "folder": "projects/signal-lab/I-control-systems/SL169-quadcopter-attitude-control"
+}

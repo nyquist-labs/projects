@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-080",
+  "title": "Cross-correlation time-delay estimation (TDOA)",
+  "level": "M",
+  "tools": "NumPy cross-correlation (plain and GCC-PHAT), parabolic interpolation, Cram\u00e9r\u2013Rao bound",
+  "summary": "Estimate the delay between two noisy microphone signals by cross-correlation, then locate a source by TDOA; compare delay RMSE with the Cram\u00e9r\u2013Rao lower bound across SNR.",
+  "problem": "Radar, GPS and microphone arrays all measure *when* a signal arrives. How precisely can a delay be estimated from noisy data?",
+  "theory": "For a signal of RMS bandwidth $\\beta$ (rad/s), observation time T and SNR per sample (both channels noisy), the CRLB is\n$$\\sigma_\\tau\\ge\\frac{1}{\\beta\\sqrt{2\\,T B\\,\\mathrm{SNR}_{\\mathrm{eff}}}},\\quad \\mathrm{SNR_{eff}}=\\frac{\\mathrm{SNR}^2}{1+2\\,\\mathrm{SNR}}$$\n(Carter). Below a threshold SNR the correlation peak jumps to a wrong lobe and errors explode.\nSource position from two delays: intersection of hyperbolae.",
+  "method": "Band-limited noise source (500\u20132,500 Hz), f_s = 16 kHz, T = 0.1 s, true delay 23.37 samples (fractional). SNR \u221220\u2026+30 dB,\n300 trials each; estimator = argmax of FFT cross-correlation + parabolic interpolation. 2-D demo: 3 microphones,\nsource at (1.2, 0.7) m, least-squares TDOA localisation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Delay RMSE at 10 dB SNR vs CRLB",
+   "predicted": 1.1139929187560904e-06,
+   "measured": 1.419472069922225e-06,
+   "unit": "s",
+   "error": 27.422001165612397,
+   "error_str": "+27.42 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Delay RMSE at 20 dB SNR vs CRLB",
+   "predicted": 3.5031293922632073e-07,
+   "measured": 6.620193706104998e-07,
+   "unit": "s",
+   "error": 88.97942281909266,
+   "error_str": "+88.98 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "TDOA localisation error (20 dB-ish SNR, 3 mics)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "m",
+   "error": 0.0,
+   "error_str": "+0 m",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Threshold SNR (RMSE within 2\u00d7 CRLB)",
+   "value": -5.0,
+   "unit": "dB",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/tdoa.png"
+ ],
+ "runtime_s": 0.82,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL080-cross-correlation-tdoa"
+}

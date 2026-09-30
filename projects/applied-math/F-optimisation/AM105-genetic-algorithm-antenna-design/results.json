@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "id": "AM-105",
+  "title": "Genetic algorithm design of a 3-element Yagi",
+  "level": "H",
+  "tools": "Own real-coded genetic algorithm (tournament selection, blend crossover, Gaussian mutation, elitism), method-of-moments antenna solver as the fitness evaluator, comparison with a textbook starting design and random search",
+  "summary": "Evolve the element lengths and spacings of a 3-element Yagi\u2013Uda antenna to maximise forward gain while keeping a good front-to-back ratio and a reasonable input impedance, each candidate evaluated by a full method-of-moments simulation.",
+  "problem": "A Yagi has five continuous design variables and no closed-form optimum. Can evolution find a good one, and how good compared with the textbook recipe?",
+  "theory": "Fitness = directivity toward the director (dBi) + 0.2\u00b7min(F/B, 25 dB) \u2212 penalty if |Z_in \u2212 25 \u03a9| is large. The landscape is multimodal (several spacing combinations give similar gains), which favours population\nmethods. Known result for 3-element Yagis: about 7\u20138 dBi gain with ~0.2 \u03bb total boom and F/B around 15\u201325 dB; the classic recipe (0.5/0.47/0.44 \u03bb, 0.2 \u03bb spacing) gives less.",
+  "method": "Variables: reflector, driven, director lengths (0.42\u20130.52 \u03bb) and two spacings (0.08\u20130.35 \u03bb); radius \u03bb/1000; 21 segments per element. GA: population 30, 25 generations, tournament size 3, BLX-0.3 crossover,\nmutation \u03c3 = 5 % of range, 2 elites. Directivity from far field on a sphere (E-plane/H-plane sums); fitness compared with the textbook design and with random search using the same number of evaluations.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "GA best: directivity (literature for 3 elements \u2248 7\u20138 dBi)",
+   "predicted": 7.5,
+   "measured": 8.454481167200848,
+   "unit": "dBi",
+   "error": 0.9544811672008482,
+   "error_str": "+0.9545 dBi",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "GA fitness beats the textbook design (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "GA fitness vs best of random search with the same evaluation budget (difference)",
+   "predicted": 0.5,
+   "measured": 0.9397381500706867,
+   "unit": "",
+   "error": 0.43973815007068673,
+   "error_str": "+0.4397",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "GA best design (\u03bb)",
+   "value": "reflector 0.493, driven 0.470, director 0.449, spacings 0.148/0.176",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "GA best: front-to-back ratio / input impedance",
+   "value": "25.0 dB / 18.6 -7.7j \u03a9",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Textbook design: directivity / F/B / Z_in",
+   "value": "8.38 dBi / 17.3 dB / 31.7 +1.5j \u03a9",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ga_yagi.png"
+ ],
+ "runtime_s": 334.46,
+ "folder": "projects/applied-math/F-optimisation/AM105-genetic-algorithm-antenna-design"
+}

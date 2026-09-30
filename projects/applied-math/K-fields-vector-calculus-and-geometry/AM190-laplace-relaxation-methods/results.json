@@ -1,0 +1,118 @@
+{
+ "meta": {
+  "id": "AM-190",
+  "title": "Laplace's equation by relaxation: Jacobi, Gauss\u2013Seidel and SOR",
+  "level": "M",
+  "tools": "Own Jacobi, Gauss\u2013Seidel and successive over-relaxation (red\u2013black ordering, vectorised), spectral-radius predictions of convergence rate, optimal over-relaxation factor, analytic Fourier-series solution, sparse direct solve as reference",
+  "summary": "Solve the classic 'lid-driven' potential problem three iterative ways, predict from the eigenvalues of the iteration matrix exactly how many sweeps each needs, and show how one parameter \u2014 the over-relaxation factor \u2014 turns an N\u00b2-scaling method into an N-scaling one.",
+  "problem": "Relaxation is the simplest way to solve for a potential. Why is it so slow, and how does SOR fix it?",
+  "theory": "On an N \u00d7 N interior grid with h = 1/(N+1), Jacobi's error-reduction factor per sweep is $\u03c1_J=\\cos(\u03c0h)$, Gauss\u2013Seidel's $\u03c1_J^2$, and SOR with $\u03c9_{opt}=\\frac{2}{1+\\sin(\u03c0h)}$ has $\u03c1=\u03c9_{opt}-1$. Sweeps to reduce the error by $10^{-6}$:\n$\\ln 10^{-6}/\\ln \u03c1$ \u2248 0.28\u00b7(N+1)\u00b2\u00b76 for Jacobi, half that for Gauss\u2013Seidel, \u2248 2.2\u00b7(N+1) for SOR. Square with V = 1 on the top edge and 0 elsewhere: $V=\\sum_{n\\,odd}\\frac{4}{n\u03c0}\\frac{\\sin(n\u03c0x)\\sinh(n\u03c0y)}{\\sinh(n\u03c0)}$; V(\u00bd, \u00bd) = \u00bc exactly by symmetry (superposition of four rotated problems).",
+  "method": "Grids N = 31, 63, 127. Iterate from zero until the error against the sparse direct solution falls below 10\u207b\u2076 (or 200 000 sweeps). Measured asymptotic rate from the late error history. SOR factor scan at N = 63.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "N = 63, Jacobi: measured error-reduction factor per sweep = cos(\u03c0h)",
+   "predicted": 0.9987954562051724,
+   "measured": 0.9987954562044798,
+   "unit": "",
+   "error": -6.933923442067679e-11,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 63, Gauss\u2013Seidel: factor = cos\u00b2(\u03c0h)",
+   "predicted": 0.9975923633360985,
+   "measured": 0.9975923633351402,
+   "unit": "",
+   "error": -9.60546138654767e-11,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 63, SOR at \u03c9_opt: factor \u2248 \u03c9_opt \u2212 1 (asymptotically; SOR's Jordan structure slows the approach)",
+   "predicted": 0.906454701582762,
+   "measured": 0.9118884912056004,
+   "unit": "",
+   "error": 0.5994551755703315,
+   "error_str": "+0.60 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 63, Gauss\u2013Seidel sweeps to 10\u207b\u2076 \u2248 \u00bd of Jacobi's",
+   "predicted": 0.5,
+   "measured": 0.5000466722673388,
+   "unit": "",
+   "error": 0.00933445346775752,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Doubling N multiplies Gauss\u2013Seidel sweeps by \u2248 4 (N = 63 \u2192 127)",
+   "predicted": 4.0,
+   "measured": 4.001120029867463,
+   "unit": "\u00d7",
+   "error": 0.028000746686585032,
+   "error_str": "+0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Doubling N multiplies SOR sweeps by \u2248 2 (N = 63 \u2192 127)",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "\u00d7",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Centre potential V(\u00bd, \u00bd) = \u00bc (symmetry argument)",
+   "predicted": 0.25,
+   "measured": 0.24999999999999808,
+   "unit": "V",
+   "error": -7.66053886991358e-13,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SOR factor scan: best \u03c9 vs \u03c9_opt = 2/(1 + sin \u03c0h)",
+   "predicted": 1.906454701582762,
+   "measured": 1.9083333333333332,
+   "unit": "",
+   "error": 0.09854059207447063,
+   "error_str": "+0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Direct solution vs 100-term Fourier series: max difference away from the lid corners",
+   "value": 0.0006891843126096697,
+   "unit": "V",
+   "note": "second-order discretisation error"
+  }
+ ],
+ "figures": [
+  "figures/relaxation.png"
+ ],
+ "runtime_s": 12.6,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM190-laplace-relaxation-methods"
+}

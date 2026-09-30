@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "AM-013",
+  "title": "All-pass filters: unity magnitude, useful phase",
+  "level": "M",
+  "tools": "Pole-zero mirroring, analytic phase and group delay, op-amp all-pass circuit simulated with the MNA solver",
+  "summary": "Show that mirroring every pole into a zero across the j\u03c9 axis gives |H| = 1 at all frequencies, derive the phase and group delay of first- and second-order sections, and verify them on a simulated op-amp all-pass circuit.",
+  "problem": "How can a filter change a signal without changing any frequency's amplitude \u2014 and what is that good for?",
+  "theory": "$H(s)=\\frac{a-s}{a+s}$: for s = j\u03c9 numerator and denominator are complex conjugates' mirror images, so |H| = 1 exactly; phase $-2\\arctan(\u03c9/a)$, group delay $\u03c4=\\frac{2a}{a^2+\u03c9^2}$\n(2/a at DC). The op-amp realisation (R, R on the inverting path; R_1, C on the non-inverting input) has $a = 1/(R_1C)$. Second order: $\\frac{s^2-(\u03c9_0/Q)s+\u03c9_0^2}{s^2+(\u03c9_0/Q)s+\u03c9_0^2}$,\nphase \u22122\u03c0 total, delay peaking at \u03c90 with $\u03c4(\u03c9_0)=4Q/\u03c9_0$.",
+  "method": "First-order op-amp all-pass: R = 10 k\u03a9 (gain resistors), R1 = 15.9 k\u03a9, C = 10 nF (a = 2\u03c0\u00b71 kHz); AC analysis with op-amp A0 = 10\u2076, GBW = 100 MHz. Group delay by numerical differentiation\nof the unwrapped phase. Second-order section evaluated analytically and numerically.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Max deviation of |H| from 1 (0 dB) over 10 Hz\u2013100 kHz",
+   "predicted": 0.0,
+   "measured": 3.578565004619659e-05,
+   "unit": "dB",
+   "error": 3.578565004619659e-05,
+   "error_str": "+3.5786e-05 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Phase at \u03c9 = a (\u221290\u00b0)",
+   "predicted": -90.0,
+   "measured": -90.0011105001726,
+   "unit": "\u00b0",
+   "error": -0.0011105001726008368,
+   "error_str": "-0.001111 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Group delay at DC = 2/a",
+   "predicted": 0.00031831,
+   "measured": 0.0003182812802281577,
+   "unit": "s",
+   "error": -0.0090225791970994,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Group delay at \u03c9 = a = 1/a",
+   "predicted": 0.000159155,
+   "measured": 0.00015915844524569414,
+   "unit": "s",
+   "error": 0.0021647109384864507,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "2nd order: peak group delay at \u03c90 = 4Q/\u03c90",
+   "predicted": 0.0012732395447351628,
+   "measured": 0.0012731824237002707,
+   "unit": "s",
+   "error": -0.00448627558956168,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "2nd order: total phase change over the band (\u2212360\u00b0)",
+   "predicted": -360.0,
+   "measured": -358.85397935873766,
+   "unit": "\u00b0",
+   "error": 1.1460206412623393,
+   "error_str": "+1.146 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/allpass.png"
+ ],
+ "runtime_s": 0.41,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM013-all-pass-filter-phase-study"
+}

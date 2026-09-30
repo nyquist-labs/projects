@@ -1,0 +1,9 @@
+rule,detected,reports
+clearance,True,1
+track width,True,1
+annular ring,True,1
+min drill,True,1
+hole-to-hole,True,1
+edge clearance,True,1
+courtyard overlap,True,1
+unconnected,True,1

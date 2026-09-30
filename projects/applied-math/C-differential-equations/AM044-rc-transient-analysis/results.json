@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-044",
+  "title": "RC transient: solve the ODE, then check it",
+  "level": "E",
+  "tools": "Analytic solution of the first-order ODE, MNA transient simulation (trapezoidal), time-constant and energy measurements",
+  "summary": "Solve RC\u00b7dv/dt + v = V_in analytically for charging and discharging, predict the 63.2 % and 5\u03c4 points and the energy lost in the resistor, and verify every prediction against a circuit simulation.",
+  "problem": "The RC circuit is the first ODE every EE solves. How exactly do simulation and algebra agree \u2014 including the famous 50 % energy loss?",
+  "theory": "$RC\\,\\dot v+v=V$ with v(0) = 0 gives $v=V(1-e^{-t/\u03c4})$, \u03c4 = RC: 63.2 % at t = \u03c4, 99.3 % at 5\u03c4, rise time 10\u219290 % = \u03c4 ln 9 = 2.197\u03c4. Charging a capacitor from a fixed source always\ndissipates $\\tfrac12CV^2$ in the resistor \u2014 exactly as much as is stored \u2014 independent of R.",
+  "method": "R = 10 k\u03a9, C = 100 nF (\u03c4 = 1 ms), 5 V step, then discharge. Transient with \u0394t = \u03c4/1000; resistor energy \u222bi\u00b2R dt integrated numerically; R varied 100 \u03a9\u20131 M\u03a9 for the energy test.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Max |simulation \u2212 analytic| over charge and discharge",
+   "predicted": 0.0,
+   "measured": 0.0024987503441522563,
+   "unit": "V",
+   "error": 0.0024987503441522563,
+   "error_str": "+2.499 mV",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Time to 63.2 % = \u03c4",
+   "predicted": 0.001,
+   "measured": 0.0010000016164524019,
+   "unit": "s",
+   "error": 0.00016164524018359022,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "10\u201390 % rise time = \u03c4\u00b7ln 9",
+   "predicted": 0.0021972245773362194,
+   "measured": 0.0021972244002379107,
+   "unit": "s",
+   "error": -8.06009137622677e-06,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Energy dissipated in R while charging = \u00bdCV\u00b2 (worst over R = 100 \u03a9 \u2026 1 M\u03a9)",
+   "predicted": 0.0,
+   "measured": 0.00049968772503306,
+   "unit": "",
+   "error": 0.00049968772503306,
+   "error_str": "+4.9969e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/rc.png"
+ ],
+ "runtime_s": 1.73,
+ "folder": "projects/applied-math/C-differential-equations/AM044-rc-transient-analysis"
+}

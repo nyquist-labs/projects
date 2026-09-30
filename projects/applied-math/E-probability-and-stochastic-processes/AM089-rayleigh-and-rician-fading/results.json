@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "AM-089",
+  "title": "Rayleigh and Rician fading: distributions, level crossings, fade durations",
+  "level": "H",
+  "tools": "Sum-of-sinusoids (Jakes/Clarke) fading simulator, envelope histograms vs Rayleigh and Rice PDFs, Doppler spectrum, level-crossing rate and average fade duration vs closed forms",
+  "summary": "Simulate a mobile radio channel as the sum of many scattered paths with Doppler shifts, confirm that the envelope is Rayleigh (Rice with a line-of-sight path), and verify the classical formulas for how often and how long the signal fades.",
+  "problem": "A phone moving at 50 km/h sees its signal drop by 20 dB many times per second. How often, for how long \u2014 and why those distributions?",
+  "theory": "Many independent paths \u21d2 complex Gaussian (CLT) \u21d2 envelope Rayleigh $f(r)=\\frac{r}{\u03c3^2}e^{-r^2/2\u03c3^2}$; with a LOS component of power ratio K: Rice $f(r)=\\frac{r}{\u03c3^2}e^{-(r^2+s^2)/2\u03c3^2}I_0(rs/\u03c3^2)$. For isotropic\nscattering (Clarke), with \u03c1 = R/R_rms: level-crossing rate $N_R=\\sqrt{2\u03c0}f_D\u03c1e^{-\u03c1^2}$ and average fade duration $\\bar t=\\frac{e^{\u03c1^2}-1}{\u03c1f_D\\sqrt{2\u03c0}}$. At \u03c1 = \u221220 dB the channel fades ~0.25 f_D times per second, each fade lasting ~4 % of 1/f_D.",
+  "method": "Sum of 64 sinusoids with random angles of arrival and phases; f_D = 100 Hz; 200 s at 10 kHz. Envelope histogram vs PDFs (Rayleigh; Rician K = 5); LCR and AFD at levels \u221230\u2026+5 dB rel. rms vs formulas.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Envelope PDF vs Rayleigh (max |difference|)",
+   "predicted": 0.0,
+   "measured": 0.015929803788391705,
+   "unit": "",
+   "error": 0.015929803788391705,
+   "error_str": "+0.01593",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rayleigh: fraction of time more than 20 dB below rms = 1 \u2212 e^{\u22120.01}",
+   "predicted": 0.009950166250831893,
+   "measured": 0.010024,
+   "unit": "",
+   "error": 0.7420353319416514,
+   "error_str": "+0.74 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Level -20 dB: level-crossing rate",
+   "predicted": 24.81686906569386,
+   "measured": 25.73,
+   "unit": "1/s",
+   "error": 3.679476778029285,
+   "error_str": "+3.68 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Level -20 dB: average fade duration",
+   "predicted": 0.00040094365749733795,
+   "measured": 0.00038958414302370773,
+   "unit": "s",
+   "error": -2.8331947048459383,
+   "error_str": "-2.83 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Level 0 dB: level-crossing rate",
+   "predicted": 92.2137008895789,
+   "measured": 96.355,
+   "unit": "1/s",
+   "error": 4.490980266999686,
+   "error_str": "+4.49 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Level 0 dB: average fade duration",
+   "predicted": 0.006854952710177949,
+   "measured": 0.006539671008250739,
+   "unit": "s",
+   "error": -4.599327161791978,
+   "error_str": "-4.60 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rician (K = 5) envelope PDF vs Rice distribution (max |difference| / peak)",
+   "predicted": 0.0,
+   "measured": 0.026623477353134282,
+   "unit": "",
+   "error": 0.026623477353134282,
+   "error_str": "+0.02662",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/fading.png"
+ ],
+ "runtime_s": 2.95,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM089-rayleigh-and-rician-fading"
+}

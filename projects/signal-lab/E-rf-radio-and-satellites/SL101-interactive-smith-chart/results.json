@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-101",
+  "title": "Interactive Smith chart",
+  "level": "H",
+  "tools": "HTML canvas + JavaScript (shared math module), Node test harness vs NumPy",
+  "summary": "A browser Smith chart: type a load impedance and frequency, see \u0393, VSWR and return loss, add a series or shunt L/C and watch the point move along constant-R / constant-G circles. The JavaScript maths is verified against NumPy.",
+  "problem": "The Smith chart is a graphical calculator for impedance matching. Build a working one and prove every number it shows is right.",
+  "theory": "$\\Gamma=\\frac{Z-Z_0}{Z+Z_0}$ maps the right half of the impedance plane onto the unit disc (a M\u00f6bius transformation).\nConstant-resistance lines become circles centred at $(\\frac{r}{1+r},0)$ with radius $\\frac1{1+r}$; VSWR = $\\frac{1+|\\Gamma|}{1-|\\Gamma|}$,\nreturn loss = $-20\\log_{10}|\\Gamma|$. A series reactance moves the point along its constant-r circle; a shunt susceptance along a\nconstant-g circle.",
+  "method": "smith.js holds the maths (\u0393, VSWR, RL, series/shunt element steps); index.html draws the chart and the matching path.\nNode evaluates the functions on 200 random loads and element steps; Python compares with NumPy complex arithmetic.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u0393: max |JS \u2212 NumPy| over 200 loads",
+   "predicted": 0.0,
+   "measured": 2.482534153247273e-16,
+   "unit": "",
+   "error": 2.482534153247273e-16,
+   "error_str": "+2.4825e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "VSWR: max relative difference",
+   "predicted": 0.0,
+   "measured": 9.056624658809262e-14,
+   "unit": "",
+   "error": 9.056624658809262e-14,
+   "error_str": "+9.0566e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Return loss: max difference",
+   "predicted": 0.0,
+   "measured": 3.552713678800501e-15,
+   "unit": "dB",
+   "error": 3.552713678800501e-15,
+   "error_str": "+3.5527e-15 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Shunt-element step: max relative difference",
+   "predicted": 0.0,
+   "measured": 3.7858504006071873e-16,
+   "unit": "",
+   "error": 3.7858504006071873e-16,
+   "error_str": "+3.7859e-16",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/chart_check.png"
+ ],
+ "runtime_s": 0.11,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL101-interactive-smith-chart"
+}

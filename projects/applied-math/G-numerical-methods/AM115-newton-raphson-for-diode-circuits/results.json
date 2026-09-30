@@ -1,0 +1,119 @@
+{
+ "meta": {
+  "id": "AM-115",
+  "title": "Newton\u2013Raphson for a diode circuit (what SPICE does inside)",
+  "level": "H",
+  "tools": "Plain, damped and junction-limited Newton iterations for a resistor\u2013diode circuit, exact solution via the Lambert W function, convergence-order measurement, basin-of-convergence map",
+  "summary": "Solve the nonlinear equation of a diode fed through a resistor with Newton's method, verify quadratic convergence against the exact Lambert-W solution, show how plain Newton overflows from a poor starting guess, and fix it with SPICE-style voltage limiting.",
+  "problem": "Every DC operating point in SPICE is a Newton solve. Why does it sometimes fail to converge, and what do simulators do about it?",
+  "theory": "f(V_d) = (V_s \u2212 V_d)/R \u2212 I_s(e^{V_d/nV_T} \u2212 1) = 0. Exact: $I = \\frac{nV_T}{R}W\\!\\left(\\frac{I_sR}{nV_T}e^{(V_s+I_sR)/nV_T}\\right)-I_s$. Newton converges quadratically near the root (error squares each step), but the exponential makes the tangent from a\nlarge V_d guess land far away, and from V_d \u2248 2 V the next exp overflows. Junction limiting (clamp the change of V_d to ~2nV_T\u00b7ln(\u0394V/(nV_T)) above V_crit) keeps iterates in range.",
+  "method": "V_s = 5 V, R = 1 k\u03a9, I_s = 1e-14 A, n = 1; starting guesses 0\u20265 V. Iterations to 1e-12 V; error ratios e_{k+1}/e_k\u00b2 at the end; plain vs damped (step halving on increasing |f|) vs SPICE pnjlim.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Newton from 0.6 V converges to the Lambert-W solution",
+   "predicted": 0.6925436331805308,
+   "measured": 0.6925436331805307,
+   "unit": "V",
+   "error": -1.603109134837351e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Quadratic convergence: e_{k+1}/e_k\u00b2 \u2248 |f''/2f'| at the root",
+   "predicted": 19.225478095964103,
+   "measured": 19.079782791142915,
+   "unit": "1/V",
+   "error": -0.757824092040518,
+   "error_str": "-0.76 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Plain Newton: fraction of starts in 0\u20135 V that converge (my first guess was 0.2 \u2014 wrong: it crawls, it does not fail)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Junction-limited Newton converges from every start (fraction)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Plain Newton from 5 V: one V_T per iteration \u21d2 \u2248 (5 \u2212 V_d)/V_T + 6 iterations",
+   "predicted": 172.61985017868903,
+   "measured": 172.0,
+   "unit": "",
+   "error": -0.3590839512648117,
+   "error_str": "-0.36 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Plain Newton from 0 V: first iterate overshoots to \u2248 V_S",
+   "predicted": 5.0,
+   "measured": 4.999999998065913,
+   "unit": "V",
+   "error": -3.8681733371959126e-08,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Plain Newton from 20 V: e^(V/V_T) overflows and the iteration dies (1 = fails)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Exact diode voltage from Lambert W",
+   "value": 0.6925436331805308,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "Iterations from 0 V: plain / junction-limited",
+   "value": "173 / 12",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Median iterations over all starts 0\u20135 V: plain / damped / limited",
+   "value": "99 / 75 / 75",
+   "unit": "",
+   "note": "limiting only helps against overshoot from below; above the root every variant walks down one V_T at a time"
+  }
+ ],
+ "figures": [
+  "figures/newton_diode.png"
+ ],
+ "runtime_s": 0.22,
+ "folder": "projects/applied-math/G-numerical-methods/AM115-newton-raphson-for-diode-circuits"
+}

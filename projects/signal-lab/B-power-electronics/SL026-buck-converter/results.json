@@ -1,0 +1,244 @@
+{
+ "meta": {
+  "id": "SL-026",
+  "title": "Buck (step-down) converter",
+  "level": "M",
+  "tools": "eelab mini-SPICE switch-level transient (MOSFET switch + Schottky diode)",
+  "summary": "12 V \u2192 D\u00b712 V at 100 kHz: predict output voltage, inductor ripple and output ripple from volt-second balance, then measure them and the efficiency across duty cycle.",
+  "problem": "How does chopping 12 V on and off produce a smooth lower voltage, and how big are the ripples that the L and C must absorb?",
+  "theory": "Volt-second balance on L in continuous conduction: $V_{out}=D\\,V_{in}$ (ideal).\nInductor ripple $\\Delta I_L=\\frac{(V_{in}-V_{out})D}{Lf_{sw}}$; output ripple (capacitive part)\n$\\Delta V_{out}=\\frac{\\Delta I_L}{8f_{sw}C}$. Losses: switch $I^2R_{on}D$, diode $V_F I(1-D)$, so\n$V_{out}\\approx D V_{in} - (1-D)V_F - I R_{on} D$ (first-order).",
+  "method": "V_in = 12 V, f_sw = 100 kHz, L = 47 \u00b5H (30 m\u03a9 DCR), C = 100 \u00b5F, R_L = 5 \u03a9, switch R_on = 50 m\u03a9, Schottky\n(Is = 10 \u00b5A, N = 1.05). D \u2208 {0.25, 0.4, 0.5, 0.65, 0.8}; 2 ms transient at 25 ns steps starting near\nthe predicted steady state; measurements over the last 50 \u00b5s (ripple = median peak-to-peak per switching period,\nwhich excludes any residual slow LC settling).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "D = 0.25: V_out (ideal D\u00b7V_in)",
+   "predicted": 3.0,
+   "measured": 2.7523235668769037,
+   "unit": "V",
+   "error": -8.255881104103208,
+   "error_str": "-8.26 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.25: V_out (with losses)",
+   "predicted": 2.7502452873153493,
+   "measured": 2.7523235668769037,
+   "unit": "V",
+   "error": 0.07556706200497071,
+   "error_str": "+0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.25: inductor ripple \u0394I_L",
+   "predicted": 0.49189768261293076,
+   "measured": 0.49598630889818385,
+   "unit": "A",
+   "error": 0.8311944596962823,
+   "error_str": "+0.83 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.25: output ripple \u0394V (per switching period)",
+   "predicted": 0.006148721032661635,
+   "measured": 0.006229133913478346,
+   "unit": "V",
+   "error": 1.307798489955278,
+   "error_str": "+1.31 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.4: V_out (ideal D\u00b7V_in)",
+   "predicted": 4.800000000000001,
+   "measured": 4.565748338134089,
+   "unit": "V",
+   "error": -4.8802429555398295,
+   "error_str": "-4.88 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.4: V_out (with losses)",
+   "predicted": 4.562835106102425,
+   "measured": 4.565748338134089,
+   "unit": "V",
+   "error": 0.06384697154116725,
+   "error_str": "+0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.4: inductor ripple \u0394I_L",
+   "predicted": 0.6327022690949713,
+   "measured": 0.6289516404456856,
+   "unit": "A",
+   "error": -0.5927951949106529,
+   "error_str": "-0.59 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.4: output ripple \u0394V (per switching period)",
+   "predicted": 0.007908778363687141,
+   "measured": 0.00755437268409187,
+   "unit": "V",
+   "error": -4.481168434590497,
+   "error_str": "-4.48 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.5: V_out (ideal D\u00b7V_in)",
+   "predicted": 6.0,
+   "measured": 5.772505521091834,
+   "unit": "V",
+   "error": -3.7915746484694277,
+   "error_str": "-3.79 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.5: V_out (with losses)",
+   "predicted": 5.772523146105641,
+   "measured": 5.772505521091834,
+   "unit": "V",
+   "error": -0.0003053259962852483,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.5: inductor ripple \u0394I_L",
+   "predicted": 0.6624994126498049,
+   "measured": 0.6751574103473278,
+   "unit": "A",
+   "error": 1.9106428558018702,
+   "error_str": "+1.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.5: output ripple \u0394V (per switching period)",
+   "predicted": 0.008281242658122561,
+   "measured": 0.009112104279690225,
+   "unit": "V",
+   "error": 10.03305489125745,
+   "error_str": "+10.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.65: V_out (ideal D\u00b7V_in)",
+   "predicted": 7.800000000000001,
+   "measured": 7.585725991502897,
+   "unit": "V",
+   "error": -2.747102673039794,
+   "error_str": "-2.75 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.65: V_out (with losses)",
+   "predicted": 7.586528458949876,
+   "measured": 7.585725991502897,
+   "unit": "V",
+   "error": -0.010577531624921513,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.65: inductor ripple \u0394I_L",
+   "predicted": 0.610484703302791,
+   "measured": 0.5964335822222864,
+   "unit": "A",
+   "error": -2.3016336043289063,
+   "error_str": "-2.30 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.65: output ripple \u0394V (per switching period)",
+   "predicted": 0.007631058791284888,
+   "measured": 0.0077506020391533426,
+   "unit": "V",
+   "error": 1.5665355377025791,
+   "error_str": "+1.57 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.8: V_out (ideal D\u00b7V_in)",
+   "predicted": 9.600000000000001,
+   "measured": 9.404658736601471,
+   "unit": "V",
+   "error": -2.034804827068026,
+   "error_str": "-2.03 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.8: V_out (with losses)",
+   "predicted": 9.398640348940908,
+   "measured": 9.404658736601471,
+   "unit": "V",
+   "error": 0.06403466285674589,
+   "error_str": "+0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.8: inductor ripple \u0394I_L",
+   "predicted": 0.4417602150465582,
+   "measured": 0.43381319982611277,
+   "unit": "A",
+   "error": -1.798943170925405,
+   "error_str": "-1.80 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.8: output ripple \u0394V (per switching period)",
+   "predicted": 0.0055220026880819775,
+   "measured": 0.004786563390703158,
+   "unit": "V",
+   "error": -13.3183437046509,
+   "error_str": "-13.32 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/transfer.png",
+  "figures/waveforms.png"
+ ],
+ "runtime_s": 17.94,
+ "folder": "projects/signal-lab/B-power-electronics/SL026-buck-converter"
+}

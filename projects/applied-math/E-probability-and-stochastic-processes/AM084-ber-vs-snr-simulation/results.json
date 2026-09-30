@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "AM-084",
+  "title": "Bit-error rate vs SNR: Monte Carlo against theory",
+  "level": "M",
+  "tools": "Monte-Carlo simulation of BPSK, QPSK (Gray), 16-QAM (Gray) and non-coherent BFSK over AWGN, exact/union-bound BER formulas, confidence intervals",
+  "summary": "Simulate millions of bits for four modulations, plot BER against Eb/N0 with 95 % confidence intervals, and compare with the closed-form expressions \u2014 including where the common approximations for 16-QAM stop being exact.",
+  "problem": "Every link budget uses BER curves. Do simulated bits actually land on the textbook formulas?",
+  "theory": "BPSK and Gray-coded QPSK: $P_b=Q(\\sqrt{2E_b/N_0})$. Gray 16-QAM: $P_b \u2248 \\frac34 Q(\\sqrt{\\frac45E_b/N_0})$ (nearest-neighbour approximation, accurate at high SNR). Non-coherent orthogonal BFSK: $P_b=\\frac12e^{-E_b/2N_0}$.\n16-QAM needs \u2248 4 dB more Eb/N0 than QPSK for the same BER, the price of 2 extra bits per symbol.",
+  "method": "Eb/N0 = 0\u202612 dB; up to 10\u2077 bits per point (stop after 500 errors); Wilson 95 % intervals. Exact BPSK formula; 16-QAM compared with both the approximation and an exact per-bit expression.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "BPSK: fraction of simulated points whose 95 % interval contains the formula",
+   "predicted": 1.0,
+   "measured": 0.9230769230769231,
+   "unit": "",
+   "error": -0.07692307692307687,
+   "error_str": "-0.07692",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "QPSK: fraction of simulated points whose 95 % interval contains the formula",
+   "predicted": 1.0,
+   "measured": 0.9166666666666666,
+   "unit": "",
+   "error": -0.08333333333333337,
+   "error_str": "-0.08333",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "16QAM: fraction of simulated points whose 95 % interval contains the formula",
+   "predicted": 0.8,
+   "measured": 0.9230769230769231,
+   "unit": "",
+   "error": 0.12307692307692308,
+   "error_str": "+0.1231",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BFSK (non-coherent): fraction of simulated points whose 95 % interval contains the formula",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Eb/N0 penalty of 16-QAM over QPSK at BER 1e-5",
+   "predicted": 4.0,
+   "measured": 3.8466625176571236,
+   "unit": "dB",
+   "error": -0.15333748234287636,
+   "error_str": "-0.1533 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/ber.png"
+ ],
+ "runtime_s": 2.47,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM084-ber-vs-snr-simulation"
+}

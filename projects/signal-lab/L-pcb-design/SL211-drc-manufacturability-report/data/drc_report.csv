@@ -1,0 +1,9 @@
+rule,layer,detail,x,y
+clearance,F,OUTA ↔ +12V: 0.100 mm < 0.2,28.55,29
+edge clearance,F,GND: 0.100 mm,49.775,13
+track width,F,OUTB: 0.1 mm < 0.15,37.25,13.625
+annular ring,F/B,via GND: 0.075 mm,6,6
+min drill,drill,0.2 mm,6,24
+hole-to-hole,drill,0.200 mm,6.5,12
+courtyard overlap,F,C90 ↔ C91,8.5,29.5
+unconnected,-,IN_L: C1.1,12,22

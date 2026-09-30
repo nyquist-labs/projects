@@ -1,0 +1,94 @@
+{
+ "meta": {
+  "id": "SL-019",
+  "title": "Class-A vs Class-B vs Class-AB output stages",
+  "level": "M",
+  "tools": "eelab mini-SPICE transient, FFT THD, supply-power integration",
+  "summary": "Compare efficiency and crossover distortion of three emitter-follower output stages driving 8 \u03a9, against the textbook 25 % and \u03c0/4 limits.",
+  "problem": "Why do audio amplifiers use class AB? Quantify efficiency and distortion of class A, B and AB at the same output power.",
+  "theory": "Class A (resistor-biased emitter follower, quiescent current \u2265 peak load current): efficiency\n$\\eta = P_L/P_{supply}$ is at most 25 % and scales as $(\\hat V/V_{CC})^2$.\nClass B (complementary pair, no bias): $\\eta=\\frac{\\pi}{4}\\frac{\\hat V}{V_{CC}}$, max 78.5 %, but each transistor\nconducts only when $|v_{in}|>V_{BE}\\approx0.6$ V \u2192 crossover distortion.\nClass AB: two diodes pre-bias the bases by ~2V_BE so one device is always on \u2192 distortion\ncollapses, efficiency \u2248 class B.",
+  "method": "\u00b115 V rails, 8 \u03a9 load, 1 kHz drive. Class A: NPN follower with a 1.9 A constant-current sink (\u2248 57 W\nstandby). Class B: complementary NPN/PNP. Class AB: same pair with two biasing diodes fed by 40 mA\ncurrent sources (enough to supply the \u2248 20 mA peak base current at full output). Amplitudes 2\u201312 V; efficiency from \u222bv\u00b7i of both supplies, THD from FFT.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "class A: efficiency at V\u0302 \u2248 12.7 V",
+   "predicted": 17.724667807166316,
+   "measured": 18.289998717061113,
+   "unit": "%",
+   "error": 0.5653309098947972,
+   "error_str": "+0.565 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "class B: efficiency at V\u0302 \u2248 11.0 V",
+   "predicted": 57.729223844276376,
+   "measured": 59.48385471571326,
+   "unit": "%",
+   "error": 1.7546308714368806,
+   "error_str": "+1.75 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "class AB: efficiency at V\u0302 \u2248 11.9 V",
+   "predicted": 62.19839463114384,
+   "measured": 57.59581346106235,
+   "unit": "%",
+   "error": -4.602581170081493,
+   "error_str": "-4.6 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "class A: THD at 2 V drive",
+   "value": 0.008402952320055555,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "class A: THD at 12 V drive",
+   "value": 0.0777355159119564,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "class B: THD at 2 V drive",
+   "value": 22.176956519028376,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "class B: THD at 12 V drive",
+   "value": 3.523157679067479,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "class AB: THD at 2 V drive",
+   "value": 0.21585180625328962,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "class AB: THD at 12 V drive",
+   "value": 0.18309505362071354,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/efficiency_thd.png",
+  "figures/crossover.png"
+ ],
+ "runtime_s": 4.01,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL019-class-a-vs-class-ab"
+}

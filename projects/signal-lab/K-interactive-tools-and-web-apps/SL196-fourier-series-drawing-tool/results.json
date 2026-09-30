@@ -1,0 +1,68 @@
+{
+ "meta": {
+  "id": "SL-196",
+  "title": "Fourier-series drawing tool (epicycles)",
+  "level": "M",
+  "tools": "HTML canvas + JavaScript DFT/epicycle animator (draw any closed shape) + Node test harness vs NumPy FFT; convergence-rate analysis",
+  "summary": "Draw a closed shape and watch rotating circles trace it; the tool's DFT is verified against NumPy, and the approximation error vs number of circles is predicted from the smoothness of the shape (smooth, cornered, or with a jump) and measured.",
+  "problem": "How many circles does it take to draw a shape \u2014 and why do some shapes need far more than others?",
+  "theory": "A closed path $z(t)=x+iy$ has $z(t)=\\sum_k c_k e^{2\u03c0ikt}$. How fast $|c_k|$ decays is set by smoothness: a path with a corner (continuous, kinked) has\n$|c_k|\u223ck^{-2}$; a path with a jump (e.g. an unclosed stroke) $|c_k|\u223ck^{-1}$; an analytic path decays exponentially. Keeping the N largest terms leaves an\nRMS error $\\big(\\sum_{|k|>N/2}|c_k|^2\\big)^{1/2}$: \u221d $N^{-3/2}$ for corners, $N^{-1/2}$ for jumps, and faster than any power for smooth shapes.",
+  "method": "Shapes sampled at 1024 points: a square (4 corners), an open 'C' stroke closed by a jump (via its uniform-in-time sampling), and a smooth epitrochoid.\ncalc.js `dft` vs `numpy.fft.fft/N`; `reconstruct` with N = 4\u2026512 terms vs the true path; log-log slope of RMS error fitted over N = 8\u202664 (well below the 1024-sample limit: the square's symmetry makes only every 4th harmonic nonzero, so ~256 terms already reproduce the sampled path exactly).",
+  "data": "Generated shapes.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "square (corners): RMS error \u221d N^slope \u2014 slope",
+   "predicted": -1.5,
+   "measured": -1.4401459391672096,
+   "unit": "",
+   "error": 0.059854060832790434,
+   "error_str": "+0.05985",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "open stroke (jump): RMS error \u221d N^slope \u2014 slope",
+   "predicted": -0.5,
+   "measured": -0.5004358256930672,
+   "unit": "",
+   "error": -0.0004358256930672155,
+   "error_str": "-4.3583e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "smooth epitrochoid: error with 4 circles (it has exactly 2 nonzero terms \u2192 exact)",
+   "predicted": 0.0,
+   "measured": 7.067073099136657e-14,
+   "unit": "",
+   "error": 7.067073099136657e-14,
+   "error_str": "+7.0671e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Max |c_k(JS) \u2212 c_k(NumPy FFT)| over the 50 largest terms",
+   "predicted": 0.0,
+   "measured": 5.643582794195182e-14,
+   "unit": "",
+   "error": 5.643582794195182e-14,
+   "error_str": "+5.6436e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/convergence.png",
+  "figures/square.png"
+ ],
+ "runtime_s": 2.05,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL196-fourier-series-drawing-tool"
+}

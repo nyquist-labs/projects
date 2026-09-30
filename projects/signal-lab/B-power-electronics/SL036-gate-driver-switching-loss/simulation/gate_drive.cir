@@ -1,0 +1,12 @@
+* gate Rg=10 — exported by eelab.circuit
+Vdd vdd 0 DC 48.0 AC 0.0
+Vg drv 0 DC 0.0 AC 0.0  ; time-varying in eelab
+Rg drv g 10
+C1_cgs g 0 1e-09
+C1_cgd g d 1e-10
+IL vdd d DC 5.0 AC 0.0
+M1 d g 0 0 M_1
+Dfw d vdd D_fw
+.model D_fw D(Is=1e-09 N=1.2)
+.model M_1 NMOS(KP=20 VTO=3.0 LAMBDA=0.0)
+.end

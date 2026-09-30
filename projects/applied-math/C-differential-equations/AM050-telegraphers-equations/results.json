@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "AM-050",
+  "title": "Telegrapher's equations: travelling waves on a line",
+  "level": "H",
+  "tools": "Staggered-grid FDTD solution of the telegrapher's PDEs (V and I leapfrogged), matched source, arbitrary resistive load, loss; animated GIF",
+  "summary": "Solve \u2202V/\u2202x = \u2212L\u2202I/\u2202t \u2212 RI, \u2202I/\u2202x = \u2212C\u2202V/\u2202t \u2212 GV numerically, measure wave speed, reflection coefficients for open, short and mismatched loads, and the attenuation of a lossy line \u2014 all against their closed-form predictions.",
+  "problem": "A step launched onto a cable bounces back from the far end. How fast does it travel, how much comes back, and how much is lost?",
+  "theory": "Lossless: speed $v=1/\\sqrt{LC}$, impedance $Z_0=\\sqrt{L/C}$, reflection $\u0393=(Z_L-Z_0)/(Z_L+Z_0)$ (open +1, short \u22121). With small loss the amplitude decays as $e^{-\u03b1x}$,\n$\u03b1\u2248\\frac{R}{2Z_0}+\\frac{GZ_0}{2}$. FDTD stability: Courant number v\u0394t/\u0394x \u2264 1 (exact propagation at 1 in 1-D).",
+  "method": "RG-58-like line: L = 250 nH/m, C = 100 pF/m (Z0 = 50 \u03a9, v = 2\u00d710\u2078 m/s), 10 m, \u0394x = 1 cm, Courant 0.5. Gaussian pulse from a matched 50 \u03a9 source; loads 1 M\u03a9 (open), 0.01 \u03a9 (short),\n25 \u03a9, 150 \u03a9; lossy case R = 2 \u03a9/m. Arrival times and reflected amplitudes measured at x = 2 m.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Z_L = 1e+06 \u03a9: reflection coefficient",
+   "predicted": 0.99990000499975,
+   "measured": 0.9987751042500246,
+   "unit": "",
+   "error": -0.0011249007497253771,
+   "error_str": "-0.001125",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Z_L = 0.01 \u03a9: reflection coefficient",
+   "predicted": -0.9996000799840032,
+   "measured": -0.9984752352601762,
+   "unit": "",
+   "error": 0.001124844723827012,
+   "error_str": "+0.001125",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Z_L = 25 \u03a9: reflection coefficient",
+   "predicted": -0.3333333333333333,
+   "measured": -0.3331649154279839,
+   "unit": "",
+   "error": 0.00016841790534943835,
+   "error_str": "+1.6842e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Z_L = 150 \u03a9: reflection coefficient",
+   "predicted": 0.5,
+   "measured": 0.499262962185681,
+   "unit": "",
+   "error": -0.0007370378143189971,
+   "error_str": "-7.3704e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Round-trip delay probe \u2192 load \u2192 probe (16 m) = 16/v",
+   "predicted": 8e-08,
+   "measured": 8.0025e-08,
+   "unit": "s",
+   "error": 0.031250000000002345,
+   "error_str": "+0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lossy line (R = 2 \u03a9/m): attenuation \u03b1 \u2248 R/2Z0",
+   "predicted": 0.02,
+   "measured": 0.020006558342790092,
+   "unit": "Np/m",
+   "error": 0.032791713950458545,
+   "error_str": "+0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/telegrapher.png"
+ ],
+ "runtime_s": 4.19,
+ "folder": "projects/applied-math/C-differential-equations/AM050-telegraphers-equations"
+}

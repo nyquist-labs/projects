@@ -1,0 +1,101 @@
+{
+ "meta": {
+  "id": "SL-037",
+  "title": "Three-phase vs single-phase bridge rectifier",
+  "level": "M",
+  "tools": "eelab mini-SPICE (6-diode bridge, RL load), FFT harmonic analysis",
+  "summary": "Compare output ripple and line-current harmonics of a 6-pulse three-phase bridge and a single-phase bridge feeding a highly inductive load.",
+  "problem": "Why do industrial drives rectify three phases instead of one, and what harmonics do they still inject into the grid?",
+  "theory": "Six-pulse bridge: $V_{dc}=\\frac{3\\sqrt2}{\\pi}V_{LL,rms}=1.35V_{LL}$, ripple at 6f with\npk-pk $=\\sqrt2V_{LL}(1-\\cos30\u00b0)$ = 13.4 % of peak. With a constant DC current the line current is a\n120\u00b0 quasi-square wave: harmonics $h=6k\\pm1$ with $I_h=I_1/h$, THD = 31.1 %.\nSingle-phase bridge: $V_{dc}=\\frac{2\\sqrt2}{\\pi}V_{rms}$, ripple 100 % at 2f, square-wave line current, THD = 48.3 %.",
+  "method": "400 V line-to-line, 50 Hz (230 V phase). Load: 20 \u03a9 + 200 mH (L/R \u226b 1/300 Hz). Diodes Is = 1e-9, N = 1.5.\n100 ms transients (50 \u00b5s steps), last 40 ms analysed.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "6-pulse DC voltage",
+   "predicted": 540.1897896942637,
+   "measured": 538.3261062154556,
+   "unit": "V",
+   "error": -0.34500531375516685,
+   "error_str": "-0.35 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "6-pulse ripple (pk-pk)",
+   "predicted": 75.78747639260237,
+   "measured": 75.76054839674947,
+   "unit": "V",
+   "error": -0.03553093088019701,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "6-pulse line-current THD",
+   "predicted": 31.08,
+   "measured": 30.157877406759848,
+   "unit": "%",
+   "error": -0.9221225932401502,
+   "error_str": "-0.922 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "6-pulse I_5/I_1",
+   "predicted": 0.2,
+   "measured": 0.20199450814175363,
+   "unit": "",
+   "error": 0.001994508141753615,
+   "error_str": "+0.001995",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "6-pulse I_7/I_1",
+   "predicted": 0.14285714285714285,
+   "measured": 0.141452351683655,
+   "unit": "",
+   "error": -0.0014047911734878515,
+   "error_str": "-0.001405",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "1-phase DC voltage",
+   "predicted": 207.0727527161344,
+   "measured": 205.28116756214158,
+   "unit": "V",
+   "error": -0.8651959905361477,
+   "error_str": "-0.87 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1-phase line-current THD",
+   "predicted": 48.34,
+   "measured": 45.69170248665791,
+   "unit": "%",
+   "error": -2.6482975133420936,
+   "error_str": "-2.65 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/waveforms.png",
+  "figures/harmonics.png"
+ ],
+ "runtime_s": 0.73,
+ "folder": "projects/signal-lab/B-power-electronics/SL037-three-phase-rectifier"
+}

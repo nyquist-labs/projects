@@ -1,0 +1,11 @@
+* wilson — exported by eelab.circuit
+Vcc vcc 0 DC 10 AC 0.0
+Vo vo 0 DC 5 AC 0.0
+Rref vcc c1 8600
+Q1 c1 b12 0 Q_1
+Q2 b12 b12 0 Q_2
+Q3 vo c1 b12 Q_3
+.model Q_1 NPN(Is=1e-15 BF=100 BR=1 VAF=50)
+.model Q_2 NPN(Is=1e-15 BF=100 BR=1 VAF=50)
+.model Q_3 NPN(Is=1e-15 BF=100 BR=1 VAF=50)
+.end

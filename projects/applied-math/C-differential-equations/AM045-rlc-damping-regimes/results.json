@@ -1,0 +1,124 @@
+{
+ "meta": {
+  "id": "AM-045",
+  "title": "RLC damping regimes from the characteristic equation",
+  "level": "M",
+  "tools": "Roots of Ls\u00b2 + Rs + 1/C, closed-form step responses for under-, critically and over-damped cases, MNA transient verification",
+  "summary": "Classify a series RLC step response from the discriminant of its characteristic equation, write the exact solution for each regime, and confirm the solutions, overshoot and settling behaviour against simulation \u2014 including why critical damping is the fastest without overshoot.",
+  "problem": "One circuit, three completely different behaviours. Where exactly are the boundaries, and what does each look like?",
+  "theory": "$v_C$ obeys $LC\\ddot v+RC\\dot v+v=V$. With \u03b1 = R/2L, \u03c90 = 1/\u221a(LC): \u03b1 < \u03c90 under-damped (ringing at $\u03c9_d=\\sqrt{\u03c9_0^2-\u03b1^2}$, overshoot $e^{-\u03b1\u03c0/\u03c9_d}$), \u03b1 = \u03c90 critically damped\n($v=V[1-(1+\u03c9_0t)e^{-\u03c9_0t}]$), \u03b1 > \u03c90 over-damped (two real exponentials). Critical R = 2\u221a(L/C). Among non-overshooting responses the critically damped one reaches 98 % soonest.",
+  "method": "L = 10 mH, C = 1 \u00b5F (R_crit = 200 \u03a9, f0 = 1.59 kHz). R = 20, 100, 200, 400, 1000 \u03a9; closed-form responses vs transient simulation; overshoot and 2 % settling time measured.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "R = 20 \u03a9: max |simulation \u2212 closed form|",
+   "predicted": 0.0,
+   "measured": 0.0001985207662108363,
+   "unit": "V",
+   "error": 0.0001985207662108363,
+   "error_str": "+198.5 \u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 20 \u03a9: overshoot e^(\u2212\u03b1\u03c0/\u03c9_d)",
+   "predicted": 0.7292476142876709,
+   "measured": 0.7291152911617345,
+   "unit": "",
+   "error": -0.018145157192694616,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 100 \u03a9: max |simulation \u2212 closed form|",
+   "predicted": 0.0,
+   "measured": 0.00019333644278066788,
+   "unit": "V",
+   "error": 0.00019333644278066788,
+   "error_str": "+193.3 \u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 100 \u03a9: overshoot e^(\u2212\u03b1\u03c0/\u03c9_d)",
+   "predicted": 0.16303353482158048,
+   "measured": 0.1630159557799007,
+   "unit": "",
+   "error": -0.010782469814585282,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 200 \u03a9: max |simulation \u2212 closed form|",
+   "predicted": 0.0,
+   "measured": 0.00018711428538551855,
+   "unit": "V",
+   "error": 0.00018711428538551855,
+   "error_str": "+187.1 \u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 400 \u03a9: max |simulation \u2212 closed form|",
+   "predicted": 0.0,
+   "measured": 0.0001754680552306683,
+   "unit": "V",
+   "error": 0.0001754680552306683,
+   "error_str": "+175.5 \u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 1000 \u03a9: max |simulation \u2212 closed form|",
+   "predicted": 0.0,
+   "measured": 0.0001459208874007242,
+   "unit": "V",
+   "error": 0.0001459208874007242,
+   "error_str": "+145.9 \u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Non-overshooting responses: critical (200 \u03a9) settles faster than over-damped (400 \u03a9)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Critical resistance 2\u221a(L/C)",
+   "value": 200.0,
+   "unit": "\u03a9",
+   "note": ""
+  },
+  {
+   "quantity": "2 % settling times (ms)",
+   "value": "20 \u03a9: 3.84, 100 \u03a9: 0.81, 200 \u03a9: 0.58, 400 \u03a9: 1.49, 1000 \u03a9: 3.88",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/damping.png"
+ ],
+ "runtime_s": 0.44,
+ "folder": "projects/applied-math/C-differential-equations/AM045-rlc-damping-regimes"
+}

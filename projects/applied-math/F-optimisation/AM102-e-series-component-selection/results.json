@@ -1,0 +1,104 @@
+{
+ "meta": {
+  "id": "AM-102",
+  "title": "Choosing real resistor values: discrete optimisation",
+  "level": "M",
+  "tools": "Exhaustive search over E-series values and two-resistor series/parallel composites, greedy rounding vs joint optimisation, error distributions",
+  "summary": "Hit an arbitrary target resistance and a divider ratio with values that can actually be bought: compare naive rounding, joint search over pairs, and two-resistor series/parallel composites, and quantify how many parts are needed for 0.1 % accuracy.",
+  "problem": "The math says 12.37 k\u03a9. The drawer contains E24. What is the best buildable answer \u2014 and how much does searching jointly help?",
+  "theory": "E24 values are ~10 % apart, so rounding one value gives up to ~\u00b15 % error (median ~2.4 %). Series or parallel combinations of two E24 values cover the line much more densely (~24\u00b2/2 combinations per decade):\nexpected worst-case error \u2272 0.2 %. For a filter or divider that depends on a *ratio* or product of values, rounding each independently is not optimal; joint search over the discrete set does better.",
+  "method": "2000 log-uniform random targets in 1\u201310 k\u03a9: single E24 / E96 value, two-resistor series, parallel, best of both. Sallen-Key-type design: target f0 = 1/(2\u03c0\u221a(R1R2C1C2)) with C1, C2 fixed from E12 \u2014 independent rounding of R1, R2\nvs joint search over all E24 pairs; f0 error distributions.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "E24 single value: worst error (my guess: half a ~10 % step \u2248 5 %)",
+   "predicted": 5.0,
+   "measured": 7.226787893733966,
+   "unit": "%",
+   "error": 2.226787893733966,
+   "error_str": "+2.23 pp",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 corrected: the widest E24 gap is 1.3 \u2192 1.5 (no 1.4), worst error \u221a(1.5/1.3) \u2212 1",
+   "predicted": 7.417231105914923,
+   "measured": 7.226787893733966,
+   "unit": "%",
+   "error": -0.1904432121809574,
+   "error_str": "-0.19 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Two E24 resistors (series or parallel): worst error (my guess \u2272 0.2 %)",
+   "predicted": 0.2,
+   "measured": 0.2943450611304854,
+   "unit": "%",
+   "error": 0.09434506113048541,
+   "error_str": "+0.0943 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "f0 error: joint search over (R1, R2) vs rounding both to the same E24 value (median ratio)",
+   "predicted": 5.0,
+   "measured": 13.780357569718129,
+   "unit": "\u00d7",
+   "error": 8.780357569718129,
+   "error_str": "+8.78 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "E24 single: median / 95th percentile error",
+   "value": "2.431 / 4.858 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "E96 single: median / 95th percentile error",
+   "value": "0.611 / 1.153 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "E24 series pair: median / 95th percentile error",
+   "value": "0.076 / 0.282 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "E24 parallel pair: median / 95th percentile error",
+   "value": "0.054 / 0.227 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "E24 best of series/parallel: median / 95th percentile error",
+   "value": "0.030 / 0.120 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "f0 error, median: independent rounding / joint E24 pair",
+   "value": "2.40 % / 0.174 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/eseries.png"
+ ],
+ "runtime_s": 0.15,
+ "folder": "projects/applied-math/F-optimisation/AM102-e-series-component-selection"
+}

@@ -1,0 +1,70 @@
+{
+ "meta": {
+  "id": "SL-035",
+  "title": "MOSFET loss & junction-temperature model",
+  "level": "M",
+  "tools": "Loss equations + electro-thermal fixed point + Foster thermal network transient (NumPy)",
+  "summary": "Estimate conduction and switching losses of a buck-converter MOSFET vs frequency, solve the self-consistent junction temperature (R_ds(on) rises with T) and check it with a thermal transient.",
+  "problem": "How hot will the switch get? Losses raise temperature, and temperature raises R_ds(on) and therefore losses \u2014 find where this loop settles, or whether it runs away.",
+  "theory": "Conduction: $P_{cond}=I_{rms}^2R_{ds}(T_j)$, $R_{ds}(T)=R_{25}(1+\\alpha(T-25))$ with \u03b1 \u2248 0.6 %/K.\nSwitching: $P_{sw}=\\tfrac12V_{in}I(t_r+t_f)f_{sw}+\\tfrac12C_{oss}V_{in}^2f_{sw}$.\nThermal: $T_j = T_a + R_{\\theta JA}\\,P(T_j)$ \u2014 a fixed point that exists iff $R_{\\theta JA}\\,\\partial P/\\partial T<1$,\ngiving the closed form $T_j=\\frac{T_a+R_\\theta(P_0 - P_{c25}\\alpha\\cdot25)}{1-R_\\theta P_{c25}\\alpha}$ (linear in T).",
+  "method": "Buck: 24 V \u2192 12 V, 10 A, D = 0.5. MOSFET: R_ds25 = 8 m\u03a9, t_r = t_f = 15 ns, C_oss = 600 pF. R_\u03b8JA = 25 K/W\n(small PCB copper), T_a = 40 \u00b0C. Closed-form prediction vs iterative solve vs a 3-stage Foster network\n(\u03c4 = 1 ms, 50 ms, 5 s) integrated in time to steady state. Frequency sweep 50 kHz\u20131 MHz.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "T_j at 100 kHz: closed form vs Foster transient",
+   "predicted": 61.62978723404256,
+   "measured": 61.62379733369638,
+   "unit": "\u00b0C",
+   "error": -0.009719164408977157,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "T_j at 500 kHz: closed form vs Foster transient",
+   "predicted": 101.76595744680851,
+   "measured": 101.74885270482055,
+   "unit": "\u00b0C",
+   "error": -0.016807921250978818,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "T_j at 1000 kHz: closed form vs Foster transient",
+   "predicted": 151.93617021276597,
+   "measured": 151.905171918726,
+   "unit": "\u00b0C",
+   "error": -0.02040218204562599,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Iterative fixed point = closed form",
+   "value": 8.752749636187218e-10,
+   "unit": "\u00b0C",
+   "note": "max difference"
+  },
+  {
+   "quantity": "Highest frequency keeping T_j < 125 \u00b0C",
+   "value": 731552.1628584099,
+   "unit": "Hz",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/loss_temperature.png",
+  "figures/transient.png"
+ ],
+ "runtime_s": 0.76,
+ "folder": "projects/signal-lab/B-power-electronics/SL035-mosfet-thermal-model"
+}

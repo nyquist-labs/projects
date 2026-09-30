@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-048",
+  "title": "I\u00b2C master with ACK handling",
+  "level": "H",
+  "tools": "Verilog RTL (open-drain bus with pull-ups), behavioural I\u00b2C slave, Icarus Verilog",
+  "summary": "An I\u00b2C master that generates START/STOP, sends a 7-bit address + R/W, writes and reads data bytes and detects NACKs, tested against a slave model on a wired-AND open-drain bus.",
+  "problem": "I\u00b2C shares two open-drain wires between many devices. Implement the start/stop conditions, addressing and acknowledge protocol, and show the master handles a missing device.",
+  "theory": "START = SDA falls while SCL high; STOP = SDA rises while SCL high; data may only change while SCL is low.\nEach byte is followed by an ACK bit driven low by the receiver. Open-drain wired-AND: the line is low if\n*any* device pulls it low. Bus rate $f_{SCL}=f_{clk}/(4\\cdot DIV)$ = 50 MHz/(4\u00b7125) = 100 kHz (standard mode).\nA write of one register = START + addr + reg + data + STOP = 3\u00b79 + 2 \u2248 29 SCL periods \u2248 290 \u00b5s.",
+  "method": "Master state machine with a quarter-period phase counter. Slave model at address 0x42 with a 4-byte\nregister file, open-drain modelled with `tri1` nets (pull-up) and conditional drivers. Test: write\nbytes to 4 registers, read them back, then address a non-existent device (0x13) and check the NACK flag.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Read-back errors (4 registers)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "NACK flagged for absent address 0x13",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "SCL frequency",
+   "predicted": 100000.0,
+   "measured": 100000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Single-register write duration",
+   "predicted": 0.000292,
+   "measured": 0.00028955,
+   "unit": "s",
+   "error": -0.8390410958904035,
+   "error_str": "-0.84 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/timing.png"
+ ],
+ "runtime_s": 0.2,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL048-i2c-master"
+}

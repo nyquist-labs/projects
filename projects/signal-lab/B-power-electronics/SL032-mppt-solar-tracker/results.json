@@ -1,0 +1,70 @@
+{
+ "meta": {
+  "id": "SL-032",
+  "title": "MPPT solar tracker (perturb & observe)",
+  "level": "H",
+  "tools": "Single-diode PV model (NumPy/SciPy) + averaged boost-converter MPPT loop",
+  "summary": "Model a 60-cell PV panel, locate its maximum power point analytically, then run a perturb-and-observe tracker through an irradiance ramp and a cloud step and measure how much energy it captures.",
+  "problem": "A solar panel's power depends on the voltage you hold it at, and the best voltage moves with sunlight. How close does the simplest MPPT algorithm get to the true optimum?",
+  "theory": "Single-diode model: $I = I_{ph} - I_0\\left(e^{(V+IR_s)/(nN_sV_T)}-1\\right) - \\frac{V+IR_s}{R_{sh}}$, with\n$I_{ph}\\propto G$ (irradiance). The maximum power point satisfies $dP/dV = 0$ \u21d4 $dI/dV = -I/V$; it sits at\n\u2248 80 % of $V_{oc}$ and moves roughly logarithmically with G. P&O perturbs the operating voltage by \u0394V and\nkeeps the direction if power rose \u2014 it oscillates in a \u00b1\u0394V band around the MPP, costing \u2248 a few \u00d70.1 %.",
+  "method": "Panel: 60 cells, I_sc = 9 A at 1000 W/m\u00b2, I\u2080 = 1e-10 A, n = 1.1, R_s = 0.3 \u03a9, R_sh = 300 \u03a9, 25 \u00b0C.\nPredicted MPP by numerically maximising P(V) on the implicit I\u2013V curve (Brent root + scalar optimiser).\nTracker: boost converter averaged model sets V_pv = V_bus(1\u2212D), P&O updates D every 10 ms with \u0394D = 0.004,\nbus held at 48 V. Irradiance profile over 12 s: ramp 300\u21921000 W/m\u00b2, hold, cloud step to 400, recovery.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Steady-state tracking efficiency (1000 W/m\u00b2)",
+   "predicted": 99.99700963050319,
+   "measured": 99.98478021951387,
+   "unit": "%",
+   "error": -0.0122294109893204,
+   "error_str": "-0.0122 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": "P&O loss \u2248 curvature \u00d7 (\u0394V)\u00b2 band"
+  },
+  {
+   "quantity": "Energy captured over whole profile",
+   "predicted": 100.0,
+   "measured": 98.652344097436,
+   "unit": "%",
+   "error": -1.347655902564,
+   "error_str": "-1.35 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "V_mpp at 1000 W/m\u00b2 (fractional-V_oc rule 0.8\u00b7V_oc)",
+   "predicted": 34.20763049158324,
+   "measured": 35.11064450973356,
+   "unit": "V",
+   "error": 2.6398028895117673,
+   "error_str": "+2.64 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "G = 400: V_mpp / V_oc",
+   "value": 0.8491552796592671,
+   "unit": "",
+   "note": "V_mpp = 34.96 V, P_max = 116.1 W"
+  },
+  {
+   "quantity": "G = 1000: V_mpp / V_oc",
+   "value": 0.8211184231160941,
+   "unit": "",
+   "note": "V_mpp = 35.11 V, P_max = 296.4 W"
+  }
+ ],
+ "figures": [
+  "figures/iv_pv_curves.png",
+  "figures/tracking.png"
+ ],
+ "runtime_s": 0.56,
+ "folder": "projects/signal-lab/B-power-electronics/SL032-mppt-solar-tracker"
+}

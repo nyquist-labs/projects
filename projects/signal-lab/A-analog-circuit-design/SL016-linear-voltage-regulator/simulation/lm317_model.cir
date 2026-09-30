@@ -1,0 +1,21 @@
+* LM317 model — exported by eelab.circuit
+Vin vin 0 DC 12.0 AC 0.0
+Vref refp adj DC 1.25 AC 0.0
+Rb ea base 100
+Iadj refp adj DC 0 AC 0.0
+Iiadj 0 adj DC 5e-05 AC 0.0
+R1 out adj 240
+R2 adj 0 720
+Iload out 0 DC 0.1 AC 0.0
+Qpass vin base out Q_pass
+* op-amp EA: A0=1e+04, GBW=1e+06 Hz, SR=5e+05 V/s
+XUEA refp out ea OPAMP1P A0=1e+04 GBW=1e+06
+.subckt OPAMP1P inp inn out A0=2e5 GBW=1e6
+G1 0 x inp inn {A0/1e6}
+R1 x 0 1e6
+C1 x 0 {1/(6.2832*GBW/A0*1e6)}
+E1 o 0 x 0 1
+Ro o out 50
+.ends
+.model Q_pass NPN(Is=1e-13 BF=100 BR=1 VAF=200)
+.end

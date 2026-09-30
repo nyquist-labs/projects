@@ -1,0 +1,70 @@
+{
+ "meta": {
+  "id": "SL-031",
+  "title": "Boost power-factor-correction stage",
+  "level": "H",
+  "tools": "eelab mini-SPICE with feedback controller (hysteretic current mode)",
+  "summary": "Compare a plain rectifier-capacitor front end with a boost PFC stage whose inductor current is forced to follow the rectified line voltage: measure power factor and current THD.",
+  "problem": "Why do mains-powered supplies above 75 W need power-factor correction, and how does a boost converter make the input look like a resistor?",
+  "theory": "Power factor $PF=\\frac{P}{V_{rms}I_{rms}}=\\frac{\\cos\\phi}{\\sqrt{1+THD_i^2}}$. A peak-rectifier draws short current\npulses near the voltage peaks, giving PF \u2248 0.5\u20130.7. The PFC controller sets the inductor current\nreference $i_{ref}=k|v_{in}|$, so the line current is sinusoidal and in phase: PF \u2192 1. The multiplier\n$k$ comes from the output power: $k = 2P_{out}/(\\eta V_p^2)$.",
+  "method": "120 V RMS / 60 Hz source through an ideal rectifier. (a) Plain: rectified voltage \u2192 470 \u00b5F \u2016 320 \u03a9.\n(b) PFC: rectified voltage \u2192 1 mH \u2192 synchronous switch pair \u2192 470 \u00b5F \u2016 320 \u03a9 (~400 V bus, 500 W).\nHysteretic control holds i_L within \u00b10.3 A of k|v_in|; k is updated each half-cycle by a slow PI loop on\nV_out. 100 ms transients, PF and THD over the last two line cycles.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "PFC power factor",
+   "predicted": 1.0,
+   "measured": 0.9967643587882785,
+   "unit": "",
+   "error": -0.3235641211721485,
+   "error_str": "-0.32 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Plain rectifier PF (textbook range 0.5\u20130.7)",
+   "predicted": 0.6,
+   "measured": 0.6099777127166306,
+   "unit": "",
+   "error": 0.009977712716630616,
+   "error_str": "+0.009978",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Line-current THD, plain rectifier",
+   "value": 119.367290918239,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Line-current THD, PFC",
+   "value": 2.2688975311325095,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "PFC output voltage (mean)",
+   "value": 393.7561846188434,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "Input power, PFC",
+   "value": 514.8610991203561,
+   "unit": "W",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/line_current.png"
+ ],
+ "runtime_s": 0.97,
+ "folder": "projects/signal-lab/B-power-electronics/SL031-power-factor-correction"
+}

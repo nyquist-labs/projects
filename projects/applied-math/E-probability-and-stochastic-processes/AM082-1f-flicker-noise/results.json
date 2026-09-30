@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-082",
+  "title": "1/f flicker noise: synthesis, spectrum and Allan deviation",
+  "level": "H",
+  "tools": "Two synthesis methods \u2014 FFT spectral shaping and a sum of Lorentzians (McWhorter model, log-uniform time constants) \u2014 spectral-slope fits, overlapping Allan deviation",
+  "summary": "Generate 1/f noise two ways, confirm the \u221210 dB/decade spectrum and its extent, show that the McWhorter superposition of simple trapping processes produces it, and measure the Allan deviation's characteristic flat floor (white noise: slope \u2212\u00bd).",
+  "problem": "Flicker noise dominates every amplifier at low frequency, yet no single physical time constant has a 1/f spectrum. Where does it come from?",
+  "theory": "A single trap gives a Lorentzian $\\frac{\u03c4}{1+(\u03c9\u03c4)^2}$. With time constants distributed uniformly in log \u03c4 between \u03c4\u2081 and \u03c4\u2082 the sum is \u221d 1/f for $1/(2\u03c0\u03c4_2) \u226a f \u226a 1/(2\u03c0\u03c4_1)$ (McWhorter). For 1/f noise the\nAllan deviation \u03c3_A(\u03c4) is constant (flicker floor), for white noise it falls as \u03c4^{\u22121/2}, for random walk it rises as \u03c4^{+1/2} \u2014 the standard way oscillator and sensor noise is classified.",
+  "method": "N = 2\u00b2\u2070 samples at 1 kHz. (i) FFT method: white Gaussian noise shaped by 1/\u221af. (ii) 60 Ornstein\u2013Uhlenbeck processes with \u03c4 log-uniform over 1 ms\u2026100 s. Spectral slope by log-log fit over 0.1\u2013100 Hz;\nAllan deviation for \u03c4 = 0.01\u2026100 s, plus white and random-walk references.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "FFT-shaped noise: PSD slope (1/f \u2192 \u22121)",
+   "predicted": -1.0,
+   "measured": -0.9991133001875503,
+   "unit": "",
+   "error": 0.0008866998124497094,
+   "error_str": "+8.8670e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sum of 60 Lorentzians (\u03c4 log-uniform 1 ms\u2013100 s): slope over 0.1\u201310 Hz",
+   "predicted": -1.0,
+   "measured": -0.9945094832007777,
+   "unit": "",
+   "error": 0.0054905167992223,
+   "error_str": "+0.005491",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Allan deviation slope: white noise (\u2212\u00bd)",
+   "predicted": -0.5,
+   "measured": -0.511178451090022,
+   "unit": "",
+   "error": -0.011178451090022024,
+   "error_str": "-0.01118",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Allan deviation slope: 1/f noise (0, flicker floor)",
+   "predicted": 0.0,
+   "measured": 0.0010963971565300774,
+   "unit": "",
+   "error": 0.0010963971565300774,
+   "error_str": "+0.001096",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Allan deviation slope: random walk (+\u00bd)",
+   "predicted": 0.5,
+   "measured": 0.4989882276483467,
+   "unit": "",
+   "error": -0.001011772351653284,
+   "error_str": "-0.001012",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "McWhorter spectrum slope above 1/(2\u03c0\u03c4_min) = 160 Hz (Lorentzian tail \u2192 \u22122)",
+   "value": -1.1439191089266678,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/flicker.png"
+ ],
+ "runtime_s": 1.49,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM082-1f-flicker-noise"
+}

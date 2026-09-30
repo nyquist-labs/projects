@@ -1,0 +1,175 @@
+{
+ "meta": {
+  "id": "AM-159",
+  "title": "State-feedback pole placement with Ackermann's formula",
+  "level": "H",
+  "tools": "Own Ackermann implementation (controllability matrix, matrix polynomial), comparison with scipy.signal.place_poles, controllability rank test, conditioning study versus system order, servo example with settling-time and control-effort predictions",
+  "summary": "Place closed-loop poles anywhere with u = \u2212Kx using Ackermann's formula, verify against an independent algorithm, show what happens for an uncontrollable system, measure how the accuracy of pole placement collapses with system order, and quantify the price of fast poles in actuator effort.",
+  "problem": "If every state is measured, feedback can put the poles anywhere. How \u2014 and what stops us from making the system arbitrarily fast?",
+  "theory": "For a controllable pair (A, b): $K=[0\\;\\dots\\;0\\;1]\\;\\mathcal C^{-1}\\,\u03c6(A)$ with $\\mathcal C=[b\\;Ab\\;\\dots\\;A^{n-1}b]$ and \u03c6 the desired characteristic polynomial. If rank \ud835\udc9e < n some modes cannot be moved. The formula inverts \ud835\udc9e, whose condition number\ngrows with n \u2014 accurate for small systems, poor beyond n \u2248 10; orthogonal-transformation methods (Kautsky\u2013Nichols\u2013Van Dooren, used by SciPy) avoid that inversion, and I expected them to stay accurate. For a double-integrator servo with poles at $\u03c9_n$, \u03b6: settling time \u2248 4/(\u03b6\u03c9_n),\nand the gains \u2014 hence the peak actuator effort for a step \u2014 scale with $\u03c9_n^2$.",
+  "method": "200 random controllable systems (n = 2\u20266): eigenvalues of A \u2212 bK vs requested. Random systems n = 2\u202614 for the conditioning study (median pole error of 20 systems each). Uncontrollable example with a decoupled mode.\nServo \u1e8d = u: \u03c9_n = 2, 4, 8 rad/s, \u03b6 = 0.7; step response via matrix exponential.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Ackermann: worst relative pole error over 200 random systems (n = 2\u20266)",
+   "predicted": 0.0,
+   "measured": 5.048538350802109e-07,
+   "unit": "",
+   "error": 5.048538350802109e-07,
+   "error_str": "+5.0485e-07",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ackermann gain vs scipy.signal.place_poles (worst relative difference)",
+   "predicted": 0.0,
+   "measured": 9.35895516814835e-09,
+   "unit": "",
+   "error": 9.35895516814835e-09,
+   "error_str": "+9.3590e-09",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Uncontrollable example (unstable mode decoupled from the input): rank of the controllability matrix",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 its unstable eigenvalue +1 survives any feedback gain",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Accuracy collapses with order: Ackermann pole error at n = 14 exceeds 1 % (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "I expected the orthogonal method (place_poles) to stay accurate at n = 14 (error < 10\u207b\u2076; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": -1.0,
+   "error_str": "-1",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c9_n = 2: gains [\u03c9_n\u00b2, 2\u03b6\u03c9_n]",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c9_n = 4: gains [\u03c9_n\u00b2, 2\u03b6\u03c9_n]",
+   "predicted": 16.0,
+   "measured": 16.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03c9_n = 8: gains [\u03c9_n\u00b2, 2\u03b6\u03c9_n]",
+   "predicted": 64.0,
+   "measured": 64.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Settling time (2 %) at \u03c9_n = 4: \u2248 4/(\u03b6\u03c9_n)",
+   "predicted": 1.4285714285714286,
+   "measured": 1.495,
+   "unit": "s",
+   "error": 4.650000000000005,
+   "error_str": "+4.65 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Peak actuator effort ratio when \u03c9_n doubles (4 \u2192 8): 4\u00d7",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "\u00d7",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Median pole error, Ackermann, n = 4 / 8 / 12 / 14",
+   "value": "6.1e-14 / 3.7e-08 / 9.0e-02 / 4.0e-01",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Median pole error, place_poles, n = 4 / 8 / 12 / 14",
+   "value": "7.0e-14 / 1.2e-07 / 1.1e-01 / 4.0e-01",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Condition number of the closed-loop eigenvector matrix, n = 4 / 8 / 14",
+   "value": "4.3e+02 / 1.4e+07 / 2.9e+10",
+   "unit": "",
+   "note": "how much the placed poles move per unit perturbation of A \u2212 bK"
+  },
+  {
+   "quantity": "Pole shift caused by a 10\u207b\u2078 perturbation of A, n = 4 / 8 / 14",
+   "value": "5.6e-07 / 1.4e-02 / 2.9e+00",
+   "unit": "",
+   "note": "relative to the pole magnitudes"
+  },
+  {
+   "quantity": "Median condition number of the controllability matrix, n = 4 / 14",
+   "value": "2.0e+01 / 8.9e+03",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ackermann.png"
+ ],
+ "runtime_s": 0.37,
+ "folder": "projects/applied-math/I-control-theory/AM159-state-feedback-pole-placement"
+}

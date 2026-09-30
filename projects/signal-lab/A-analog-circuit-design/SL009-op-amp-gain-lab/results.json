@@ -1,0 +1,155 @@
+{
+ "meta": {
+  "id": "SL-009",
+  "title": "Op-amp gain lab",
+  "level": "E",
+  "tools": "eelab mini-SPICE (op-amp macromodel A\u2080 = 2\u00d710\u2075, GBW = 1 MHz)",
+  "summary": "Verify inverting and non-inverting gain equations for six configurations, and the gain-bandwidth trade-off that the ideal equations leave out.",
+  "problem": "Do \u2212R_f/R_in and 1 + R_f/R_g hold for a real op-amp, and what bandwidth do you get at each gain?",
+  "theory": "Ideal: inverting $A=-R_f/R_{in}$, non-inverting $A=1+R_f/R_g$. With open-loop gain $A_0$ and\nfeedback factor $\\beta$ the closed-loop gain is $A_{ideal}/(1+1/(A_0\\beta))$ and \u2014 for a single-pole\nop-amp \u2014 the closed-loop bandwidth is $f_{-3dB}= \\mathrm{GBW}\\cdot\\beta$, where $1/\\beta$ is the *noise\ngain* ($1+R_f/R_{in}$ for **both** configurations).",
+  "method": "R_in = R_g = 1 k\u03a9, R_f \u2208 {1 k, 10 k, 100 k} for inverting, R_f \u2208 {1 k, 10 k, 100 k} for non-inverting.\nAC analysis 10 Hz\u201310 MHz: measured gain at 100 Hz and \u22123 dB bandwidth.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "inverting A=-1: |gain|",
+   "predicted": 1.0,
+   "measured": 0.9999894791067306,
+   "unit": "",
+   "error": -0.0010520893269361231,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "inverting A=-1: bandwidth (GBW/noise gain)",
+   "predicted": 500000.0,
+   "measured": 488092.0417429758,
+   "unit": "Hz",
+   "error": -2.381591651404835,
+   "error_str": "-2.38 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "non-inverting A=+2: |gain|",
+   "predicted": 2.0,
+   "measured": 1.9999794581833248,
+   "unit": "",
+   "error": -0.0010270908337606244,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "non-inverting A=+2: bandwidth (GBW/noise gain)",
+   "predicted": 500000.0,
+   "measured": 487804.5194072034,
+   "unit": "Hz",
+   "error": -2.439096118559316,
+   "error_str": "-2.44 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "inverting A=-10: |gain|",
+   "predicted": 10.0,
+   "measured": 9.999441175983497,
+   "unit": "",
+   "error": -0.0055882401650286795,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "inverting A=-10: bandwidth (GBW/noise gain)",
+   "predicted": 90909.09090909091,
+   "measured": 90502.59874177225,
+   "unit": "Hz",
+   "error": -0.44714138405052795,
+   "error_str": "-0.45 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "non-inverting A=+11: |gain|",
+   "predicted": 11.0,
+   "measured": 10.999385568565108,
+   "unit": "",
+   "error": -0.005585740317199333,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "non-inverting A=+11: bandwidth (GBW/noise gain)",
+   "predicted": 90909.09090909091,
+   "measured": 90502.580418056,
+   "unit": "Hz",
+   "error": -0.44716154013841003,
+   "error_str": "-0.45 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "inverting A=-100: |gain|",
+   "predicted": 100.0,
+   "measured": 99.94440246100353,
+   "unit": "",
+   "error": -0.0555975389964658,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "inverting A=-100: bandwidth (GBW/noise gain)",
+   "predicted": 9900.990099009901,
+   "measured": 9900.933581774865,
+   "unit": "Hz",
+   "error": -0.0005708240738651511,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "non-inverting A=+101: |gain|",
+   "predicted": 101.0,
+   "measured": 100.94384673797305,
+   "unit": "",
+   "error": -0.055597289135597174,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "non-inverting A=+101: bandwidth (GBW/noise gain)",
+   "predicted": 9900.990099009901,
+   "measured": 9900.933581534608,
+   "unit": "Hz",
+   "error": -0.0005708265004666827,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/gain_bandwidth.png"
+ ],
+ "runtime_s": 0.23,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL009-op-amp-gain-lab"
+}

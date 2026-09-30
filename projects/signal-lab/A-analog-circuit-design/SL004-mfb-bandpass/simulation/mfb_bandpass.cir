@@ -1,0 +1,17 @@
+* MFB band-pass — exported by eelab.circuit
+Vin in 0 DC 0.0 AC 1
+R1 in a 39000
+R2 a 0 1600
+C1 a out 1e-08
+C2 a b 1e-08
+R3 b out 160000
+* op-amp U1: A0=2e+05, GBW=1e+06 Hz, SR=5e+05 V/s
+XUU1 0 b out OPAMP1P A0=2e+05 GBW=1e+06
+.subckt OPAMP1P inp inn out A0=2e5 GBW=1e6
+G1 0 x inp inn {A0/1e6}
+R1 x 0 1e6
+C1 x 0 {1/(6.2832*GBW/A0*1e6)}
+E1 o 0 x 0 1
+Ro o out 50
+.ends
+.end

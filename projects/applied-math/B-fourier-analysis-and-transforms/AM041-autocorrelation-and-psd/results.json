@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "AM-041",
+  "title": "Wiener\u2013Khinchin on real data: autocorrelation \u2194 power spectrum",
+  "level": "M",
+  "tools": "Biased autocorrelation (direct and via FFT), periodogram, the Wiener\u2013Khinchin identity, AR(1) theory; real ECG from the MIT-BIH Arrhythmia Database",
+  "summary": "Show on a real ECG recording that the Fourier transform of the (biased) autocorrelation equals the periodogram exactly, and on a synthetic AR(1) process that both converge to the theoretical PSD; read physiology off the autocorrelation (the heartbeat period).",
+  "problem": "The power spectrum and the autocorrelation are said to be a Fourier pair. Is that exact for finite data, or only in the limit?",
+  "theory": "For a length-N record, the biased autocorrelation $\\hat r[m]=\\frac1N\\sum_n x[n]x[n+m]$ (|m| < N) and the periodogram $\\hat P(f)=\\frac1N|X(f)|^2$ are an exact DTFT pair \u2014 an algebraic identity,\nno limits needed (with 2N-point FFTs to avoid circular wrap). For AR(1) $x[n]=ax[n-1]+w[n]$: $r[m]=\\frac{\u03c3^2a^{|m|}}{1-a^2}$, $P(f)=\\frac{\u03c3^2}{|1-ae^{-j2\u03c0f}|^2}$. The periodogram is unbiased-ish but its\nvariance does not fall with N (\u2248 P\u00b2 per bin) \u2014 why Welch averaging exists (AM-042).",
+  "method": "MIT-BIH record 100, lead MLII, 60 s at 360 Hz. r\u0302 computed directly (np.correlate) and via |FFT|\u00b2; periodogram vs FFT of r\u0302 compared. AR(1), a = 0.9, N = 65536: periodogram averaged over\nfrequency bands vs theory.",
+  "data": "Real: MIT-BIH Arrhythmia Database record 100 (PhysioNet, ODC-By).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms"
+ },
+ "rows": [
+  {
+   "quantity": "Autocorrelation: direct vs via |FFT|\u00b2 (max relative error)",
+   "predicted": 0.0,
+   "measured": 2.9248736954111313e-15,
+   "unit": "",
+   "error": 2.9248736954111313e-15,
+   "error_str": "+2.9249e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Wiener\u2013Khinchin: FFT of biased autocorrelation = periodogram (max rel. error)",
+   "predicted": 0.0,
+   "measured": 9.5608101398699e-16,
+   "unit": "",
+   "error": 9.5608101398699e-16,
+   "error_str": "+9.5608e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Heartbeat period from the autocorrelation peak vs mean R\u2013R interval",
+   "predicted": 0.8122907153729072,
+   "measured": 0.7916666666666666,
+   "unit": "s",
+   "error": -2.5389984541153425,
+   "error_str": "-2.54 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "AR(1): band-averaged periodogram / theory (mean)",
+   "predicted": 1.0,
+   "measured": 0.9981542080143676,
+   "unit": "",
+   "error": -0.18457919856323945,
+   "error_str": "-0.18 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "AR(1): raw periodogram scatter, std(P\u0302/P) (does not shrink with N)",
+   "predicted": 1.0,
+   "measured": 0.9956973531805942,
+   "unit": "",
+   "error": -0.4302646819405842,
+   "error_str": "-0.43 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/wiener_khinchin.png"
+ ],
+ "runtime_s": 0.39,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM041-autocorrelation-and-psd"
+}

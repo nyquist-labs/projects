@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-092",
+  "title": "SSB modulation and demodulation with the Hilbert transform",
+  "level": "H",
+  "tools": "Own FIR Hilbert transformer (windowed), phasing-method modulator/demodulator, real speech",
+  "summary": "Generate upper-sideband SSB with the phasing method, measure opposite-sideband suppression vs the Hilbert filter's length, and demodulate with and without a tuning error (the 'Donald Duck' effect).",
+  "problem": "Single sideband halves the bandwidth of AM and removes the carrier. How well does a digital phasing modulator cancel the unwanted sideband, and what does mistuning do to speech?",
+  "theory": "USB: $s(t)=x(t)\\cos\\omega_ct-\\hat x(t)\\sin\\omega_ct$ with $\\hat x$ the Hilbert transform. With a phasing error \u03b5 (rad) and gain\nerror \u03b4 in the Hilbert branch, unwanted-sideband suppression is $\\frac{4}{\\varepsilon^2+\\delta^2}$ (\u2248 $20\\log_{10}(2/\\varepsilon)$ dB).\nA windowed FIR Hilbert filter's magnitude ripple sets \u03b4. A receiver mistuned by \u0394f shifts every speech component by \u0394f\n(not a pitch scaling), so harmonics lose their integer relationships.",
+  "method": "Message: public-domain 'hello', 300\u20133,000 Hz, 16 kS/s. Hilbert FIRs (Blackman-windowed ideal 2/(\u03c0n) for odd n) of 15\u2013255 taps.\nTest tone at 1 kHz measures suppression. SSB carrier at 5 kHz; product-detector demodulation with 0 and +150 Hz\ntuning error.",
+  "data": "Real speech (public domain), simulated channel.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "31-tap Hilbert: sideband suppression at 1 kHz (2/\u03b4)",
+   "predicted": 35.534527523020905,
+   "measured": 36.21373843650225,
+   "unit": "dB",
+   "error": 0.6792109134813415,
+   "error_str": "+0.6792 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "127-tap Hilbert: sideband suppression at 1 kHz (2/\u03b4)",
+   "predicted": 90.51444212724321,
+   "measured": 91.34038429413062,
+   "unit": "dB",
+   "error": 0.8259421668874012,
+   "error_str": "+0.8259 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Speech: USB/LSB energy ratio (127 taps), \u03b4(f) weighted by the speech spectrum",
+   "predicted": 77.41738959198526,
+   "measured": 74.95185044861435,
+   "unit": "dB",
+   "error": -2.465539143370904,
+   "error_str": "-2.466 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Correct tuning: demodulated vs original speech (correlation)",
+   "predicted": 1.0,
+   "measured": 0.9997165629008363,
+   "unit": "",
+   "error": -0.00028343709916367477,
+   "error_str": "-2.8344e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "150 Hz mistuning: correlation with original",
+   "value": -0.0071773001571473205,
+   "unit": "",
+   "note": "speech shifted by 150 Hz, still intelligible, sounds odd"
+  }
+ ],
+ "figures": [
+  "figures/ssb.png"
+ ],
+ "runtime_s": 0.14,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL092-ssb-demodulation"
+}

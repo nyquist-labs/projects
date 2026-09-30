@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "SL-212",
+  "title": "BOM, pick-and-place and assembly documentation package",
+  "level": "M",
+  "tools": "eelab.pcb exporters (grouped BOM, centroid/CPL file, Gerber paste layer), gerbonara to re-read the paste layer, matplotlib assembly drawings",
+  "summary": "Produce the documents an assembly house needs for the SL-205 preamp \u2014 grouped BOM, pick-and-place file, assembly drawing with pin-1 marks, fabrication notes \u2014 and verify them against each other: every placement's centroid is checked against the solder-paste openings in the Gerber.",
+  "problem": "Assembly errors come from documents that disagree with each other (a rotated centroid, a BOM line that doesn't match the board). Can the package check itself?",
+  "theory": "For a symmetric footprint the placement centroid must coincide with the centroid of its paste openings; for a rotation error of \u03b8 the pads of a two-terminal part would\nbe displaced by half the pad pitch. BOM quantities must sum to the number of placed parts; the paste layer must contain exactly the SMD pads (THT pads get no\npaste); every THT part must be listed for hand/wave soldering. I expect all cross-checks to agree exactly (0 mm deviation, 0 missing lines).",
+  "method": "Board rebuilt from SL-205's design. Paste Gerber re-read with gerbonara; openings grouped by nearest SMD placement; centroid of each group vs CPL (x, y); rotation checked by comparing the\nopening layout with the footprint rotated by the CPL angle.",
+  "data": "Design (from SL-205).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "BOM quantities sum to the number of placed parts",
+   "predicted": 18.0,
+   "measured": 18.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Pick-and-place rows = placed parts",
+   "predicted": 18.0,
+   "measured": 18.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Paste openings in the Gerber = SMD pads (THT pads get none)",
+   "predicted": 36.0,
+   "measured": 36.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Max |CPL centroid \u2212 paste-opening centroid| over SMD parts",
+   "predicted": 0.0,
+   "measured": 3.552713678800501e-15,
+   "unit": "mm",
+   "error": 3.552713678800501e-15,
+   "error_str": "+3.5527e-15 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SMD parts whose paste openings match the CPL rotation",
+   "predicted": 15.0,
+   "measured": 15.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "THT parts for hand/selective soldering",
+   "value": "J1, J2, J3",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "BOM lines / unique values",
+   "value": "10 / 10",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/assembly_top.png"
+ ],
+ "runtime_s": 1.25,
+ "folder": "projects/signal-lab/L-pcb-design/SL212-bom-and-assembly-docs"
+}

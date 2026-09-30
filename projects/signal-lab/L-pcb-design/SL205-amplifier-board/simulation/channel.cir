@@ -1,0 +1,18 @@
+* preamp — exported by eelab.circuit
+Vs in 0 DC 0.0 AC 1
+C1 in p 1e-06
+R1 p 0 100000
+R3 m 0 10000
+R2 m o 100000
+R4 o out 100
+RL out 0 10000
+* op-amp U: A0=1e+05, GBW=1e+07 Hz, SR=5e+05 V/s
+XUU p m o OPAMP1P A0=1e+05 GBW=1e+07
+.subckt OPAMP1P inp inn out A0=2e5 GBW=1e6
+G1 0 x inp inn {A0/1e6}
+R1 x 0 1e6
+C1 x 0 {1/(6.2832*GBW/A0*1e6)}
+E1 o 0 x 0 1
+Ro o out 50
+.ends
+.end

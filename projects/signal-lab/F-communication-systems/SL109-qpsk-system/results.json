@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-109",
+  "title": "QPSK: twice the bits, same BER",
+  "level": "M",
+  "tools": "Monte Carlo (NumPy), Gray-mapped QPSK, constellation and SER theory",
+  "summary": "Show that Gray-coded QPSK carries 2 bits/symbol with exactly the BPSK bit-error rate per E_b/N\u2080, measure the symbol error rate against 2Q \u2212 Q\u00b2, and demonstrate the double data rate in the same bandwidth.",
+  "problem": "How can QPSK double the data rate without costing any power efficiency?",
+  "theory": "QPSK = two independent BPSK streams on cos and sin (I and Q). Per bit the energy and noise are unchanged, so\n$P_b=Q(\\sqrt{2E_b/N_0})$; symbol error $P_s=2Q-Q^2$ with $Q=Q(\\sqrt{E_s/N_0})$, $E_s=2E_b$. Spectral efficiency 2 bit/s/Hz (Nyquist)\nvs 1 for BPSK.",
+  "method": "10\u2076 symbols per point, Gray map 00\u2192(+,+), 01\u2192(\u2212,+), 11\u2192(\u2212,\u2212), 10\u2192(+,\u2212), AWGN, minimum-distance decisions.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "QPSK BER at 4 dB (= BPSK)",
+   "predicted": 0.012500818040737566,
+   "measured": 0.0124255,
+   "unit": "",
+   "error": -0.6025048960165633,
+   "error_str": "-0.60 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "QPSK SER at 4 dB (2Q \u2212 Q\u00b2)",
+   "predicted": 0.024845365629787505,
+   "measured": 0.024686,
+   "unit": "",
+   "error": -0.6414300041390375,
+   "error_str": "-0.64 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "QPSK BER at 8 dB (= BPSK)",
+   "predicted": 0.00019090777407599314,
+   "measured": 0.000192,
+   "unit": "",
+   "error": 0.5721222874727392,
+   "error_str": "+0.57 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "QPSK SER at 8 dB (2Q \u2212 Q\u00b2)",
+   "predicted": 0.00038177910237378366,
+   "measured": 0.000384,
+   "unit": "",
+   "error": 0.5817232039175262,
+   "error_str": "+0.58 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/qpsk.png"
+ ],
+ "runtime_s": 0.84,
+ "folder": "projects/signal-lab/F-communication-systems/SL109-qpsk-system"
+}

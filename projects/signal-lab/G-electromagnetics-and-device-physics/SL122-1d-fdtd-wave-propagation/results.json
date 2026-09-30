@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-122",
+  "title": "1-D FDTD: an EM pulse hitting a dielectric",
+  "level": "M",
+  "tools": "Yee FDTD (E/H leapfrog) in NumPy, Mur absorbing boundaries",
+  "summary": "Launch a Gaussian pulse onto a glass slab (\u03b5_r = 4) in a 1-D Yee grid; measure reflection and transmission coefficients and the slowed wave speed, and compare with Fresnel's normal-incidence formulas.",
+  "problem": "Light partly reflects from a window. Can a direct numerical solution of Maxwell's equations reproduce the reflection coefficient, and the slowing of the wave inside the glass?",
+  "theory": "Normal incidence from n\u2081 to n\u2082: $r=\\frac{n_1-n_2}{n_1+n_2}$, $t=\\frac{2n_1}{n_1+n_2}$ (field amplitudes); \u03b5_r = 4 \u2192 n = 2 \u2192 r = \u22121/3, t = 2/3.\nPhase velocity c/n = 1.5\u00d710\u2078 m/s. Energy check: $r^2+\\frac{n_2}{n_1}t^2=1$.",
+  "method": "Grid \u0394x = 1 mm, Courant number 0.5, 4,000 cells; slab from cell 2,200 to the end (so the transmitted pulse never returns); soft source;\nfirst-order Mur boundaries. Reflected and transmitted pulse peaks measured by probes; speed from arrival times at two probes in the slab.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Reflection coefficient r = (1\u2212n)/(1+n)",
+   "predicted": -0.3333333333333333,
+   "measured": -0.333671298573262,
+   "unit": "",
+   "error": -0.1013895719786051,
+   "error_str": "-0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Transmission coefficient t = 2/(1+n)",
+   "predicted": 0.6666666666666666,
+   "measured": 0.6662648232987379,
+   "unit": "",
+   "error": -0.06027650518930505,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Wave speed in the slab (c/n)",
+   "predicted": 149896229.0,
+   "measured": 149802602.37351656,
+   "unit": "m/s",
+   "error": -0.06246096189880827,
+   "error_str": "-0.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Energy conservation r\u00b2 + n\u00b7t\u00b2",
+   "predicted": 1.0,
+   "measured": 0.9991541650221639,
+   "unit": "",
+   "error": -0.08458349778360796,
+   "error_str": "-0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/fdtd_1d.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL122-1d-fdtd-wave-propagation"
+}

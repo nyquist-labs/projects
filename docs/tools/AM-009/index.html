@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>s-plane explorer</title><style>:root{--bg:#fcfcfb;--panel:#fff;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;--acc:#2a78d6;--acc2:#eb6834}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--panel:#232322;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--line:#383835;--acc:#3987e5;--acc2:#f07a4a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:auto;padding:16px}h1{font-size:1.5em;margin:.4em 0}p.lead{color:var(--ink2);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+label{display:grid;grid-template-columns:1fr minmax(90px,150px);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+button{width:auto;cursor:pointer}button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.big{font-size:1.6em;font-weight:650;color:var(--acc);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted);font-size:.9em}svg,canvas{max-width:100%;height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}footer{color:var(--muted);font-size:.85em;margin:24px 0}</style></head><body><main>
+<h1>s-plane explorer</h1><p class="lead">Drag a pole pair; the step response follows.</p>
+<div class="card"><div class="row" style="align-items:flex-start"><svg id="s" viewBox="-220 -170 260 340" width="260" height="340" style="touch-action:none;border:1px solid var(--line);border-radius:8px"></svg>
+<svg id="y" viewBox="0 0 480 300" style="flex:1;min-width:280px;border:1px solid var(--line);border-radius:8px"></svg></div>
+<p>Pole <b id="pp"></b> · ζ = <b id="z"></b> · overshoot <b id="os"></b> · settling (2 %) <b id="ts"></b></p><p class="muted">Drag the pole (its mirror follows). Left = faster decay, higher = faster oscillation; the angle from the negative real axis alone decides the overshoot.</p></div>
+<footer>Part of Nyquist Labs by Anna Lin — the calculation code (<code>calc.js</code>) is unit-tested against independent Python references; see this project's README.</footer>
+</main><script src="calc.js"></script><script>let P={s:1,w:3};const S=document.getElementById('s'),Yv=document.getElementById('y'),K=20;
+function draw(){let h='<line x1="-220" y1="0" x2="40" y2="0" stroke="var(--muted)"/><line x1="0" y1="-170" x2="0" y2="170" stroke="var(--muted)"/>';
+for(const sg of [1,-1])h+=`<g stroke="var(--acc2)" stroke-width="3"><line x1="${-P.s*K-7}" y1="${-sg*P.w*K-7}" x2="${-P.s*K+7}" y2="${-sg*P.w*K+7}"/><line x1="${-P.s*K-7}" y1="${-sg*P.w*K+7}" x2="${-P.s*K+7}" y2="${-sg*P.w*K-7}"/></g>`;
+h+=`<line x1="0" y1="0" x2="${-P.s*K}" y2="${-P.w*K}" stroke="var(--line)" stroke-dasharray="3"/>`;S.innerHTML=h;
+const T=Math.max(8/P.s,10/Math.max(P.w,.1)),t=[...Array(400)].map((_,k)=>k*T/399),y=P.w>1e-3?stepPair(P.s,P.w,t):stepReal(P.s,P.s*1.0001,t),m=metrics(y,t);
+const X=k=>k/399*480,Yy=v=>270-v*180;Yv.innerHTML=`<line x1="0" x2="480" y1="${Yy(1)}" y2="${Yy(1)}" stroke="var(--line)" stroke-dasharray="4"/><polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="${y.map((v,k)=>X(k)+','+Yy(v)).join(' ')}"/><text x="6" y="16" fill="var(--muted)" font-size="12">step response, 0 … ${T.toFixed(1)} s</text>`;
+const z=P.s/Math.hypot(P.s,P.w);document.getElementById('pp').textContent=`−${P.s.toFixed(2)} ± j${P.w.toFixed(2)}`;document.getElementById('z').textContent=z.toFixed(3);
+document.getElementById('os').textContent=m.overshoot.toFixed(1)+' %';document.getElementById('ts').textContent=m.settling.toFixed(2)+' s';}
+let drag=false;S.onpointerdown=()=>drag=true;window.onpointerup=()=>drag=false;
+S.onpointermove=e=>{if(!drag)return;const r=S.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*260-220,yy=(e.clientY-r.top)/r.height*340-170;P.s=Math.max(0.05,-x/K);P.w=Math.min(8,Math.abs(yy)/K);draw();};draw();</script></body></html>

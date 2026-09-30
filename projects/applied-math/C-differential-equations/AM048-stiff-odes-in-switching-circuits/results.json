@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-048",
+  "title": "Stiff ODEs: why explicit methods die on switching circuits",
+  "level": "H",
+  "tools": "Forward Euler, RK4, backward Euler and trapezoidal integrators on a two-time-constant RC network, stability-limit measurement, stiffness ratio analysis",
+  "summary": "Build a circuit with a 1 ms time constant and a 10 ns parasitic one (stiffness ratio 10\u2075), find the largest stable step of each integrator, and compare with the stability-region predictions \u2014 explicit methods are limited by the fastest pole even after it has died out.",
+  "problem": "A switching converter has nanosecond parasitics and millisecond dynamics. Why can't a simple integrator just take big steps?",
+  "theory": "For $\\dot x = Ax$ with eigenvalues \u03bb_i < 0, forward Euler is stable only if |1 + h\u03bb| \u2264 1 \u2192 h \u2264 2/|\u03bb_max|; classical RK4 needs h|\u03bb| \u2264 2.785. Backward Euler and trapezoidal are\nA-stable: any h > 0 is stable, so the step can follow the slow dynamics. With |\u03bb_fast| = 10\u2078 s\u207b\u00b9: predicted h_crit = 20 ns (Euler), 27.85 ns (RK4) \u2014 50,000 steps per millisecond just to stay stable.",
+  "method": "Two-section RC ladder: R1 = 1 k\u03a9, C1 = 1 \u00b5F (slow) and R2 = 1 \u03a9, C2 = 10 nF (fast) \u2014 eigenvalues computed from the state matrix. Step input; each method run for a range of h;\n'stable' = bounded output within 2\u00d7 the final value over 5 ms; accuracy of implicit methods at large h.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "forward Euler: largest stable step (first unstable step in a fine sweep)",
+   "predicted": 1.9801978256820665e-08,
+   "measured": 2.0198017821957078e-08,
+   "unit": "s",
+   "error": 2.000000000000001,
+   "error_str": "+2.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "RK4: largest stable step (first unstable step in a fine sweep)",
+   "predicted": 2.7574254722622777e-08,
+   "measured": 2.8125739817075234e-08,
+   "unit": "s",
+   "error": 2.0000000000000058,
+   "error_str": "+2.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "backward Euler with h = 50 \u00b5s (2500\u00d7 the explicit limit): v_C2 at 5 ms vs exact",
+   "predicted": 0.9929200240005939,
+   "measured": 0.9920282199046296,
+   "unit": "V",
+   "error": -0.08981630689358513,
+   "error_str": "-0.09 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "trapezoidal with h = 50 \u00b5s (2500\u00d7 the explicit limit): v_C2 at 5 ms vs exact",
+   "predicted": 0.9929200240005939,
+   "measured": 0.9929362376197525,
+   "unit": "V",
+   "error": 0.001632922971305766,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Eigenvalues (s\u207b\u00b9)",
+   "value": "-990.1 (slow), -1.01e+08 (fast); stiffness ratio 1.02e+05",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/stiff.png"
+ ],
+ "runtime_s": 1.34,
+ "folder": "projects/applied-math/C-differential-equations/AM048-stiff-odes-in-switching-circuits"
+}

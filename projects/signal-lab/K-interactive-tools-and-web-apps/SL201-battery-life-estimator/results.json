@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "SL-201",
+  "title": "Battery life estimator with sleep-mode modelling",
+  "level": "E",
+  "tools": "HTML/JS estimator (periodic current profile, sleep current, self-discharge, derating) + Node harness; checked against event-level coulomb counting and NASA Li-ion discharge data",
+  "summary": "Turn a device's current profile (active, radio burst, sleep) into a runtime. The average-current model is checked against a time-stepped coulomb-counting simulation, and the capacity assumption against real discharge runs of an ageing Li-ion cell (NASA B0005).",
+  "problem": "A sensor wakes every minute. Will it run for a week or a year \u2014 and which number on the datasheet matters most?",
+  "theory": "For a periodic profile the average current is $\\bar I=\\sum I_k t_k/T$ and runtime $= C_\\text{usable}/(\\bar I + I_\\text{self})$. In duty-cycled designs the sleep current\noften dominates: with 20 ms at 10 mA plus a 5 ms, 40 mA radio burst every 60 s, activity averages only 6.7 \u00b5A, so a 5 \u00b5A sleep current is \u2248 43 % of the whole budget. Usable capacity is\nbelow rated capacity (cut-off voltage, ageing): runtime predicted from the *rated* 2 Ah will overestimate an aged cell's run by the capacity fade.",
+  "method": "(1) 300 random profiles: calc.js runtime vs a Python simulation that steps through every wake-up (1 ms resolution within active phases) until the charge\nis used. (2) NASA B0005 18650 cell, 2 A constant-current discharges to 2.7 V, 168 cycles: predicted runtime from rated 2.0 Ah (derate 1) vs the measured\ntime to cut-off; and prediction using the previous cycle's measured capacity (what a fuel gauge would know).",
+  "data": "Real: NASA Ames PCoE Li-ion Battery Aging dataset (Saha & Goebel 2007), public domain (US Government work).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Worst |average-current model \u2212 coulomb-counting simulation| (300 profiles)",
+   "predicted": 0.0,
+   "measured": 0.0009750285624221533,
+   "unit": "%",
+   "error": 0.0009750285624221533,
+   "error_str": "+0.000975 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Default profile: share of charge used while asleep (5 \u00b5A sleep)",
+   "predicted": 0.42846936953027326,
+   "measured": 0.42846936953027326,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Fresh cell (cycle 1): runtime at 2 A predicted from rated 2 Ah vs measured",
+   "predicted": 1.0,
+   "measured": 0.9197872222222222,
+   "unit": "h",
+   "error": -8.02127777777778,
+   "error_str": "-8.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Aged cell (last cycle): same rated-capacity prediction vs measured",
+   "predicted": 1.0,
+   "measured": 0.6567883333333333,
+   "unit": "h",
+   "error": -34.32116666666667,
+   "error_str": "-34.32 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Using the previous cycle's measured capacity: RMS runtime error",
+   "predicted": 0.0,
+   "measured": 1.3182547008812302,
+   "unit": "%",
+   "error": 1.3182547008812302,
+   "error_str": "+1.32 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/battery.png"
+ ],
+ "runtime_s": 26.24,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL201-battery-life-estimator"
+}

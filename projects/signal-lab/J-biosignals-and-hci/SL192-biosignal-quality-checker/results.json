@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "SL-192",
+  "title": "Automatic ECG signal-quality checker",
+  "level": "M",
+  "tools": "Signal-quality indices (kurtosis, band-power ratio, template agreement) on MIT-BIH + NSTDB noise with known noisy segments",
+  "summary": "Flag unusable 5-second ECG segments automatically using three signal-quality indices, and measure sensitivity and specificity against segments where real electrode-motion noise was deliberately added at known times.",
+  "problem": "Wearables record hours of ECG, much of it corrupted by movement. Can software recognise which parts to trust?",
+  "theory": "Clean ECG is spiky (kurtosis \u226b 3), has most power in 5\u201315 Hz relative to 5\u201340 Hz (QRS band ratio \u2248 0.5\u20130.8), and consecutive beats look alike. Noise\nlowers kurtosis toward 3 (Gaussian) and shifts power outside the QRS band. A segment is flagged if 2 of 3 indices fail; expected detection is\ngood at \u2264 0 dB SNR and poor at \u2265 12 dB, where the noise barely changes the waveform.",
+  "method": "Record 100 (30 min) with NSTDB 'em' noise added in alternating 2-minute blocks at SNR \u22126, 0, 6, 12 dB; 5-s segments labelled noisy if inside a noise block. Thresholds\nchosen on record 101 (same procedure), tested on record 100.",
+  "data": "Real: MIT-BIH records 100/101 + MIT-BIH Noise Stress Test Database electrode-motion noise (PhysioNet).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Specificity on clean segments",
+   "predicted": 95.0,
+   "measured": 80.6282722513089,
+   "unit": "%",
+   "error": -14.3717277486911,
+   "error_str": "-14.4 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Noisy-segment detection at -6 dB SNR",
+   "predicted": 100.0,
+   "measured": 97.91666666666666,
+   "unit": "%",
+   "error": -2.083333333333343,
+   "error_str": "-2.08 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": "expected: near-complete at \u2264 0 dB, poor at \u2265 12 dB"
+  },
+  {
+   "quantity": "Noisy-segment detection at +0 dB SNR",
+   "predicted": 100.0,
+   "measured": 97.91666666666666,
+   "unit": "%",
+   "error": -2.083333333333343,
+   "error_str": "-2.08 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": "expected: near-complete at \u2264 0 dB, poor at \u2265 12 dB"
+  },
+  {
+   "quantity": "Noisy-segment detection at +6 dB SNR",
+   "predicted": 50.0,
+   "measured": 100.0,
+   "unit": "%",
+   "error": 50.0,
+   "error_str": "+50 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": "expected: near-complete at \u2264 0 dB, poor at \u2265 12 dB"
+  },
+  {
+   "quantity": "Noisy-segment detection at +12 dB SNR",
+   "predicted": 10.0,
+   "measured": 66.66666666666666,
+   "unit": "%",
+   "error": 56.66666666666666,
+   "error_str": "+56.7 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": "expected: near-complete at \u2264 0 dB, poor at \u2265 12 dB"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Thresholds (kurtosis, QRS band ratio, template corr) \u2014 trained on record 101",
+   "value": "18.42, 0.73, 0.87",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/sqi.png"
+ ],
+ "runtime_s": 0.91,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL192-biosignal-quality-checker"
+}

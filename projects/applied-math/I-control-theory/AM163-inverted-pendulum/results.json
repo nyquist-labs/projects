@@ -1,0 +1,131 @@
+{
+ "meta": {
+  "id": "AM-163",
+  "title": "Inverted pendulum on a cart: linear design, nonlinear reality",
+  "level": "H",
+  "tools": "Lagrangian cart\u2013pole model integrated with RK45, linearisation and open-loop pole prediction, LQR balance controller, comparison of linear and nonlinear closed-loop responses, region-of-attraction search with actuator limits, energy-based swing-up with LQR catch",
+  "summary": "Derive and simulate the nonlinear cart\u2013pendulum, check that it falls at the rate the linearisation predicts, stabilise it with LQR, measure how far from upright the linear controller still works (with and without force limits), and swing it up from hanging with an energy controller.",
+  "problem": "A controller designed on a linearised model has to work on the real nonlinear system. How far does the linear design's validity extend?",
+  "theory": "Cart mass M, bob mass m, rod length l, angle \u03b8 from upright, force F: $\\ddot x=\\frac{F+m\\sin\u03b8\\,(l\\dot\u03b8^2-g\\cos\u03b8)}{M+m\\sin^2\u03b8}$, $\\ddot\u03b8=\\frac{g\\sin\u03b8-\\ddot x\\cos\u03b8}{l}$. Linearised: $\\ddot\u03b8=\\frac{(M+m)g}{Ml}\u03b8-\\frac{F}{Ml}$ \u21d2 unstable pole\n$+\\sqrt{(M+m)g/(Ml)}$. LQR on the linear model gives F = \u2212Kx. Pendulum energy $E=\\tfrac12ml^2\\dot\u03b8^2+mgl(\\cos\u03b8-1)$ obeys $\\dot E=-ml\\,a\\,\\dot\u03b8\\cos\u03b8$ for cart acceleration a, so $a=kE\\,\\dot\u03b8\\cos\u03b8$ pumps E monotonically to 0 (the upright level): swing-up.",
+  "method": "M = 0.5 kg, m = 0.2 kg, l = 0.3 m. Divergence rate fitted on the free nonlinear fall from 10\u207b\u2074 rad. LQR: Q = diag(10, 1, 100, 1), R = 0.1. Linear vs nonlinear response from 5\u00b0 and 25\u00b0. Region of attraction: bisection on the initial angle\n(cart at rest), with unlimited force and with |F| \u2264 10 N. Swing-up: a \u2264 12 m/s\u00b2, hand-over to LQR inside |\u03b8| < 0.3 rad.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Unstable pole of the linearisation \u221a((M+m)g/(Ml)) vs eigenvalue of A",
+   "predicted": 6.766091929614909,
+   "measured": 6.76609192961491,
+   "unit": "1/s",
+   "error": 1.3126904407145348e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Divergence rate of the free nonlinear fall (fit of ln \u03b8)",
+   "predicted": 6.766091929614909,
+   "measured": 6.764302543622812,
+   "unit": "1/s",
+   "error": -0.026446374224749717,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "From 5\u00b0: largest difference between nonlinear and linear angle responses (fraction of the initial angle)",
+   "predicted": 0.0,
+   "measured": 0.001992903297852892,
+   "unit": "",
+   "error": 0.001992903297852892,
+   "error_str": "+0.001993",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "The linear design's region of attraction is finite: recoverable angle < 90\u00b0 even with unlimited force (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Actuator saturation shrinks it further (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Swing-up from hanging: pendulum upright and at rest at t = 12 s (|\u03b8| < 1\u00b0, |x| < 5 cm; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Energy pumping is monotonic before the catch: largest drop of E between samples (\u2248 0)",
+   "predicted": 0.0,
+   "measured": 0.00012779711299746406,
+   "unit": "",
+   "error": 0.00012779711299746406,
+   "error_str": "+1.2780e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "LQR gain [x, \u1e8b, \u03b8, \u03b8\u0307]",
+   "value": "-10.00, -10.53, -56.31, -8.34",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Same from 25\u00b0",
+   "value": 5.463762345977109,
+   "unit": "% of the initial angle",
+   "note": "the linear model degrades gracefully, then fails"
+  },
+  {
+   "quantity": "Largest initial angle recovered: unlimited force / |F| \u2264 10 N",
+   "value": "65.8\u00b0 / 47.5\u00b0",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Time at which the balance controller takes over",
+   "value": 1.095,
+   "unit": "s",
+   "note": ""
+  },
+  {
+   "quantity": "Cart travel used during swing-up",
+   "value": 0.8772404636721618,
+   "unit": "m",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/pendulum.png"
+ ],
+ "runtime_s": 1.08,
+ "folder": "projects/applied-math/I-control-theory/AM163-inverted-pendulum"
+}

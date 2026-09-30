@@ -1,0 +1,107 @@
+{
+ "meta": {
+  "id": "AM-201",
+  "title": "Skin depth from Maxwell's equations, verified by solving the diffusion equation",
+  "level": "M",
+  "tools": "Magneto-quasistatic reduction of Maxwell's equations to a diffusion equation, Crank\u2013Nicolson time stepping in a copper half-space driven sinusoidally, fits of amplitude decay and phase lag, step response against the erfc similarity solution, exact AC resistance of a round wire from Bessel functions of complex argument",
+  "summary": "Derive the skin effect instead of quoting it: inside a good conductor Maxwell's equations become a diffusion equation. Solve that equation in the time domain and watch the field settle into a decaying, phase-shifted wave whose decay length is \u221a(2/\u03c9\u03bc\u03c3); then compute a wire's AC resistance exactly and check the usual approximations.",
+  "problem": "Why does AC current crowd to the surface of a conductor, and where does \u03b4 = \u221a(2/\u03c9\u03bc\u03c3) come from?",
+  "theory": "In a conductor with \u03c3 \u226b \u03c9\u03b5, Amp\u00e8re's law loses the displacement current: $\\nabla\\times H=\u03c3E$, and with Faraday's law $\\partial_tH=\\frac{1}{\u03bc\u03c3}\\nabla^2H$ \u2014 diffusion with diffusivity D = 1/(\u03bc\u03c3). For a boundary field $H_0\\cos \u03c9t$ on a half-space the periodic solution is\n$H=H_0e^{-x/\u03b4}\\cos(\u03c9t-x/\u03b4)$ with $\u03b4=\\sqrt{2/(\u03c9\u03bc\u03c3)}$ (copper: 9.3 mm at 50 Hz, 2.06 mm at 1 kHz, 0.21 mm at 100 kHz). A suddenly applied field penetrates as $H_0\\,\\mathrm{erfc}(x/2\\sqrt{Dt})$. Round wire of radius a: internal impedance\n$Z=\\frac{k}{2\u03c0a\u03c3}\\frac{J_0(ka)}{J_1(ka)}$, $k=(1-j)/\u03b4$; limits $R/R_{dc}\\approx1+\\frac{(a/\u03b4)^4}{48}$ (low f) and $\\frac{a}{2\u03b4}+\\frac14$ (high f).",
+  "method": "1-D copper slab 30 mm deep (far side insulated), 0.02 mm cells, Crank\u2013Nicolson with 400 steps per period, run for 8 periods at 1 kHz, amplitude and phase from a sine/cosine projection over the last period. Also 100 kHz (0.002 mm cells, 3 mm depth).\nStep response at t = 5 ms by backward Euler with 0.2 \u00b5s steps (Crank\u2013Nicolson rings after a discontinuous start). Wire: 1 mm radius, 10 Hz \u2013 10 MHz.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "1 kHz: decay length of the amplitude vs \u03b4 = \u221a(2/\u03c9\u03bc\u03c3)",
+   "predicted": 0.002089806784938892,
+   "measured": 0.0020897197653835646,
+   "unit": "m",
+   "error": -0.004164000038411743,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 kHz: phase lag rate 1/\u03b4 (distance per radian)",
+   "predicted": 0.002089806784938892,
+   "measured": 0.002089674092965306,
+   "unit": "m",
+   "error": -0.006349485251090328,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "100 kHz: decay length of the amplitude vs \u03b4 = \u221a(2/\u03c9\u03bc\u03c3)",
+   "predicted": 0.00020898067849388921,
+   "measured": 0.00020897197653832177,
+   "unit": "m",
+   "error": -0.004164000055010908,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "100 kHz: phase lag rate 1/\u03b4 (distance per radian)",
+   "predicted": 0.00020898067849388921,
+   "measured": 0.0002089674092965686,
+   "unit": "m",
+   "error": -0.006349485232916591,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Step response after 5 ms vs erfc(x/2\u221a(Dt)) (max difference)",
+   "predicted": 0.0,
+   "measured": 5.5305325070698075e-06,
+   "unit": "",
+   "error": 5.5305325070698075e-06,
+   "error_str": "+5.5305e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Round wire, a = 1 mm, low frequency: exact R/R_dc vs 1 + (a/\u03b4)\u2074/48 (worst relative difference for a < \u03b4)",
+   "predicted": 0.0,
+   "measured": 0.00023217246809909995,
+   "unit": "",
+   "error": 0.00023217246809909995,
+   "error_str": "+2.3217e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "High frequency (a > 10\u03b4): exact vs a/(2\u03b4) + \u00bc (worst relative difference)",
+   "predicted": 0.0,
+   "measured": 0.0015481044664181758,
+   "unit": "",
+   "error": 0.0015481044664181758,
+   "error_str": "+0.001548",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Frequency at which a 2 mm copper wire's resistance has doubled",
+   "value": 63095.73444801943,
+   "unit": "Hz",
+   "note": "\u03b4 there = 0.26 mm"
+  }
+ ],
+ "figures": [
+  "figures/skin_depth.png"
+ ],
+ "runtime_s": 2.23,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM201-skin-depth-derivation"
+}

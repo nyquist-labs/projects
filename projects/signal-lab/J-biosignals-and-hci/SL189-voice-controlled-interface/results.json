@@ -1,0 +1,82 @@
+{
+ "meta": {
+  "id": "SL-189",
+  "title": "Spoken-command recognition with MFCCs and DTW",
+  "level": "M",
+  "tools": "Own MFCC front end (mel filterbank, DCT) and dynamic time warping; Free Spoken Digit Dataset; browser demo page",
+  "summary": "Recognise spoken digits (0\u20139) with the classic 1980s template-matching recogniser: MFCC features + dynamic time warping against one or a few templates per word; measure speaker-dependent vs speaker-independent accuracy on 3,000 real recordings.",
+  "problem": "Before neural networks, voice commands were recognised by comparing to stored templates. How well does that work, and why did it fail for new speakers?",
+  "theory": "MFCCs summarise the spectral envelope (vocal-tract shape) in ~13 numbers per 25 ms frame; DTW aligns two utterances spoken at different speeds by\ndynamic programming. With templates from the *same* speaker, DTW recognisers reach ~95 %+ on small vocabularies; across speakers accuracy drops\nsharply (often to 60\u201380 %) because voices differ in pitch, formants and accent.",
+  "method": "FSDD: 6 speakers \u00d7 10 digits \u00d7 50 repetitions, 8 kHz. 13 MFCCs (26 mel bands, 25 ms / 10 ms), cepstral mean normalisation. Speaker-dependent: 5 templates per digit from\neach speaker's first repetitions, test on that speaker's last 20. Speaker-independent: templates from 5 speakers, test on the sixth (rotate).",
+  "data": "Real: Free Spoken Digit Dataset (Jackson et al., CC BY-SA 4.0).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Speaker-dependent accuracy (5 templates/word, same speaker)",
+   "predicted": 95.0,
+   "measured": 87.25,
+   "unit": "%",
+   "error": -7.75,
+   "error_str": "-7.75 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Speaker-independent accuracy (templates from the other 5 speakers)",
+   "predicted": 70.0,
+   "measured": 62.33333333333333,
+   "unit": "%",
+   "error": -7.666666666666671,
+   "error_str": "-7.67 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Unseen speaker 'george'",
+   "value": 65.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Unseen speaker 'jackson'",
+   "value": 70.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Unseen speaker 'lucas'",
+   "value": 49.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Unseen speaker 'nicolas'",
+   "value": 67.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Unseen speaker 'theo'",
+   "value": 66.0,
+   "unit": "%",
+   "note": ""
+  },
+  {
+   "quantity": "Unseen speaker 'yweweler'",
+   "value": 56.99999999999999,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/dtw.png"
+ ],
+ "runtime_s": 107.09,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL189-voice-controlled-interface"
+}

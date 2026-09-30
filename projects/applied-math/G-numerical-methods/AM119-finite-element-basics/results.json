@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-119",
+  "title": "Finite elements from scratch: capacitance of a coaxial line",
+  "level": "H",
+  "tools": "Own 2-D FEM with linear triangles (mesh generation, element stiffness matrices, sparse assembly, Dirichlet conditions), energy-based capacitance, convergence study; comparison with 2\u03c0\u03b5/ln(b/a)",
+  "summary": "Solve Laplace's equation in the annulus between the conductors of a coaxial line with self-written linear finite elements, compute the capacitance per metre from the stored energy, and verify both the exact value and the method's convergence rate.",
+  "problem": "Finite differences need rectangular grids. How does FEM handle curved conductors \u2014 and how fast does it converge?",
+  "theory": "Weak form: find \u03c6 with \u222b\u2207\u03c6\u00b7\u2207v dA = 0 for all test functions v vanishing on the conductors. Linear triangles give element matrices $K_e=\\frac{1}{4A}B B^T$ (B from edge vectors). Capacitance from energy: $C = \u03b5\\,\u03c6^TK\u03c6/V^2$.\nExact for a coax: $C'=\\frac{2\u03c0\u03b5}{\\ln(b/a)}$. With conforming linear elements the energy error is O(h\u00b2), so C converges from above with order 2; curved boundaries approximated by chords also contribute O(h\u00b2).",
+  "method": "a = 1 mm, b = 3.5 mm, air. Structured polar mesh: n_r radial \u00d7 n_\u03b8 angular divisions, each quad split into two triangles; refined 5 times. Inner conductor 1 V, outer 0 V. Error vs 2\u03c0\u03b5\u2080/ln 3.5; observed order; potential vs ln(r) profile.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "G. Numerical methods",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Finest mesh: FEM capacitance vs 2\u03c0\u03b5/ln(b/a)",
+   "predicted": 4.4407844238252813e-11,
+   "measured": 4.4412142964041245e-11,
+   "unit": "F/m",
+   "error": 0.009680104635046916,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Observed convergence order of the capacitance error (linear elements: 2)",
+   "predicted": 2.0,
+   "measured": 1.996354558947525,
+   "unit": "",
+   "error": -0.003645441052475107,
+   "error_str": "-0.003645",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Energy principle: FEM capacitance approaches from above (all errors positive; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Potential follows ln(b/r)/ln(b/a) (max deviation)",
+   "predicted": 0.0,
+   "measured": 5.3782559250925566e-05,
+   "unit": "V",
+   "error": 5.3782559250925566e-05,
+   "error_str": "+53.78 \u00b5V",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/fem_coax.png"
+ ],
+ "runtime_s": 0.67,
+ "folder": "projects/applied-math/G-numerical-methods/AM119-finite-element-basics"
+}

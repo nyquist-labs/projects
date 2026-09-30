@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-167",
+  "title": "Luenberger observer: estimating hidden states",
+  "level": "H",
+  "tools": "Observer design by pole placement on the dual system, noisy measurement simulation, observer-based feedback",
+  "summary": "Measure only the position of the two-mass system (SL-165) and reconstruct all four states with an observer; show the estimation error decays at the chosen observer poles and that observer-based feedback recovers the full-state step response (separation principle).",
+  "problem": "Sensors are expensive; you rarely measure every state. How can a model plus one sensor stand in for the rest?",
+  "theory": "x\u0302\u0307 = Ax\u0302 + Bu + L(y \u2212 Cx\u0302). Error e = x \u2212 x\u0302 obeys \u0117 = (A \u2212 LC)e, so its decay is set by eig(A \u2212 LC), chosen by pole placement on (A\u1d40, C\u1d40). Separation:\nthe closed loop with u = \u2212Kx\u0302 has eigenvalues eig(A \u2212 BK) \u222a eig(A \u2212 LC). Observer poles are chosen ~3\u00d7 faster than controller poles.",
+  "method": "Observable from x\u2082 (rank check). Observer poles \u221215 \u00b1 15j, \u221225 \u00b1 25j. Start with x\u0302 = 0 while the true state is displaced; measurement noise \u03c3 = 1 mm.\nDecay rate fitted to the error envelope between 0.15 and 0.5 s on a noise-free run (later, the sample-and-hold of y leaves a tiny\nresidual floor); observer-based closed-loop step compared with full-state feedback.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Observability rank from x\u2082 alone",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Separation principle: max eigenvalue mismatch",
+   "predicted": 0.0,
+   "measured": 8.316689495813723e-14,
+   "unit": "",
+   "error": 8.316689495813723e-14,
+   "error_str": "+8.3167e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Estimation-error decay rate (slowest observer pole Re = \u221215)",
+   "predicted": -15.0,
+   "measured": -14.756320093887798,
+   "unit": "1/s",
+   "error": 1.6245327074146825,
+   "error_str": "+1.62 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Steady estimation error with 1 mm sensor noise",
+   "value": 0.0039441399759011855,
+   "unit": "m",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/observer.png"
+ ],
+ "runtime_s": 0.35,
+ "folder": "projects/signal-lab/I-control-systems/SL167-state-observer"
+}

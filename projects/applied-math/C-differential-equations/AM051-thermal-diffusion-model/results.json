@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "id": "AM-051",
+  "title": "Heat equation: temperature rise of a component",
+  "level": "M",
+  "tools": "Explicit (FTCS) and implicit (Crank\u2013Nicolson) finite differences for the 1-D heat equation, stability limit r = \u03b1\u0394t/\u0394x\u00b2 \u2264 \u00bd, analytic semi-infinite solution, lumped thermal RC",
+  "summary": "Solve the heat equation for a heat pulse entering a thick copper bar and for a power resistor on a finite heat-sink bar, compare with the erfc solution and the lumped thermal-RC model, and measure the stability limit of the explicit scheme.",
+  "problem": "A component switches on: how fast does its temperature rise, and when is a single 'thermal time constant' good enough?",
+  "theory": "$\u2202T/\u2202t=\u03b1\u2202^2T/\u2202x^2$. Constant surface flux q into a semi-infinite solid: $\u0394T_s(t)=\\frac{2q}{k}\\sqrt{\\frac{\u03b1t}{\u03c0}}$ (\u221at rise, no time constant). A finite bar cooled at its far end tends to\n$\u0394T=qL/k$ with a slowest time constant $\u03c4_1=4L^2/(\u03c0^2\u03b1)$ \u2014 the lumped RC model captures only this first mode. FTCS is stable iff r = \u03b1\u0394t/\u0394x\u00b2 \u2264 \u00bd; Crank\u2013Nicolson is unconditionally stable.",
+  "method": "Copper: k = 400 W/mK, \u03b1 = 1.17\u00d710\u207b\u2074 m\u00b2/s. Case 1: q = 10\u2076 W/m\u00b2 into a 0.2 m bar for 1 s (effectively semi-infinite). Case 2: 5 cm bar with the far end held at ambient, same flux, 60 s.\nFTCS run at r = 0.49 and 0.51; Crank\u2013Nicolson at r = 10.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Semi-infinite bar: surface temperature rise at 1 s, FTCS vs 2q/k\u00b7\u221a(\u03b1t/\u03c0)",
+   "predicted": 30.48712626104121,
+   "measured": 30.483874167771745,
+   "unit": "K",
+   "error": -0.010667103359041094,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Rise \u221d \u221at (log-log slope)",
+   "predicted": 0.5,
+   "measured": 0.5003128512097232,
+   "unit": "",
+   "error": 0.00031285120972324165,
+   "error_str": "+3.1285e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Finite bar (far end at ambient): steady rise qL/k",
+   "predicted": 125.0,
+   "measured": 124.90076326059992,
+   "unit": "K",
+   "error": -0.07938939152006697,
+   "error_str": "-0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Slowest thermal time constant \u03c41 = 4L\u00b2/(\u03c0\u00b2\u03b1)",
+   "predicted": 8.659930225840837,
+   "measured": 8.659680930100114,
+   "unit": "s",
+   "error": -0.002878726897577725,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "FTCS at r = 0.49 stays bounded; at r = 0.51 it blows up (1 = as predicted)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Crank\u2013Nicolson at r = 10 (20\u00d7 the FTCS limit): final value",
+   "predicted": 125.0,
+   "measured": 124.90073947065528,
+   "unit": "K",
+   "error": -0.07940842347577472,
+   "error_str": "-0.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/heat.png"
+ ],
+ "runtime_s": 0.47,
+ "folder": "projects/applied-math/C-differential-equations/AM051-thermal-diffusion-model"
+}

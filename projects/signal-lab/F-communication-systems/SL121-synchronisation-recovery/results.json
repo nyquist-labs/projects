@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "SL-121",
+  "title": "Carrier and timing recovery loops",
+  "level": "H",
+  "tools": "NumPy second-order Costas PLL and Gardner timing-error detector with interpolation, loop-bandwidth analysis",
+  "summary": "Recover carrier phase/frequency and symbol timing for QPSK from scratch; predict acquisition time and phase jitter from the loop noise bandwidth and verify both.",
+  "problem": "A receiver never knows the exact carrier frequency or the exact symbol instants. How do feedback loops find them, how quickly, and how much jitter remains?",
+  "theory": "A second-order PLL with natural frequency \u03c9_n and damping \u03b6 has noise bandwidth $B_L=\\frac{\\omega_n}{2}(\\zeta+\\frac1{4\\zeta})$; steady-state phase\njitter variance \u2248 $\\frac{B_LT}{E_s/N_0}$ (rad\u00b2, per-symbol loop update, T = 1). A frequency offset \u0394\u03c9 much larger than the loop bandwidth is\nacquired by pull-in, taking $T_p\\approx\\Delta\\omega^2/(2\\zeta\\omega_n^3)$ symbols \u2014 so halving the bandwidth makes acquisition 8\u00d7 slower \u2014 after\nwhich a type-2 loop has zero steady-state phase error. Gardner TED: $e=\\mathrm{Re}\\{(y_k-y_{k-1})y^*_{k-1/2}\\}$, needs 2 samples/symbol.",
+  "method": "QPSK at 1 symbol per update, Es/N\u2080 = 15 dB, carrier offset 0.02 rad/symbol and random phase. Loop bandwidths B_L T = 0.005, 0.01, 0.02, 0.05\n(\u03b6 = 0.707). Measured: RMS phase error after lock vs the formula; lock time (|phase error| < 0.25 rad for 200 consecutive symbols). Timing: RRC pulses\n(\u03b1 = 0.35) with 0.3-symbol offset and 100 ppm clock drift, Gardner + cubic interpolation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "B_L\u00b7T = 0.005: RMS phase jitter after lock",
+   "predicted": 0.012574334296829354,
+   "measured": 0.011494488616803623,
+   "unit": "rad",
+   "error": -8.587696609100147,
+   "error_str": "-8.59 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "B_L\u00b7T = 0.01: RMS phase jitter after lock",
+   "predicted": 0.01778279410038923,
+   "measured": 0.016970135694376318,
+   "unit": "rad",
+   "error": -4.569914049643774,
+   "error_str": "-4.57 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "B_L\u00b7T = 0.02: RMS phase jitter after lock",
+   "predicted": 0.025148668593658708,
+   "measured": 0.02559410557732232,
+   "unit": "rad",
+   "error": 1.7712149730897913,
+   "error_str": "+1.77 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "B_L\u00b7T = 0.05: RMS phase jitter after lock",
+   "predicted": 0.03976353643835254,
+   "measured": 0.04248104402931779,
+   "unit": "rad",
+   "error": 6.83416978059369,
+   "error_str": "+6.83 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "B_L\u00b7T = 0.005: pull-in time \u0394\u03c9\u00b2/(2\u03b6\u03c9_n\u00b3)",
+   "predicted": 337.50001026389396,
+   "measured": 1585.0,
+   "unit": "symbols",
+   "error": 369.6296153474709,
+   "error_str": "+369.63 %",
+   "kind": "rel",
+   "ok": false,
+   "note": "classic PLL formula; the QPSK detector's \u03c0/2-periodic S-curve pulls in more slowly"
+  },
+  {
+   "quantity": "Timing recovery: eye opening at recovered instants (\u2248 1 for perfect timing)",
+   "predicted": 1.0,
+   "measured": 0.8666467341952433,
+   "unit": "",
+   "error": -0.1333532658047567,
+   "error_str": "-0.1334",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Acquisition-time exponent vs B_L (fit over the 4 loops)",
+   "value": -1.8798809284635403,
+   "unit": "",
+   "note": "between \u22121 (\u0394\u03c9 inside the loop bandwidth) and \u22123 (pull-in regime); these loops span both"
+  },
+  {
+   "quantity": "Recovered timing offset drift (100 ppm clock)",
+   "value": -101.04867736055216,
+   "unit": "ppm",
+   "note": "tracked by the loop"
+  }
+ ],
+ "figures": [
+  "figures/costas.png"
+ ],
+ "runtime_s": 0.44,
+ "folder": "projects/signal-lab/F-communication-systems/SL121-synchronisation-recovery"
+}

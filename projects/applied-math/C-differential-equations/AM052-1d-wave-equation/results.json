@@ -1,0 +1,118 @@
+{
+ "meta": {
+  "id": "AM-052",
+  "title": "1-D wave equation: reflecting and absorbing boundaries",
+  "level": "M",
+  "tools": "Second-order leapfrog finite differences, Dirichlet/Neumann boundaries, first-order Mur absorbing boundary, CFL stability, numerical dispersion",
+  "summary": "Solve u_tt = c\u00b2u_xx for a pulse hitting fixed, free and absorbing ends; measure reflection coefficients, show that the scheme is exact at Courant number 1 and dispersive below it, and find the CFL stability limit.",
+  "problem": "Every wave simulation needs edges. How do you make a boundary that does not reflect?",
+  "theory": "Fixed end (u = 0): reflection \u22121; free end (u_x = 0): +1. Mur's first-order absorbing condition $u_t + c u_x = 0$ is exact for normally incident waves in 1-D, so reflection \u2192 O(discretisation)\n\u2014 and exactly zero at Courant number S = c\u0394t/\u0394x = 1. The leapfrog scheme is stable iff S \u2264 1 and has no dispersion at S = 1 (the 'magic time step'); below 1 short wavelengths lag.",
+  "method": "Domain 0\u20131, c = 1, 1000 cells. Gaussian pulse travelling right; reflected amplitude measured at x = 0.5 after interaction with the right boundary. S = 1.0, 0.5 for the boundaries;\nS = 1.001 for the stability test; pulse shape after travelling 5 units for dispersion.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "fixed end, Courant 1.0: reflection coefficient",
+   "predicted": -1.0,
+   "measured": -1.0000000000000018,
+   "unit": "",
+   "error": -1.7763568394002505e-15,
+   "error_str": "-1.7764e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "fixed end, Courant 0.5: reflection coefficient",
+   "predicted": -1.0,
+   "measured": -0.9995025477287355,
+   "unit": "",
+   "error": 0.0004974522712645202,
+   "error_str": "+4.9745e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "free end, Courant 1.0: reflection coefficient",
+   "predicted": 1.0,
+   "measured": 1.0000000000000013,
+   "unit": "",
+   "error": 1.3322676295501878e-15,
+   "error_str": "+1.3323e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "free end, Courant 0.5: reflection coefficient",
+   "predicted": 1.0,
+   "measured": 0.9995025477287316,
+   "unit": "",
+   "error": -0.000497452271268406,
+   "error_str": "-4.9745e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "absorbing end, Courant 1.0: reflection coefficient",
+   "predicted": 0.0,
+   "measured": -6.902532920683853e-29,
+   "unit": "",
+   "error": -6.902532920683853e-29,
+   "error_str": "-6.9025e-29",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "absorbing end, Courant 0.5: reflection coefficient",
+   "predicted": 0.0,
+   "measured": 0.0002340552343721525,
+   "unit": "",
+   "error": 0.0002340552343721525,
+   "error_str": "+2.3406e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Stability: S = 1.001 blows up (CFL violated; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Courant 1 ('magic time step'): pulse shape after 0.6 units, max error",
+   "predicted": 0.0,
+   "measured": 2.3572723634179837e-15,
+   "unit": "",
+   "error": 2.3572723634179837e-15,
+   "error_str": "+2.3573e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Courant 0.5: max shape error from numerical dispersion",
+   "value": 0.0761378277080268,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/wave1d.png"
+ ],
+ "runtime_s": 0.32,
+ "folder": "projects/applied-math/C-differential-equations/AM052-1d-wave-equation"
+}

@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "SL-210",
+  "title": "2-layer vs 4-layer stack-up: impedance, inductance and crosstalk",
+  "level": "H",
+  "tools": "Own 2-D multi-conductor field solver (Maxwell capacitance and inductance matrices), Hammerstad\u2013Jensen formulas, crosstalk coupling coefficients",
+  "summary": "Quantify why a 4-layer board (signal 0.2 mm above a solid plane) beats a 2-layer board (signal 1.6 mm above the bottom plane): 50 \u03a9 widths, per-length inductance, and near-end crosstalk between neighbouring traces versus spacing, from field solutions.",
+  "problem": "Everyone says 'use four layers for signal integrity'. By how much does the plane distance h actually change inductance and crosstalk?",
+  "theory": "For two parallel traces over a plane, the backward (near-end) crosstalk coefficient is $K_b=\\tfrac14\\left(\\frac{C_m}{C}+\\frac{L_m}{L}\\right)$. Image theory gives the\nclassic rule of thumb that coupling falls as $1/(1+(D/h)^2)$ with centre spacing D and height h, so moving the plane from 1.6 mm to 0.2 mm should cut\ncrosstalk by $\\frac{1+(D/0.2)^2}{1+(D/1.6)^2}$ \u2014 about 6.6\u00d7 at D = 0.5 mm and 21\u00d7 at D = 1 mm. Per-length inductance of an isolated trace \u2248 $(\u03bc_0/2\u03c0)\\ln(8h/w)$ falls\nwith h, and the 50 \u03a9 width scales roughly with h (\u2248 3.1 mm vs \u2248 0.37 mm).",
+  "method": "Cross-sections with \u03b5_r = 4.4: 2-layer = 1.6 mm core; 4-layer = 0.2 mm prepreg to the L2 plane. Two 0.2 mm traces (zero thickness), edge gaps 0.2\u20133 mm; grid 0.05 mm (2-layer, h/32) and 0.0125 mm (4-layer, h/16) \u2014 at least 4 cells across each trace, grounded box extending \u2265 12h beyond the traces. C from energies (with/without dielectric), L = \u03bc0\u03b50\u00b7C_air\u207b\u00b9.",
+  "data": "Simulation.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "2-layer (h = 1.6 mm): inductance of a 0.2 mm trace, formula (Z0\u00b7\u221a\u03b5eff/c) vs field solver",
+   "predicted": 832.4501436468771,
+   "measured": 796.5434166763209,
+   "unit": "nH/m",
+   "error": -4.313378674337487,
+   "error_str": "-4.31 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "4-layer (h = 0.2 mm): inductance of a 0.2 mm trace, formula (Z0\u00b7\u221a\u03b5eff/c) vs field solver",
+   "predicted": 420.703838634619,
+   "measured": 411.121194389435,
+   "unit": "nH/m",
+   "error": -2.2777648704808957,
+   "error_str": "-2.28 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Inductance ratio 2-layer / 4-layer \u2248 ln(8\u00b71.6/0.2) / ln(8\u00b70.2/0.2)",
+   "predicted": 2.0,
+   "measured": 1.9374905199409258,
+   "unit": "\u00d7",
+   "error": -3.12547400295371,
+   "error_str": "-3.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Crosstalk reduction 2\u21924 layers at D = 0.5 mm, rule of thumb 1/(1+(D/h)\u00b2)",
+   "predicted": 6.604982206405694,
+   "measured": 4.9242750531083015,
+   "unit": "\u00d7",
+   "error": -25.44605118947022,
+   "error_str": "-25.45 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Crosstalk reduction 2\u21924 layers at D = 1.0 mm, rule of thumb 1/(1+(D/h)\u00b2)",
+   "predicted": 18.696629213483146,
+   "measured": 13.922981445221,
+   "unit": "\u00d7",
+   "error": -25.53213049130595,
+   "error_str": "-25.53 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "2-layer (h = 1.6 mm): 50 \u03a9 microstrip width (Wheeler)",
+   "value": 3.0589749829276442,
+   "unit": "mm",
+   "note": ""
+  },
+  {
+   "quantity": "4-layer (h = 0.2 mm): 50 \u03a9 microstrip width (Wheeler)",
+   "value": 0.38237187286595553,
+   "unit": "mm",
+   "note": ""
+  },
+  {
+   "quantity": "NEXT coefficient at 0.2 mm gap: 2-layer / 4-layer",
+   "value": "26.0 % / 7.2 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/stackup.png"
+ ],
+ "runtime_s": 102.58,
+ "folder": "projects/signal-lab/L-pcb-design/SL210-4-layer-stackup-study"
+}

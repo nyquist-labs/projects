@@ -1,0 +1,142 @@
+{
+ "meta": {
+  "id": "AM-179",
+  "title": "Cross-validation done wrong and done right",
+  "level": "H",
+  "tools": "k-fold, blocked and grouped cross-validation written from scratch, a 1-nearest-neighbour and an LDA classifier, leakage through overlapping windows and through shared subjects on real EMG, the 'feature selection outside the loop' trap on pure noise, nested cross-validation for a tuned hyper-parameter",
+  "summary": "Measure how much an accuracy estimate is inflated by four common validation mistakes \u2014 overlapping windows split at random, the same person in train and test, feature selection before splitting, and reporting the score used for tuning \u2014 using real EMG data and a pure-noise control.",
+  "problem": "The same classifier can be reported at 99 % or 80 % depending on how the data were split. Which number predicts performance on new data?",
+  "theory": "Cross-validation estimates generalisation only if test samples are independent of everything used for fitting. (1) Windows that overlap by 50 % share raw samples with their neighbours; a random split puts near-copies of test windows in\nthe training set (fatal for nearest-neighbour methods). (2) Windows of one person are more alike than windows of different people: random splits measure within-person accuracy, not performance on a new user. (3) Any step that saw the labels \u2014\nincluding feature selection \u2014 must be inside the loop; selecting the 20 best of 5000 noise features on all data yields high 'accuracy' on noise. (4) The best cross-validated score over a grid of hyper-parameters is optimistically biased;\nnesting the selection removes the bias. Expected honest result on noise: 50 %.",
+  "method": "EMG gestures (32 features, 36 subjects, 2 recordings each). (1) Per subject, recording 1 only: random 5-fold vs 5 contiguous blocks per gesture vs train on recording 1 / test on recording 2, with 1-NN and LDA. (2) Pooled windows: random 6-fold vs\nleave-6-subjects-out. (3) 60 samples \u00d7 5000 Gaussian noise features, random labels, 200 repetitions. (4) LDA shrinkage chosen from 8 values on 12 subjects' first 60 windows: best CV score vs nested CV vs a fresh test set.",
+  "data": "UCI 'EMG data for gestures' (Lobov et al. 2018).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "My expectation: 1-NN on randomly split overlapping windows looks near-perfect (> 98 %; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": -1.0,
+   "error_str": "-1",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Leakage through overlap: random split beats blocked split for 1-NN (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 and the blocked estimate in turn beats a separate recording session (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Pooled data: random 6-fold overestimates accuracy on people never seen (random > leave-subjects-out; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Pure noise, feature selection inside the CV loop: accuracy = chance",
+   "predicted": 50.0,
+   "measured": 48.95,
+   "unit": "%",
+   "error": -1.0499999999999972,
+   "error_str": "-1.05 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pure noise, features selected on all data first: 'accuracy' far above chance (> 85 %; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Tuning bias: the best CV score over 8 shrinkage values exceeds the nested-CV estimate (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Nested CV is closer than the best tuning score to accuracy on fresh windows of the same recording (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "1-NN accuracy: random windows / blocked in time / other recording",
+   "value": "96.5 % / 90.5 % / 84.1 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "LDA accuracy: random windows / blocked in time / other recording",
+   "value": "99.1 % / 98.0 % / 94.7 %",
+   "unit": "",
+   "note": "a smooth model leaks less than a memorising one"
+  },
+  {
+   "quantity": "Pooled LDA: random 6-fold / leave-6-subjects-out",
+   "value": "82.4 % / 80.3 %",
+   "unit": "",
+   "note": "fold-to-fold std 0.7 / 6.7 points"
+  },
+  {
+   "quantity": "Accuracy on random labels: selection outside / inside the loop",
+   "value": "92.2 % / 49.0 %",
+   "unit": "",
+   "note": "60 samples, best 20 of 5000 noise features"
+  },
+  {
+   "quantity": "Tuned LDA, 60 training windows: best CV score / nested CV / fresh data",
+   "value": "98.6 % / 97.4 % / 97.5 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/crossval.png"
+ ],
+ "runtime_s": 3.32,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM179-cross-validation-methodology"
+}

@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "SL-142",
+  "title": "Quadrature rotary-encoder decoder",
+  "level": "M",
+  "tools": "C firmware (Gray-code state-table decoder, polled at a fixed rate) on the simulated MCU, stimulus with bounce",
+  "summary": "Decode a mechanical quadrature encoder (with contact bounce) using a 16-entry transition table polled at 1\u201320 kHz; count errors for spins of increasing speed and find the speed where polling becomes too slow.",
+  "problem": "Rotary encoders produce two offset square waves. How do you count reliably in both directions, reject bounce, and how fast can the knob turn before the MCU misses steps?",
+  "theory": "Valid transitions change exactly one of A/B (Gray code), so a 4\u00d74 table maps (old, new) \u2192 \u22121/0/+1, and invalid double-changes are\nignored (they indicate a missed state). Bounce on one channel only toggles between two adjacent states, which the table cancels.\nA poll at f_s can follow at most one state change per sample, and each edge is followed by up to 30 \u00b5s of bounce. A\nsample must land in the *settled* part of every edge interval, so the edge interval must exceed T_poll + t_bounce: maximum speed \u2248\n1/(96\u00b7(T_poll + t_bounce)) rev/s (96 edges/rev). At slow polling this is \u2248 f_s/96; at fast polling the bounce time dominates.",
+  "method": "Stimulus: encoder rotated \u00b1\u2026 with 24 detents \u00d7 4 edges/rev, speed 0.5\u201340 rev/s, forward then back, 30 \u00b5s of bounce (3 chatter edges) on each edge.\nFirmware polls at 1, 5, 20 kHz; net count compared with the true count.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Poll 1 kHz: limit 1/(96\u00b7(T_poll + t_bounce)) lies between last pass and first fail",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": "last error-free 8.0 rev/s, predicted 10.1 rev/s"
+  },
+  {
+   "quantity": "Poll 5 kHz: limit 1/(96\u00b7(T_poll + t_bounce)) lies between last pass and first fail",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": "last error-free 40.0 rev/s, predicted 45.3 rev/s"
+  },
+  {
+   "quantity": "Poll 20 kHz: limit 1/(96\u00b7(T_poll + t_bounce)) lies between last pass and first fail",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": "last error-free 100.0 rev/s, predicted 130.2 rev/s"
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/encoder.png"
+ ],
+ "runtime_s": 13.24,
+ "folder": "projects/signal-lab/H-embedded-systems/SL142-rotary-encoder-decoder"
+}

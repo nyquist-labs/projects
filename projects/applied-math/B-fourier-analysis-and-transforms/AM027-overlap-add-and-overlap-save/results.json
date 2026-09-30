@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "id": "AM-027",
+  "title": "Overlap-add and overlap-save: fast long-signal filtering",
+  "level": "H",
+  "tools": "Own overlap-add and overlap-save block convolvers (NumPy rfft), direct convolution reference, block-size sweep and operation-count model",
+  "summary": "Implement both block-convolution methods, verify they reproduce direct filtering exactly, and measure the speed-up over direct convolution as a function of block size \u2014 predicted from an operation-count model.",
+  "problem": "Filtering a million-sample signal with a 256-tap filter: direct, one giant FFT, or blocks? And what block size is best?",
+  "theory": "Per output sample, direct convolution costs M multiply-adds. With FFT size L and M taps, each block yields L\u2212M+1 new samples at the cost of one forward and one inverse FFT\n(\u2248 2\u00b7(L/2)\u00b7log\u2082L complex operations for real FFTs) plus L/2 products, so cost/sample \u2248 $\\frac{L(\\log_2L+1)}{L-M+1}$ \u2014 minimised near L \u2248 4\u20138 M. For M = 256: predicted optimum L \u2248 2048,\nspeed-up vs direct \u2248 M / min(cost) \u2248 256/13 \u2248 20\u00d7 in operations.",
+  "method": "x: 2\u00b2\u2070 Gaussian samples; h: 256-tap windowed-sinc low-pass. OLA and OLS with L = 512 \u2026 65536; reference np.convolve. Wall time vs L; error vs reference.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Overlap-add vs direct convolution, worst error",
+   "predicted": 0.0,
+   "measured": 1.3322676295501878e-15,
+   "unit": "",
+   "error": 1.3322676295501878e-15,
+   "error_str": "+1.3323e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Overlap-save vs direct convolution, worst error",
+   "predicted": 0.0,
+   "measured": 1.3322676295501878e-15,
+   "unit": "",
+   "error": 1.3322676295501878e-15,
+   "error_str": "+1.3323e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Fastest block size (overlap-add), op-count model predicts",
+   "predicted": 2048.0,
+   "measured": 4096.0,
+   "unit": "",
+   "error": 2048.0,
+   "error_str": "+2048",
+   "kind": "abs",
+   "ok": 1.0,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Speed-up of best overlap-add over np.convolve (direct, C)",
+   "value": 3.8021953087498046,
+   "unit": "\u00d7",
+   "note": ""
+  },
+  {
+   "quantity": "Op-count speed-up predicted at the optimum",
+   "value": 18.677083333333332,
+   "unit": "\u00d7",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ola_ols.png"
+ ],
+ "runtime_s": 1.13,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM027-overlap-add-and-overlap-save"
+}

@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-056",
+  "title": "Duffing oscillator: nonlinear resonance, hysteresis and jumps",
+  "level": "H",
+  "tools": "Driven Duffing equation integrated with RK45, slow up/down frequency sweeps, harmonic-balance frequency response (cubic in A\u00b2), backbone curve",
+  "summary": "Drive a hardening Duffing oscillator (e.g. a resonator with a nonlinear inductor or capacitor) through resonance with slowly rising and falling frequency, measure the two different response curves and the jump frequencies, and compare with harmonic balance.",
+  "problem": "A resonator with a slightly nonlinear element can show two different amplitudes at the same drive frequency. Which one you get depends on history \u2014 why?",
+  "theory": "$\\ddot x+\u03b4\\dot x+\u03c9_0^2x+\u03b2x^3=F\\cos \u03c9t$. Harmonic balance with x \u2248 A cos(\u03c9t \u2212 \u03c6): $\\big[(\u03c9_0^2+\\tfrac34\u03b2A^2-\u03c9^2)^2+(\u03b4\u03c9)^2\\big]A^2=F^2$. The resonance bends along the backbone $\u03c9=\\sqrt{\u03c9_0^2+\\tfrac34\u03b2A^2}$; where the cubic in A\u00b2\nhas three real roots the middle one is unstable, so an upward sweep follows the upper branch until it ends (jump down) and a downward sweep follows the lower branch until it ends (jump up).",
+  "method": "\u03c90 = 1, \u03b4 = 0.1, \u03b2 = 0.2, F = 0.3. Frequency swept 0.6 \u2192 2.0 \u2192 0.6 in 140 steps, each integrated for 60 drive periods, amplitude from the last 10 periods, state carried over. Harmonic-balance curve\nfrom the cubic's roots; jump frequencies where the stable branches end (discriminant/turning points).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Upward sweep: jump-down frequency (end of the upper branch)",
+   "predicted": 1.3101449275362318,
+   "measured": 1.3304347826086955,
+   "unit": "rad/s",
+   "error": 1.5486725663716783,
+   "error_str": "+1.55 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Downward sweep: jump-up frequency (end of the lower branch)",
+   "predicted": 1.208695652173913,
+   "measured": 1.1884057971014492,
+   "unit": "rad/s",
+   "error": -1.678657074340524,
+   "error_str": "-1.68 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Amplitude where the response is unique: simulation vs harmonic balance (max relative)",
+   "predicted": 0.0,
+   "measured": 0.008742403674778743,
+   "unit": "",
+   "error": 0.008742403674778743,
+   "error_str": "+0.008742",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Peak amplitude lies on the backbone \u03c9 = \u221a(1 + \u00be\u03b2A\u00b2)",
+   "predicted": 1.3367667458171928,
+   "measured": 1.3304347826086955,
+   "unit": "rad/s",
+   "error": -0.4736774929740202,
+   "error_str": "-0.47 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/duffing.png"
+ ],
+ "runtime_s": 17.78,
+ "folder": "projects/applied-math/C-differential-equations/AM056-duffing-oscillator"
+}

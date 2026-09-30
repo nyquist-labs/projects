@@ -1,0 +1,122 @@
+{
+ "meta": {
+  "id": "AM-155",
+  "title": "Root-locus construction rules, checked against the computed locus",
+  "level": "M",
+  "tools": "Numerical root locus (polynomial roots over a dense gain sweep), rule-based predictions (real-axis segments, asymptote angles and centroid, breakaway point from dK/ds = 0, j\u03c9-axis crossing from the Routh array, angle of departure), branch tracking",
+  "summary": "Sketching rules let an engineer draw how closed-loop poles move with gain without a computer. Here each rule is turned into a numerical prediction for a fourth-order loop and compared with the locus actually computed from the characteristic polynomial.",
+  "problem": "Where do the closed-loop poles go as the gain is raised \u2014 and can six sketching rules really predict it?",
+  "theory": "$L(s)=K\\frac{s+2}{s(s+1)(s^2+8s+20)}$: n = 4 poles (0, \u22121, \u22124 \u00b1 2j), m = 1 zero (\u22122). Rules: (1) real-axis points left of an odd number of real poles/zeros are on the locus: (\u22121, 0) and (\u2212\u221e, \u22122); (2) n \u2212 m = 3 asymptotes at \u00b160\u00b0, 180\u00b0 from the\ncentroid $\u03c3=\\frac{\\sum p-\\sum z}{n-m}=-\\frac73$; (3) breakaway where $dK/ds=0$ on (\u22121, 0); (4) imaginary-axis crossing: $s^4+9s^3+28s^2+(20+K)s+2K$ with s = j\u03c9 gives $\u03c9^2=5+\\sqrt{65}$, $K=9\u03c9^2-20\u224897.6$; (5) departure angle from \u22124 + 2j:\n$180\u00b0-\\sum\u2220(p-p_i)+\\sum\u2220(p-z_i)\u2248-74.7\u00b0$.",
+  "method": "Roots of the characteristic polynomial for 40 000 gains from 10\u207b\u2074 to 10\u2076 (log-spaced). Measurements: real-root positions, merge point of the two real branches, gain where a pole pair crosses the axis, direction of the first\nsmall step away from the complex pole, mean and angles of the three far roots at K = 10\u2076.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Real-axis rule: real closed-loop poles found outside (\u22121, 0) \u222a (\u2212\u221e, \u22122)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Breakaway point on (\u22121, 0) from dK/ds = 0",
+   "predicted": -0.530879303782259,
+   "measured": -0.5308670645225935,
+   "unit": "",
+   "error": 0.002305469355903964,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Gain at breakaway",
+   "predicted": 2.7182313391320054,
+   "measured": 2.7171327228607995,
+   "unit": "",
+   "error": -0.040416584688362164,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "j\u03c9-axis crossing gain (Routh): K = 9\u03c9\u00b2 \u2212 20",
+   "predicted": 97.56031973468694,
+   "measured": 97.5887454543284,
+   "unit": "",
+   "error": 0.02913655850940685,
+   "error_str": "+0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Crossing frequency \u03c9 = \u221a(5 + \u221a65)",
+   "predicted": 3.6141745597436974,
+   "measured": 3.6146239026689195,
+   "unit": "rad/s",
+   "error": 0.012432795311746259,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Angle of departure from the pole \u22124 + 2j",
+   "predicted": -74.7448812969422,
+   "measured": -74.74515167705879,
+   "unit": "\u00b0",
+   "error": -0.00027038011658930827,
+   "error_str": "-2.7038e-04 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Asymptote centroid (\u03a3poles \u2212 \u03a3zeros)/(n \u2212 m) vs mean of the three far roots at K = 10\u2076",
+   "predicted": -2.3333333333333335,
+   "measured": -2.3333279999146535,
+   "unit": "",
+   "error": 0.00022857508628705754,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Asymptote angles \u00b160\u00b0, 180\u00b0: largest deviation",
+   "predicted": 0.0,
+   "measured": 0.003862146871817629,
+   "unit": "\u00b0",
+   "error": 0.003862146871817629,
+   "error_str": "+0.003862 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "The fourth branch ends on the zero at \u22122 (position at K = 10\u2076)",
+   "predicted": -2.0,
+   "measured": -2.0000160002560032,
+   "unit": "",
+   "error": -0.0008000128001617313,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/root_locus.png"
+ ],
+ "runtime_s": 1.21,
+ "folder": "projects/applied-math/I-control-theory/AM155-root-locus-construction"
+}

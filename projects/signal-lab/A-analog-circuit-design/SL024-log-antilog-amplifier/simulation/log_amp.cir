@@ -1,0 +1,16 @@
+* log amp — exported by eelab.circuit
+Vin in 0 DC 0.0001 AC 0.0
+Rin in n 10000
+R1_rs n 1_int 1
+D1 1_int out D_1
+* op-amp U1: A0=2e+05, GBW=1e+06 Hz, SR=5e+05 V/s
+XUU1 0 n out OPAMP1P A0=2e+05 GBW=1e+06
+.subckt OPAMP1P inp inn out A0=2e5 GBW=1e6
+G1 0 x inp inn {A0/1e6}
+R1 x 0 1e6
+C1 x 0 {1/(6.2832*GBW/A0*1e6)}
+E1 o 0 x 0 1
+Ro o out 50
+.ends
+.model D_1 D(Is=1e-14 N=1.0)
+.end

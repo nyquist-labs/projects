@@ -1,0 +1,113 @@
+{
+ "meta": {
+  "id": "AM-164",
+  "title": "Lyapunov stability: proving convergence without solving the equations",
+  "level": "H",
+  "tools": "Own Lyapunov-equation solver (Kronecker form) vs SciPy, positive-definiteness test against eigenvalues on random matrices, monotone decrease of V along simulated trajectories, region-of-attraction estimate for a nonlinear system from a quadratic Lyapunov function, brute-force simulation of the true region",
+  "summary": "Use energy-like functions to certify stability: for linear systems the Lyapunov equation has a positive-definite solution exactly when the system is stable; for a nonlinear oscillator a quadratic V gives a guaranteed \u2014 and measurably conservative \u2014 estimate of the region of attraction.",
+  "problem": "How can we prove that every trajectory starting near an equilibrium converges to it, without computing a single trajectory?",
+  "theory": "If $V(x)>0$ and $\\dot V(x)<0$ away from the origin, the origin is asymptotically stable. Linear: $V=x^TPx$ with $A^TP+PA=-Q$ (Q > 0) \u2014 a solution P > 0 exists iff A is Hurwitz; then $V(x(t))$ decreases monotonically and\n$\\dot V=-x^TQx$. Nonlinear: the time-reversed Van der Pol oscillator $\\dot x_1=-x_2$, $\\dot x_2=x_1-(1-x_1^2)x_2$ has a stable origin surrounded by an unstable limit cycle (the true boundary of the region of attraction). With P from the linearisation,\nthe largest level set $\\{V<c\\}$ on which $\\dot V<0$ is a guaranteed subset of that region \u2014 never an overestimate.",
+  "method": "2000 random 2\u20136-dimensional matrices (about half stable): P > 0 (Cholesky) vs eigenvalues. Own solver: vec form (I\u2297A\u1d40 + A\u1d40\u2297I) vec P = \u2212vec Q. Nonlinear: V\u0307 evaluated on level-set contours (720 points each) to find the largest certified c;\nthe true region from 3600 simulated initial conditions on a polar grid.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "'P > 0' vs 'all eigenvalues in the left half-plane' on 2000 random matrices (848 stable): disagreements",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Own Kronecker-form solver vs scipy.linalg.solve_continuous_lyapunov (worst relative difference)",
+   "predicted": 0.0,
+   "measured": 1.2783386344179989e-13,
+   "unit": "",
+   "error": 1.2783386344179989e-13,
+   "error_str": "+1.2783e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lightly damped oscillator: V = x\u1d40Px never increases along the trajectory (largest upward step / V\u2080)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "dV/dt measured along the trajectory vs \u2212x\u1d40Qx (worst relative error)",
+   "predicted": 0.0,
+   "measured": 3.54580065978116e-05,
+   "unit": "",
+   "error": 3.54580065978116e-05,
+   "error_str": "+3.5458e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Initial conditions on the certified level set V = 0.98\u00b7c* that fail to converge (60 tested)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "The certified ellipse lies inside the true region of attraction (area ratio \u2264 1; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "True boundary = the Van der Pol limit cycle (amplitude \u2248 2.0): largest |x\u2081| on the simulated boundary",
+   "predicted": 2.008619792573161,
+   "measured": 2.008367919921875,
+   "unit": "",
+   "error": -0.012539588239506325,
+   "error_str": "-0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "For comparison, the physical energy \u00bdv\u00b2 + 2x\u00b2 has dE/dt = \u22120.4v\u00b2 \u2264 0",
+   "value": "zero whenever v = 0",
+   "unit": "",
+   "note": "non-increasing but not strictly decreasing: needs LaSalle; the Lyapunov-equation V avoids that"
+  },
+  {
+   "quantity": "Certified level c* / area of the estimate / true area",
+   "value": "2.305 / 6.48 / 13.72",
+   "unit": "",
+   "note": "the quadratic estimate captures 47 % of the true region"
+  }
+ ],
+ "figures": [
+  "figures/lyapunov.png"
+ ],
+ "runtime_s": 4.81,
+ "folder": "projects/applied-math/I-control-theory/AM164-lyapunov-stability"
+}

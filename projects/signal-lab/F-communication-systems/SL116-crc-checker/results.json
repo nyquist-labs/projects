@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "id": "SL-116",
+  "title": "CRC-32: what it catches and what it misses",
+  "level": "M",
+  "tools": "Own bitwise/table CRC-32 (IEEE 802.3), zlib cross-check, exhaustive and random error injection",
+  "summary": "Implement CRC-32 two ways, check against zlib, then measure detection of 1-, 2-, 3-bit and burst errors in Ethernet-sized frames \u2014 and compare with a weak 8-bit additive checksum and CRC-8, where missed errors are frequent enough to count.",
+  "problem": "Every Ethernet frame carries a 32-bit CRC. Which errors is it guaranteed to catch, and how often does a random corruption slip through?",
+  "theory": "A CRC with generator of degree r detects all bursts \u2264 r bits, all odd-weight errors if (x+1) divides g(x), and for random\ncorruption misses a fraction \u2248 $2^{-r}$. CRC-32 (0x04C11DB7) has Hamming distance 4 up to frames of 91,607 bits, so every 1-, 2- and\n3-bit error in a 1,500-byte frame is caught; random garbage passes with probability 2\u207b\u00b3\u00b2 \u2248 2.3\u00d710\u207b\u00b9\u2070. For CRC-8 the miss rate\n\u2248 2\u207b\u2078 = 0.39 % is measurable.",
+  "method": "1,500-byte random frames. Exhaustive-ish: 20,000 random single, double and triple bit flips; bursts of 2\u201332 bits. CRC-8 (0x07) and an\n8-bit sum checksum on random multi-byte corruption (50,000 trials) to measure miss rates.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Bitwise CRC-32 = zlib.crc32",
+   "predicted": 342507346.0,
+   "measured": 342507346.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Table CRC-32 = zlib.crc32",
+   "predicted": 342507346.0,
+   "measured": 342507346.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "1-bit errors missed by CRC-32",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "2-bit errors missed by CRC-32",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "3-bit errors missed by CRC-32",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Bursts of 2\u201332 bits missed by CRC-32 (9,300 trials)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "CRC-8 miss rate on random multi-byte corruption (2\u207b\u2078)",
+   "predicted": 0.00390625,
+   "measured": 0.00426,
+   "unit": "",
+   "error": 9.055999999999997,
+   "error_str": "+9.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "8-bit sum checksum miss rate (also \u2248 2\u207b\u2078 for random data)",
+   "predicted": 0.00390625,
+   "measured": 0.00426,
+   "unit": "",
+   "error": 9.055999999999997,
+   "error_str": "+9.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/miss_rates.png"
+ ],
+ "runtime_s": 2.32,
+ "folder": "projects/signal-lab/F-communication-systems/SL116-crc-checker"
+}

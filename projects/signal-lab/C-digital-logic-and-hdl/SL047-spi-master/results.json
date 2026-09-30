@@ -1,0 +1,56 @@
+{
+ "meta": {
+  "id": "SL-047",
+  "title": "SPI master (mode 0)",
+  "level": "M",
+  "tools": "Verilog RTL + behavioural SPI slave (loopback shift register), Icarus Verilog",
+  "summary": "An SPI mode-0 master with configurable clock divider: verify SCLK frequency, chip-select framing and full-duplex data against a slave model over 256 transfers.",
+  "problem": "Implement the four-wire SPI protocol and prove its timing: data must be stable at every rising SCLK edge and change on falling edges.",
+  "theory": "Mode 0 (CPOL = 0, CPHA = 0): SCLK idles low, both sides sample on the rising edge and shift on the falling edge.\nWith divider DIV the SCLK period is $2\\cdot DIV$ system clocks \u2192 $f_{SCLK}=f_{clk}/(2\\,DIV)$ = 50 MHz/(2\u00b75) = 5 MHz.\nOne byte = 8 SCLK periods = 1.6 \u00b5s plus CS setup/hold, so \u2248 600 kB/s at most. Setup margin\n= half an SCLK period (100 ns) before each sampling edge.",
+  "method": "Master drives SCLK/MOSI/CS; the testbench slave is an 8-bit shift register that returns the previous byte\n(so MISO data can be checked). 256 random bytes; Python measures SCLK period and MOSI-to-SCLK setup\ntime from the VCD.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "MISO bytes wrong (256 full-duplex transfers)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "SCLK frequency",
+   "predicted": 5000000.0,
+   "measured": 5000000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Worst MOSI setup before rising SCLK",
+   "predicted": 100.0,
+   "measured": 100.0,
+   "unit": "ns",
+   "error": 0.0,
+   "error_str": "+0 ns",
+   "kind": "abs",
+   "ok": null,
+   "note": "data changes on the falling edge"
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/timing.png"
+ ],
+ "runtime_s": 0.1,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL047-spi-master"
+}

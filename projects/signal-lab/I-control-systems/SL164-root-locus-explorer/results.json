@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-164",
+  "title": "Root locus: asymptotes, breakaway and the stability limit",
+  "level": "M",
+  "tools": "Closed-loop pole computation by polynomial roots over a gain sweep (NumPy), analytic root-locus rules",
+  "summary": "Trace the root locus of G = 1/(s(s+2)(s+5)), and check the plotted branches against the construction rules: asymptote centroid and angles, breakaway point from dK/ds = 0, and the j\u03c9-crossing gain from Routh.",
+  "problem": "How do closed-loop poles move as gain increases, and can a few hand rules predict the whole picture?",
+  "theory": "Poles 0, \u22122, \u22125; three asymptotes at \u00b160\u00b0, 180\u00b0 from centroid \u03c3 = (0\u22122\u22125)/3 = \u22122.333. Breakaway where dK/ds = 0 for K = \u2212s(s+2)(s+5):\n$3s^2+14s+10=0$ \u21d2 s = \u22120.880. Routh on $s^3+7s^2+10s+K$: instability at K = 70 with poles at \u00b1j\u221a10.",
+  "method": "Gains 0\u2026150 on a fine grid; closed-loop poles = roots of s\u00b3 + 7s\u00b2 + 10s + K. Breakaway = where the two real poles merge; crossing = first K with a\nright-half-plane pole.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "I. Control systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Breakaway point (dK/ds = 0)",
+   "predicted": -0.8803670188197753,
+   "measured": -0.8801216158555115,
+   "unit": "",
+   "error": 0.0002454029642637856,
+   "error_str": "+2.4540e-04",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Gain at the j\u03c9-axis crossing (Routh: K = 70)",
+   "predicted": 70.0,
+   "measured": 70.01,
+   "unit": "",
+   "error": 0.014285714285721594,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Crossing frequency \u221a10",
+   "predicted": 3.1622776601683795,
+   "measured": 3.1622776601683795,
+   "unit": "rad/s",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Asymptote angle for large K",
+   "predicted": 60.0,
+   "measured": 59.997743125003026,
+   "unit": "\u00b0",
+   "error": -0.002256874996973579,
+   "error_str": "-0.002257 \u00b0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/root_locus.png"
+ ],
+ "runtime_s": 0.42,
+ "folder": "projects/signal-lab/I-control-systems/SL164-root-locus-explorer"
+}

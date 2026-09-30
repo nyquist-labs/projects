@@ -1,0 +1,15 @@
+* flyback — exported by eelab.circuit
+Vin vin 0 DC 24.0 AC 0.0
+Lp vin d 0.0001
+* switch q between d and 0 (Ron=0.05, Roff=1000000.0)
+Ls 0 sx 6.25e-06
+Co out 0 2.2e-05
+RL out 0 2
+Ccl cl vin 1e-08
+Rcl cl vin 3300
+K_p_s Lp Ls 0.99
+Do sx out D_o
+Dcl d cl D_cl
+.model D_cl D(Is=1e-09 N=1.5)
+.model D_o D(Is=1e-06 N=1.02)
+.end

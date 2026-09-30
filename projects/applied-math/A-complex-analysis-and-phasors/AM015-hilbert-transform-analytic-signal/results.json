@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-015",
+  "title": "Hilbert transform and instantaneous frequency (with real satellite audio)",
+  "level": "H",
+  "tools": "FFT-based Hilbert transform (own implementation vs scipy.signal.hilbert), analytic signal, instantaneous frequency by phase differentiation; real NOAA-18 APT recording from SatNOGS",
+  "summary": "Build the analytic signal by zeroing negative frequencies, extract instantaneous amplitude and frequency from a chirp, then use it on a real weather-satellite recording to recover the 2.4 kHz subcarrier frequency and the AM image envelope.",
+  "problem": "A real signal has no 'instantaneous frequency' by itself. How does the Hilbert transform define one \u2014 and does it work on real data?",
+  "theory": "The analytic signal $z = x + j\\mathcal{H}\\{x\\}$ has a one-sided spectrum (double the positive frequencies, zero the negative ones). For $x = A(t)\\cos \u03c6(t)$ with slowly varying A,\n$z \u2248 A e^{j\u03c6}$, so |z| is the envelope and $f_i=\\frac{1}{2\u03c0}\\frac{d\u03c6}{dt}$ the instantaneous frequency. For a linear chirp the estimate should follow the true sweep except near the\nrecord ends (the FFT treats the record as periodic).",
+  "method": "Chirp 200 \u2192 2000 Hz in 1 s at 16 kHz: f_i vs truth. NOAA-18 APT audio (SatNOGS observation 11229309, 11025 Hz): band-pass 1.2\u20133.6 kHz, analytic signal, median instantaneous\nfrequency over the pass, compared with the FFT peak; envelope compared with the known 4160 samples/s line structure (2 lines/s).",
+  "data": "Real: SatNOGS network observation 11229309 (NOAA-18 APT), CC BY-SA 4.0.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors"
+ },
+ "rows": [
+  {
+   "quantity": "Own FFT Hilbert vs scipy.signal.hilbert (worst)",
+   "predicted": 0.0,
+   "measured": 1.8344419837726724e-15,
+   "unit": "",
+   "error": 1.8344419837726724e-15,
+   "error_str": "+1.8344e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chirp: RMS instantaneous-frequency error (middle 90 %)",
+   "predicted": 0.0,
+   "measured": 0.023436465060667527,
+   "unit": "Hz",
+   "error": 0.023436465060667527,
+   "error_str": "+23.44 mHz",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "NOAA APT: median instantaneous frequency vs the carrier (FFT peak)",
+   "predicted": 2400.05,
+   "measured": 2341.615438116739,
+   "unit": "Hz",
+   "error": -58.43456188326127,
+   "error_str": "-58.43 Hz",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "Identity: |z|\u00b2-weighted mean instantaneous frequency = spectral centroid of z",
+   "predicted": 2326.967397218575,
+   "measured": 2327.008951937314,
+   "unit": "Hz",
+   "error": 0.0017857886100457565,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Envelope line rate (APT sends 2 lines/s)",
+   "predicted": 2.0,
+   "measured": 2.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0 Hz",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Chirp: worst error in the first/last 5 % (edge effect)",
+   "value": 663.7755900209404,
+   "unit": "Hz",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/hilbert.png"
+ ],
+ "runtime_s": 1.63,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM015-hilbert-transform-analytic-signal"
+}

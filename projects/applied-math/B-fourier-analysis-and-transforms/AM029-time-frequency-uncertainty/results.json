@@ -1,0 +1,107 @@
+{
+ "meta": {
+  "id": "AM-029",
+  "title": "The time\u2013frequency uncertainty bound, measured",
+  "level": "H",
+  "tools": "RMS duration and bandwidth of discrete pulses via second moments (FFT), Gaussian vs other pulse shapes, chirped pulses",
+  "summary": "Compute the RMS duration \u03c3_t and RMS bandwidth \u03c3_f of many pulse shapes, show that \u03c3_t\u00b7\u03c3_f \u2265 1/(4\u03c0) with equality only for the Gaussian, and show that chirping or distorting a pulse moves it away from the bound.",
+  "problem": "Is the uncertainty principle of signal processing a real inequality you can hit \u2014 and which signal hits it?",
+  "theory": "With $\u03c3_t^2=\\int t^2|x|^2/\\int|x|^2$ (centred) and $\u03c3_f^2=\\int f^2|X|^2/\\int|X|^2$, the Gabor limit is $\u03c3_t\u03c3_f \\ge \\frac{1}{4\u03c0}=0.0796$, with equality iff x is a Gaussian (possibly modulated).\nPredictions: Gaussian 0.0796; one-sided exponential and triangular pulses above; rectangular pulse infinite (\u03c3_f diverges because |X| \u221d 1/f); a linear chirp on a Gaussian envelope multiplies\nthe product by $\\sqrt{1+(\u03c0\u03b1 \u03c3_t^2 \\cdot 2)^2}$\u2026 (grows with chirp rate).",
+  "method": "Pulses sampled at 1 MHz over a 40 ms window with 2\u00b2\u2070-point FFT spectra (to capture spectral tails); \u03c3 from numerical moments. Shapes: Gaussian, raised cosine (Hann), triangular, sech, and\nchirped Gaussians with increasing chirp rate.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Gaussian pulse: \u03c3_t\u00b7\u03c3_f (Gabor limit 1/4\u03c0)",
+   "predicted": 0.07957747154594767,
+   "measured": 0.07957747154594767,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "sech: \u03c3_t\u00b7\u03c3_f \u2265 1/4\u03c0 (ratio to the bound)",
+   "predicted": 1.0,
+   "measured": 1.047197551196598,
+   "unit": "\u00d7",
+   "error": 0.047197551196598075,
+   "error_str": "+0.0472 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Hann (raised cosine): \u03c3_t\u00b7\u03c3_f \u2265 1/4\u03c0 (ratio to the bound)",
+   "predicted": 1.0,
+   "measured": 1.02623462794079,
+   "unit": "\u00d7",
+   "error": 0.0262346279407899,
+   "error_str": "+0.02623 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "triangle: \u03c3_t\u00b7\u03c3_f \u2265 1/4\u03c0 (ratio to the bound)",
+   "predicted": 1.0,
+   "measured": 1.0955259583863624,
+   "unit": "\u00d7",
+   "error": 0.09552595838636235,
+   "error_str": "+0.09553 \u00d7",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chirped Gaussian, rate 1e+05 Hz/s: product = \u221a(1+(4\u03c0a\u03c3_t\u00b2)\u00b2)/4\u03c0",
+   "predicted": 0.12779895921972959,
+   "measured": 0.1277989592197296,
+   "unit": "",
+   "error": 2.1718154658761894e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chirped Gaussian, rate 3e+05 Hz/s: product = \u221a(1+(4\u03c0a\u03c3_t\u00b2)\u00b2)/4\u03c0",
+   "predicted": 0.3103748926341274,
+   "measured": 0.3103748926341274,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Chirped Gaussian, rate 1e+06 Hz/s: product = \u221a(1+(4\u03c0a\u03c3_t\u00b2)\u00b2)/4\u03c0",
+   "predicted": 1.0031612901112394,
+   "measured": 1.0031612901112394,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "One-sided exponential (discontinuous): \u03c3_t\u00b7\u03c3_f / bound",
+   "value": 52.64587320777454,
+   "unit": "\u00d7",
+   "note": "grows with sampling rate \u2014 \u03c3_f diverges for a jump"
+  }
+ ],
+ "figures": [
+  "figures/uncertainty.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM029-time-frequency-uncertainty"
+}

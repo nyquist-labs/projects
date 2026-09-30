@@ -1,0 +1,71 @@
+{
+ "meta": {
+  "id": "SL-006",
+  "title": "60 Hz twin-T notch filter",
+  "level": "M",
+  "tools": "eelab mini-SPICE, Monte Carlo over component tolerance",
+  "summary": "Twin-T notch tuned to 60 Hz mains hum: the ideal null is infinitely deep; measure how deep it really is with 1 % and 5 % parts (200 Monte Carlo builds each).",
+  "problem": "A notch filter should delete 60 Hz hum. How deep is the null in practice, and how precisely must the six components match?",
+  "theory": "Twin-T: series arm R\u2013R with 2C to ground, parallel arm C\u2013C with R/2 to ground.\n$$f_0=\\frac1{2\\pi RC},\\qquad H(s)=\\frac{s^2+\\omega_0^2}{s^2+4\\omega_0 s+\\omega_0^2}$$\nso the passive notch has Q = 1/4: \u22123 dB bandwidth = 4f\u2080 = 240 Hz, and the null is exact only if the\nbridge is perfectly balanced. C = 100 nF \u2192 R = 26.53 k\u03a9.",
+  "method": "Nominal circuit (buffered load 1 M\u03a9) swept 1 Hz\u201310 kHz to find f\u2080, depth and bandwidth.\nThen 200 random builds with uniformly distributed \u00b11 % and \u00b15 % R/C errors; the null depth is\nmeasured for each by a fine sweep around 60 Hz.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Notch frequency",
+   "predicted": 60.0,
+   "measured": 59.96888517106535,
+   "unit": "Hz",
+   "error": -0.05185804822441279,
+   "error_str": "-0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u22123 dB bandwidth",
+   "predicted": 240.0,
+   "measured": 219.5721757588274,
+   "unit": "Hz",
+   "error": -8.511593433821917,
+   "error_str": "-8.51 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "\u22123 dB bandwidth with no load",
+   "value": 238.93990845660096,
+   "unit": "Hz",
+   "note": "confirms Q = 1/4 when unloaded"
+  },
+  {
+   "quantity": "Null depth, nominal parts",
+   "value": -71.3702819762437,
+   "unit": "dB",
+   "note": "limited only by sweep resolution / 1 M\u03a9 load"
+  },
+  {
+   "quantity": "Median null depth, \u00b11 % parts",
+   "value": -60.68551470651146,
+   "unit": "dB",
+   "note": "worst -50.9 dB, best -89.9 dB"
+  },
+  {
+   "quantity": "Median null depth, \u00b15 % parts",
+   "value": -46.265656400599035,
+   "unit": "dB",
+   "note": "worst -33.7 dB, best -80.0 dB"
+  }
+ ],
+ "figures": [
+  "figures/notch.png",
+  "figures/depth_histogram.png"
+ ],
+ "runtime_s": 2.41,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL006-twin-t-notch"
+}

@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-060",
+  "title": "FFT from scratch (DFT \u2192 radix-2)",
+  "level": "M",
+  "tools": "NumPy (reference), pure-Python/NumPy implementations, timing benchmark",
+  "summary": "Implement the O(N\u00b2) DFT and a recursive and an iterative radix-2 FFT, verify them against NumPy to machine precision and measure how runtime scales with N.",
+  "problem": "Why is the FFT fast? Build it from the definition and measure the N\u00b2 \u2192 N log N gap.",
+  "theory": "$X[k]=\\sum_{n=0}^{N-1}x[n]e^{-j2\\pi kn/N}$ costs $N^2$ complex multiplies. Radix-2 decimation in time splits even\nand odd samples: $X[k]=E[k]+W_N^kO[k]$, $X[k+N/2]=E[k]-W_N^kO[k]$, giving $\\frac N2\\log_2N$ butterflies.\nPredicted runtime ratio DFT/FFT for N = 1024: $\\frac{N^2}{(N/2)\\log_2N} = 205$ (same constant factors).\nRound-off error of a float64 FFT grows like $O(\\varepsilon\\log N)$ \u2248 10\u207b\u00b9\u2075.",
+  "method": "Three implementations: matrix DFT (NumPy vectorised, to be fair to the DFT), recursive radix-2 (vectorised\nbutterflies), iterative in-place with bit reversal. Random complex inputs N = 2\u2074\u20262\u00b9\u00b2; error vs `numpy.fft.fft`\n(max abs error / max |X|); runtime is the median of 5 runs.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Max relative error, iterative FFT (N = 4096)",
+   "predicted": 1.2000000000000001e-14,
+   "measured": 7.284834861719932e-16,
+   "unit": "",
+   "error": -1.1271516513828008e-14,
+   "error_str": "-1.1272e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "DFT/FFT runtime ratio at N = 1024 (op-count prediction)",
+   "predicted": 204.8,
+   "measured": 43.48086575672089,
+   "unit": "\u00d7",
+   "error": -78.76910851722613,
+   "error_str": "-78.77 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "DFT runtime exponent (t \u221d N^a)",
+   "predicted": 2.0,
+   "measured": 1.9588105411344805,
+   "unit": "",
+   "error": -0.0411894588655195,
+   "error_str": "-0.04119",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "FFT runtime exponent after dividing by log\u2082N",
+   "predicted": 1.0,
+   "measured": 0.449182743551859,
+   "unit": "",
+   "error": -0.5508172564481411,
+   "error_str": "-0.5508",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "NumPy (pocketfft, C) vs my iterative FFT at N = 4096",
+   "value": 54.988246655166435,
+   "unit": "\u00d7 slower",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/benchmark.png"
+ ],
+ "runtime_s": 2.09,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL060-fft-from-scratch"
+}

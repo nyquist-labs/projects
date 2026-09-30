@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-145",
+  "title": "Polling vs interrupts: response latency and jitter",
+  "level": "M",
+  "tools": "C firmware scheduling model (main loop with variable work, ISR entry cost, critical sections) on the simulated MCU",
+  "summary": "Measure how long firmware takes to respond to 10,000 random external events when it polls in the main loop versus when it uses an interrupt \u2014 including the effect of a critical section that disables interrupts.",
+  "problem": "Why do real-time systems use interrupts, and what determines their worst-case latency?",
+  "theory": "Polling with a loop of period T responds after a delay uniform in [0, T] (+ handler time): mean T/2, worst T. An interrupt responds after the\nfixed entry cost (~12 cycles + instruction completion) unless interrupts are masked, in which case the worst case adds the longest critical\nsection C: latency \u2208 [t_entry, t_entry + C].",
+  "method": "Loop period 500 \u00b5s (variable work 400\u2013600 \u00b5s), ISR entry 0.75 \u00b5s (12 cycles at 16 MHz), a 50 \u00b5s critical section executed once per loop. 10,000 events at\nrandom times; latency to the first instruction of the handler recorded for both strategies.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Polling: mean latency (\u2248 T/2 = 250 \u00b5s)",
+   "predicted": 250.0,
+   "measured": 256.0791963949,
+   "unit": "\u00b5s",
+   "error": 2.4316785579600033,
+   "error_str": "+2.43 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Polling: worst latency (\u2248 max loop period 600 \u00b5s)",
+   "predicted": 600.0,
+   "measured": 592.731167,
+   "unit": "\u00b5s",
+   "error": -1.2114721666666621,
+   "error_str": "-1.21 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Interrupt: minimum latency (entry cost)",
+   "predicted": 0.75,
+   "measured": 0.75,
+   "unit": "\u00b5s",
+   "error": 0.0,
+   "error_str": "+0 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Interrupt: worst latency (entry + 50 \u00b5s critical section)",
+   "predicted": 50.75,
+   "measured": 50.725993,
+   "unit": "\u00b5s",
+   "error": -0.04730443349753192,
+   "error_str": "-0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Fraction of interrupt events delayed by a critical section",
+   "value": 9.879999999999999,
+   "unit": "%",
+   "note": "\u2248 50 \u00b5s / 500 \u00b5s \u00d7 \u00bd window"
+  }
+ ],
+ "figures": [
+  "figures/latency.png"
+ ],
+ "runtime_s": 0.55,
+ "folder": "projects/signal-lab/H-embedded-systems/SL145-interrupt-driven-timing"
+}

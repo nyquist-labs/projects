@@ -1,0 +1,130 @@
+{
+ "meta": {
+  "id": "AM-158",
+  "title": "Lead\u2013lag compensator design in the frequency domain",
+  "level": "M",
+  "tools": "Classical Bode-based design procedure coded step by step (static gain for K_v, lead for phase margin, lag for low-frequency gain), margins by root finding, closed-loop step and ramp simulations",
+  "summary": "Design a lead compensator to raise the phase margin of a type-1 plant from 18\u00b0 to a 50\u00b0 target, then a lag section to multiply the velocity constant by ten, and verify the achieved margins, overshoot and ramp-tracking error against the design equations.",
+  "problem": "The plant needs K_v = 10 but is nearly unstable at that gain. How do lead and lag networks buy back stability and accuracy?",
+  "theory": "Plant $G=\\frac{1}{s(s+1)}$, K = 10 \u21d2 $K_v=10$, PM \u2248 18\u00b0. Lead $C=\\frac{\u03b1Ts+1}{Ts+1}$ adds at most $\u03c6_m=\\arcsin\\frac{\u03b1-1}{\u03b1+1}$ at $\u03c9_m=\\frac{1}{T\\sqrt\u03b1}$ with gain $\\sqrt\u03b1$ there. Procedure: needed phase = target \u2212 PM + margin \u21d2 \u03b1; new crossover\nwhere $|KG|=1/\\sqrt\u03b1$; set $\u03c9_m$ to it. Lag $\\frac{s+z}{s+z/\u03b2}$ multiplies low-frequency gain by \u03b2 with a phase cost of about $\\arctan\\frac{(\u03b2-1)\\,z/\u03c9_{gc}}{1+\u03b2 (z/\u03c9_{gc})^2}$ at crossover (\u2248 5\u00b0 for z = \u03c9_gc/10). Ramp error = 1/K_v.",
+  "method": "Target PM 50\u00b0, safety margin 8\u00b0. Lag: \u03b2 = 10, zero a decade below crossover. Verification: exact margins of each loop, closed-loop step responses (overshoot), ramp response over 400 s (error \u2192 1/K_v).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "I. Control theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Uncompensated phase margin 180\u00b0 \u2212 90\u00b0 \u2212 arctan \u03c9_gc",
+   "predicted": 17.964235916371393,
+   "measured": 17.964235916371393,
+   "unit": "\u00b0",
+   "error": 0.0,
+   "error_str": "+0 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lead: new gain crossover lands on \u03c9_m",
+   "predicted": 4.5791242003411865,
+   "measured": 4.5791242003411385,
+   "unit": "rad/s",
+   "error": -1.0473975495190364e-12,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lead: achieved phase margin vs the 50\u00b0 target",
+   "predicted": 50.0,
+   "measured": 52.354748127518405,
+   "unit": "\u00b0",
+   "error": 2.3547481275184055,
+   "error_str": "+2.355 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lead: phase margin predicted from plant phase at \u03c9_m + \u03c6_m",
+   "predicted": 52.35474812751828,
+   "measured": 52.354748127518405,
+   "unit": "\u00b0",
+   "error": 1.2789769243681803e-13,
+   "error_str": "+1.2790e-13 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lag: phase margin lost = arctan(\u03c9/p) \u2212 arctan(\u03c9/z) at the crossover",
+   "predicted": 47.236071478416804,
+   "measured": 47.1914283754582,
+   "unit": "\u00b0",
+   "error": -0.0446431029586023,
+   "error_str": "-0.04464 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Overshoot drops from \u2248 60 % to \u2248 20 % with the lead (\u03b6 \u2248 PM/100 estimate for PM = 50\u00b0: 16 %)",
+   "predicted": 16.3,
+   "measured": 19.805960383973662,
+   "unit": "%",
+   "error": 3.5059603839736617,
+   "error_str": "+3.51 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ramp-following error with lead: 1/K_v",
+   "predicted": 0.1,
+   "measured": 0.09999999999922693,
+   "unit": "",
+   "error": -7.730760476221121e-10,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Ramp-following error with lead + lag: 1/K_v",
+   "predicted": 0.01,
+   "measured": 0.010000000000104592,
+   "unit": "",
+   "error": 1.0459168253706963e-09,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Overshoot: K only / lead / lead + lag",
+   "value": "60.5 % / 19.8 % / 28.4 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Lead parameters",
+   "value": "\u03b1 = 4.61, T = 0.1018 s (zero 2.13, pole 9.83 rad/s)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Closed-loop \u22123 dB bandwidth: K only / lead",
+   "value": "4.83 / 7.47",
+   "unit": "rad/s",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/leadlag.png"
+ ],
+ "runtime_s": 1.33,
+ "folder": "projects/applied-math/I-control-theory/AM158-lead-lag-compensator-design"
+}

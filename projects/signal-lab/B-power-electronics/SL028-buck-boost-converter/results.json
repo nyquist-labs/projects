@@ -1,0 +1,108 @@
+{
+ "meta": {
+  "id": "SL-028",
+  "title": "Inverting buck-boost converter",
+  "level": "M",
+  "tools": "eelab mini-SPICE switch-level transient",
+  "summary": "One switch, one inductor, one diode \u2014 and a negative output that can be larger or smaller than the input. Verify \u2212D/(1\u2212D) and compare stresses with buck and boost.",
+  "problem": "How does the buck-boost produce both step-down and step-up with inverted polarity, and what does that flexibility cost in component stress?",
+  "theory": "The inductor is charged from $V_{in}$ during $DT$ and dumps into the output during $(1-D)T$:\n$$\\frac{V_{out}}{V_{in}}=-\\frac{D}{1-D}$$\nThe switch sees $V_{in}+|V_{out}|$ and the inductor carries $I_L = I_{out}/(1-D)$ \u2014 higher stress than\neither buck ($I_L=I_{out}$) or boost ($V_{sw}=V_{out}$).",
+  "method": "V_in = 12 V, L = 47 \u00b5H, C = 100 \u00b5F, R_L = 10 \u03a9, f_sw = 100 kHz, D \u2208 {0.33, 0.5, 0.67}. Switch in series with\nV_in to the inductor top; the inductor goes to ground; the diode points from output to the inductor\nnode (so the output goes negative).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "D = 0.33: V_out",
+   "predicted": -5.910447761194031,
+   "measured": -5.648751828234796,
+   "unit": "V",
+   "error": 4.427683714209274,
+   "error_str": "+4.43 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.33: mean inductor current",
+   "predicted": 0.8430972877962383,
+   "measured": 0.8248835174788226,
+   "unit": "A",
+   "error": -2.160340281134627,
+   "error_str": "-2.16 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.5: V_out",
+   "predicted": -12.0,
+   "measured": -11.567783160951711,
+   "unit": "V",
+   "error": 3.601806992069075,
+   "error_str": "+3.60 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.5: mean inductor current",
+   "predicted": 2.313556632190342,
+   "measured": 2.2751122535203807,
+   "unit": "A",
+   "error": -1.6617003506659092,
+   "error_str": "-1.66 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.67: V_out",
+   "predicted": -24.363636363636367,
+   "measured": -23.387116614849536,
+   "unit": "V",
+   "error": 4.008103446513113,
+   "error_str": "+4.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "D = 0.67: mean inductor current",
+   "predicted": 7.08700503480289,
+   "measured": 7.223642191682423,
+   "unit": "A",
+   "error": 1.9279957641984813,
+   "error_str": "+1.93 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "D = 0.33: switch off-state voltage",
+   "value": 17.648751828234797,
+   "unit": "V",
+   "note": "V_in + |V_out|"
+  },
+  {
+   "quantity": "D = 0.5: switch off-state voltage",
+   "value": 23.567783160951713,
+   "unit": "V",
+   "note": "V_in + |V_out|"
+  },
+  {
+   "quantity": "D = 0.67: switch off-state voltage",
+   "value": 35.38711661484953,
+   "unit": "V",
+   "note": "V_in + |V_out|"
+  }
+ ],
+ "figures": [
+  "figures/transfer.png"
+ ],
+ "runtime_s": 15.69,
+ "folder": "projects/signal-lab/B-power-electronics/SL028-buck-boost-converter"
+}

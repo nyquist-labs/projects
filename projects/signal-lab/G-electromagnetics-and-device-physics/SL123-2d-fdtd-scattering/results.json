@@ -1,0 +1,45 @@
+{
+ "meta": {
+  "id": "SL-123",
+  "title": "2-D FDTD: diffraction through a slit",
+  "level": "H",
+  "tools": "2-D TMz Yee FDTD with PML-style absorbing sponge (NumPy)",
+  "summary": "Send a plane wave through a slit in a perfectly conducting wall and measure the far-field diffraction pattern; compare null angles with sin \u03b8 = m\u03bb/a and the intensity profile with the single-slit sinc\u00b2.",
+  "problem": "Why does a wave spread out after a narrow opening? Solve Maxwell's equations on a grid and check against Fraunhofer diffraction.",
+  "theory": "Single slit of width a illuminated by a plane wave: far-field intensity $I(\\theta)\\propto\\mathrm{sinc}^2\\!\\left(\\frac{a\\sin\\theta}{\\lambda}\\right)$, first nulls at\n$\\sin\\theta=\\pm\\lambda/a$. With a = 3\u03bb: nulls at \u00b119.5\u00b0, second nulls at \u00b141.8\u00b0.",
+  "method": "TMz Yee grid, \u03bb = 20 cells, Courant 0.5, 500\u00d7600 cells, conducting wall (E_z = 0) with a 60-cell (3\u03bb) opening, continuous-wave line source\nwith a soft ramp, graded conductivity sponge at the edges. After steady state, time-averaged |E_z|\u00b2 sampled on a semicircle of radius 12\u03bb\nbehind the slit.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "First diffraction null angle (sin \u03b8 = \u03bb/a)",
+   "predicted": 19.47122063449069,
+   "measured": 20.0,
+   "unit": "\u00b0",
+   "error": 2.7156970558519866,
+   "error_str": "+2.72 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Main-lobe full width at half maximum",
+   "predicted": 16.5,
+   "measured": 17.5,
+   "unit": "\u00b0",
+   "error": 6.0606060606060606,
+   "error_str": "+6.06 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/slit.png"
+ ],
+ "runtime_s": 4.17,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL123-2d-fdtd-scattering"
+}

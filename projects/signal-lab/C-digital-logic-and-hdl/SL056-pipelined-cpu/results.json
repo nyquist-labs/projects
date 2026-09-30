@@ -1,0 +1,136 @@
+{
+ "meta": {
+  "id": "SL-056",
+  "title": "5-stage pipelined RISC-V with forwarding and hazards",
+  "level": "H",
+  "tools": "Verilog RTL, Python ISS + hazard-counting cycle model, Icarus Verilog",
+  "summary": "Pipeline the SL-055 core into IF/ID/EX/MEM/WB with full forwarding, a load-use interlock and branch flushing; predict each program's cycle count from its instruction trace and compare with the RTL.",
+  "problem": "Pipelining overlaps five instructions at once. Where does that break (data and control hazards), and can the exact cycle count be predicted from the program alone?",
+  "theory": "Ideal pipeline: $N + 4$ cycles for N instructions (fill). Forwarding from EX/MEM and MEM/WB removes all\nALU\u2192ALU stalls; a *load* followed immediately by a use still costs 1 bubble. Branches and jumps are\nresolved in EX, so a taken one flushes the 2 younger instructions:\n$$\\text{cycles}=N+4+\\#\\text{load-use}+2\\cdot\\#\\text{taken}$$\nCPI $=\\text{cycles}/N$. The ISS trace gives N, load-use pairs and taken branches exactly.",
+  "method": "Same four programs as SL-055. The testbench counts cycles until the halt instruction reaches write-back and\ndumps the architectural state; Python compares the state with the ISS and the cycle count with the formula\nabove evaluated on the ISS trace.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "sum_1_to_100: architectural-state mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "sum_1_to_100: cycles (N+4+load-use+2\u00b7taken)",
+   "predicted": 507.0,
+   "measured": 507.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "fibonacci_20: architectural-state mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "fibonacci_20: cycles (N+4+load-use+2\u00b7taken)",
+   "predicted": 187.0,
+   "measured": 187.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "bubble_sort_16: architectural-state mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "bubble_sort_16: cycles (N+4+load-use+2\u00b7taken)",
+   "predicted": 1460.0,
+   "measured": 1460.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "shift_add_multiply: architectural-state mismatches vs ISS",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "shift_add_multiply: cycles (N+4+load-use+2\u00b7taken)",
+   "predicted": 64.0,
+   "measured": 64.0,
+   "unit": "cycles",
+   "error": 0.0,
+   "error_str": "+0 cycles",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "sum_1_to_100: CPI",
+   "value": 1.662295081967213,
+   "unit": "",
+   "note": "N=305, load-use=0, flush slots=198"
+  },
+  {
+   "quantity": "fibonacci_20: CPI",
+   "value": 1.289655172413793,
+   "unit": "",
+   "note": "N=145, load-use=0, flush slots=38"
+  },
+  {
+   "quantity": "bubble_sort_16: CPI",
+   "value": 1.5145228215767634,
+   "unit": "",
+   "note": "N=964, load-use=120, flush slots=372"
+  },
+  {
+   "quantity": "shift_add_multiply: CPI",
+   "value": 1.5238095238095237,
+   "unit": "",
+   "note": "N=42, load-use=0, flush slots=18"
+  }
+ ],
+ "figures": [
+  "figures/cpi_breakdown.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL056-pipelined-cpu"
+}

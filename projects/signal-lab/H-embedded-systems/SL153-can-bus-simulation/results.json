@@ -1,0 +1,113 @@
+{
+ "meta": {
+  "id": "SL-153",
+  "title": "CAN bus: bit-wise arbitration, stuffing and worst-case latency",
+  "level": "H",
+  "tools": "C bit-level CAN 2.0A simulation (wired-AND bus, arbitration, bit stuffing, CRC-15) + response-time analysis",
+  "summary": "Simulate several ECUs contending for a 500 kbit/s CAN bus at the bit level: verify that the lowest identifier wins arbitration without destroying the frame, measure stuffed frame lengths, and compare worst-case message latencies with Tindell's CAN response-time analysis.",
+  "problem": "Cars connect dozens of controllers on one pair of wires. How does CAN decide who talks, and can you guarantee an airbag message's latency?",
+  "theory": "Dominant (0) overrides recessive (1) on the bus; each node transmits its ID MSB-first and backs off when it reads 0 after sending 1, so the lowest ID\nwins losslessly. A standard frame with 8 data bytes is 111 bits before stuffing; worst-case stuffing adds \u230a(34 + 8s \u2212 1)/4\u230b bits \u2192 135 bits (270 \u00b5s at\n500 kbit/s). Tindell RTA: $R_m=J_m+w_m+C_m$, $w_m=B_m+\\sum_{k\\in hp(m)}\\lceil\\frac{w_m+J_k+\\tau}{T_k}\\rceil C_k$ with blocking B_m = the longest lower-priority frame.",
+  "method": "Five periodic messages (IDs 0x100\u20260x500, periods 5, 10, 10, 20, 50 ms, 8 bytes) all released together at t = 0 (the critical\ninstant) with up to 40 \u00b5s of release jitter per period so queues keep colliding; 2 s of bus traffic at 500 kbit/s. Stuffing and\nCRC-15 (x\u00b9\u2075+x\u00b9\u2074+x\u00b9\u2070+x\u2078+x\u2077+x\u2074+x\u00b3+1) computed per frame. Measured worst response per message vs Tindell's bound.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Lowest ID wins every contested arbitration",
+   "predicted": 33.0,
+   "measured": 33.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Longest frame observed stays within the worst-case stuffing bound (\u2264 135 + 3 bits)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "ID 0x100: measured worst response \u2264 Tindell bound",
+   "predicted": 552.0,
+   "measured": 450.32279,
+   "unit": "\u00b5s",
+   "error": -101.67721,
+   "error_str": "-101.7 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": "bound assumes worst-case stuffing and the critical instant"
+  },
+  {
+   "quantity": "ID 0x200: measured worst response \u2264 Tindell bound",
+   "predicted": 828.0,
+   "measured": 682.859697,
+   "unit": "\u00b5s",
+   "error": -145.14030300000002,
+   "error_str": "-145.1 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": "bound assumes worst-case stuffing and the critical instant"
+  },
+  {
+   "quantity": "ID 0x300: measured worst response \u2264 Tindell bound",
+   "predicted": 1104.0,
+   "measured": 897.168092,
+   "unit": "\u00b5s",
+   "error": -206.831908,
+   "error_str": "-206.8 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": "bound assumes worst-case stuffing and the critical instant"
+  },
+  {
+   "quantity": "ID 0x400: measured worst response \u2264 Tindell bound",
+   "predicted": 1380.0,
+   "measured": 1131.949505,
+   "unit": "\u00b5s",
+   "error": -248.05049499999996,
+   "error_str": "-248.1 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": "bound assumes worst-case stuffing and the critical instant"
+  },
+  {
+   "quantity": "ID 0x500: measured worst response \u2264 Tindell bound",
+   "predicted": 1380.0,
+   "measured": 1150.0,
+   "unit": "\u00b5s",
+   "error": -230.0,
+   "error_str": "-230 \u00b5s",
+   "kind": "abs",
+   "ok": null,
+   "note": "bound assumes worst-case stuffing and the critical instant"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Contested arbitrations in 2 s",
+   "value": 33.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Stuffed frame length range observed (random data)",
+   "value": "113\u2013122 bits",
+   "unit": "",
+   "note": "111 + 3 unstuffed; random data rarely nears 138"
+  }
+ ],
+ "figures": [
+  "figures/can.png"
+ ],
+ "runtime_s": 0.5,
+ "folder": "projects/signal-lab/H-embedded-systems/SL153-can-bus-simulation"
+}

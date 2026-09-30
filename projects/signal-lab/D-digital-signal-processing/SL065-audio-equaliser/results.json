@@ -1,0 +1,119 @@
+{
+ "meta": {
+  "id": "SL-065",
+  "title": "Multi-band audio equaliser (peaking biquads)",
+  "level": "M",
+  "tools": "RBJ Audio-EQ-Cookbook biquads (own implementation), SciPy lfilter, real speech recording",
+  "summary": "A 5-band graphic equaliser built from peaking-EQ biquads; verify each band's centre gain and bandwidth against the design, then apply it to a real public-domain speech recording and compare before/after spectra.",
+  "problem": "How does a graphic EQ boost 3 kHz by 6 dB without touching the rest of the spectrum, and how independent are neighbouring bands?",
+  "theory": "RBJ peaking filter: $A=10^{G/40}$, $\\omega_0=2\\pi f_0/f_s$, $\\alpha=\\sin\\omega_0/(2Q)$;\n$b=[1+\\alpha A,\\,-2\\cos\\omega_0,\\,1-\\alpha A]$, $a=[1+\\alpha/A,\\,-2\\cos\\omega_0,\\,1-\\alpha/A]$.\nAt $f_0$ the gain is exactly G dB; far away it is 0 dB. Cascaded bands multiply (add in dB), so the total response\n\u2248 sum of the individual dB curves where bands overlap.",
+  "method": "Bands 125 Hz, 500 Hz, 1 kHz, 3 kHz, 8 kHz, Q = 1.4, gains {\u22126, +3, 0, +6, \u22129} dB at the speech file's sample\nrate. Measure each band alone, then the cascade vs the dB-sum prediction. Real audio: 'hello' spoken by a\nUS-English speaker (Wikimedia Commons, public domain). Output spectra by Welch's method.",
+  "data": "Real: public-domain speech recording 'En-us-hello.ogg' (Wikimedia Commons).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "125 Hz band: gain at centre",
+   "predicted": -6.0,
+   "measured": -5.999362582290098,
+   "unit": "dB",
+   "error": 0.0006374177099024436,
+   "error_str": "+6.3742e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "500 Hz band: gain at centre",
+   "predicted": 3.0,
+   "measured": 2.9999298719574408,
+   "unit": "dB",
+   "error": -7.012804255923655e-05,
+   "error_str": "-7.0128e-05 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "1000 Hz band: gain at centre",
+   "predicted": 0.0,
+   "measured": -9.643274665532871e-16,
+   "unit": "dB",
+   "error": -9.643274665532871e-16,
+   "error_str": "-9.6433e-16 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "3000 Hz band: gain at centre",
+   "predicted": 6.0,
+   "measured": 5.9992548182747765,
+   "unit": "dB",
+   "error": -0.0007451817252235315,
+   "error_str": "-7.4518e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "8000 Hz band: gain at centre",
+   "predicted": -9.0,
+   "measured": -8.997970409927243,
+   "unit": "dB",
+   "error": 0.002029590072757159,
+   "error_str": "+0.00203 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Cascade at 3 kHz vs dB-sum of bands",
+   "predicted": 5.326221850509166,
+   "measured": 5.326221850509164,
+   "unit": "dB",
+   "error": -1.7763568394002505e-15,
+   "error_str": "-1.7764e-15 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Cascade max deviation from dB-sum (whole band)",
+   "predicted": 0.0,
+   "measured": 8.132383655379272e-15,
+   "unit": "dB",
+   "error": 8.132383655379272e-15,
+   "error_str": "+8.1324e-15 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Speech spectrum change vs |H|\u00b2 (median error)",
+   "predicted": 0.0,
+   "measured": 0.00026884591671461067,
+   "unit": "dB",
+   "error": 0.00026884591671461067,
+   "error_str": "+2.6885e-04 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Recording length / sample rate",
+   "value": 0.4876190476190476,
+   "unit": "s",
+   "note": "44100 Hz"
+  }
+ ],
+ "figures": [
+  "figures/eq_response.png",
+  "figures/speech_spectra.png"
+ ],
+ "runtime_s": 0.15,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL065-audio-equaliser"
+}

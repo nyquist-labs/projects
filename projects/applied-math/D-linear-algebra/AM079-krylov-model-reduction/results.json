@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-079",
+  "title": "Krylov model-order reduction of a large RC network",
+  "level": "H",
+  "tools": "Descriptor model G x + C \u1e8b = b u of a 2000-node RC interconnect, Arnoldi/PRIMA projection onto a Krylov subspace, moment matching, passivity (congruence) and error vs order",
+  "summary": "Reduce a 2000-state RC interconnect model to 4\u201320 states by projecting onto the Krylov subspace of G\u207b\u00b9C, show that the reduced models match the first q moments of the transfer function exactly, stay passive, and track the full response to high accuracy.",
+  "problem": "Post-layout interconnect models have thousands of nodes. Can a 10-state model reproduce the behaviour that matters?",
+  "theory": "With H(s) = l\u1d40(G + sC)\u207b\u00b9b, expand around s = 0: moments $m_k = l^T(-G^{-1}C)^kG^{-1}b$. Projecting with an orthonormal basis V of $\\mathcal K_q(G^{-1}C, G^{-1}b)$ \u2014 the reduced model\n$(V^TGV, V^TCV, V^Tb, V^Tl)$ \u2014 matches the first q moments exactly (one-sided Arnoldi; 2q if l = b by symmetry for this RC case). Congruence projection (PRIMA) preserves positive definiteness, so the reduced model is\npassive (stable, all poles real negative for RC).",
+  "method": "RC tree: 2000 nodes attached to random earlier nodes (a random recursive tree, depth ~ ln n), resistors 10 \u03a9\u20131 k\u03a9, capacitors 1\u2013100 fF; 50 \u03a9 driver; input current at the root, output voltage at a far leaf (and at the root for the symmetric case). Orders q = 2\u202620.\nMoments computed directly; relative error of |H(j\u03c9)| over 1 kHz\u201310 GHz; eigenvalues of the reduced pencil. (A first network built as a chain\n~700 resistors deep had its far-leaf response cut off near 5 kHz, so a 1 MHz\u2013100 GHz sweep sampled only an exponentially small tail that no\nDC-expanded model can represent \u2014 the error looked like 10\u2075 %.)",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "q = 4: moments matched (one-sided Krylov: \u2265 q)",
+   "predicted": 4.0,
+   "measured": 4.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "q = 8: moments matched (one-sided Krylov: \u2265 q)",
+   "predicted": 8.0,
+   "measured": 10.0,
+   "unit": "",
+   "error": 2.0,
+   "error_str": "+2",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "All reduced models stable: largest pole real part < 0 (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "RC network \u21d2 reduced poles real (max |Im|/|Re| scale)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "q = 12: worst relative |H| error over 1 kHz\u201310 GHz (my guess < 0.1 %)",
+   "predicted": 0.0,
+   "measured": 0.0422089054772386,
+   "unit": "",
+   "error": 0.0422089054772386,
+   "error_str": "+0.04221",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "q = 20: worst relative error",
+   "value": 0.001700165895923795,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/mor.png"
+ ],
+ "runtime_s": 0.47,
+ "folder": "projects/applied-math/D-linear-algebra/AM079-krylov-model-reduction"
+}

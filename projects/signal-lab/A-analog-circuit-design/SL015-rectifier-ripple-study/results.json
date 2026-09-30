@@ -1,0 +1,139 @@
+{
+ "meta": {
+  "id": "SL-015",
+  "title": "Rectifier and reservoir-capacitor ripple study",
+  "level": "E",
+  "tools": "eelab mini-SPICE transient (1N4001-class diode model)",
+  "summary": "Half-wave vs full-wave bridge rectifiers feeding a 100 \u03a9 load: predict ripple from V_p/(f\u00b7R\u00b7C) and measure it for three capacitor sizes.",
+  "problem": "How big must the reservoir capacitor be, and why does a full-wave bridge halve the ripple for the same capacitor?",
+  "theory": "Between recharges the capacitor supplies the load almost linearly, so\n$$V_{r,pp}\\approx\\frac{V_{p}}{f_r R C},\\qquad f_r = f \\text{ (half-wave)},\\ 2f\\text{ (full-wave)}$$\nwith $V_p$ the peak after diode drops ($V_p = 12\\sqrt2 - V_D$ half-wave, $-2V_D$ bridge). 60 Hz, 12 V RMS,\nR = 100 \u03a9, C \u2208 {470, 1000, 2200} \u00b5F.",
+  "method": "1N4001-like diode (Is = 14 nA, N = 1.98, Rs = 34 m\u03a9), 0.5 \u03a9 transformer winding resistance. 250 ms\ntransient (backward Euler, 20 \u00b5s step); ripple = max \u2212 min of the output over the last 50 ms.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "half-wave, C = 470 \u00b5F: ripple (pk-pk)",
+   "predicted": 5.647197040460839,
+   "measured": 4.16978324416219,
+   "unit": "V",
+   "error": -26.161895639789563,
+   "error_str": "-26.16 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "half-wave, C = 1000 \u00b5F: ripple (pk-pk)",
+   "predicted": 2.6153881226710247,
+   "measured": 2.1265832017258273,
+   "unit": "V",
+   "error": -18.68957485537536,
+   "error_str": "-18.69 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "half-wave, C = 2200 \u00b5F: ripple (pk-pk)",
+   "predicted": 1.1659849350302025,
+   "measured": 0.9917416208604486,
+   "unit": "V",
+   "error": -14.943873538575392,
+   "error_str": "-14.94 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "full-wave, C = 470 \u00b5F: ripple (pk-pk)",
+   "predicted": 2.6665574670231664,
+   "measured": 1.9190590481116452,
+   "unit": "V",
+   "error": -28.032338629701364,
+   "error_str": "-28.03 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "full-wave, C = 1000 \u00b5F: ripple (pk-pk)",
+   "predicted": 1.2370101244110876,
+   "measured": 0.9418904889184816,
+   "unit": "V",
+   "error": -23.857495558745388,
+   "error_str": "-23.86 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "full-wave, C = 2200 \u00b5F: ripple (pk-pk)",
+   "predicted": 0.5558021801586926,
+   "measured": 0.43329779245583033,
+   "unit": "V",
+   "error": -22.041005249005117,
+   "error_str": "-22.04 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "half-wave, 470 \u00b5F: exponential-decay estimate",
+   "value": 4.754485020223053,
+   "unit": "V",
+   "note": "V_p(1\u2212e^(\u2212T/RC))"
+  },
+  {
+   "quantity": "half-wave, 1000 \u00b5F: exponential-decay estimate",
+   "value": 2.4090592400041837,
+   "unit": "V",
+   "note": "V_p(1\u2212e^(\u2212T/RC))"
+  },
+  {
+   "quantity": "half-wave, 2200 \u00b5F: exponential-decay estimate",
+   "value": 1.1229133373030344,
+   "unit": "V",
+   "note": "V_p(1\u2212e^(\u2212T/RC))"
+  },
+  {
+   "quantity": "full-wave, 470 \u00b5F: exponential-decay estimate",
+   "value": 2.443534005025962,
+   "unit": "V",
+   "note": "V_p(1\u2212e^(\u2212T/RC))"
+  },
+  {
+   "quantity": "full-wave, 1000 \u00b5F: exponential-decay estimate",
+   "value": 1.1868704232809055,
+   "unit": "V",
+   "note": "V_p(1\u2212e^(\u2212T/RC))"
+  },
+  {
+   "quantity": "full-wave, 2200 \u00b5F: exponential-decay estimate",
+   "value": 0.5454072856301488,
+   "unit": "V",
+   "note": "V_p(1\u2212e^(\u2212T/RC))"
+  },
+  {
+   "quantity": "Peak output, half-wave (1000 \u00b5F)",
+   "value": 15.692328736026148,
+   "unit": "V",
+   "note": "diode drop \u2248 1.28 V"
+  },
+  {
+   "quantity": "Peak output, bridge (1000 \u00b5F)",
+   "value": 14.844121492933052,
+   "unit": "V",
+   "note": "two diode drops \u2248 2.13 V"
+  }
+ ],
+ "figures": [
+  "figures/ripple_waveforms.png",
+  "figures/ripple_vs_c.png"
+ ],
+ "runtime_s": 5.02,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL015-rectifier-ripple-study"
+}

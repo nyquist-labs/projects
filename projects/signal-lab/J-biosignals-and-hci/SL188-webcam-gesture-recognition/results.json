@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "SL-188",
+  "title": "Webcam gesture control in the browser",
+  "level": "M",
+  "tools": "MediaPipe Hand Landmarker (in-browser, CDN), rule-based pose classifier in JavaScript, pinch-to-click with hysteresis, EMA pointer smoothing; Node.js test harness with a 3-D kinematic hand model",
+  "summary": "A web page that tracks your hand with the webcam and drives a six-tile interface by pointing and pinching; the gesture classifier is tested offline by running the same JavaScript on thousands of synthetic hands, and its noise tolerance and the pointer smoother's jitter/lag trade-off are predicted analytically first.",
+  "problem": "A hand tracker returns 21 noisy points per frame. How robust is a simple 'which fingers are extended' rule, and how much smoothing can a pointer take before it feels laggy?",
+  "theory": "**Classifier.** A finger counts as extended when $d(\\text{tip},\\text{wrist}) > 1.1\\,d(\\text{PIP},\\text{wrist})$. With landmark noise \u03c3 (in palm lengths) the statistic\n$s=d_\\text{tip}-1.1\\,d_\\text{PIP}$ gets noise of standard deviation \u2248 $\u03c3\\sqrt{1+1.1^2+(1-1.1)^2}$ (the wrist's noise mostly cancels), so a finger with\nnoise-free margin $s_0$ flips with probability $\u03a6(-|s_0|/\u03c3_s)$, and a pose is correct only if all five fingers are: $P=\\prod_f \u03a6(|s_{0,f}|/\u03c3_s)$.\n\n**Smoother.** An exponential moving average $y_n=\u03b1x_n+(1-\u03b1)y_{n-1}$ reduces white jitter variance by $\u03b1/(2-\u03b1)$ and makes a steadily moving cursor lag\n$(1-\u03b1)/\u03b1$ frames. For \u03b1 = 0.35: jitter \u00d7 0.46, lag 1.9 frames \u2248 62 ms at 30 fps.",
+  "method": "3-D kinematic hand (palm length 1; finger segments with joint flexion ~0\u201310\u00b0 when extended, ~70\u00b0/100\u00b0/60\u00b0 when curled, \u00b112\u00b0 variation), random in-plane rotation,\nscale and 30\u00b0 out-of-plane tilt, orthographic projection \u2192 21 landmarks for six poses. Gaussian noise \u03c3 = 0\u20130.15 added; the page's own `gesture.js`\nclassifies them under Node (6000 hands per \u03c3). Prediction uses the noise-free margins of the same hands. EMA tested on a ramp plus white jitter.",
+  "data": "Synthetic hands from a kinematic model (MediaPipe's own training data is not public); the live page uses your webcam.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "J. Biosignals & HCI (real patient data)"
+ },
+ "rows": [
+  {
+   "quantity": "Noise-free accuracy over pose variation (all poses)",
+   "predicted": 100.0,
+   "measured": 99.61666666666666,
+   "unit": "%",
+   "error": -0.38333333333333997,
+   "error_str": "-0.383 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Accuracy with landmark noise \u03c3 = 0.03 palm lengths",
+   "predicted": 98.53470486221912,
+   "measured": 98.51666666666667,
+   "unit": "%",
+   "error": -0.018038195552449565,
+   "error_str": "-0.018 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Accuracy with landmark noise \u03c3 = 0.07 palm lengths",
+   "predicted": 93.14514108096027,
+   "measured": 93.5,
+   "unit": "%",
+   "error": 0.354858919039728,
+   "error_str": "+0.355 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Accuracy with landmark noise \u03c3 = 0.15 palm lengths",
+   "predicted": 73.0776422413556,
+   "measured": 71.31666666666666,
+   "unit": "%",
+   "error": -1.760975574688942,
+   "error_str": "-1.76 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "EMA jitter reduction (std ratio) = \u221a(\u03b1/(2\u2212\u03b1))",
+   "predicted": 0.4605661864718383,
+   "measured": 0.4597886925517844,
+   "unit": "",
+   "error": -0.16881263603172156,
+   "error_str": "-0.17 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "EMA lag on a moving cursor = (1\u2212\u03b1)/\u03b1 frames",
+   "predicted": 1.8571428571428574,
+   "measured": 1.857142857142938,
+   "unit": "frames",
+   "error": 4.3401180085731115e-12,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Finger with the smallest mean margin",
+   "value": "thumb",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/gesture.png",
+  "figures/poses.png"
+ ],
+ "runtime_s": 3.12,
+ "folder": "projects/signal-lab/J-biosignals-and-hci/SL188-webcam-gesture-recognition"
+}

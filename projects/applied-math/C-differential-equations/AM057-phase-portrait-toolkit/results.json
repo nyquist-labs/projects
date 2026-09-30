@@ -1,0 +1,64 @@
+{
+ "meta": {
+  "id": "AM-057",
+  "title": "Phase-portrait toolkit: equilibria, classification and trajectories",
+  "level": "M",
+  "tools": "Generic 2-D toolkit: equilibrium finding (multi-start Newton), numerical Jacobians, trace/determinant classification, streamplots and trajectories; applied to a tunnel-diode circuit, a damped pendulum and a predator\u2013prey model",
+  "summary": "Build a reusable tool that finds and classifies all equilibria of any planar system and draws its phase portrait, then verify each classification by simulating trajectories that start near the equilibrium \u2014 on three systems including a tunnel-diode circuit.",
+  "problem": "For a 2-D nonlinear system, can the local linearisation predict what trajectories actually do?",
+  "theory": "At an equilibrium with Jacobian J: det J < 0 \u2192 saddle; det > 0 and tr < 0 \u2192 stable (node if tr\u00b2 > 4 det, focus otherwise); tr > 0 \u2192 unstable; tr = 0 \u2192 centre (linearly \u2014 nonlinear terms decide).\nHartman\u2013Grobman: hyperbolic equilibria look like their linearisation. Tunnel-diode circuit: $C\\dot V = -h(V) + I$, $L\\dot I = -V - RI + E$ with the N-shaped h(V) \u2014 biased on the negative-slope region it can\nhave three equilibria (two stable, one saddle): a memory cell.",
+  "method": "Equilibria: fsolve from a 30\u00d730 grid of starts, clustered. Classification from J (central differences). Verification: start 10 trajectories on a small circle (radius 1e-3 scaled) around each\nequilibrium; count how many return (stable), leave (unstable) or split (saddle). Systems: tunnel diode (Chua's cubic model), damped pendulum, Lotka\u2013Volterra.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Equilibria whose simulated neighbourhood behaves as the Jacobian classification predicts",
+   "predicted": 8.0,
+   "measured": 8.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Tunnel-diode circuit has 3 equilibria (bistable memory)",
+   "predicted": 3.0,
+   "measured": 3.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "tunnel-diode memory circuit: equilibria",
+   "value": "(0.06, 0.76) stable node; (0.29, 0.61) saddle; (0.88, 0.21) stable node",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "damped pendulum: equilibria",
+   "value": "(-3.14, 0.00) saddle; (3.14, 0.00) saddle; (0.00, 0.00) stable focus",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Lotka\u2013Volterra: equilibria",
+   "value": "(0.00, 0.00) saddle; (1.00, 1.00) centre",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/phase_portraits.png"
+ ],
+ "runtime_s": 2.13,
+ "folder": "projects/applied-math/C-differential-equations/AM057-phase-portrait-toolkit"
+}

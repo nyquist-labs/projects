@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "id": "AM-037",
+  "title": "The DCT and image compression \u2014 on a real satellite image",
+  "level": "M",
+  "tools": "Own orthonormal DCT-II matrix, AR(1) energy-compaction analysis vs the DFT and the optimal KLT, a mini JPEG-style 8\u00d78 block coder, NOAA-18 APT image decoded from real audio",
+  "summary": "Show why the DCT compacts energy almost as well as the optimal Karhunen\u2013Lo\u00e8ve transform for correlated signals, then build a block-DCT image coder and measure quality versus bits per pixel on a real NOAA weather-satellite image.",
+  "problem": "Why does JPEG use the DCT rather than the DFT, and how many bits does an image really need?",
+  "theory": "For a first-order Markov (AR(1)) source with correlation \u03c1 \u2192 1, the KLT basis converges to the DCT-II basis, so the DCT packs most energy into few coefficients; the DFT, which\nimplicitly makes the block periodic, leaks energy from the jump at the block edge. Predicted: with \u03c1 = 0.95 and N = 8, the first 2 DCT coefficients hold \u2248 90 % of the energy,\nwithin ~0.5 % of the KLT, and clearly more than the first coefficients of the DFT. Coding: uniform quantisation step q gives MSE \u2248 q\u00b2/12 per retained coefficient; rate\nestimated by the zeroth-order entropy of the quantised coefficients.",
+  "method": "AR(1) covariance R_ij = \u03c1^|i\u2212j|: compaction curves for KLT (eigenvectors), DCT, DFT (real/imag packing). Image: NOAA-18 APT channel B from SatNOGS observation 11229309, 512\u00d7512 crop,\n8-bit. 8\u00d78 block DCT, uniform quantiser with step q \u2208 [2, 80], entropy per pixel, PSNR; the same coder with a block DFT for comparison.",
+  "data": "Real: NOAA-18 APT image decoded from SatNOGS observation 11229309 (CC BY-SA 4.0).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "B. Fourier analysis & transforms"
+ },
+ "rows": [
+  {
+   "quantity": "DCT matrix orthonormal: max |CC\u1d40 \u2212 I|",
+   "predicted": 0.0,
+   "measured": 1.3977576436864177e-15,
+   "unit": "",
+   "error": 1.3977576436864177e-15,
+   "error_str": "+1.3978e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Energy in the first 2 DCT coefficients vs KLT (\u03c1 = 0.95, N = 8)",
+   "predicted": 0.9506759198428627,
+   "measured": 0.9499808563706484,
+   "unit": "",
+   "error": -0.07311255683526208,
+   "error_str": "-0.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Quantisation step 16: MSE \u2248 q\u00b2/12 (PSNR prediction, uniform-noise model)",
+   "predicted": 34.84021641603685,
+   "measured": 36.64641981924342,
+   "unit": "dB",
+   "error": 1.8062034032065668,
+   "error_str": "+1.806 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Energy in 2 largest coefficients: KLT / DCT / DFT",
+   "value": "95.07 / 95.00 / 91.77 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "At step 16: entropy rate / PSNR",
+   "value": "1.88 bit/pixel / 36.6 dB",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "PSNR at \u2248 1 bit/pixel: block DCT vs block DFT",
+   "value": "29.8 dB vs 30.0 dB",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/dct.png"
+ ],
+ "runtime_s": 2.34,
+ "folder": "projects/applied-math/B-fourier-analysis-and-transforms/AM037-dct-and-compression"
+}

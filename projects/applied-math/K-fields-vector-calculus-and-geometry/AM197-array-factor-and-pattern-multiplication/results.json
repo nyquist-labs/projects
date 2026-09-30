@@ -1,0 +1,141 @@
+{
+ "meta": {
+  "id": "AM-197",
+  "title": "Antenna arrays: array factor, beam steering and pattern multiplication",
+  "level": "M",
+  "tools": "Array-factor evaluation for linear arrays, closed-form beamwidth, sidelobe and grating-lobe predictions, Dolph\u2013Chebyshev synthesis from Chebyshev polynomials, pattern multiplication with an element pattern, validation of pattern multiplication against a full moment-method model that includes mutual coupling",
+  "summary": "Design linear arrays from the array factor: verify null positions, the \u221213.3 dB first sidelobe and the grating-lobe condition, steer the beam with phase shifts, synthesise a \u221230 dB equal-sidelobe Chebyshev taper, and test pattern multiplication against a moment-method model of four real dipoles.",
+  "problem": "How do N identical antennas combine into a steerable beam, and how far can the simple 'element \u00d7 array factor' picture be trusted?",
+  "theory": "N elements spaced d with progressive phase \u03b2: $AF(\u03b8)=\\sum_n a_ne^{jn(kd\\cos\u03b8+\u03b2)}$; uniform weights give $|AF|=\\left|\\frac{\\sin(N\u03c8/2)}{N\\sin(\u03c8/2)}\\right|$, \u03c8 = kd cos\u03b8 + \u03b2. First null at \u03c8 = 2\u03c0/N; first sidelobe \u221213.26 dB for large N; beam points where \u03c8 = 0, i.e. \u03b2 = \u2212kd cos\u03b8\u2080. Grating lobes appear when\n$d/\u03bb>1/(1+|\\cos\u03b8_0|)$. Dolph\u2013Chebyshev weights make all sidelobes equal to a chosen level R with the narrowest main lobe. Pattern multiplication: total = element pattern \u00d7 AF \u2014 exact only if all elements carry identical currents, which mutual coupling breaks.",
+  "method": "Broadside/endfire geometry along z, \u03b8 from the array axis. Uniform N = 8 and N = 32, d = \u03bb/2; steering to \u03b8\u2080 = 60\u00b0; grating-lobe scan over d. Chebyshev: N = 10, \u221230 dB. MoM: 4 parallel half-wave dipoles (along z, spaced 0.5\u03bb along x),\nall fed with 1 V, azimuthal pattern compared with the single-dipole pattern \u00d7 AF.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "N = 8, d = \u03bb/2 broadside: first null at arcsin(2/N) from broadside",
+   "predicted": 14.477512185929925,
+   "measured": 14.481,
+   "unit": "\u00b0",
+   "error": 0.024091252870536716,
+   "error_str": "+0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 8: first sidelobe level (\u221213.26 dB for large N)",
+   "predicted": -12.8,
+   "measured": -12.797347839217288,
+   "unit": "dB",
+   "error": 0.002652160782712798,
+   "error_str": "+0.002652 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 32, d = \u03bb/2 broadside: first null at arcsin(2/N) from broadside",
+   "predicted": 3.583321698471973,
+   "measured": 3.582000000000001,
+   "unit": "\u00b0",
+   "error": -0.036884728282568946,
+   "error_str": "-0.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 32: first sidelobe level (\u221213.26 dB for large N)",
+   "predicted": -13.26,
+   "measured": -13.232887281799597,
+   "unit": "dB",
+   "error": 0.027112718200402952,
+   "error_str": "+0.02711 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Steering: \u03b2 = \u2212kd cos \u03b8\u2080 puts the beam at \u03b8\u2080 = 60\u00b0",
+   "predicted": 60.0,
+   "measured": 60.003,
+   "unit": "\u00b0",
+   "error": 0.0030000000000001137,
+   "error_str": "+0.003 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Grating lobe first appears (16 elements, steered to 60\u00b0) at d/\u03bb \u2248 1/(1 + |cos \u03b8\u2080|)",
+   "predicted": 0.6666666666666666,
+   "measured": 0.66,
+   "unit": "\u03bb",
+   "error": -0.9999999999999898,
+   "error_str": "-1.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Dolph\u2013Chebyshev N = 10, \u221230 dB: highest sidelobe",
+   "predicted": -30.0,
+   "measured": -30.000000001448246,
+   "unit": "dB",
+   "error": -1.4482459675946302e-09,
+   "error_str": "-1.4482e-09 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 all sidelobes equal (spread between highest and lowest local maxima)",
+   "predicted": 0.0,
+   "measured": 5.07166518559643e-07,
+   "unit": "dB",
+   "error": 5.07166518559643e-07,
+   "error_str": "+5.0717e-07 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pattern multiplication vs full MoM with coupling: worst pattern difference (normalised amplitude)",
+   "predicted": 0.0,
+   "measured": 0.0866549043020498,
+   "unit": "",
+   "error": 0.0866549043020498,
+   "error_str": "+0.08665",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Half-power beamwidth, N = 10: uniform / Chebyshev \u221230 dB",
+   "value": "10.2\u00b0 / 13.1\u00b0",
+   "unit": "",
+   "note": "lower sidelobes cost a wider main lobe"
+  },
+  {
+   "quantity": "Chebyshev weights (normalised to the edge element)",
+   "value": "1.00, 1.67, 2.60, 3.41, 3.88",
+   "unit": "",
+   "note": "symmetric"
+  },
+  {
+   "quantity": "Feed currents of the 4 equally driven dipoles (magnitude relative to the outer one)",
+   "value": "1.00, 1.24, 1.24, 1.00",
+   "unit": "",
+   "note": "coupling makes 'identical elements' carry different currents"
+  }
+ ],
+ "figures": [
+  "figures/arrays.png"
+ ],
+ "runtime_s": 1.06,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM197-array-factor-and-pattern-multiplication"
+}

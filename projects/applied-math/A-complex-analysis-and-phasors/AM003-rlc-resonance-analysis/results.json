@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-003",
+  "title": "RLC resonance: Q is the pole's distance from the j\u03c9 axis",
+  "level": "M",
+  "tools": "Characteristic-polynomial roots (NumPy), AC simulation of a series RLC, bandwidth measurement",
+  "summary": "Locate the poles of a series RLC circuit in the complex plane, predict the quality factor from their geometry, and confirm it by measuring the \u22123 dB bandwidth of the simulated resonance for resistances spanning Q = 0.5 to 50.",
+  "problem": "What does 'high Q' look like in the s-plane?",
+  "theory": "The current in a series RLC obeys $Ls^2+Rs+1/C=0$: poles $s=-\u03b1\\pm j\u03c9_d$ with $\u03b1=R/2L$, $\u03c9_0=1/\\sqrt{LC}$ = |s|. Hence $Q=\\frac{\u03c9_0}{2\u03b1}=\\frac{|s|}{2|\\mathrm{Re}\\,s|}$ \u2014\na pole close to the imaginary axis relative to its distance from the origin means a sharp resonance. The \u22123 dB bandwidth of the current response is exactly\n$\u0394\u03c9 = 2\u03b1 = \u03c9_0/Q$ (for any Q, since the admittance is a band-pass with that bandwidth).",
+  "method": "L = 1 mH, C = 1 \u00b5F (f0 = 5.03 kHz), R from 0.63 \u03a9 to 63 \u03a9. Poles from numpy.roots; AC sweep of the loop current; bandwidth from the two \u22123 dB crossings.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "R = 63.2 \u03a9: Q from pole geometry vs from simulated bandwidth",
+   "predicted": 0.5,
+   "measured": 0.4998560605336643,
+   "unit": "",
+   "error": -0.028787893267134823,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 6.32 \u03a9: Q from pole geometry vs from simulated bandwidth",
+   "predicted": 4.999999999999999,
+   "measured": 4.99851668014798,
+   "unit": "",
+   "error": -0.029666397040379884,
+   "error_str": "-0.03 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "R = 0.632 \u03a9: Q from pole geometry vs from simulated bandwidth",
+   "predicted": 49.999999999999964,
+   "measured": 49.940179251876586,
+   "unit": "",
+   "error": -0.1196414962467572,
+   "error_str": "-0.12 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Pole magnitude |s| = \u03c90 for every R (worst deviation)",
+   "predicted": 0.0,
+   "measured": 1.1504299109832135e-16,
+   "unit": "",
+   "error": 1.1504299109832135e-16,
+   "error_str": "+1.1504e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/poles_q.png"
+ ],
+ "runtime_s": 3.99,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM003-rlc-resonance-analysis"
+}

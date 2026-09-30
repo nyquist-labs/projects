@@ -1,0 +1,102 @@
+{
+ "meta": {
+  "id": "SL-125",
+  "title": "Microstrip impedance: formula vs 2-D field solver",
+  "level": "M",
+  "tools": "Finite-difference Laplace solver for a microstrip cross-section (SciPy sparse), Hammerstad\u2013Jensen formulas",
+  "summary": "Compute the characteristic impedance and effective permittivity of microstrip on FR-4 for several widths by solving Laplace's equation twice (with and without the dielectric) and compare with the Hammerstad\u2013Jensen closed form used by every PCB calculator.",
+  "problem": "What trace width gives 50 \u03a9 on a 1.6 mm FR-4 board \u2014 and how far can you trust the formula PCB tools use?",
+  "theory": "Quasi-TEM: $Z_0=\\frac{1}{c\\sqrt{CC_0}}$, $\\varepsilon_{eff}=C/C_0$, where C (C\u2080) is the capacitance per length with (without) the\ndielectric. Hammerstad\u2013Jensen: $\\varepsilon_{eff}=\\frac{\\varepsilon_r+1}{2}+\\frac{\\varepsilon_r-1}{2}\\left(1+\\frac{12h}{w}\\right)^{-1/2}$ and for w/h \u2265 1\n$Z_0=\\frac{120\\pi}{\\sqrt{\\varepsilon_{eff}}\\,[w/h+1.393+0.667\\ln(w/h+1.444)]}$; accurate to ~1 %.",
+  "method": "h = 1.6 mm, \u03b5_r = 4.4, zero-thickness strip, shielding box 30h \u00d7 15h, uniform grids of 0.2 and 0.1 mm, conductor at 1 V, box at 0 V; charge\nfrom Gauss's law around the strip; Richardson extrapolation with the singularity's convergence order \u00bd: Z = Z_f + (Z_f \u2212 Z_c)/(\u221a2 \u2212 1). Widths 1.2\u20136.0 mm, chosen as multiples of 0.4 mm so the strip edges sit exactly on grid nodes for both grid sizes\n(otherwise the strip's effective width changes with \u0394 and the extrapolation is meaningless \u2014 which a first attempt demonstrated).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "G. Electromagnetics & device physics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "w = 1.2 mm: Z\u2080 (FD, Richardson order \u00bd, vs Hammerstad\u2013Jensen)",
+   "predicted": 81.09910171788994,
+   "measured": 81.19368808585436,
+   "unit": "\u03a9",
+   "error": 0.11663059881162607,
+   "error_str": "+0.12 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "w = 2.0 mm: Z\u2080 (FD, Richardson order \u00bd, vs Hammerstad\u2013Jensen)",
+   "predicted": 63.56472406914646,
+   "measured": 63.77019871604648,
+   "unit": "\u03a9",
+   "error": 0.32325263722769315,
+   "error_str": "+0.32 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "w = 2.8 mm: Z\u2080 (FD, Richardson order \u00bd, vs Hammerstad\u2013Jensen)",
+   "predicted": 52.921411155909986,
+   "measured": 52.923779882120506,
+   "unit": "\u03a9",
+   "error": 0.004475931685837784,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "w = 2.8 mm: \u03b5_eff (extrapolated)",
+   "predicted": 3.3064801578107748,
+   "measured": 3.28551169090893,
+   "unit": "",
+   "error": -0.6341627924883079,
+   "error_str": "-0.63 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "w = 4.0 mm: Z\u2080 (FD, Richardson order \u00bd, vs Hammerstad\u2013Jensen)",
+   "predicted": 42.48431247018554,
+   "measured": 42.40296807042264,
+   "unit": "\u03a9",
+   "error": -0.191469262495399,
+   "error_str": "-0.19 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "w = 6.0 mm: Z\u2080 (FD, Richardson order \u00bd, vs Hammerstad\u2013Jensen)",
+   "predicted": 32.14828568497225,
+   "measured": 32.039784685939516,
+   "unit": "\u03a9",
+   "error": -0.33750166368421297,
+   "error_str": "-0.34 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "w = 1.2 mm raw FD Z\u2080 at \u0394 = 0.2 / 0.1 mm",
+   "value": "71.13 / 74.08 \u03a9",
+   "unit": "",
+   "note": "error shrinks only ~\u221a2 per halving of \u0394"
+  },
+  {
+   "quantity": "Width for 50 \u03a9 on 1.6 mm FR-4 (field solver)",
+   "value": 3.133485278640147,
+   "unit": "mm",
+   "note": "PCB-calculator rule of thumb \u2248 3.0 mm"
+  }
+ ],
+ "figures": [
+  "figures/microstrip.png"
+ ],
+ "runtime_s": 17.09,
+ "folder": "projects/signal-lab/G-electromagnetics-and-device-physics/SL125-microstrip-calculator"
+}

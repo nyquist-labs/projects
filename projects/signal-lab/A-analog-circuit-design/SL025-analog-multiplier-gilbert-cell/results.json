@@ -1,0 +1,70 @@
+{
+ "meta": {
+  "id": "SL-025",
+  "title": "Four-quadrant analog multiplier (Gilbert cell)",
+  "level": "H",
+  "tools": "eelab mini-SPICE (6-transistor Gilbert cell), DC sweeps + FFT of mixing products",
+  "summary": "Build a Gilbert cell, verify \u0394I = I_EE\u00b7tanh(v\u2081/2V_T)\u00b7tanh(v\u2082/2V_T) in all four quadrants, then use it to mix 10 kHz and 11 kHz into 1 kHz and 21 kHz.",
+  "problem": "How do six transistors multiply two voltages, and how clean are the sum and difference frequencies when the multiplier is used as a mixer?",
+  "theory": "The lower pair splits $I_{EE}$ by $\\tanh(v_2/2V_T)$; each upper pair splits its share by $\\tanh(v_1/2V_T)$,\nand the cross-coupled collectors subtract:\n$$\\Delta I = \\alpha^2 I_{EE}\\tanh\\frac{v_1}{2V_T}\\tanh\\frac{v_2}{2V_T}\\approx \\frac{I_{EE}}{4V_T^2}v_1v_2$$\nMixing $v_1=A\\cos\\omega_1t$, $v_2=B\\cos\\omega_2t$ gives $\\frac{AB}{2}[\\cos(\\omega_1-\\omega_2)t+\\cos(\\omega_1+\\omega_2)t]$,\nso each product's output amplitude is $R_C\\frac{I_{EE}}{4V_T^2}\\frac{AB}{2}$.",
+  "method": "V_CC = 12 V, R_C = 2 k\u03a9, I_EE = 1 mA, upper bases at 6 V, lower at 3 V, \u03b2 = 200. DC sweeps of v\u2081 for five v\u2082\nvalues; then a transient with A = B = 10 mV at 10 kHz and 11 kHz, spectrum of the differential output.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u0394V_out at v\u2081 = 20 mV, v\u2082 = 30 mV",
+   "predicted": 0.38012172827568347,
+   "measured": 0.3801217243934529,
+   "unit": "V",
+   "error": -1.0213124648691665e-06,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Difference product (1 kHz) amplitude",
+   "predicted": 0.03703561754754156,
+   "measured": 0.03634613517261196,
+   "unit": "V",
+   "error": -1.8616737632213929,
+   "error_str": "-1.86 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Sum product (21 kHz) amplitude",
+   "predicted": 0.03703561754754156,
+   "measured": 0.03634552651521474,
+   "unit": "V",
+   "error": -1.8633172011806434,
+   "error_str": "-1.86 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Feedthrough of 10 kHz input",
+   "value": 6.799698268472068e-08,
+   "unit": "V",
+   "note": "ideal balanced cell: 0"
+  },
+  {
+   "quantity": "Multiplier constant K = R_C\u00b7I_EE/(4V_T\u00b2)",
+   "value": 740.7123509508311,
+   "unit": "1/V",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/transfer.png",
+  "figures/mixer_spectrum.png"
+ ],
+ "runtime_s": 3.94,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL025-analog-multiplier-gilbert-cell"
+}

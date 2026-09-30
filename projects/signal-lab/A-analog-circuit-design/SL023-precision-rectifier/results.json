@@ -1,0 +1,101 @@
+{
+ "meta": {
+  "id": "SL-023",
+  "title": "Precision (super-diode) rectifier",
+  "level": "M",
+  "tools": "eelab mini-SPICE transient (op-amp macromodel)",
+  "summary": "Put the diode inside an op-amp's feedback loop to rectify millivolt signals: measure the error vs a plain diode, and the frequency where slew rate breaks it.",
+  "problem": "A silicon diode can't rectify anything smaller than ~0.6 V. How does an op-amp hide the diode drop, and what new limitation appears?",
+  "theory": "Plain diode half-wave rectifier: output \u2248 $\\max(v_{in}-V_D,0)$, so a 100 mV signal gives nothing.\nSuper-diode: the op-amp drives the diode until the output equals the input; the effective drop is\n$V_D/A_0$ \u2248 3 \u00b5V. Mean of a half-wave-rectified sine: $\\hat V/\\pi$.\nLimitation: when the input crosses zero, the op-amp output must slew from negative saturation up by\n$V_D$ before conduction resumes \u2014 a dead time \u2248 $(V_{int}+V_D)/SR$ each cycle, where $V_{int}$ is how far the op-amp's internal node has saturated (1.5\u00b7V_sat = 19.5 V in this macromodel), so error grows with frequency.",
+  "method": "Super-diode (non-inverting, diode in feedback, 10 k\u03a9 load) vs a plain diode into 10 k\u03a9. Sine inputs of 50 mV\u20132 V\nat 1 kHz, and 1 V at 1\u2013100 kHz. Output mean compared with V\u0302/\u03c0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "plain: mean output at 100 mV peak",
+   "predicted": 0.03183098861837907,
+   "measured": 4.103824606813197e-05,
+   "unit": "V",
+   "error": -99.87107454763616,
+   "error_str": "-99.87 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "plain: mean output at 1 V peak",
+   "predicted": 0.3183098861837907,
+   "measured": 0.1353481888971442,
+   "unit": "V",
+   "error": -57.479112408404816,
+   "error_str": "-57.48 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "precision: mean output at 100 mV peak",
+   "predicted": 0.03183098861837907,
+   "measured": 0.028398717635130705,
+   "unit": "V",
+   "error": -10.78279730610247,
+   "error_str": "-10.78 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "precision: mean output at 1 V peak",
+   "predicted": 0.3183098861837907,
+   "measured": 0.3109832052226148,
+   "unit": "V",
+   "error": -2.301744708282638,
+   "error_str": "-2.30 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Super-diode error at 1 kHz (slew dead-time model)",
+   "predicted": -1.5865058240322083,
+   "measured": -2.3024387064123872,
+   "unit": "%",
+   "error": -0.7159328823801789,
+   "error_str": "-0.716 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Super-diode error at 10 kHz (slew dead-time model)",
+   "predicted": -90.8169625358592,
+   "measured": -92.03529441324562,
+   "unit": "%",
+   "error": -1.2183318773864187,
+   "error_str": "-1.22 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Super-diode error at 30 kHz (slew dead-time model)",
+   "predicted": -100.0,
+   "measured": -99.98295510873058,
+   "unit": "%",
+   "error": 0.017044891269421214,
+   "error_str": "+0.017 pp",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/precision_vs_plain.png",
+  "figures/slew_dead_time.png"
+ ],
+ "runtime_s": 10.33,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL023-precision-rectifier"
+}

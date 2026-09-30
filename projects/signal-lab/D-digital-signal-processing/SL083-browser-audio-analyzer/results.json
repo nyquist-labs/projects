@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "SL-083",
+  "title": "Browser audio spectrum analyser (Web Audio API)",
+  "level": "M",
+  "tools": "HTML/JavaScript (Web Audio API, own radix-2 FFT in JS), Node.js test harness vs NumPy",
+  "summary": "A shareable web app that shows a live spectrum and spectrogram from the microphone or a test tone; its JavaScript FFT and dB/peak logic are verified numerically against NumPy.",
+  "problem": "Put a real-time spectrum analyser in anyone's browser \u2014 and prove its maths is right, since a browser app is usually never tested against a reference.",
+  "theory": "The app windows each 2048-sample block (Hann), computes a radix-2 FFT, converts to dBFS with\n$20\\log_{10}(2|X_k|/\\sum w)$ (so a full-scale sine reads 0 dBFS) and reports the peak with parabolic interpolation. A test\ntone of f Hz should therefore read f \u00b1 (bin/10) and 0 dBFS \u00b1 0.1 dB for bin-centred and \u2264 1.42 dB scalloping loss\noff-centre (before interpolation correction).",
+  "method": "The JavaScript core (fft.js) is shared by the page and a Node test script, which runs it on test tones and random\nsignals and writes JSON; Python compares with numpy.fft. The page (web/index.html) runs offline \u2014 open it in a\nbrowser and allow the microphone, or use the built-in tone generator.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "JS FFT vs numpy.fft (max relative error, N = 2048)",
+   "predicted": 0.0,
+   "measured": 1.233453903722569e-14,
+   "unit": "",
+   "error": 1.233453903722569e-14,
+   "error_str": "+1.2335e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Tone 440 Hz: reported frequency",
+   "predicted": 440.0,
+   "measured": 439.6508680626023,
+   "unit": "Hz",
+   "error": -0.34913193739771486,
+   "error_str": "-349.1 mHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Tone 1000 Hz: reported frequency",
+   "predicted": 1000.0,
+   "measured": 999.6372902005186,
+   "unit": "Hz",
+   "error": -0.3627097994814221,
+   "error_str": "-362.7 mHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Tone 1234.5 Hz: reported frequency",
+   "predicted": 1234.5,
+   "measured": 1234.1342542427994,
+   "unit": "Hz",
+   "error": -0.3657457572005569,
+   "error_str": "-365.7 mHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Tone 5000 Hz: reported frequency",
+   "predicted": 5000.0,
+   "measured": 5000.362714647376,
+   "unit": "Hz",
+   "error": 0.3627146473763787,
+   "error_str": "+362.7 mHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Tone 11025.7 Hz: reported frequency",
+   "predicted": 11025.7,
+   "measured": 11025.922597443716,
+   "unit": "Hz",
+   "error": 0.2225974437151308,
+   "error_str": "+222.6 mHz",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Worst level error of a full-scale tone (0 dBFS)",
+   "predicted": 0.0,
+   "measured": 0.24617972605505334,
+   "unit": "dB",
+   "error": 0.24617972605505334,
+   "error_str": "+0.2462 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "after parabolic correction; raw Hann scalloping up to 1.42 dB"
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/verification.png"
+ ],
+ "runtime_s": 0.1,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL083-browser-audio-analyzer"
+}

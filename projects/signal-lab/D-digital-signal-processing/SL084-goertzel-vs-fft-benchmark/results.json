@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-084",
+  "title": "Goertzel vs FFT: when does a single bin win?",
+  "level": "M",
+  "tools": "Exact multiply counting of Goertzel and radix-2 FFT loops, crossover analysis",
+  "summary": "Count real multiplications and measure run time for detecting K tones in an N-sample block with Goertzel vs a full FFT; predict and measure the crossover K.",
+  "problem": "If you only need a few frequencies, is computing the whole spectrum wasteful? Find the exact break-even point.",
+  "theory": "Goertzel: ~N real multiply-adds per tone (+ a few at the end) \u2192 $K\\cdot N$. Radix-2 complex FFT: $\\frac N2\\log_2N$\nbutterflies \u00d7 4 real multiplies = $2N\\log_2N$ (real-input FFT \u2248 half). Break-even $K^* \\approx 2\\log_2 N$ for a\ncomplex FFT or $\\log_2 N$ for a real FFT: for N = 1024, K* \u2248 10\u201320 tones. Also Goertzel works for any N and any\n(non-bin-centred) frequency, and streams sample by sample.",
+  "method": "Real multiplies counted per stage of the iterative radix-2 FFT (4 per complex butterfly) and of the Goertzel\nrecursion, for N = 256, 1024, 4096; Goertzel's output checked against |FFT bin|\u00b2.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "N = 256: break-even tones (2\u00b7log\u2082N) vs counted multiplies",
+   "predicted": 16.0,
+   "measured": 15.814671814671815,
+   "unit": "tones",
+   "error": -1.158301158301156,
+   "error_str": "-1.16 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "N = 1024: break-even tones (2\u00b7log\u2082N) vs counted multiplies",
+   "predicted": 20.0,
+   "measured": 19.941577409931842,
+   "unit": "tones",
+   "error": -0.29211295034079043,
+   "error_str": "-0.29 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Goertzel power = |FFT bin|\u00b2 (N = 1024)",
+   "predicted": 0.0,
+   "measured": 1.1412761375278043e-14,
+   "unit": "",
+   "error": 1.1412761375278043e-14,
+   "error_str": "+1.1413e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "N = 4096: break-even tones (2\u00b7log\u2082N) vs counted multiplies",
+   "predicted": 24.0,
+   "measured": 23.982434740180533,
+   "unit": "tones",
+   "error": -0.07318858258111108,
+   "error_str": "-0.07 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/operation_counts.png"
+ ],
+ "runtime_s": 0.1,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL084-goertzel-vs-fft-benchmark"
+}

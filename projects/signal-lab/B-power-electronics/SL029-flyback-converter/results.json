@@ -1,0 +1,86 @@
+{
+ "meta": {
+  "id": "SL-029",
+  "title": "Flyback converter (isolated, coupled inductor)",
+  "level": "H",
+  "tools": "eelab mini-SPICE with mutual inductance (K), RCD clamp",
+  "summary": "24 V \u2192 ~4 V isolated supply using a 4:1 coupled inductor \u2014 the phone-charger topology. Predict V_out = n\u00b7V_in\u00b7D/(1\u2212D) and the leakage-inductance voltage spike the clamp must absorb.",
+  "problem": "How does a flyback store energy in a transformer's core and release it to an isolated output, and why does every flyback need a snubber?",
+  "theory": "With turns ratio $n=N_s/N_p$ and CCM operation: $V_{out}=nV_{in}\\frac{D}{1-D}$.\nWhile the switch is off the primary is clamped at $V_{in}+V_{out}/n$ (reflected voltage).\nLeakage inductance $L_{lk}=(1-k^2)L_p$ does not couple to the secondary; its energy $\\tfrac12L_{lk}I_{pk}^2$\ndrives the drain above the reflected voltage until the RCD clamp (clamp voltage $V_{cl}$) absorbs it:\n$P_{clamp}\\approx \\tfrac12L_{lk}I_{pk}^2 f_{sw}\\frac{V_{cl}}{V_{cl}-V_{out}/n}$.",
+  "method": "L_p = 100 \u00b5H, L_s = 6.25 \u00b5H (n = 0.25), k = 0.99 (\u2248 2 \u00b5H leakage), f_sw = 100 kHz, D = 0.4, 22 \u00b5F output with\n2 \u03a9 load. RCD clamp: diode drain \u2192 clamp node, 10 nF \u2016 3.3 k\u03a9 to V_in. 2.5 ms transient at 10 ns steps.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "B. Power electronics",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Output voltage (ideal n\u00b7V_in\u00b7D/(1\u2212D))",
+   "predicted": 4.000000000000001,
+   "measured": 3.5024519381294543,
+   "unit": "V",
+   "error": -12.438701546763662,
+   "error_str": "-12.44 %",
+   "kind": "rel",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Output voltage (minus diode drop)",
+   "predicted": 3.607453270611538,
+   "measured": 3.5024519381294543,
+   "unit": "V",
+   "error": -2.9106775502121436,
+   "error_str": "-2.91 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Drain plateau (V_in + V_out/n)",
+   "predicted": 39.57999467007167,
+   "measured": 39.75398384481603,
+   "unit": "V",
+   "error": 0.4395886765389537,
+   "error_str": "+0.44 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Clamp dissipation",
+   "predicted": 0.3238295043542517,
+   "measured": 0.25245882464185637,
+   "unit": "W",
+   "error": -22.03958526098959,
+   "error_str": "-22.04 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Peak drain voltage (leakage spike, clamped)",
+   "value": 58.09133622439201,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "Clamp capacitor voltage",
+   "value": 52.86371634627333,
+   "unit": "V",
+   "note": ""
+  },
+  {
+   "quantity": "Efficiency",
+   "value": 86.02878183287837,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/waveforms.png"
+ ],
+ "runtime_s": 15.06,
+ "folder": "projects/signal-lab/B-power-electronics/SL029-flyback-converter"
+}

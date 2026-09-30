@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "id": "AM-072",
+  "title": "Resistor networks as graphs: Laplacian, effective resistance, Foster's theorem",
+  "level": "H",
+  "tools": "Weighted graph Laplacian, Moore\u2013Penrose pseudoinverse, effective-resistance matrix, Foster's theorem, algebraic connectivity; verification with the MNA simulator",
+  "summary": "Treat a resistor network as a weighted graph: compute every effective resistance from the Laplacian's pseudoinverse, verify them against circuit simulation, and confirm two graph-theory results \u2014 Foster's theorem and the link between algebraic connectivity and 'bottlenecks'.",
+  "problem": "The nodal matrix of a resistor network is a graph Laplacian. What does spectral graph theory say about circuits?",
+  "theory": "L = D \u2212 W (conductance weights). $R_{ij}=(e_i-e_j)^TL^+(e_i-e_j)$. Foster's theorem: $\\sum_{edges}g_eR_e = n-1$ for any connected network. The second-smallest eigenvalue \u03bb\u2082 (Fiedler value) measures how well\nconnected the network is; cutting a network into two halves joined by a single resistor makes \u03bb\u2082 small and the Fiedler vector changes sign across the cut. Cube of 1 \u03a9 resistors: R between\nopposite corners = 5/6 \u03a9, adjacent = 7/12 \u03a9.",
+  "method": "(i) Unit-resistor cube. (ii) 100 random connected networks (8\u201330 nodes, 10 \u03a9\u201310 k\u03a9): all-pairs R_eff via L\u207a vs MNA (1 A between the pair). (iii) Foster's sum. (iv) Two 20-node random clusters joined by 1\u20265 bridge resistors: \u03bb\u2082 and the Fiedler sign split.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Cube: opposite corners",
+   "predicted": 0.8333333333333334,
+   "measured": 0.8333333333333331,
+   "unit": "\u03a9",
+   "error": -2.6645352591003757e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Cube: adjacent corners",
+   "predicted": 0.5833333333333334,
+   "measured": 0.5833333333333335,
+   "unit": "\u03a9",
+   "error": 1.9032394707859825e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Cube: face diagonal",
+   "predicted": 0.75,
+   "measured": 0.7499999999999999,
+   "unit": "\u03a9",
+   "error": -1.4802973661668752e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Effective resistance from L\u207a vs MNA simulation (100 random networks, worst relative)",
+   "predicted": 0.0,
+   "measured": 1.7763568394002505e-14,
+   "unit": "",
+   "error": 1.7763568394002505e-14,
+   "error_str": "+1.7764e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Foster's theorem \u03a3 g_e R_e \u2212 (n \u2212 1), worst over 100 networks",
+   "predicted": 0.0,
+   "measured": 8.881784197001252e-14,
+   "unit": "",
+   "error": 8.881784197001252e-14,
+   "error_str": "+8.8818e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Fiedler vector separates the two clusters with 1 bridge (fraction correctly split)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bb\u2082 grows with the number of bridges (monotone, 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/laplacian.png"
+ ],
+ "runtime_s": 0.12,
+ "folder": "projects/applied-math/D-linear-algebra/AM072-graph-laplacian-of-a-network"
+}

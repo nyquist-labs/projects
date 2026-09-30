@@ -1,0 +1,64 @@
+{
+ "meta": {
+  "id": "SL-066",
+  "title": "Spectral-subtraction noise removal",
+  "level": "M",
+  "tools": "STFT/ISTFT (SciPy), own spectral subtraction with over-subtraction and spectral floor",
+  "summary": "Add white noise at 0\u201320 dB SNR to a real speech recording, remove it with spectral subtraction, and measure the SNR gain in dB against the clean reference.",
+  "problem": "How much noise can a simple frequency-domain gate remove before it starts eating the speech itself (musical noise)?",
+  "theory": "Estimate the noise power spectrum $\\hat N(f)$ from a speech-free segment, then per STFT frame\n$|\\hat S|^2=\\max(|X|^2-\\alpha\\hat N,\\ \\beta|X|^2)$, keep the noisy phase. For white noise with a speech signal that occupies a\nfraction \u03c1 of the time-frequency plane, the ideal output SNR gain is roughly $10\\log_{10}(1/\\rho)$ dB at low input SNR\n(noise is removed everywhere speech is absent). A sharper yardstick is the *oracle ideal binary mask*: keep exactly the\nSTFT cells where speech power exceeds noise power. It needs the clean signal, so it is an upper bound on what any\nsingle-channel time-frequency mask (spectral subtraction included) can achieve.",
+  "method": "Clean signal: public-domain 'hello' recording padded with 0.3 s silence (noise-estimation region).\nNoise: Gaussian, scaled to input SNR 0, 5, 10, 15, 20 dB (10 random seeds each). STFT 512/75 % overlap,\n\u03b1 = 2, \u03b2 = 0.02. SNR computed against the clean waveform after aligning.",
+  "data": "Real speech ('En-us-hello.ogg', Wikimedia Commons, public domain) + synthetic Gaussian noise of known level.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "D. Digital signal processing"
+ },
+ "rows": [
+  {
+   "quantity": "SNR gain at 0 dB input vs oracle ideal binary mask",
+   "predicted": 16.10623627331508,
+   "measured": 8.360374078562105,
+   "unit": "dB",
+   "error": -7.745862194752975,
+   "error_str": "-7.746 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "oracle = best TF mask, knows the clean speech"
+  },
+  {
+   "quantity": "SNR gain at 10 dB input vs oracle ideal binary mask",
+   "predicted": 13.638568419678384,
+   "measured": 7.8134709685219885,
+   "unit": "dB",
+   "error": -5.825097451156395,
+   "error_str": "-5.825 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "oracle = best TF mask, knows the clean speech"
+  },
+  {
+   "quantity": "SNR gain at 20 dB input vs oracle ideal binary mask",
+   "predicted": 11.211804489386772,
+   "measured": 6.993165177429148,
+   "unit": "dB",
+   "error": -4.218639311957624,
+   "error_str": "-4.219 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": "oracle = best TF mask, knows the clean speech"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Speech occupancy \u03c1 of the TF plane (>\u221220 dB)",
+   "value": 0.016450420261157346,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/snr_gain.png",
+  "figures/spectrograms.png"
+ ],
+ "runtime_s": 0.57,
+ "folder": "projects/signal-lab/D-digital-signal-processing/SL066-audio-noise-removal"
+}

@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modulation Visualiser</title>
+<style>:root{--bg:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--a:#2a78d6;--b:#eb6834}@media(prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--grid:#383835;--a:#3987e5;--b:#d95926}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,sans-serif}main{max-width:900px;margin:auto;padding:16px}canvas{width:100%;height:auto;border:1px solid var(--grid);border-radius:6px;margin:6px 0}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}</style></head><body><main><h1>AM · FM · PM</h1>
+<div class="row"><label>Mode <select id="mode"><option>AM</option><option>FM</option><option>PM</option></select></label>
+<label>index <input id="k" type="range" min="0" max="8" step="0.05" value="1"> <span id="kv">1</span></label></div>
+<canvas id="t" width="880" height="220"></canvas><canvas id="f" width="880" height="220"></canvas><p id="info" style="color:var(--ink2)"></p></main>
+<script>const fs=100000,fc=10000,fm=500,N=4000;const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v);
+function sig(mode,k){const x=new Float64Array(N);for(let n=0;n<N;n++){const t=n/fs,m=Math.sin(2*Math.PI*fm*t);
+x[n]=mode==='AM'?(1+k/8*m)*Math.cos(2*Math.PI*fc*t):mode==='FM'?Math.cos(2*Math.PI*fc*t-k*Math.cos(2*Math.PI*fm*t)):Math.cos(2*Math.PI*fc*t+k*m);}return x;}
+function spec(x){const out=[];for(let f=5000;f<=15000;f+=50){let re=0,im=0;for(let n=0;n<N;n++){re+=x[n]*Math.cos(2*Math.PI*f*n/fs);im-=x[n]*Math.sin(2*Math.PI*f*n/fs);}out.push([f,2*Math.hypot(re,im)/N]);}return out;}
+function draw(){const mode=document.getElementById('mode').value,k=+document.getElementById('k').value;document.getElementById('kv').textContent=mode==='AM'?(k/8).toFixed(2)+' (m)':k.toFixed(2)+' (β)';
+const x=sig(mode,k),T=document.getElementById('t').getContext('2d'),F=document.getElementById('f').getContext('2d');
+[T,F].forEach(c=>{c.fillStyle=css('--bg');c.fillRect(0,0,880,220);});T.strokeStyle=css('--a');T.beginPath();for(let n=0;n<800;n++){const y=110-x[n]*50;n?T.lineTo(n*1.1,y):T.moveTo(0,y);}T.stroke();
+const s=spec(x);F.fillStyle=css('--b');s.forEach(([f,a],i)=>{F.fillRect(i*4.35,210-a*190,3,a*190);});
+document.getElementById('info').textContent=mode==='AM'?'AM: carrier plus two sidebands at ±500 Hz.':`Carson bandwidth 2(β+1)fm = ${(2*(k+1)*fm/1000).toFixed(2)} kHz; sideband n has amplitude |Jn(β)|.`;}
+document.querySelectorAll('select,input').forEach(e=>e.oninput=draw);draw();</script></body></html>

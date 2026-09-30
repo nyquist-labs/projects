@@ -1,0 +1,91 @@
+{
+ "meta": {
+  "id": "AM-211",
+  "title": "Water-filling: optimal power allocation over parallel channels",
+  "level": "M",
+  "tools": "Own water-filling by bisection on the water level, KKT verification, independent numerical optimisation (SLSQP), OFDM subcarriers of a multipath channel, comparison with equal power and with 'invert the channel', low- and high-SNR limits",
+  "summary": "Distribute a power budget over parallel Gaussian channels to maximise total capacity: derive the water-filling rule, check it against a general-purpose optimiser and the KKT conditions, and apply it to the subcarriers of a frequency-selective channel where it decides which carriers to leave empty.",
+  "problem": "An OFDM link has hundreds of subcarriers with different gains. How should a fixed transmit power be divided among them?",
+  "theory": "Maximise $\\sum_i\\log_2(1+g_iP_i/N)$ subject to $\\sum P_i=P$, $P_i\\ge0$. Lagrange/KKT: $P_i=\\left(\u03bc-N/g_i\\right)^+$ \u2014 pour power into the 'vessel' with floor $N/g_i$ up to a common water level \u03bc; channels whose floor lies above \u03bc get nothing. At high SNR equal power is almost optimal\n(the gain is bounded); at low SNR all power goes to the best channel(s) and the gain over equal power is large. Channel inversion (equal SNR on all carriers) is the *worst* sensible choice for capacity.",
+  "method": "(1) 200 random sets of 2\u201312 channels vs SLSQP maximisation from several starts. (2) OFDM: 256 subcarriers of a 6-tap Rayleigh multipath channel, total SNR swept \u221210\u202630 dB; capacity with water-filling, equal power, and channel inversion.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "200 random channel sets: best capacity found by SLSQP minus water-filling (never positive)",
+   "predicted": 0.0,
+   "measured": 3.941291737419306e-14,
+   "unit": "bit",
+   "error": 3.941291737419306e-14,
+   "error_str": "+3.9413e-14 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "KKT: equal marginal gain on all active channels, no inactive channel would gain more (worst relative violation)",
+   "predicted": 0.0,
+   "measured": 4.522345143202739e-16,
+   "unit": "",
+   "error": 4.522345143202739e-16,
+   "error_str": "+4.5223e-16",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "High SNR (30 dB): water-filling gain over equal power is small (< 1 %)",
+   "predicted": 0.0,
+   "measured": 0.0005657467289310603,
+   "unit": "%",
+   "error": 0.0005657467289310603,
+   "error_str": "+0.000566 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Low SNR (\u221210 dB): water-filling gain over equal power is large (> 30 %; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Channel inversion never beats equal power on capacity (violations over the SNR sweep)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Fraction of subcarriers used by water-filling at \u221210 / 0 / 10 / 30 dB",
+   "value": "40 % / 78 % / 97 % / 100 %",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Capacity at 0 dB (bit/subcarrier): water-filling / equal power / inversion",
+   "value": "1.032 / 0.929 / 0.424",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/waterfilling.png"
+ ],
+ "runtime_s": 1.86,
+ "folder": "projects/applied-math/L-information-theory/AM211-water-filling"
+}

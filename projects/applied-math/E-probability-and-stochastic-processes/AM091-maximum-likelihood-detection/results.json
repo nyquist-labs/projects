@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-091",
+  "title": "Maximum-likelihood detection when the noise depends on the symbol",
+  "level": "H",
+  "tools": "Likelihood-ratio derivation for on-off keying with signal-dependent Gaussian noise (optical receiver), closed-form ML threshold (roots of a quadratic), BER vs threshold by Monte Carlo",
+  "summary": "Derive the maximum-likelihood decision threshold for an optical on-off-keyed link where a '1' carries more noise than a '0' (shot noise), show it is *not* the midpoint, and verify by Monte Carlo that it minimises the error rate and by how much it beats the naive midpoint threshold.",
+  "problem": "The textbook detector puts the threshold halfway between the symbols. When is that wrong?",
+  "theory": "Received level y ~ N(\u03bc\u2080, \u03c3\u2080\u00b2) for '0' and N(\u03bc\u2081, \u03c3\u2081\u00b2) for '1' with \u03c3\u2081 > \u03c3\u2080. ML (equal priors) decides '1' when $\\frac{f_1(y)}{f_0(y)}>1$, i.e. where the two Gaussians cross:\n$\\frac{(y-\u03bc_0)^2}{2\u03c3_0^2}-\\frac{(y-\u03bc_1)^2}{2\u03c3_1^2}=\\ln\\frac{\u03c3_1}{\u03c3_0}$ \u2014 a quadratic. For moderate \u03c3-ratios the root is close to $y^*\u2248\\frac{\u03c3_1\u03bc_0+\u03c3_0\u03bc_1}{\u03c3_0+\u03c3_1}$ (where the two Q-arguments are equal), pulled toward the quieter\nsymbol. The resulting BER \u2248 Q((\u03bc\u2081\u2212\u03bc\u2080)/(\u03c3\u2080+\u03c3\u2081)) \u2014 the optical 'Q-factor' formula.",
+  "method": "\u03bc\u2080 = 0, \u03bc\u2081 = 1, \u03c3\u2080 = 0.08, \u03c3\u2081 = 0.16 (shot-noise-dominated '1'). 4\u00d710\u2076 bits; BER swept over thresholds 0.2\u20130.7; ML root, Q-factor approximation and midpoint compared.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Threshold minimising the simulated BER vs ML threshold",
+   "predicted": 0.342147352050473,
+   "measured": 0.33999999999999997,
+   "unit": "",
+   "error": -0.002147352050473006,
+   "error_str": "-0.002147",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "BER at the ML threshold: simulated vs exact (\u2248 60 errors counted \u2192 \u00b113 % statistical)",
+   "predicted": 1.4563140258544231e-05,
+   "measured": 1.725e-05,
+   "unit": "",
+   "error": 18.44972783173863,
+   "error_str": "+18.45 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Q-factor formula BER \u2248 Q((\u03bc\u2081\u2212\u03bc\u2080)/(\u03c3\u2080+\u03c3\u2081))",
+   "predicted": 1.545429688229596e-05,
+   "measured": 1.4563140258544231e-05,
+   "unit": "",
+   "error": -5.766400312735125,
+   "error_str": "-5.77 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Penalty of the midpoint threshold (BER ratio midpoint / ML)",
+   "predicted": 30.52313884751543,
+   "measured": 26.637681159420293,
+   "unit": "\u00d7",
+   "error": -12.729548253558502,
+   "error_str": "-12.73 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "ML threshold (exact root) / Q-factor approximation / midpoint",
+   "value": "0.3421 / 0.3333 / 0.5",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/ml_detection.png"
+ ],
+ "runtime_s": 0.8,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM091-maximum-likelihood-detection"
+}

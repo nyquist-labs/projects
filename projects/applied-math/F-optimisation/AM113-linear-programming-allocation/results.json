@@ -1,0 +1,115 @@
+{
+ "meta": {
+  "id": "AM-113",
+  "title": "Linear programming: allocating parts to board builds",
+  "level": "M",
+  "tools": "Own dense tableau simplex method (Bland's rule), scipy linprog/HiGHS for verification, dual prices (shadow values of scarce parts), sensitivity ranging by re-solving",
+  "summary": "Decide how many of four board types to build from a limited component inventory to maximise profit, solve it with a self-written simplex and verify with HiGHS, read the shadow prices of the scarce parts, and check them by re-solving with one more unit of each part.",
+  "problem": "A parts shortage limits production. Which boards should be built \u2014 and what is one more reel of a scarce chip worth?",
+  "theory": "max c\u1d40x s.t. Ax \u2264 b, x \u2265 0. The optimum is at a vertex; simplex walks along edges improving the objective. Strong duality: the dual variables y (shadow prices) satisfy c\u1d40x* = b\u1d40y*, and $y_i = \u2202(\\text{profit})/\u2202b_i$ as long as the basis\ndoes not change; parts with slack have price 0 (complementary slackness).",
+  "method": "4 products, 5 resources (MCU, FPGA, DC/DC module, assembly hours, test hours) with a given bill of materials and profits. Own simplex vs HiGHS (primal and duals). Shadow prices checked by +1 unit finite differences; relaxing the most\nvaluable constraint.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "F. Optimisation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Own simplex optimum profit vs HiGHS",
+   "predicted": 24000.000000000004,
+   "measured": 24000.0,
+   "unit": "$",
+   "error": -1.51582450295488e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Own simplex duals vs HiGHS marginals (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 1.4210854715202004e-14,
+   "unit": "$",
+   "error": 1.4210854715202004e-14,
+   "error_str": "+1.4211e-14 $",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Strong duality: c\u1d40x* = b\u1d40y*",
+   "predicted": 24000.0,
+   "measured": 24000.0,
+   "unit": "$",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Shadow prices vs +1-unit re-solve (max |\u0394|)",
+   "predicted": 0.0,
+   "measured": 3.637978807091713e-12,
+   "unit": "$",
+   "error": 3.637978807091713e-12,
+   "error_str": "+3.6380e-12 $",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Complementary slackness: price \u00d7 slack = 0 for every resource",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Optimal build plan (boards A\u2013D)",
+   "value": "0.0, 0.0, 150.0, 200.0",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "MCU: shadow price / slack",
+   "value": "$45.00 per unit / 0.0 unused",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "FPGA: shadow price / slack",
+   "value": "$40.00 per unit / 0.0 unused",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "DC/DC module: shadow price / slack",
+   "value": "$0.00 per unit / 150.0 unused",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "assembly hours: shadow price / slack",
+   "value": "$0.00 per unit / 100.0 unused",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "test hours: shadow price / slack",
+   "value": "$0.00 per unit / 350.0 unused",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/lp.png"
+ ],
+ "runtime_s": 0.09,
+ "folder": "projects/applied-math/F-optimisation/AM113-linear-programming-allocation"
+}

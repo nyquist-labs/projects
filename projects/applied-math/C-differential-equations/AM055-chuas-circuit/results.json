@@ -1,0 +1,97 @@
+{
+ "meta": {
+  "id": "AM-055",
+  "title": "Chua's circuit: a genuinely chaotic electronic circuit",
+  "level": "H",
+  "tools": "Dimensionless Chua equations with a piecewise-linear diode, equilibrium and eigenvalue analysis, double-scroll attractor, largest Lyapunov exponent (two-trajectory renormalisation), sensitivity demonstration",
+  "summary": "Integrate Chua's circuit, locate its three equilibria and classify them from the Jacobian, plot the double-scroll attractor, and measure the largest Lyapunov exponent to prove the motion is chaotic \u2014 nearby trajectories diverge exponentially.",
+  "problem": "Can three linear elements and one piecewise-linear resistor produce motion that never repeats?",
+  "theory": "$\\dot x=\u03b1(y-x-f(x))$, $\\dot y=x-y+z$, $\\dot z=-\u03b2y$, $f(x)=m_1x+\\tfrac12(m_0-m_1)(|x+1|-|x-1|)$. For \u03b1 = 15.6, \u03b2 = 28, m0 = \u22128/7, m1 = \u22125/7 the equilibria are the origin and\n$x^*=\\pm\\frac{m_0-m_1}{m_1+1}$ = \u00b11.5; each is a saddle-focus (one real and a complex pair of eigenvalues with opposite-sign real parts). Trajectories spiral out of one outer focus\nand are reinjected near the other: the double scroll. Chaos \u21d4 largest Lyapunov exponent \u03bb\u2081 > 0 while the orbit stays bounded.",
+  "method": "RK45 (rtol 1e-10) for t \u2208 [0, 400]; equilibria from the formula and checked by Newton; Jacobian eigenvalues; \u03bb\u2081 by Benettin's method (perturbation 1e-8, renormalised every 0.5 time units,\naveraged over 800 renormalisations); divergence of two trajectories started 1e-10 apart.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Equilibria x* = \u00b1(m0\u2212m1)/(m1+1) = \u00b11.5 satisfy the equations (max |f|)",
+   "predicted": 0.0,
+   "measured": 3.4638958368304883e-15,
+   "unit": "",
+   "error": 3.4638958368304883e-15,
+   "error_str": "+3.4639e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "outer equilibrium: saddle-focus (real eigenvalue and complex pair of opposite-sign real parts; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "origin: saddle-focus (real eigenvalue and complex pair of opposite-sign real parts; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Orbit bounded (max |x| over t = 100\u2026400 stays below 3)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Largest Lyapunov exponent \u03bb\u2081 (> 0 means chaos; my guess \u2248 0.3)",
+   "predicted": 0.3,
+   "measured": 0.44410418852024397,
+   "unit": "1/time",
+   "error": 0.14410418852024398,
+   "error_str": "+0.1441 1/time",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Eigenvalues at the outer equilibrium",
+   "value": "-6.068+0.000j, 0.306+4.525j, 0.306-4.525j",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Eigenvalues at the origin",
+   "value": "3.473+0.000j, -1.122+4.087j, -1.122-4.087j",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Fraction of time spent in each scroll (x > 0)",
+   "value": 0.54158,
+   "unit": "",
+   "note": "switches between scrolls irregularly"
+  }
+ ],
+ "figures": [
+  "figures/chua.png"
+ ],
+ "runtime_s": 5.8,
+ "folder": "projects/applied-math/C-differential-equations/AM055-chuas-circuit"
+}

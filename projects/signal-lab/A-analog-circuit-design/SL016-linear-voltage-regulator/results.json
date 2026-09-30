@@ -1,0 +1,64 @@
+{
+ "meta": {
+  "id": "SL-016",
+  "title": "LM317-style linear regulator",
+  "level": "M",
+  "tools": "eelab mini-SPICE (error amplifier + pass transistor + 1.25 V reference)",
+  "summary": "Model an adjustable regulator from an error amp, a 1.25 V reference and an NPN pass device; predict V_out and measure line and load regulation.",
+  "problem": "How does an LM317 turn a 1.25 V reference and two resistors into any output voltage, and how well does it hold that voltage as input and load change?",
+  "theory": "The regulator forces $V_{OUT}-V_{ADJ}=V_{REF}=1.25$ V, so a current $V_{REF}/R_1$ flows in R\u2081 and on through\nR\u2082 together with the adjust-pin current:\n$$V_{out}=1.25\\left(1+\\frac{R_2}{R_1}\\right)+I_{ADJ}R_2$$\nR\u2081 = 240 \u03a9, R\u2082 = 720 \u03a9, I_ADJ = 50 \u00b5A \u2192 5.036 V. With loop gain T, output resistance is the pass\ndevice's $1/g_m$ divided by (1+T) \u2192 load regulation of order mV per amp.",
+  "method": "Pass transistor NPN (\u03b2 = 100, Is = 1e-13) in a darlington-free follower, error amplifier op-amp\nmacromodel (A\u2080 = 10\u2074 to mimic a simple on-chip amp), 50 \u00b5A adjust current source. DC sweeps: V_in\n7\u201325 V at 100 mA; load 1 mA\u20131.5 A at V_in = 12 V.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Output voltage (12 V in, 100 mA)",
+   "predicted": 5.036,
+   "measured": 5.03364033005383,
+   "unit": "V",
+   "error": -0.04685603546802767,
+   "error_str": "-0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Output resistance at ~1 A",
+   "predicted": 0.0004062179167936786,
+   "measured": 0.0005885678936802061,
+   "unit": "\u03a9",
+   "error": 0.00018234997688652756,
+   "error_str": "+182.3 \u00b5\u03a9",
+   "kind": "abs",
+   "ok": null,
+   "note": "(r_e + R_b/\u03b2)/(1 + A\u2080\u03b2_fb)"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Line regulation (9 \u2192 25 V)",
+   "value": 6.440980157004913e-06,
+   "unit": "%/V",
+   "note": "LM317 datasheet typ. 0.01 %/V"
+  },
+  {
+   "quantity": "Load regulation (1 mA \u2192 1.5 A)",
+   "value": 0.018221691674809463,
+   "unit": "%",
+   "note": "LM317 datasheet typ. 0.1 %"
+  },
+  {
+   "quantity": "Dropout (V_in where V_out reaches 99 %)",
+   "value": 1.966355509158225,
+   "unit": "V",
+   "note": "headroom above V_out"
+  }
+ ],
+ "figures": [
+  "figures/regulation.png"
+ ],
+ "runtime_s": 0.89,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL016-linear-voltage-regulator"
+}

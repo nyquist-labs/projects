@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "AM-017",
+  "title": "Root locus via the angle condition",
+  "level": "M",
+  "tools": "Characteristic-polynomial roots swept over gain, angle/magnitude conditions of L(s) = \u22121/K, analytic breakaway points and asymptotes",
+  "summary": "Trace closed-loop pole migration for L(s) = K(s+3)/(s(s+1)(s+5)) as K goes from 0 to \u221e, and verify the classical construction rules \u2014 asymptote centroid and angles, breakaway point from dK/ds = 0, j\u03c9-axis crossings \u2014 against the computed locus.",
+  "problem": "Root-locus rules are taught as recipes. Where do they come from, and are they exact?",
+  "theory": "A point s is on the locus iff \u2220L(s) = 180\u00b0 (mod 360\u00b0); its gain is K = \u22121/G(s). Rules follow: n \u2212 m branches go to infinity along asymptotes at angles $(2k+1)180\u00b0/(n-m)$ from the\ncentroid $\u03c3_a=(\\sum p-\\sum z)/(n-m)$ = (0 \u2212 1 \u2212 5 + 3)/2 = \u22121.5; breakaways satisfy dK/ds = 0 on the real axis; for this plant the characteristic polynomial\n$s^3+6s^2+(5+K)s+3K$ never crosses into the RHP because the zero at \u22123 bends the locus back (Routh: 6(5+K) > 3K for all K > 0).",
+  "method": "Roots of the characteristic polynomial for 4000 log-spaced K \u2208 [10\u207b\u00b3, 10\u2074]; angle condition evaluated at every root; breakaway from the real root of dK/ds = 0; asymptote check from the\nlarge-K roots.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "A. Complex analysis & phasors",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Angle condition \u2220G(s) = 180\u00b0 at every computed closed-loop pole (worst error)",
+   "predicted": 0.0,
+   "measured": 1.2722218725854067e-13,
+   "unit": "\u00b0",
+   "error": 1.2722218725854067e-13,
+   "error_str": "+1.2722e-13 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Magnitude condition K = \u22121/G(s) (worst relative error)",
+   "predicted": 0.0,
+   "measured": 4.7978065964571215e-11,
+   "unit": "",
+   "error": 4.7978065964571215e-11,
+   "error_str": "+4.7978e-11",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Breakaway gain: dK/ds = 0 vs where poles first leave the real axis",
+   "predicted": 0.45090141916627424,
+   "measured": 0.4522867379582356,
+   "unit": "",
+   "error": 0.3072331851434037,
+   "error_str": "+0.31 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Asymptote centroid (large K): mean real part of the two far poles",
+   "predicted": -1.5,
+   "measured": -1.4993997601203073,
+   "unit": "",
+   "error": 0.00060023987969271,
+   "error_str": "+6.0024e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Asymptote angle (\u00b190\u00b0 for n \u2212 m = 2)",
+   "predicted": 90.0,
+   "measured": 89.99965598039006,
+   "unit": "\u00b0",
+   "error": -0.0003440196099404602,
+   "error_str": "-3.4402e-04 \u00b0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Closed-loop poles in the RHP for any K tested",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Breakaway point s_b",
+   "value": -0.5224909948572534,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/root_locus.png"
+ ],
+ "runtime_s": 0.13,
+ "folder": "projects/applied-math/A-complex-analysis-and-phasors/AM017-root-locus-via-complex-mapping"
+}

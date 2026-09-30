@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "AM-065",
+  "title": "Eigenvalues as natural frequencies of an LC ladder",
+  "level": "H",
+  "tools": "Generalised eigenproblem K v = \u03c9\u00b2 M v for an N-section LC ladder, analytic dispersion \u03c9_k = 2\u03c90 sin(k\u03c0/(2(N+1))), MNA AC resonance search, mode shapes",
+  "summary": "Write the LC ladder's equations as a mass-spring-like matrix problem, predict all N natural frequencies analytically, confirm them as eigenvalues and as resonance peaks in a circuit simulation, and show the standing-wave mode shapes.",
+  "problem": "A ladder of N identical LC sections has N resonances. Where are they, and what do they look like?",
+  "theory": "With node voltages v_i and all capacitors C to ground, series inductors L between nodes (ends grounded through L): $C\\ddot v = -L^{-1}Kv$ where K is the tridiagonal (2, \u22121) matrix. Eigenvalues of K\nare $4\\sin^2\\frac{k\u03c0}{2(N+1)}$, so $\u03c9_k = \\frac{2}{\\sqrt{LC}}\\sin\\frac{k\u03c0}{2(N+1)}$, k = 1\u2026N: a discrete dispersion relation with a cutoff at 2/\u221a(LC). Mode k is a sampled sine $\\sin\\frac{ik\u03c0}{N+1}$ \u2014 a standing wave.",
+  "method": "N = 10 sections, L = 10 \u00b5H, C = 1 nF (2/\u221aLC \u2192 3.18 MHz). Eigenvalues of M\u207b\u00b9K (scipy.linalg.eigh generalised); resonances from peaks of the impedance seen by a 1 A test source at node 1 in an AC sweep\n(with 0.1 \u03a9 series loss for finite peaks).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Eigenvalue frequencies vs 2/\u221a(LC)\u00b7sin(k\u03c0/2(N+1)) (worst relative)",
+   "predicted": 0.0,
+   "measured": 4.218847493575595e-15,
+   "unit": "",
+   "error": 4.218847493575595e-15,
+   "error_str": "+4.2188e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Mode shapes are sampled sines (min |cos angle| between eigvec and sine)",
+   "predicted": 1.0,
+   "measured": 0.9999999999999998,
+   "unit": "",
+   "error": -2.220446049250313e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Resonance peaks found in the AC sweep",
+   "predicted": 10.0,
+   "measured": 10.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "AC resonances vs eigenvalues (worst relative)",
+   "predicted": 0.0,
+   "measured": 7.722613729865824e-05,
+   "unit": "",
+   "error": 7.722613729865824e-05,
+   "error_str": "+7.7226e-05",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/ladder_modes.png"
+ ],
+ "runtime_s": 1.37,
+ "folder": "projects/applied-math/D-linear-algebra/AM065-eigenvalues-as-natural-frequencies"
+}

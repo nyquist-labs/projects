@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "id": "AM-199",
+  "title": "Green's functions: solving field problems by superposition",
+  "level": "H",
+  "tools": "1-D Green's function of \u2212u\u2033 = f and its exact agreement with the inverse of the finite-difference matrix, 2-D free-space Green's function \u2212ln r/2\u03c0 applied by FFT convolution, method of images for a charge above a ground plane, reciprocity in an inhomogeneous region",
+  "summary": "Treat the response to a point source as the fundamental object: build solutions by superposing Green's functions, show that the discrete Green's function of a finite-difference operator is simply its inverse matrix, verify the method of images against a direct solve, and demonstrate reciprocity where no formula exists.",
+  "problem": "A potential problem with an arbitrary source seems to need a new solve for every source. Why does knowing the response to a single point charge solve all of them?",
+  "theory": "If $LG(x,s)=\u03b4(x-s)$ with the boundary conditions built in, then $u(x)=\\int G(x,s)f(s)ds$ solves $Lu=f$. For $-u''$ on [0, 1] with u(0) = u(1) = 0: $G=x(1-s)$ for x \u2264 s, $s(1-x)$ otherwise. In 2-D free space $-\\nabla^2G=\u03b4$ gives $G=-\\frac{1}{2\u03c0}\\ln r$,\nso a line charge \u03bb produces $V=-\\frac{\u03bb}{2\u03c0\u03b5}\\ln r$. A grounded plane is replaced by an image charge \u2212\u03bb at the mirror point, giving the surface charge $\u03c3(x)=-\\frac{\u03bbd}{\u03c0(x^2+d^2)}$ whose total is \u2212\u03bb. For a self-adjoint operator G(x, s) = G(s, x) (reciprocity), even\nwith an arbitrary permittivity distribution.",
+  "method": "1-D: N = 99 interior nodes; the inverse of the FD matrix vs G at the nodes; solutions for smooth and point loads. 2-D: uniform charged disc potential by FFT convolution with the discretised Green's function vs the analytic disc potential. Images: line charge\n5 mm above a grounded plane in a 200 \u00d7 100 mm box, 0.25 mm grid. Reciprocity: two point charges in a region with an irregular dielectric blob.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "1-D: inverse of the finite-difference matrix = h\u00b7G(x\u1d62, x\u2c7c) at the nodes (max difference)",
+   "predicted": 0.0,
+   "measured": 2.2985086056692694e-17,
+   "unit": "",
+   "error": 2.2985086056692694e-17,
+   "error_str": "+2.2985e-17",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1-D: u = \u222bG f ds for f = sin 3\u03c0x vs exact sin(3\u03c0x)/(9\u03c0\u00b2) (max rel. error)",
+   "predicted": 0.0,
+   "measured": 0.0007405492016818973,
+   "unit": "",
+   "error": 0.0007405492016818973,
+   "error_str": "+7.4055e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1-D: response to a unit point load at s = 0.3 is G(x, 0.3) \u2014 a tent with peak s(1 \u2212 s)",
+   "predicted": 0.21,
+   "measured": 0.21,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "2-D: disc potential by convolution with \u2212ln r/(2\u03c0\u03b5\u2080) vs analytic (max error after removing the arbitrary constant, relative to the potential range)",
+   "predicted": 0.0,
+   "measured": 0.0005559542332727736,
+   "unit": "",
+   "error": 0.0005559542332727736,
+   "error_str": "+5.5595e-04",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Method of images: induced surface charge under the line charge (peak) vs \u2212\u03bb/(\u03c0d)",
+   "predicted": -6.366197723675815e-08,
+   "measured": -6.360525507081565e-08,
+   "unit": "C/m\u00b2",
+   "error": 0.0890989699103272,
+   "error_str": "+0.09 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 profile within \u00b130 mm: worst deviation relative to the peak",
+   "predicted": 0.0,
+   "measured": 0.002579030203057111,
+   "unit": "",
+   "error": 0.002579030203057111,
+   "error_str": "+0.002579",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Total induced charge on the plane \u2248 \u2212\u03bb (the rest lands on the distant box walls)",
+   "predicted": -1e-09,
+   "measured": -9.410250136999434e-10,
+   "unit": "C/m",
+   "error": 5.897498630005664,
+   "error_str": "+5.90 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Reciprocity with an irregular dielectric: V at B due to a charge at A = V at A due to the same charge at B",
+   "predicted": 0.006841185687913474,
+   "measured": 0.006841185687913472,
+   "unit": "V",
+   "error": -2.535705877771443e-14,
+   "error_str": "-0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/greens.png"
+ ],
+ "runtime_s": 1.69,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM199-greens-functions"
+}

@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "id": "AM-087",
+  "title": "Reliability: exponential and Weibull failure models, MTBF",
+  "level": "M",
+  "tools": "Constant-hazard and Weibull lifetime models, series/parallel system reliability, maximum-likelihood Weibull fitting of simulated failure data, Monte-Carlo MTBF",
+  "summary": "Model component lifetimes, derive the MTBF of series and redundant systems, fit Weibull parameters to test data by maximum likelihood (including censored units), and check every formula by simulating thousands of systems.",
+  "problem": "A board has 50 parts, each with a million-hour MTBF. How long will the board last \u2014 and does redundancy help as much as it seems?",
+  "theory": "Exponential: R(t) = e^{\u2212\u03bbt}, MTBF = 1/\u03bb. Series of n parts: \u03bb_sys = \u03a3\u03bb \u21d2 50 parts at 10\u2076 h \u2192 20,000 h. Two identical units in active parallel: MTBF = 3/(2\u03bb) (only 1.5\u00d7, not 2\u00d7). Weibull: $R(t)=e^{-(t/\u03b7)^\u03b2}$,\nmean \u03b7\u0393(1+1/\u03b2); \u03b2 < 1 infant mortality, \u03b2 = 1 random, \u03b2 > 1 wear-out. With right-censored data, the MLE maximises \u03a3_failures log f + \u03a3_censored log R.",
+  "method": "Monte Carlo: 100,000 simulated systems per configuration. Weibull test: 200 units with \u03b2 = 2.5, \u03b7 = 5000 h, test stopped at 4000 h (censoring ~44 % of units); MLE by optimising the censored\nlog-likelihood; 200 repeated experiments for parameter spread.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Series of 50 parts (\u03bb = 1e-6/h each): system MTBF = 1/(50\u03bb)",
+   "predicted": 20000.0,
+   "measured": 19990.66721583457,
+   "unit": "h",
+   "error": -0.04666392082715902,
+   "error_str": "-0.05 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Two units in active parallel: MTBF = 3/(2\u03bb)",
+   "predicted": 1500000.0,
+   "measured": 1497373.6018480249,
+   "unit": "h",
+   "error": -0.175093210131675,
+   "error_str": "-0.18 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Reliability of the parallel pair at t = 0.1/\u03bb: 1 \u2212 (1 \u2212 e^{\u22120.1})\u00b2",
+   "predicted": 0.9909440829939373,
+   "measured": 0.991,
+   "unit": "",
+   "error": 0.005642801346946325,
+   "error_str": "+0.01 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Weibull mean life \u03b7\u0393(1 + 1/\u03b2)",
+   "predicted": 4436.319087515376,
+   "measured": 4440.236978129484,
+   "unit": "h",
+   "error": 0.08831399493182285,
+   "error_str": "+0.09 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Censored MLE: mean \u03b2\u0302 over 200 test campaigns",
+   "predicted": 2.5,
+   "measured": 2.510009663164745,
+   "unit": "",
+   "error": 0.4003865265898021,
+   "error_str": "+0.40 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Censored MLE: mean \u03b7\u0302",
+   "predicted": 5000.0,
+   "measured": 5047.2050852768625,
+   "unit": "h",
+   "error": 0.9441017055372505,
+   "error_str": "+0.94 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Spread of \u03b2\u0302 (std) with 200 units, ~44 % censored",
+   "value": 0.23956229490461575,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/reliability.png"
+ ],
+ "runtime_s": 0.75,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM087-reliability-and-mtbf"
+}

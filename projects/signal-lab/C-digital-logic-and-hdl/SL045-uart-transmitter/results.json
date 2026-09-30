@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-045",
+  "title": "UART transmitter (8N1)",
+  "level": "M",
+  "tools": "Verilog RTL, Icarus Verilog, VCD decoding in Python",
+  "summary": "A parameterised 8N1 UART transmitter: verify the bit period, the frame format and the throughput by decoding the simulated serial line in Python.",
+  "problem": "Serialise bytes onto one wire with start and stop bits so that any receiver at the same baud rate can recover them.",
+  "theory": "Bit period $T_b = \\text{CLKS\\_PER\\_BIT}/f_{clk}$; with 50 MHz and 434 clocks/bit, the baud rate is\n115,207 bd (+0.006 % from 115,200). An 8N1 frame is 10 bits, so maximum payload throughput is\n$0.8\\times$ baud = 92.2 kbit/s = 11,520 bytes/s when frames are sent back-to-back.",
+  "method": "TX module with a baud counter and a 10-bit shift register. Testbench (20 ns clock) sends 64 random bytes\nback-to-back; Python reads the `tx` line from the VCD, measures edge-to-edge bit times and decodes the\nframes by sampling at bit centres.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "C. Digital logic & HDL",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Bit period",
+   "predicted": 8680.0,
+   "measured": 8680.0,
+   "unit": "ns",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Baud rate",
+   "predicted": 115207.3732718894,
+   "measured": 115207.3732718894,
+   "unit": "bd",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Decoded byte errors (64 frames)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Throughput (bytes/s, back-to-back)",
+   "predicted": 11520.737327188941,
+   "measured": 11518.08339092375,
+   "unit": "B/s",
+   "error": -0.023036166781858554,
+   "error_str": "-0.02 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/frames.png"
+ ],
+ "runtime_s": 0.24,
+ "folder": "projects/signal-lab/C-digital-logic-and-hdl/SL045-uart-transmitter"
+}

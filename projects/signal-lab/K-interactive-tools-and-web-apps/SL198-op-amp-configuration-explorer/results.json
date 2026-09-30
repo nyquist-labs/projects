@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "SL-198",
+  "title": "Op-amp configuration explorer",
+  "level": "M",
+  "tools": "HTML/SVG/JavaScript explorer (inverting, non-inverting, follower, difference, summing) with finite-A0/GBW corrections; Node harness; MNA simulator with op-amp macromodel",
+  "summary": "Switch between op-amp topologies and watch the gain equation, noise gain, gain error and bandwidth update; the tool's numbers are checked against AC simulations of each circuit over gains 1\u20131000.",
+  "problem": "Why does an inverting amplifier with gain \u22121 have half the bandwidth of a follower, and how big is the gain error from finite open-loop gain?",
+  "theory": "With feedback factor \u03b2 (fraction of the output fed back), the closed-loop gain is $G_\\text{ideal}/(1+1/(A_0\u03b2))$ and, for a single-pole op-amp, the bandwidth is\n$f_{-3\\text{dB}} \u2248 \\text{GBW}\u00b7\u03b2 = \\text{GBW}/\\text{noise gain}$. Inverting gain \u2212G has noise gain 1+G (\u03b2 = R_in/(R_in+R_f)), non-inverting gain G has noise gain G. So an\ninverting \u00d7\u22121 stage gets GBW/2 while a follower gets the full GBW; a 2-input summer with equal resistors has noise gain 3.",
+  "method": "GBW = 1 MHz, A0 = 10\u2075 (op-amp macromodel). Inverting and non-inverting stages with |G| = 1\u20261000, difference amp and summer: calc.js DC gain and bandwidth vs\nthe simulator's AC analysis (\u22123 dB point measured from the low-frequency gain).",
+  "data": "Generated designs.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "K. Interactive tools & web apps"
+ },
+ "rows": [
+  {
+   "quantity": "Worst |DC gain(JS, finite A0) \u2212 simulated| over all configurations",
+   "predicted": 0.0,
+   "measured": 5.4077703415256195e-05,
+   "unit": "%",
+   "error": 5.4077703415256195e-05,
+   "error_str": "+5.41e-05 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Worst bandwidth error of GBW\u00b7\u03b2 rule (noise gain \u2265 2)",
+   "predicted": 0.0,
+   "measured": 0.9990797239345595,
+   "unit": "%",
+   "error": 0.9990797239345595,
+   "error_str": "+0.999 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Bandwidth ratio follower / inverting \u00d7\u22121 (= 2)",
+   "predicted": 2.0,
+   "measured": 2.0049750465937244,
+   "unit": "",
+   "error": 0.2487523296862193,
+   "error_str": "+0.25 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "2-input unity summer: bandwidth = GBW/3",
+   "predicted": 333333.3333333333,
+   "measured": 332231.32021722774,
+   "unit": "Hz",
+   "error": -0.33060393483167283,
+   "error_str": "-0.33 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Follower: simulated bandwidth vs GBW\u00b7\u03b2",
+   "value": 0.00018754962227696126,
+   "unit": "%",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/opamp.png"
+ ],
+ "runtime_s": 1.17,
+ "folder": "projects/signal-lab/K-interactive-tools-and-web-apps/SL198-op-amp-configuration-explorer"
+}

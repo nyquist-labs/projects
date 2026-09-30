@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "id": "AM-088",
+  "title": "Bursty errors: a two-state Markov (Gilbert\u2013Elliott) channel",
+  "level": "H",
+  "tools": "Two-state Markov chain simulation, stationary distribution, burst-length statistics, block-error rates with and without interleaving, comparison with an i.i.d. channel of equal average BER",
+  "summary": "Model a channel that alternates between good and bad states, predict its average error rate and burst-length distribution from the transition probabilities, and show that a block code that fixes 2 errors fails far more often on bursty errors \u2014 until interleaving spreads them out.",
+  "problem": "Fading and interference produce errors in clumps. Why does the average bit-error rate say so little about how a code will perform?",
+  "theory": "States G/B with P(G\u2192B) = p, P(B\u2192G) = q: stationary \u03c0_B = p/(p+q); average BER = \u03c0_G e_G + \u03c0_B e_B. Sojourn in B is geometric with mean 1/q. For a t-error-correcting block code of length n, block failure = P(>t errors);\non an i.i.d. channel this is a binomial tail, on the bursty channel much larger for the same average BER. Interleaving to depth D \u226b 1/q makes errors within a codeword nearly independent.",
+  "method": "p = 0.002, q = 0.1, e_G = 10\u207b\u2074, e_B = 0.3 (average BER \u2248 0.6 %). 10\u2077 simulated bits. Codewords of n = 63 correcting t = 2 errors (BCH-like); block failure rates: bursty, bursty + interleaving (depth 64), i.i.d. with the same BER.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "E. Probability & stochastic processes",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Fraction of time in the bad state = p/(p+q)",
+   "predicted": 0.0196078431372549,
+   "measured": 0.0194499,
+   "unit": "",
+   "error": -0.8055100000000031,
+   "error_str": "-0.81 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Average BER = \u03c0_G e_G + \u03c0_B e_B",
+   "predicted": 0.005980392156862745,
+   "measured": 0.0059287,
+   "unit": "",
+   "error": -0.8643606557377016,
+   "error_str": "-0.86 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Mean bad-state sojourn = 1/q (geometric)",
+   "predicted": 10.0,
+   "measured": 9.89212694537687,
+   "unit": "bits",
+   "error": -1.0787305462313057,
+   "error_str": "-1.08 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "i.i.d. channel: block failure P(>2 errors in 63) vs binomial",
+   "predicted": 0.006349019519330867,
+   "measured": 0.006262206262206262,
+   "unit": "",
+   "error": -1.367349034922398,
+   "error_str": "-1.37 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Interleaving restores near-i.i.d. block performance (ratio interleaved / i.i.d.)",
+   "predicted": 1.0,
+   "measured": 0.9749105139912053,
+   "unit": "",
+   "error": -2.508948600879468,
+   "error_str": "-2.51 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Block failure: bursty / bursty+interleaved (D = 64) / i.i.d.",
+   "value": "0.055 / 0.0061 / 0.0063",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/gilbert_elliott.png"
+ ],
+ "runtime_s": 1.42,
+ "folder": "projects/applied-math/E-probability-and-stochastic-processes/AM088-markov-chain-channel-model"
+}

@@ -1,0 +1,13 @@
+* diff pair — exported by eelab.circuit
+Vp vp 0 DC 12 AC 0.0
+Vn vn 0 DC -12 AC 0.0
+Vi1 b1 0 DC 0.0 AC 0.5
+Vi2 b2 0 DC 0.0 AC -0.5
+Rc1 vp c1 5000
+Rc2 vp c2 5000
+Ree e vn 10000
+Q1 c1 b1 e Q_1
+Q2 c2 b2 e Q_2
+.model Q_1 NPN(Is=1e-15 BF=200 BR=1 VAF=100)
+.model Q_2 NPN(Is=1e-15 BF=200 BR=1 VAF=100)
+.end

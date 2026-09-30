@@ -1,0 +1,103 @@
+{
+ "meta": {
+  "id": "AM-061",
+  "title": "Boundary-value problems: shooting vs relaxation",
+  "level": "H",
+  "tools": "Shooting method (RK45 + root finding on the missing slope), relaxation (finite differences + Newton iteration), analytic solutions of the Poisson and Poisson\u2013Boltzmann equations",
+  "summary": "Solve two field problems with boundary conditions at both ends \u2014 the potential in a uniformly charged region and the nonlinear Poisson\u2013Boltzmann potential near a charged electrode \u2014 by shooting and by relaxation, against closed-form solutions.",
+  "problem": "Initial-value solvers need all conditions at one point; field problems specify them at two boundaries. Which numerical strategy works better?",
+  "theory": "Linear: \u03c6'' = \u2212\u03c1/\u03b5 with \u03c6(0) = \u03c6(L) = 0 \u2192 parabola \u03c6 = \u03c1x(L\u2212x)/(2\u03b5). Nonlinear (1-D Poisson\u2013Boltzmann, electrolyte / depletion analogue, dimensionless): \u03c6'' = sinh \u03c6, \u03c6(0) = \u03c60,\n\u03c6(\u221e) = 0 \u2192 Gouy\u2013Chapman $\u03c6=4\\,\\mathrm{artanh}\\big(\\tanh(\u03c6_0/4)e^{-x}\\big)$. Shooting guesses \u03c6'(0) and integrates; it is exponentially sensitive for sinh-type problems (errors grow as e^{x}),\nso it fails on long domains. Relaxation solves all points simultaneously with Newton and converges quadratically. Finite-difference error O(h\u00b2).",
+  "method": "Linear case: shooting with brentq on \u03c6'(0); relaxation with a tridiagonal solve. Poisson\u2013Boltzmann: \u03c60 = 4, domain [0, X] with X = 5, 10, 20, 30 (\u03c6(X) = analytic value); shooting with brentq over \u03c6'(0);\nrelaxation with Newton on N = 100\u20263200 nodes (error and observed order).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Linear Poisson: shooting finds \u03c6'(0) = \u03c1L/2",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Linear Poisson: relaxation vs parabola (FD is exact for quadratics)",
+   "predicted": 0.0,
+   "measured": 1.6375789613221059e-15,
+   "unit": "",
+   "error": 1.6375789613221059e-15,
+   "error_str": "+1.6376e-15",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Shooting still succeeds on the short domain X = 5",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Shooting fails (no bracketed root / blow-up) on X = 30 while relaxation succeeds",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Relaxation: observed order of accuracy (second-order FD)",
+   "predicted": 2.0,
+   "measured": 1.9858948472118252,
+   "unit": "",
+   "error": -0.014105152788174813,
+   "error_str": "-0.01411",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Poisson\u2013Boltzmann on [0, 5]: shooting error / relaxation error (Newton iterations)",
+   "value": "6.7e-13 / 5.0e-04 (7)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Poisson\u2013Boltzmann on [0, 10]: shooting error / relaxation error (Newton iterations)",
+   "value": "1.2e-11 / 5.0e-04 (8)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Poisson\u2013Boltzmann on [0, 20]: shooting error / relaxation error (Newton iterations)",
+   "value": "1.1e-06 / 5.0e-04 (8)",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Poisson\u2013Boltzmann on [0, 30]: shooting error / relaxation error (Newton iterations)",
+   "value": "4.2e-02 / 5.0e-04 (8)",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/bvp.png"
+ ],
+ "runtime_s": 5.67,
+ "folder": "projects/applied-math/C-differential-equations/AM061-boundary-value-problems"
+}

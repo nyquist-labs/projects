@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "id": "SL-119",
+  "title": "Frequency hopping against a narrowband jammer",
+  "level": "M",
+  "tools": "Monte Carlo slow-FH BFSK link (NumPy), jammer-fraction analysis, repetition coding",
+  "summary": "A link hopping over 50 channels versus a strong jammer parked on 1\u201310 channels: predict the error rate from the fraction of hops jammed and show how a simple code turns jammed hops into correctable errors.",
+  "problem": "Bluetooth and military radios hop frequencies. How much protection does hopping give against a jammer, and why is coding essential?",
+  "theory": "With q channels and J jammed, a hop is jammed with probability \u03c1 = J/q; jammed symbols are essentially random (P \u2248 \u00bd), clean ones follow\nnon-coherent BFSK $\\tfrac12e^{-E_b/2N_0}$: $P_b\\approx\\rho\\cdot\\tfrac12+(1-\\rho)\\tfrac12e^{-E_b/2N_0}$. Spreading each bit over 3 hops with\nmajority voting gives $P\\approx3P_b^2-2P_b^3$ when hops are independent.",
+  "method": "q = 50 channels, 1 bit per hop (slow hopping, 1 symbol/hop), E_b/N\u2080 = 12 dB, jammer power 20 dB above the signal on its channels.\nJ = 0, 1, 2, 5, 10. Uncoded and 3\u00d7 repetition (each copy on a different random hop). 200,000 bits per point.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "1 jammed channels: uncoded BER",
+   "predicted": 0.010177273671965477,
+   "measured": 0.01011,
+   "unit": "",
+   "error": -0.6610186002051915,
+   "error_str": "-0.66 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1 jammed channels: 3\u00d7 repetition BER",
+   "predicted": 0.0003086224372797906,
+   "measured": 0.00028,
+   "unit": "",
+   "error": -9.274256768908257,
+   "error_str": "-9.27 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "5 jammed channels: uncoded BER",
+   "predicted": 0.05016280235180503,
+   "measured": 0.048615,
+   "unit": "",
+   "error": -3.0855579816890657,
+   "error_str": "-3.09 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "5 jammed channels: 3\u00d7 repetition BER",
+   "predicted": 0.0072964702240699425,
+   "measured": 0.00707,
+   "unit": "",
+   "error": -3.103832635715443,
+   "error_str": "-3.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/fh.png"
+ ],
+ "runtime_s": 0.39,
+ "folder": "projects/signal-lab/F-communication-systems/SL119-frequency-hopping"
+}

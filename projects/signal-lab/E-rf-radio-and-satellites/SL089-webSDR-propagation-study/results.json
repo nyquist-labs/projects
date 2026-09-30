@@ -1,0 +1,58 @@
+{
+ "meta": {
+  "id": "SL-089",
+  "title": "24-hour HF propagation on one path (WSPR network data)",
+  "level": "M",
+  "tools": "wspr.live public ClickHouse API (WSPRnet spot database), NumPy/solar geometry",
+  "summary": "Follow the signal-to-noise ratio of beacon transmissions between Western Europe and the eastern USA on 20 m and 40 m through a full day, and relate the openings to the Sun's position at the path midpoint.",
+  "problem": "Why does a shortwave band 'open' and 'close' through the day? Measure it on real spots instead of listening to one receiver.",
+  "theory": "HF skywave needs the ionosphere's F-layer to refract the signal (frequency below the MUF) while the D-layer, which\nabsorbs lower frequencies, is weak. Prediction: 20 m (14 MHz) is open when the path midpoint is sunlit (MUF high,\nF2 layer ionised by sunlight); 40 m (7 MHz) is best when the midpoint is dark (D-layer absorption gone). So the\nfraction of spots in daylight at the midpoint should be high for 20 m and low for 40 m.",
+  "method": "Spots from 2026-09-01 to 2026-09-14 whose transmitter lies in western Europe (lat 43\u201356\u00b0, lon \u221210\u2026+10\u00b0) and receiver in the\neastern USA (lat 30\u201346\u00b0, lon \u221285\u2026\u221268\u00b0), bands 20 m and 40 m. Per hour (UTC): spot count and median SNR. Solar elevation\nat the path midpoint (\u2248 50\u00b0 N, 38\u00b0 W) computed from the date/hour.",
+  "data": "Real: WSPRnet spots via the public wspr.live database (CC0-style open data).",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "20 m: fraction of spots with the path midpoint sunlit",
+   "predicted": 0.8,
+   "measured": 0.627800797656443,
+   "unit": "",
+   "error": -0.172199202343557,
+   "error_str": "-0.1722",
+   "kind": "abs",
+   "ok": null,
+   "note": "expectation: 20 m daytime, 40 m night-time band"
+  },
+  {
+   "quantity": "40 m: fraction of spots with the path midpoint sunlit",
+   "predicted": 0.2,
+   "measured": 0.018414341792342002,
+   "unit": "",
+   "error": -0.181585658207658,
+   "error_str": "-0.1816",
+   "kind": "abs",
+   "ok": null,
+   "note": "expectation: 20 m daytime, 40 m night-time band"
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "20 m: total spots on the path (2 weeks)",
+   "value": 708325.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "40 m: total spots on the path (2 weeks)",
+   "value": 209402.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/propagation.png"
+ ],
+ "runtime_s": 0.09,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL089-webSDR-propagation-study"
+}

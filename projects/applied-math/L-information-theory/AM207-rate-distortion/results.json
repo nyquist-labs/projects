@@ -1,0 +1,119 @@
+{
+ "meta": {
+  "id": "AM-207",
+  "title": "Rate\u2013distortion theory against real quantisers",
+  "level": "H",
+  "tools": "Gaussian and binary rate\u2013distortion functions, Blahut's algorithm for R(D) of a discrete source, own Lloyd\u2013Max quantiser, entropy-coded uniform quantiser, k-means vector quantiser, real speech samples",
+  "summary": "Compare the best achievable trade-off between bits and distortion with what practical quantisers achieve: the 6.02 dB-per-bit rule, the 1.53 dB 'space-filling' gap of scalar quantisation at high rate, how entropy coding and vector quantisation close part of it, and the numbers on real speech.",
+  "problem": "How many bits per sample does a given fidelity really require, and how far from that limit are the quantisers used in practice?",
+  "theory": "Gaussian source, squared error: $D(R)=\u03c3^22^{-2R}$ \u2014 SNR = 6.02 R dB. Binary source with Hamming distortion: $R(D)=1-H_2(D)$. The optimal fixed-rate scalar (Lloyd\u2013Max) quantiser of a Gaussian at high rate has $D\u2248\\frac{\\sqrt3\u03c0}{2}\u03c3^22^{-2R}$ (4.35 dB above the bound); a uniform quantiser followed by ideal\nentropy coding reaches $D\u2248\\frac{\u03c0e}{6}\u03c3^22^{-2R}$, i.e. 1.53 dB (\u2248 0.25 bit) from the limit; vector quantisers in higher dimension recover part of that gap. Blahut's algorithm computes R(D) of any discrete source by alternating minimisation.",
+  "method": "Gaussian source: Lloyd\u2013Max for 1\u20136 bits with exact conditional means (iterated to convergence); 10\u2076 Gaussian samples for the others: uniform quantiser with step chosen for entropy-coded rates 1\u20136 bits (entropy of the output as the rate); 2-D vector quantiser by k-means at 2 bits/sample. Binary source: Blahut R(D) vs 1 \u2212 H\u2082(D). Speech: all FSDD\nrecordings concatenated and normalised; 8-bit uniform PCM and \u03bc-law, SNR vs the Gaussian bound at the same rate.",
+  "data": "Free Spoken Digit Dataset (CC BY-SA 4.0).",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "L. Information theory"
+ },
+ "rows": [
+  {
+   "quantity": "Lloyd\u2013Max, 1 bit: SNR (optimal 2-level quantiser of a Gaussian: 1 \u2212 2/\u03c0 distortion \u2192 4.40 dB)",
+   "predicted": 4.396387073630167,
+   "measured": 4.396387073630167,
+   "unit": "dB",
+   "error": 0.0,
+   "error_str": "+0 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Lloyd\u2013Max at 6 bits: gap to the bound 6.02\u00b7R dB (high-rate Panter\u2013Dite limit: 4.35 dB, approached from below)",
+   "predicted": 4.35,
+   "measured": 4.210474605205121,
+   "unit": "dB",
+   "error": -0.13952539479487847,
+   "error_str": "-0.1395 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Entropy-coded uniform quantiser at high rate: gap to the bound (theory 10\u00b7log\u2081\u2080(\u03c0e/6) = 1.53 dB)",
+   "predicted": 1.533,
+   "measured": 1.527218216571559,
+   "unit": "dB",
+   "error": -0.005781783428440823,
+   "error_str": "-0.005782 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "2-D vector quantiser (16 cells = 2 bit/sample) beats the 4-level scalar quantiser (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Binary source: Blahut R(D) vs 1 \u2212 H\u2082(D) (worst difference over the curve)",
+   "predicted": 0.0,
+   "measured": 3.3306690738754696e-16,
+   "unit": "bit",
+   "error": 3.3306690738754696e-16,
+   "error_str": "+3.3307e-16 bit",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Speech, uniform 8-bit PCM: SNR = 6.02\u00b78 + 4.77 \u2212 crest factor (dB)",
+   "predicted": 29.335713501585357,
+   "measured": 30.125234689043392,
+   "unit": "dB",
+   "error": 0.7895211874580355,
+   "error_str": "+0.7895 dB",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03bc-law companding gives a higher SNR than uniform 8-bit on real speech (1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Lloyd\u2013Max iterations needed at 1\u20266 bits",
+   "value": "2 / 55 / 205 / 743 / 2724 / 10239",
+   "unit": "",
+   "note": "my first run stopped at 200 iterations and reported a 5.4 dB gap at 6 bits \u2014 not yet converged"
+  },
+  {
+   "quantity": "At 2 bit/sample: SNR scalar Lloyd\u2013Max / 2-D VQ / Shannon bound",
+   "value": "9.31 / 9.66 / 12.04 dB",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Speech at 8 bit/sample: uniform / \u03bc-law SNR vs Gaussian R\u2013D bound 48.2 dB",
+   "value": "30.1 / 37.6 dB",
+   "unit": "",
+   "note": "crest factor 23.6 dB \u2014 speech spends most of its time far below full scale"
+  }
+ ],
+ "figures": [
+  "figures/rate_distortion.png"
+ ],
+ "runtime_s": 4.01,
+ "folder": "projects/applied-math/L-information-theory/AM207-rate-distortion"
+}

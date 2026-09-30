@@ -1,0 +1,23 @@
+* Wien bridge — exported by eelab.circuit
+Rs out a 10000
+Cs a p 1.5915e-08
+Rp p 0 10000
+Cp p 0 1.5915e-08
+Rg n 0 10000
+Rf1 n m 15000
+Rf2 m out 12000
+Ikick 0 p DC 0.0 AC 0.0
+D1 m out D_1
+D2 out m D_2
+* op-amp U1: A0=2e+05, GBW=1e+07 Hz, SR=1e+07 V/s
+XUU1 p n out OPAMP1P A0=2e+05 GBW=1e+07
+.subckt OPAMP1P inp inn out A0=2e5 GBW=1e6
+G1 0 x inp inn {A0/1e6}
+R1 x 0 1e6
+C1 x 0 {1/(6.2832*GBW/A0*1e6)}
+E1 o 0 x 0 1
+Ro o out 50
+.ends
+.model D_1 D(Is=2.5e-09 N=1.75)
+.model D_2 D(Is=2.5e-09 N=1.75)
+.end

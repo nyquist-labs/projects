@@ -1,0 +1,114 @@
+{
+ "meta": {
+  "id": "AM-182",
+  "title": "Clustering without labels: k-means and Gaussian mixtures",
+  "level": "M",
+  "tools": "Own k-means (k-means++ seeding) and Gaussian-mixture EM (diagonal covariances, log-domain), monotonicity checks of both objectives, adjusted Rand index and purity against held-back labels, elbow and BIC model selection, restarts and initialisation sensitivity",
+  "summary": "Cluster smartphone-sensor windows without using the activity labels, verify the defining properties of the algorithms (inertia and likelihood can only improve), and then use the labels to judge what unsupervised structure actually corresponds to: movement versus rest is found perfectly, the six activities are not.",
+  "problem": "Without labels, what structure does a clustering algorithm find in real sensor data \u2014 and how do we know whether to believe it?",
+  "theory": "k-means alternates assignment and mean update; each step cannot increase the inertia $\\sum_i\\|x_i-\u03bc_{c(i)}\\|^2$, so it converges (to a local optimum that depends on the start; k-means++ seeding gives an O(log k) guarantee in expectation).\nEM for a Gaussian mixture alternates responsibilities (E) and weighted moments (M); the log-likelihood never decreases. BIC = \u22122 ln L + (parameters)\u00b7ln n penalises complexity. Agreement with reference labels: adjusted Rand index (0 = chance,\n1 = identical). Clusters reflect the geometry of the features \u2014 dominant variance first \u2014 which need not match the labels a human would choose.",
+  "method": "UCI HAR training set, 561 features standardised and reduced to 20 principal components (k-means and the GMM are distance-based; PCA removes redundant directions). k-means for k = 2\u202610, 10 restarts each; GMM for the same k. Reference labels: 6\nactivities, and the coarse split moving (3 activities) vs static (3).",
+  "data": "UCI Human Activity Recognition Using Smartphones.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "J. Statistics & learning on real signals"
+ },
+ "rows": [
+  {
+   "quantity": "k-means inertia never increases from one iteration to the next (violations, k = 2\u202610, all restarts)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "k = 2 recovers 'moving vs static' without labels: purity",
+   "predicted": 100.0,
+   "measured": 99.71436343852012,
+   "unit": "%",
+   "error": -0.28563656147987615,
+   "error_str": "-0.286 pp",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u2026 adjusted Rand index against that split",
+   "predicted": 1.0,
+   "measured": 0.9886042208721033,
+   "unit": "",
+   "error": -0.011395779127896688,
+   "error_str": "-0.0114",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "k = 6 vs the six activity labels: adjusted Rand index (literature for k-means on these features: \u2248 0.45)",
+   "predicted": 0.45,
+   "measured": 0.2763787606758485,
+   "unit": "",
+   "error": -0.17362123932415152,
+   "error_str": "-0.1736",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "EM log-likelihood never decreases (violations, k = 2\u202610)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "BIC keeps falling up to k = 10 \u2014 the data are not six Gaussian blobs (BIC-optimal k > 6; 1 = yes)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "k = 6: purity",
+   "value": 43.44396082698586,
+   "unit": "%",
+   "note": "chance for 6 balanced classes \u2248 19 %"
+  },
+  {
+   "quantity": "k = 6, 30 random restarts: spread of the final inertia (max/min \u2212 1)",
+   "value": 8.875281177396776,
+   "unit": "%",
+   "note": "different local optima \u2014 always restart"
+  },
+  {
+   "quantity": "Gaussian mixture, k = 6: adjusted Rand index vs activities",
+   "value": 0.3251353002524021,
+   "unit": "",
+   "note": "k-means: 0.28"
+  },
+  {
+   "quantity": "Relative inertia drop when adding a cluster, k = 2\u21923, 3\u21924, \u2026",
+   "value": "18 %, 9 %, 10 %, 4 %, 6 %, 5 %",
+   "unit": "",
+   "note": "no sharp elbow after k = 2"
+  }
+ ],
+ "figures": [
+  "figures/clustering.png"
+ ],
+ "runtime_s": 7.03,
+ "folder": "projects/applied-math/J-statistics-and-learning-on-real-signals/AM182-clustering-real-signals"
+}

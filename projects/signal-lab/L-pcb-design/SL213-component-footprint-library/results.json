@@ -1,0 +1,159 @@
+{
+ "meta": {
+  "id": "SL-213",
+  "title": "Footprint library from IPC-7351 equations, checked against KiCad's",
+  "level": "M",
+  "tools": "IPC-7351 land-pattern equations (toe/heel/side fillets with RMS tolerance stacking), KiCad .kicad_mod writer, kiutils parser, official KiCad footprint library as reference",
+  "summary": "Generate chip (0402\u20131206), SOIC-8 and SOT-23 land patterns from package dimensions with the IPC-7351 equations, write them as KiCad footprint files, and compare pad size and position with the footprints maintained in KiCad's official library.",
+  "problem": "Footprints are where boards die: a pad a few tenths of a millimetre off means tombstoned or bridged parts. Can a library be generated from datasheet numbers and still match a trusted reference?",
+  "theory": "IPC-7351 computes the land pattern from package tolerances: outer extent $Z = L_\\min + 2J_T + \\sqrt{C_L^2+F^2+P^2}$, inner gap $G = S_\\max - 2J_H - \\sqrt{C_S^2+F^2+P^2}$, pad width\n$X = W_\\min + 2J_S + \\sqrt{C_W^2+F^2+P^2}$, where J are the desired toe/heel/side fillets (nominal density: chips J_T = 0.35, J_H = 0, J_S = 0; gull-wing\nJ_T = 0.35, J_H = 0.35, J_S = 0.03 mm) and F, P fabrication/placement tolerances. KiCad's library states it follows 'IPC-7351 nominal' too, so I expect\npad pitch and size to agree within ~0.15 mm; differences should come only from the body tolerances each of us assumed.",
+  "method": "Package dimensions: chip resistors \u2014 typical datasheet min/max body length, width and terminal length (approximate, see eelab.pcb.CHIP_DIMS); SOIC-8 \u2014 JEDEC MS-012AA\n(E 5.80\u20136.20, L 0.40\u20131.27, b 0.31\u20130.51 mm); SOT-23 \u2014 JEDEC TO-236 (E 2.10\u20132.64, L 0.30\u20130.60, b 0.30\u20130.50 mm). F = 0.05, P = 0.025 mm, rounding to 0.05 mm.\nReference: KiCad library files fetched from gitlab.com/kicad/libraries/kicad-footprints and parsed with kiutils.",
+  "data": "Reference: KiCad footprint library (CC-BY-SA 4.0 with exception); package data from JEDEC outlines / typical datasheets.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "L. PCB design"
+ },
+ "rows": [
+  {
+   "quantity": "Generated .kicad_mod files that kiutils parses with the right pad count",
+   "predicted": 6.0,
+   "measured": 6.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "0402: worst pad-centre offset vs KiCad",
+   "predicted": 0.0,
+   "measured": 0.0024999999999999467,
+   "unit": "mm",
+   "error": 0.0024999999999999467,
+   "error_str": "+0.0025 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0603: worst pad-centre offset vs KiCad",
+   "predicted": 0.0,
+   "measured": 0.04999999999999993,
+   "unit": "mm",
+   "error": 0.04999999999999993,
+   "error_str": "+0.05 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "0805: worst pad-centre offset vs KiCad",
+   "predicted": 0.0,
+   "measured": 0.025000000000000022,
+   "unit": "mm",
+   "error": 0.025000000000000022,
+   "error_str": "+0.025 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "1206: worst pad-centre offset vs KiCad",
+   "predicted": 0.0,
+   "measured": 0.012499999999999956,
+   "unit": "mm",
+   "error": 0.012499999999999956,
+   "error_str": "+0.0125 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SOIC-8: worst pad-centre offset vs KiCad",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "mm",
+   "error": 0.0,
+   "error_str": "+0 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "SOT-23: worst pad-centre offset vs KiCad",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "mm",
+   "error": 0.0,
+   "error_str": "+0 mm",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Worst pad-size difference over all packages",
+   "predicted": 0.0,
+   "measured": 0.235,
+   "unit": "mm",
+   "error": 0.235,
+   "error_str": "+0.235 mm",
+   "kind": "abs",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "SOIC-8 pin 1 on the same corner as KiCad (sign of x and y agree)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "0402: pad length / width difference (ours \u2212 KiCad)",
+   "value": "+0.235 / -0.040 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "0603: pad length / width difference (ours \u2212 KiCad)",
+   "value": "+0.100 / +0.000 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "0805: pad length / width difference (ours \u2212 KiCad)",
+   "value": "+0.000 / +0.050 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "1206: pad length / width difference (ours \u2212 KiCad)",
+   "value": "+0.025 / +0.050 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "SOIC-8: pad length / width difference (ours \u2212 KiCad)",
+   "value": "+0.000 / +0.000 mm",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "SOT-23: pad length / width difference (ours \u2212 KiCad)",
+   "value": "+0.000 / -0.050 mm",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/footprints.png"
+ ],
+ "runtime_s": 0.26,
+ "folder": "projects/signal-lab/L-pcb-design/SL213-component-footprint-library"
+}

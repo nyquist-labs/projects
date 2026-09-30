@@ -1,0 +1,126 @@
+{
+ "meta": {
+  "id": "SL-005",
+  "title": "Butterworth vs Chebyshev (4th order)",
+  "level": "M",
+  "tools": "SciPy analog prototypes + eelab mini-SPICE (cascaded Sallen-Key)",
+  "summary": "Two 4th-order 1 kHz low-pass filters built as cascaded Sallen-Key stages: measure passband ripple and stop-band attenuation to show flatness vs steepness.",
+  "problem": "Butterworth promises a maximally flat passband; Chebyshev trades 1 dB of ripple for a steeper roll-off. How big is that trade in dB at 2 kHz, and does it survive E24 parts?",
+  "theory": "Poles come from the prototypes: Butterworth poles lie on a circle\n($s_k = \\omega_c e^{j\\pi(2k+n-1)/2n}$), Chebyshev poles on an ellipse determined by the ripple \u03b5\n($\\varepsilon^2=10^{R_p/10}-1$). Pairing conjugate poles gives biquads with\n$\\omega_{0}=|s_k|$, $Q=|s_k|/(2|\\mathrm{Re}\\,s_k|)$ \u2014 each built as a unity-gain Sallen-Key stage.\nPredicted attenuation at 2 kHz: Butterworth $10\\log(1+2^{8}) = 24.1$ dB; Chebyshev\n$10\\log(1+\\varepsilon^2T_4^2(2))$ with $T_4(2)=97$.",
+  "method": "scipy.signal.butter / cheby1 give analog poles \u2192 (f\u2080, Q) per stage \u2192 components\n(R = 10 k\u03a9, C1 = 2Q/(\u03c9\u2080R), C2 = 1/(2Q\u03c9\u2080R)) rounded to E24 \u2192 two cascaded op-amp stages simulated\nin AC. Measured: passband ripple (max \u2212 min gain below 1 kHz), \u22123 dB point, attenuation at 2 kHz and 5 kHz.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "A. Analog circuit design & simulation",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Butterworth: gain at passband edge 1 kHz",
+   "predicted": -3.0105163149046685,
+   "measured": -3.369246858151374,
+   "unit": "dB",
+   "error": -0.3587305432467054,
+   "error_str": "-0.3587 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth: max deviation below 500 Hz",
+   "predicted": 0.0,
+   "measured": 0.04553674767873801,
+   "unit": "dB",
+   "error": 0.04553674767873801,
+   "error_str": "+0.04554 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth: attenuation at 2 kHz",
+   "predicted": 24.09923001198955,
+   "measured": 25.037729502389762,
+   "unit": "dB",
+   "error": 0.9384994904002113,
+   "error_str": "+0.9385 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth: attenuation at 5 kHz",
+   "predicted": 55.91749993160892,
+   "measured": 56.93843940676195,
+   "unit": "dB",
+   "error": 1.0209394751530283,
+   "error_str": "+1.021 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB: passband ripple (0\u20131 kHz)",
+   "predicted": 0.9999330567952021,
+   "measured": 1.5425852336000663,
+   "unit": "dB",
+   "error": 0.5426521768048642,
+   "error_str": "+0.5427 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB: attenuation at 2 kHz",
+   "predicted": 33.00685726920616,
+   "measured": 32.749877772118694,
+   "unit": "dB",
+   "error": -0.2569794970874639,
+   "error_str": "-0.257 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB: attenuation at 5 kHz",
+   "predicted": 66.8963176178068,
+   "measured": 66.74818119161536,
+   "unit": "dB",
+   "error": -0.14813642619144218,
+   "error_str": "-0.1481 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Butterworth stage 1",
+   "value": "f\u2080=1000.0 Hz, Q=1.307, C1=43 nF, C2=6.2 nF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Butterworth stage 2",
+   "value": "f\u2080=1000.0 Hz, Q=0.541, C1=18 nF, C2=15 nF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB stage 1",
+   "value": "f\u2080=993.2 Hz, Q=3.559, C1=110 nF, C2=2.2 nF",
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "Chebyshev 1 dB stage 2",
+   "value": "f\u2080=528.6 Hz, Q=0.785, C1=47 nF, C2=20 nF",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/compare.png",
+  "figures/cheby_passband.png"
+ ],
+ "runtime_s": 0.16,
+ "folder": "projects/signal-lab/A-analog-circuit-design/SL005-butterworth-vs-chebyshev"
+}

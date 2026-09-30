@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "id": "AM-071",
+  "title": "Matrix pencil: extracting damped exponentials from a transient",
+  "level": "H",
+  "tools": "Hua\u2013Sarkar matrix pencil (Hankel matrices, SVD rank truncation, generalised eigenvalues), least-squares amplitudes, comparison with FFT peak picking",
+  "summary": "Estimate the frequencies and damping factors of three closely spaced damped sinusoids in a noisy ringing transient with the matrix pencil method, show that it resolves modes an FFT cannot, and measure estimation error versus SNR.",
+  "problem": "A ringing circuit's transient is a sum of damped exponentials. How do you recover each mode's frequency and decay, even when they overlap spectrally?",
+  "theory": "$x[n]=\\sum_k c_kz_k^n$ with $z_k=e^{(-\u03c3_k+j\u03c9_k)T}$. Hankel matrices Y\u2080 (rows 0\u2026N\u2212L\u22121) and Y\u2081 (shifted by one) satisfy Y\u2081 = Y\u2080\u00b7(something with eigenvalues z_k): the z_k are the non-zero eigenvalues of the pencil\n$Y_0^+Y_1$ after truncating to the signal rank (2K for real signals). No frequency grid, so modes closer than the FFT's 1/T resolution are separable; errors grow as noise increases, approaching the Cram\u00e9r\u2013Rao\nbound for moderate SNR.",
+  "method": "fs = 1 MHz, N = 200 (T = 200 \u00b5s, FFT resolution 5 kHz). Modes: 100 kHz (\u03c3 = 5000 s\u207b\u00b9), 103 kHz (\u03c3 = 8000), 150 kHz (\u03c3 = 20000). SNR 10\u201360 dB, 100 trials each; pencil parameter L = N/3;\nrank 6. Errors in frequency and damping.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "D. Linear algebra",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Noise-free: worst frequency error",
+   "predicted": 0.0,
+   "measured": 1.6007106751203537e-10,
+   "unit": "Hz",
+   "error": 1.6007106751203537e-10,
+   "error_str": "+160.1 pHz",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Noise-free: worst relative damping error",
+   "predicted": 0.0,
+   "measured": 3.359673428349197e-13,
+   "unit": "",
+   "error": 3.359673428349197e-13,
+   "error_str": "+3.3597e-13",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "FFT peaks found near 100\u2013103 kHz (the two modes 3 kHz apart are unresolved by 1/T = 5 kHz)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "High-SNR slope of frequency RMS error: \u221220 dB per 20 dB SNR (error \u221d noise amplitude)",
+   "predicted": -1.0,
+   "measured": -1.0090438255479346,
+   "unit": "decades/decade",
+   "error": -0.009043825547934592,
+   "error_str": "-0.009044 decades/decade",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "RMS error of the 103 kHz mode at 30 dB SNR",
+   "value": 117.70824044248641,
+   "unit": "Hz",
+   "note": "vs 5 kHz FFT resolution"
+  }
+ ],
+ "figures": [
+  "figures/pencil.png"
+ ],
+ "runtime_s": 0.48,
+ "folder": "projects/applied-math/D-linear-algebra/AM071-matrix-pencil-method"
+}

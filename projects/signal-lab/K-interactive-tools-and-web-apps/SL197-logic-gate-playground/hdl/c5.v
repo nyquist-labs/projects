@@ -1,0 +1,23 @@
+module c5(input wire i0, i1, i2, output wire o0, o1, o2);
+  wire g0 = ~i0;
+  wire g1 = i0 | i1 | i1;
+  wire g2 = i2 ^ g0;
+  wire g3 = ~i0;
+  wire g4 = ~(i2 & i1 & i1);
+  wire g5 = g0 | g4 | i2;
+  wire g6 = g4 | g1 | g1;
+  wire g7 = ~(g2 & g1);
+  wire g8 = g4 & i0 & g1;
+  wire g9 = g6;
+  wire g10 = ~(g0 | g9 | g1);
+  wire g11 = g5 | g6 | i1;
+  wire g12 = ~(g5 | i2 | g7);
+  wire g13 = i1 ^ g2;
+  wire g14 = g11;
+  wire g15 = g3 | g0;
+  wire g16 = ~(g8 & g0 & i0);
+  wire g17 = ~(g13 & i0 & i1);
+  assign o0 = g17;
+  assign o1 = g16;
+  assign o2 = g15;
+endmodule

@@ -1,0 +1,113 @@
+{
+ "meta": {
+  "id": "AM-189",
+  "title": "A numerical field solver that obeys Gauss's law",
+  "level": "M",
+  "tools": "Own finite-volume Poisson solver (sparse matrix, harmonic-mean permittivity at faces), discrete flux integrals over closed boxes, analytic field of a uniformly charged cylinder, dielectric interface conditions, grid-convergence study",
+  "summary": "Solve \u2212\u2207\u00b7(\u03b5\u2207V) = \u03c1 on a grid and check the solution against the physics it must satisfy: the flux of D out of any closed box equals the charge inside (exactly, by construction of a finite-volume scheme), the field of a charged rod matches Gauss's-law results, and normal D is continuous across a dielectric boundary.",
+  "problem": "A field solver produces pretty colour maps. How do we know the numbers obey Maxwell's equations?",
+  "theory": "Gauss's law $\\oint D\\cdot n\\,dl=Q_{enc}$ (per unit length in 2-D). A long cylinder of radius a with uniform density \u03c1: $E=\\frac{\u03c1r}{2\u03b5}$ inside, $\\frac{\u03c1a^2}{2\u03b5r}$ outside. At an interface normal D is continuous and tangential E is continuous, so\n$E_{n2}/E_{n1}=\u03b5_1/\u03b5_2$. A finite-volume discretisation integrates the PDE over each cell, so the discrete flux balance holds to round-off for *any* box aligned with the cells; pointwise errors of the second-order stencil fall as h\u00b2.",
+  "method": "Square box 0.2 m, grounded walls. Case 1: charged rod (a = 20 mm, \u03c1 = 1 \u00b5C/m\u00b3) at the centre in vacuum; fluxes through 5 boxes; radial field vs analytic at the grid sizes 101\u2026401. Case 2: the same rod with the lower half of the box\nfilled with \u03b5_r = 4: flux balance and the D/E jump conditions at the interface.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Flux of D out of 5 closed boxes vs enclosed charge (worst relative error)",
+   "predicted": 0.0,
+   "measured": 1.1240663799681433e-14,
+   "unit": "",
+   "error": 1.1240663799681433e-14,
+   "error_str": "+1.1241e-14",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Radial field at r = 10 mm (Gauss's law with the discretised charge)",
+   "predicted": 564.7045336865095,
+   "measured": 564.1307198908903,
+   "unit": "V/m",
+   "error": -0.10161310231976599,
+   "error_str": "-0.10 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Radial field at r = 50 mm (Gauss's law with the discretised charge)",
+   "predicted": 449.737091684749,
+   "measured": 458.43002725106,
+   "unit": "V/m",
+   "error": 1.9328927337851136,
+   "error_str": "+1.93 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "With a dielectric half-space: flux of D still equals the enclosed charge",
+   "predicted": 1.251e-09,
+   "measured": 1.2510000000000057e-09,
+   "unit": "C/m",
+   "error": 4.628508623398237e-13,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Normal D continuous across the interface (ratio just below / just above)",
+   "predicted": 1.0,
+   "measured": 0.9667211142085872,
+   "unit": "",
+   "error": -3.3278885791412804,
+   "error_str": "-3.33 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Normal E jumps by \u03b5\u2081/\u03b5\u2082 = 1/4 across the interface",
+   "predicted": 0.25,
+   "measured": 0.2416802785521468,
+   "unit": "",
+   "error": -3.3278885791412804,
+   "error_str": "-3.33 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Tangential E across the interface (adjacent node rows): the mismatch halves each time h halves (first-order \u2192 continuous)",
+   "predicted": 2.0,
+   "measured": 1.9334087634619896,
+   "unit": "\u00d7",
+   "error": -3.329561826900518,
+   "error_str": "-3.33 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Field error at r = 40 mm for grid spacing 2 / 1 / 0.5 mm",
+   "value": "1.109 % / 0.827 % / 0.764 %",
+   "unit": "",
+   "note": "the grounded box makes the field differ slightly from the free-space formula, so the error levels off rather than following h\u00b2"
+  },
+  {
+   "quantity": "Tangential-E mismatch between the rows either side of the interface, h = 1 / 0.5 / 0.25 mm",
+   "value": "13.5 % / 7.2 % / 3.7 %",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/gauss.png"
+ ],
+ "runtime_s": 6.16,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM189-numerical-field-solver-gauss-law"
+}

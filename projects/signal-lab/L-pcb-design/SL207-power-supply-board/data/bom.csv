@@ -1,0 +1,11 @@
+refs,qty,value,footprint,mpn
+C1,1,10uF 25V,CP_Radial_D6.3mm_P2.5mm,
+C2,1,10uF,C_1206,
+C3,1,10uF 16V,CP_Radial_D6.3mm_P2.5mm,
+D1,1,LED green,C_0805,
+J1,1,VIN 12V,TerminalBlock_1x02_P5.08mm,
+J2,1,VOUT 5V,TerminalBlock_1x02_P5.08mm,
+R1,1,240,C_0805,
+R2,1,715,C_0805,
+R3,1,1k,C_0805,
+U1,1,LM317,TO-220-3_Vertical,TO-220 adjustable regulator

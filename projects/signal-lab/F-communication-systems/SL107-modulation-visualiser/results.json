@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "id": "SL-107",
+  "title": "AM / FM / PM modulation visualiser",
+  "level": "E",
+  "tools": "HTML/JS interactive explainer + NumPy verification of spectra (Bessel sidebands, Carson's rule)",
+  "summary": "An in-browser explainer that draws AM, FM and PM waveforms and spectra live as you move the sliders; the spectra it shows are checked in Python against Bessel-function sideband amplitudes and Carson's rule.",
+  "problem": "Three ways of putting a message on a carrier look similar in time but very different in frequency. Make the difference visible and verify it numerically.",
+  "theory": "AM: carrier + two sidebands of amplitude m/2. FM/PM with a sinusoidal message: $\\cos(\\omega_ct+\\beta\\sin\\omega_mt)=\\sum_n J_n(\\beta)\\cos((\\omega_c+n\\omega_m)t)$,\nso the n-th sideband amplitude is $|J_n(\\beta)|$ \u2014 the carrier vanishes at \u03b2 = 2.405. Carson's rule: 98 % of the power lies\nwithin $B\\approx2(\\beta+1)f_m$.",
+  "method": "Signals synthesised at 100 kHz, carrier 10 kHz, message 500 Hz; FFT sideband amplitudes vs J_n(\u03b2) for \u03b2 = 0.5, 1, 2.405, 5; 98 %-power\nbandwidth vs Carson. The web page (web/index.html) computes the same spectra with a JS DFT.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u03b2 = 0.5: max |sideband \u2212 |J_n(\u03b2)||",
+   "predicted": 0.0,
+   "measured": 1.6585561049553554e-13,
+   "unit": "",
+   "error": 1.6585561049553554e-13,
+   "error_str": "+1.6586e-13",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 0.5: 98 %-power bandwidth vs Carson 2(\u03b2+1)f_m",
+   "predicted": 1500.0,
+   "measured": 1000.0,
+   "unit": "Hz",
+   "error": -33.33333333333333,
+   "error_str": "-33.33 %",
+   "kind": "rel",
+   "ok": false,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 1.0: max |sideband \u2212 |J_n(\u03b2)||",
+   "predicted": 0.0,
+   "measured": 7.935091386052084e-14,
+   "unit": "",
+   "error": 7.935091386052084e-14,
+   "error_str": "+7.9351e-14",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 1.0: 98 %-power bandwidth vs Carson 2(\u03b2+1)f_m",
+   "predicted": 2000.0,
+   "measured": 2000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 2.405: max |sideband \u2212 |J_n(\u03b2)||",
+   "predicted": 0.0,
+   "measured": 1.350204670291788e-13,
+   "unit": "",
+   "error": 1.350204670291788e-13,
+   "error_str": "+1.3502e-13",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 2.405: 98 %-power bandwidth vs Carson 2(\u03b2+1)f_m",
+   "predicted": 3405.0,
+   "measured": 3000.0,
+   "unit": "Hz",
+   "error": -11.894273127753303,
+   "error_str": "-11.89 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 5.0: max |sideband \u2212 |J_n(\u03b2)||",
+   "predicted": 0.0,
+   "measured": 1.5748513604307846e-13,
+   "unit": "",
+   "error": 1.5748513604307846e-13,
+   "error_str": "+1.5749e-13",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "\u03b2 = 5.0: 98 %-power bandwidth vs Carson 2(\u03b2+1)f_m",
+   "predicted": 6000.0,
+   "measured": 6000.0,
+   "unit": "Hz",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/fm_sidebands.png"
+ ],
+ "runtime_s": 0.2,
+ "folder": "projects/signal-lab/F-communication-systems/SL107-modulation-visualiser"
+}

@@ -1,0 +1,9 @@
+* buck-boost — exported by eelab.circuit
+Vin vin 0 DC 12.0 AC 0.0
+* switch q between vin and x (Ron=0.05, Roff=1000000.0)
+Lb x 0 4.7e-05
+Co out 0 0.0001
+RL out 0 10
+Dd out x D_d
+.model D_d D(Is=1e-05 N=1.05)
+.end

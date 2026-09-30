@@ -1,0 +1,78 @@
+{
+ "meta": {
+  "id": "AM-060",
+  "title": "Skin effect as a diffusion problem",
+  "level": "H",
+  "tools": "Complex finite-difference solution of the magnetic diffusion (Helmholtz-type) equation in a slab and in a round wire (cylindrical Laplacian), Bessel-function analytic solution, AC-resistance ratio",
+  "summary": "Solve d\u00b2J/dx\u00b2 = j\u03c9\u03bc\u03c3J numerically for current crowding in a conductor, compare the current distribution with e^{\u2212(1+j)x/\u03b4} and the Bessel-function solution for a round wire, and compute the AC/DC resistance ratio versus frequency.",
+  "problem": "Why does a copper wire's resistance rise with frequency \u2014 and can we predict by exactly how much?",
+  "theory": "In a good conductor the current density obeys the diffusion equation; for time-harmonic fields $\u2207^2J = j\u03c9\u03bc\u03c3J = \\frac{2j}{\u03b4^2}J$ with skin depth $\u03b4=\\sqrt{2/(\u03c9\u03bc\u03c3)}$ (66 \u00b5m in copper at 1 MHz). Half-space:\n$J=J_0e^{-(1+j)x/\u03b4}$. Round wire of radius a: $J(r)\\propto J_0\\!\\big(\\sqrt{-j}\\,\\sqrt2\\,r/\u03b4\\big)$, and $R_{ac}/R_{dc}$ follows from the ratio of the Bessel functions; for a \u226b \u03b4 it tends to a/(2\u03b4) + \u00bc.",
+  "method": "Copper \u03c3 = 5.8\u00d710\u2077 S/m. Slab: 1 mm thick, surface current imposed, 2000 nodes, compare |J| and phase with the exponential. Wire: radius 0.5 mm, cylindrical FD (r J\u2033 + J\u2032 \u2212 j\u03c9\u03bc\u03c3 r J = 0) with\nJ(a) = 1, regular at r = 0; R_ac/R_dc = (total current)\u207b\u00b9-weighted power ratio; frequencies 1 kHz\u2013100 MHz; Bessel reference.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "C. Differential equations",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Skin depth of copper at 1 MHz",
+   "predicted": 6.6e-05,
+   "measured": 6.608549310080563e-05,
+   "unit": "m",
+   "error": 0.1295350012206467,
+   "error_str": "+0.13 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Slab: |J(x)| vs e^(\u2212x/\u03b4) within 5\u03b4 (max abs error)",
+   "predicted": 0.0,
+   "measured": 1.75487060111168e-06,
+   "unit": "",
+   "error": 1.75487060111168e-06,
+   "error_str": "+1.7549e-06",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Slab: phase lags by 1 rad per skin depth (slope \u00d7 \u03b4)",
+   "predicted": -1.0,
+   "measured": -0.9999952297358422,
+   "unit": "rad/\u03b4",
+   "error": 0.0004770264157794024,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Round wire R_ac/R_dc: finite differences vs Bessel solution (worst over 1 kHz\u2013100 MHz)",
+   "predicted": 0.0,
+   "measured": 0.0022142736228953908,
+   "unit": "",
+   "error": 0.0022142736228953908,
+   "error_str": "+0.002214",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "100 MHz: R_ac/R_dc \u2248 a/(2\u03b4) + \u00bc (thick-wire limit)",
+   "predicted": 38.079785066240554,
+   "measured": 38.16552669388254,
+   "unit": "",
+   "error": 0.22516310817626098,
+   "error_str": "+0.23 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [],
+ "figures": [
+  "figures/skin.png"
+ ],
+ "runtime_s": 0.55,
+ "folder": "projects/applied-math/C-differential-equations/AM060-skin-effect-diffusion"
+}

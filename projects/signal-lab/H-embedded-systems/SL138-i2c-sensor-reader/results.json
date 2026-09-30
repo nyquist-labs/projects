@@ -1,0 +1,63 @@
+{
+ "meta": {
+  "id": "SL-138",
+  "title": "I\u00b2C temperature-sensor driver with bus capture",
+  "level": "E",
+  "tools": "C firmware (bit-level I\u00b2C master) + simulated TMP102-style sensor on a wired-AND bus, Python protocol decoder",
+  "summary": "Write a TMP102-style driver: pointer-register write, two-byte read, 12-bit two's-complement conversion. The simulated bus logs every SCL/SDA edge; Python decodes the transactions and checks the temperatures and the 100 kHz timing.",
+  "problem": "Reading a sensor over I\u00b2C involves addressing, register pointers, repeated starts and number formats. Get every layer right and prove it from the bus waveform.",
+  "theory": "TMP102: 12-bit temperature in the upper bits of two bytes, LSB = 0.0625 \u00b0C, two's complement for negative values. One read =\nSTART + addr/W + pointer + repeated START + addr/R + 2 data bytes + STOP = 5 bytes \u00d7 9 clocks = 45 clocks, plus \u2248 1.5 clock-times\neach for START, repeated START and STOP \u2192 \u2248 49.5 SCL periods = 0.495 ms at 100 kHz.",
+  "method": "Sensor model returns a temperature profile from \u221225 \u00b0C to +125 \u00b0C (including 0 and negative values); firmware reads it 40 times. Bus = open-drain AND of\nmaster and slave drivers. Decoder rebuilds bytes from SCL rising edges and START/STOP conditions.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "H. Embedded systems (simulated)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Max conversion error (12-bit, 0.0625 \u00b0C LSB \u2192 \u2264 0.03125)",
+   "predicted": 0.03125,
+   "measured": 0.028800000000003934,
+   "unit": "\u00b0C",
+   "error": -0.0024499999999960664,
+   "error_str": "-0.00245 \u00b0C",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Negative temperatures decoded correctly (two's complement)",
+   "predicted": 1.0,
+   "measured": 1.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Transaction time at 100 kHz (5 bytes \u00d7 9 + 3 \u00d7 1.5 clocks)",
+   "predicted": 0.000495,
+   "measured": 0.000495,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Bus frames decoded (START\u2026START/STOP)",
+   "value": 80.0,
+   "unit": "",
+   "note": "bytes per read transaction: 2 + 3"
+  }
+ ],
+ "figures": [
+  "figures/i2c.png"
+ ],
+ "runtime_s": 0.45,
+ "folder": "projects/signal-lab/H-embedded-systems/SL138-i2c-sensor-reader"
+}

@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "id": "SL-100",
+  "title": "Dipole vs 3-element Yagi: gain, beamwidth and front-to-back",
+  "level": "M",
+  "tools": "Method-of-moments solver from SL-099 (parasitic elements via mutual coupling)",
+  "summary": "Add a reflector and a director to a dipole and quantify what they buy: directivity, beamwidth, front-to-back ratio and the drop in feed-point impedance, compared with published Yagi figures.",
+  "problem": "Two passive rods can turn an omnidirectional dipole into a beam antenna. By how much, and at what cost?",
+  "theory": "Parasitic elements are driven by mutual coupling; a longer element (reflector, inductive) re-radiates with a phase that\nreinforces the forward direction, a shorter one (director, capacitive) pulls the beam forward. A well-tuned 3-element\nYagi with ~0.4 \u03bb boom reaches \u2248 7\u20138 dBi (\u2248 5\u20136 dBd), front-to-back 15\u201325 dB, and its feed impedance drops to ~20\u201335 \u03a9\nbecause of the strong coupling.",
+  "method": "Driven element 0.47 \u03bb; reflector 0.50 \u03bb at \u22120.20 \u03bb; director 0.44 \u03bb at +0.20 \u03bb; radius \u03bb/1000; 30 segments per element. H-plane\n(azimuth, \u03b8 = 90\u00b0) and E-plane patterns; directivity by sphere integration; F/B = forward/backward power at \u03b8 = 90\u00b0.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "Dipole directivity",
+   "predicted": 2.15,
+   "measured": 2.126129898648532,
+   "unit": "dBi",
+   "error": -0.02387010135146772,
+   "error_str": "-0.02387 dBi",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "3-element Yagi directivity (published \u2248 7.5 dBi)",
+   "predicted": 7.5,
+   "measured": 8.395828378461323,
+   "unit": "dBi",
+   "error": 0.8958283784613226,
+   "error_str": "+0.8958 dBi",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Front-to-back ratio (published 15\u201325 dB)",
+   "predicted": 20.0,
+   "measured": 17.102545438015262,
+   "unit": "dB",
+   "error": -2.8974545619847376,
+   "error_str": "-2.897 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Feed impedance, Yagi (published 20\u201335 \u03a9)",
+   "predicted": 27.0,
+   "measured": 31.476669006496596,
+   "unit": "\u03a9",
+   "error": 4.476669006496596,
+   "error_str": "+4.477 \u03a9",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "H-plane half-power beamwidth, Yagi",
+   "value": 98.0,
+   "unit": "\u00b0",
+   "note": "dipole: 360\u00b0 (omnidirectional)"
+  },
+  {
+   "quantity": "Feed impedance, dipole",
+   "value": "69.0 -10.9j \u03a9",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/patterns.png"
+ ],
+ "runtime_s": 1.33,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL100-dipole-vs-yagi"
+}

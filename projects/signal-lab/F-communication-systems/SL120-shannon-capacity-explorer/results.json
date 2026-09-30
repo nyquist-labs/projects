@@ -1,0 +1,86 @@
+{
+ "meta": {
+  "id": "SL-120",
+  "title": "Shannon capacity explorer",
+  "level": "M",
+  "tools": "HTML/JS interactive plot + Python: C = B\u00b7log\u2082(1+SNR), gap-to-capacity of real modulations (Monte Carlo)",
+  "summary": "An interactive page relating bandwidth, SNR and capacity, plus a measurement of how far uncoded BPSK, QPSK and 16-QAM are from the Shannon limit at BER 10\u207b\u2075, and the \u22121.59 dB ultimate limit.",
+  "problem": "What is the maximum data rate a channel can carry, and how close do practical signals get?",
+  "theory": "$C=B\\log_2(1+SNR)$. In terms of spectral efficiency \u03b7 = R/B and $E_b/N_0$: reliable communication requires\n$E_b/N_0\\ge\\frac{2^\\eta-1}{\\eta}$, which tends to ln 2 = \u22121.59 dB as \u03b7 \u2192 0. Uncoded QPSK (\u03b7 = 2) needs 9.6 dB at 10\u207b\u2075 where the limit is\n1.76 dB: a 7.8 dB gap that coding (turbo, LDPC) closes to within ~1 dB.",
+  "method": "Required E_b/N\u2080 at BER 10\u207b\u2075 for BPSK, QPSK, 16-QAM from closed forms, checked by Monte Carlo near the operating point; Shannon\nminimum E_b/N\u2080 at the same \u03b7; plotted on the \u03b7\u2013E_b/N\u2080 plane. Web page: sliders for B and SNR.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "F. Communication systems",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "BPSK: BER at its predicted 10\u207b\u2075 operating point (Monte Carlo)",
+   "predicted": 1e-05,
+   "measured": 7.5e-06,
+   "unit": "",
+   "error": -2.5000000000000006e-06,
+   "error_str": "-2.5000e-06",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "QPSK: BER at its predicted 10\u207b\u2075 operating point (Monte Carlo)",
+   "predicted": 1e-05,
+   "measured": 5e-06,
+   "unit": "",
+   "error": -5e-06,
+   "error_str": "-5.0000e-06",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "16-QAM: BER at its predicted 10\u207b\u2075 operating point (Monte Carlo)",
+   "predicted": 1e-05,
+   "measured": 1.25e-05,
+   "unit": "",
+   "error": 2.4999999999999998e-06,
+   "error_str": "+2.5000e-06",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Ultimate Shannon limit (\u03b7 \u2192 0)",
+   "predicted": -1.591745389548616,
+   "measured": -1.5902401526287435,
+   "unit": "dB",
+   "error": 0.0015052369198724769,
+   "error_str": "+0.001505 dB",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "BPSK: gap to Shannon at \u03b7 = 1",
+   "value": 9.587858346847607,
+   "unit": "dB",
+   "note": "needs 9.59 dB, limit 0.00 dB"
+  },
+  {
+   "quantity": "QPSK: gap to Shannon at \u03b7 = 2",
+   "value": 7.826945756290795,
+   "unit": "dB",
+   "note": "needs 9.59 dB, limit 1.76 dB"
+  },
+  {
+   "quantity": "16-QAM: gap to Shannon at \u03b7 = 4",
+   "value": 7.694209057691971,
+   "unit": "dB",
+   "note": "needs 13.43 dB, limit 5.74 dB"
+  }
+ ],
+ "figures": [
+  "figures/shannon.png"
+ ],
+ "runtime_s": 0.11,
+ "folder": "projects/signal-lab/F-communication-systems/SL120-shannon-capacity-explorer"
+}

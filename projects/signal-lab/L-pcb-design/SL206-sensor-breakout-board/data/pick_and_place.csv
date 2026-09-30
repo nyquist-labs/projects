@@ -1,0 +1,7 @@
+ref,value,footprint,x_mm,y_mm,rot,side,type
+U1,LM75-class,SOIC-8,11,11,0,top,SMD
+J1,VCC/GND/SCL/SDA/OS,PinHeader_1x05_P2.54mm,11,3,0,top,THT
+R1,4.7k,C_0603,4,12,90,top,SMD
+R2,4.7k,C_0603,6.5,12,90,top,SMD
+R3,10k,C_0603,17.5,8,90,top,SMD
+C1,100n,C_0603,16,14,90,top,SMD

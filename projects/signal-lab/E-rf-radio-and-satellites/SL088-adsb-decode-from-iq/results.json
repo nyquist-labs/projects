@@ -1,0 +1,64 @@
+{
+ "meta": {
+  "id": "SL-088",
+  "title": "ADS-B aircraft messages decoded from raw IQ samples",
+  "level": "H",
+  "tools": "NumPy: magnitude detection, preamble correlation, PPM bit slicing, CRC-24, CPR/callsign decoding",
+  "summary": "Decode Mode-S / ADS-B messages from a real 2 MS/s IQ recording of the 1090 MHz band: detect preambles, slice pulse-position-modulated bits, validate with the CRC-24 and extract aircraft IDs, callsigns and altitudes.",
+  "problem": "Every airliner broadcasts its identity and position ~2 times per second on 1090 MHz. Recover those messages from raw radio samples with nothing but NumPy.",
+  "theory": "Mode S downlink: 8 \u00b5s preamble with pulses at 0, 1.0, 3.5 and 4.5 \u00b5s, then 56 or 112 bits of pulse-position modulation at\n1 Mbit/s (bit = 1 if the pulse is in the first half-\u00b5s). A 112-bit message lasts 120 \u00b5s including the preamble. Parity is a\nCRC-24 with generator polynomial 0x1FFF409; for DF17 (extended squitter) the remainder over all 112 bits is zero, so\na random bit pattern passes with probability 2\u207b\u00b2\u2074 \u2248 6\u00d710\u207b\u2078. At 2 MS/s each bit is two samples.",
+  "method": "Input: `modes1.bin` from the dump1090 project's test files (8-bit unsigned IQ at 2 MS/s, 0.18 s, real reception). Magnitude,\npreamble template match with a noise-relative threshold, bit slicing by comparing the two half-bit samples, CRC-24\ncheck. DF17 messages decoded for ICAO address, type code, callsign (TC 1\u20134) and barometric altitude (TC 9\u201318).",
+  "data": "Real: dump1090 test recording `testfiles/modes1.bin` (github.com/antirez/dump1090), 1090 MHz IQ.",
+  "track": "Signal Lab \u2014 214 electrical-engineering projects",
+  "category": "E. RF, radio & satellites (real signals)"
+ },
+ "rows": [
+  {
+   "quantity": "CRC false accepts among 20,000 random 112-bit blocks",
+   "predicted": 0.0011920928955078125,
+   "measured": 0.0,
+   "unit": "",
+   "error": -0.0011920928955078125,
+   "error_str": "-0.001192",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  },
+  {
+   "quantity": "Message duration (preamble + 112 bits)",
+   "predicted": 0.00012,
+   "measured": 0.00012,
+   "unit": "s",
+   "error": 0.0,
+   "error_str": "+0 s",
+   "kind": "abs",
+   "ok": null,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Preamble candidates",
+   "value": 3078.0,
+   "unit": "",
+   "note": ""
+  },
+  {
+   "quantity": "DF17/18 messages passing CRC-24",
+   "value": 142.0,
+   "unit": "",
+   "note": "101 distinct"
+  },
+  {
+   "quantity": "Distinct aircraft (ICAO addresses)",
+   "value": 1.0,
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/messages.png"
+ ],
+ "runtime_s": 0.76,
+ "folder": "projects/signal-lab/E-rf-radio-and-satellites/SL088-adsb-decode-from-iq"
+}

@@ -1,0 +1,1 @@
+{ "name": "MCP4725-like DAC", "author": "Anna Lin (Nyquist Labs)", "pins": ["VCC", "GND", "SCL", "SDA", "OUT"], "controls": [] }

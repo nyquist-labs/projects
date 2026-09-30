@@ -1,0 +1,113 @@
+{
+ "meta": {
+  "id": "AM-194",
+  "title": "Where the power flows: the Poynting vector in a transmission line",
+  "level": "H",
+  "tools": "Own 2-D Laplace solution of a square coaxial line, TEM fields (E from the potential, H = \u1e91\u00d7E/\u03b7), current from Amp\u00e8re's circulation, cross-section integral of E\u00d7H, capacitance from field energy, analytic circular coax, surface-impedance loss flux into the conductors",
+  "summary": "Show that the power carried by a cable travels in the space between the conductors, not in the copper: integrate the Poynting vector over the cross-section of a numerically solved line and recover V\u00b7I exactly, map how the power is distributed, and derive conductor loss as the small inward component of S at the metal surfaces.",
+  "problem": "Power 'flows through the wires' \u2014 or does it? Where exactly is the energy of a signal on a cable while it travels?",
+  "theory": "For a TEM line with voltage V and current I, the fields satisfy $H=\\hat z\\times E/\u03b7$ in a homogeneous dielectric and $\\int_{cross\\ section}(E\\times H)\\cdot\\hat z\\,dA=VI$: all the power is in the dielectric. $Z_0=V/I=\\frac{1}{v\\,C'}$. Circular coax: $E=\\frac{V}{r\\ln(b/a)}$,\n$H=\\frac{I}{2\u03c0r}$, so the power inside radius r is $VI\\frac{\\ln(r/a)}{\\ln(b/a)}$ \u2014 concentrated near the inner conductor. With finite conductivity each conductor surface absorbs $S_n=\\tfrac12R_s|H_t|^2$ per area, $R_s=\\sqrt{\u03c0f\u03bc_0/\u03c3}$; integrating gives the conductor loss\n$P'=\\tfrac12|I|^2R'$ with $R'=\\frac{R_s}{2\u03c0}(\\frac1a+\\frac1b)$ and attenuation \u03b1 = R'/(2Z\u2080).",
+  "method": "Square coax: inner 4 \u00d7 4 mm, outer 12 \u00d7 12 mm, air, 0.05 mm grid, V = 1 V. H from \u1e91\u00d7E/\u03b7\u2080; I from \u222eH\u00b7dl on a square contour; power by summing S_z over all cells. Circular coax: RG-58-like a = 0.45 mm, b = 1.47 mm, polyethylene \u03b5_r = 2.3, copper, 100 MHz,\npower distribution and conductor loss by numerical integration of the analytic fields.",
+  "track": "Applied Mathematics \u2014 218 projects in electrical engineering",
+  "category": "K. Fields, vector calculus & geometry",
+  "data": "Simulated (numerical model in this repo)."
+ },
+ "rows": [
+  {
+   "quantity": "\u222b(E\u00d7H)\u00b7\u1e91 dA over the cross-section = V\u00b7I (power is carried by the fields between the conductors)",
+   "predicted": 0.016509414539256508,
+   "measured": 0.0162593624668341,
+   "unit": "W",
+   "error": -1.5146029062861603,
+   "error_str": "-1.51 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Z\u2080 = V/I from Amp\u00e8re's law vs 1/(c\u00b7C\u2032) from the stored energy",
+   "predicted": 61.503026492227015,
+   "measured": 60.57149983254551,
+   "unit": "\u03a9",
+   "error": -1.5146029599034967,
+   "error_str": "-1.51 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Power flowing inside the inner conductor (ideal conductor: E = 0 there)",
+   "predicted": 0.0,
+   "measured": 0.0,
+   "unit": "",
+   "error": 0.0,
+   "error_str": "+0",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Circular coax: total \u222bS dA = V\u00b2/Z\u2080",
+   "predicted": 0.02136711336844452,
+   "measured": 0.021367113385954095,
+   "unit": "W",
+   "error": 8.194636940502924e-08,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Half of the power flows inside r = \u221a(ab) (from ln(r/a)/ln(b/a))",
+   "predicted": 0.5,
+   "measured": 0.5000000001401786,
+   "unit": "",
+   "error": 2.8035729293662826e-08,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Inward Poynting flux at the metal surfaces (per metre) = \u00bd|I|\u00b2R\u2032",
+   "predicted": 0.0002751180573970712,
+   "measured": 0.00027511805739707123,
+   "unit": "W/m",
+   "error": 1.970430772053435e-14,
+   "error_str": "+0.00 %",
+   "kind": "rel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "quantity": "Resulting conductor attenuation at 100 MHz (RG-58 datasheets list \u2248 15 dB/100 m including dielectric loss)",
+   "predicted": 12.0,
+   "measured": 11.183894639133106,
+   "unit": "dB/100 m",
+   "error": -0.816105360866894,
+   "error_str": "-0.8161 dB/100 m",
+   "kind": "abs",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "quantity": "Square coax (4 mm inner, 12 mm outer, air): Z\u2080",
+   "value": 61.503026492227015,
+   "unit": "\u03a9",
+   "note": ""
+  },
+  {
+   "quantity": "Circular coax: Z\u2080 / R\u2032 / conductor attenuation at 100 MHz",
+   "value": "46.8 \u03a9 / 1.205 \u03a9/m / 11.2 dB per 100 m",
+   "unit": "",
+   "note": ""
+  }
+ ],
+ "figures": [
+  "figures/poynting.png"
+ ],
+ "runtime_s": 0.26,
+ "folder": "projects/applied-math/K-fields-vector-calculus-and-geometry/AM194-poynting-vector-energy-flow"
+}
