@@ -4,7 +4,9 @@
 
 **432 electrical-engineering projects, each one a prediction checked against a measurement.** Two tracks: a hands-on *signal lab* (circuits, power electronics, digital logic and HDL, DSP, communications, RF, control, embedded systems, biosignals, PCB design, browser tools) and an *applied-mathematics* track (complex analysis to information theory), built from two public project lists.
 
+Every project writes down the expected answer from theory **before** measuring it with an independent simulation, an HDL simulator or a real public dataset, then tabulates prediction vs measurement and explains any disagreement — including the predictions that were wrong. See [METHODOLOGY.md](METHODOLOGY.md).
 
+> **How this was made — please read.** The code, derivations, simulations and write-ups in this repository were produced with an AI coding assistant (Claude Code). "Measured" means computed by an independent model, simulator or public dataset, not a physical lab bench. If you use this work for coursework, applications or a portfolio, say so and describe your own contribution truthfully; presenting it as solely your own work would be academically dishonest.
 
 ## At a glance
 
